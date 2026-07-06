@@ -26,7 +26,7 @@ persistence, and deployment concerns.
 ```text
 app/
   Main.hs              # HTTP executable entry point
-  public/index.html    # Minimal browser UI
+  public/index.html    # Minimal browser UI and board layout
 src/
   Domain/              # Domain types and JSON loading
   Engine/              # Pure reading generation
@@ -38,6 +38,7 @@ data/
   lines.json           # Moving-line lesson data
 test/
 docs/
+  board-layout.md      # Leela ring, I Ching grid, and moving-line layout
 ```
 
 ## Run locally
@@ -50,6 +51,18 @@ cabal run tao-of-lila-api
 The service listens on `PORT` when set, otherwise `8080`.
 
 Open `http://localhost:8080/` for the minimal UI.
+
+## Board layout
+
+The initial UI includes a data-driven board visualization:
+
+- Outer 72-position Leela ring.
+- Inner 8x8 I Ching hexagram grid.
+- Six radial moving-line pathways.
+
+Seeded states and hexagrams are highlighted, and generated readings illuminate
+the active state, hexagram, and moving lines. See `docs/board-layout.md` for the
+layout contract.
 
 ## Test
 

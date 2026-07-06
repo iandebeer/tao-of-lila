@@ -20,7 +20,7 @@
       }
 
       main {
-        max-width: 56rem;
+        max-width: 72rem;
         margin: 0 auto;
         padding: 3rem 1.25rem;
       }
@@ -68,6 +68,143 @@
       .card {
         border-left: 0.25rem solid #d5a25f;
       }
+
+      .layout {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+        align-items: stretch;
+      }
+
+      .board-shell {
+        position: relative;
+        aspect-ratio: 1;
+        min-height: min(82vw, 43rem);
+        overflow: hidden;
+        background:
+          radial-gradient(circle, rgba(213, 162, 95, 0.16), transparent 34%),
+          radial-gradient(circle, rgba(246, 234, 215, 0.08) 0 45%, transparent 46%),
+          rgba(246, 234, 215, 0.04);
+        border: 1px solid rgba(246, 234, 215, 0.18);
+        border-radius: 50%;
+      }
+
+      .board-center {
+        position: absolute;
+        inset: 33%;
+        display: grid;
+        place-items: center;
+        z-index: 3;
+        border: 1px solid rgba(213, 162, 95, 0.45);
+        border-radius: 50%;
+        background: rgba(20, 17, 14, 0.86);
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .board-center strong {
+        display: block;
+        color: #d5a25f;
+      }
+
+      .leela-node {
+        position: absolute;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 1.65rem;
+        height: 1.65rem;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid rgba(246, 234, 215, 0.18);
+        background: rgba(20, 17, 14, 0.9);
+        color: #d9cab7;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        font-size: 0.68rem;
+        font-weight: 400;
+      }
+
+      .leela-node.seeded {
+        border-color: rgba(213, 162, 95, 0.62);
+        color: #f6ead7;
+      }
+
+      .leela-node.selected,
+      .hex-cell.selected,
+      .line-path.selected .line-marker {
+        background: #d5a25f;
+        color: #14110e;
+        box-shadow: 0 0 1rem rgba(213, 162, 95, 0.68);
+      }
+
+      .iching-grid {
+        position: absolute;
+        inset: 24%;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 0.15rem;
+        transform: rotate(45deg);
+        opacity: 0.88;
+      }
+
+      .hex-cell {
+        aspect-ratio: 1;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(246, 234, 215, 0.14);
+        background: rgba(20, 17, 14, 0.62);
+        color: rgba(246, 234, 215, 0.62);
+        font-size: clamp(0.52rem, 1.1vw, 0.78rem);
+        transform: rotate(-45deg);
+      }
+
+      .hex-cell.seeded {
+        border-color: rgba(213, 162, 95, 0.45);
+        color: #f6ead7;
+      }
+
+      .line-path {
+        position: absolute;
+        inset: 11% 49.5%;
+        z-index: 0;
+        transform: rotate(var(--angle));
+        transform-origin: 50% 50%;
+        border-left: 1px dashed rgba(246, 234, 215, 0.18);
+      }
+
+      .line-marker {
+        position: absolute;
+        top: calc(var(--line-offset) * 1%);
+        left: 50%;
+        display: grid;
+        place-items: center;
+        width: 1.35rem;
+        height: 1.35rem;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) rotate(var(--reverse-angle));
+        border: 1px solid rgba(246, 234, 215, 0.24);
+        background: rgba(20, 17, 14, 0.82);
+        font-size: 0.72rem;
+      }
+
+      .board-legend {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .legend-item {
+        border-left: 0.2rem solid rgba(213, 162, 95, 0.68);
+        padding-left: 0.75rem;
+      }
+
+      @media (max-width: 820px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -80,6 +217,37 @@
           functional Haskell core.
         </p>
       </header>
+
+      <section>
+        <h2>Game board layout</h2>
+        <div class="layout">
+          <div class="board-shell" id="game-board" aria-label="Tao of Lila board layout">
+            <div class="iching-grid" id="iching-grid" aria-label="64 hexagram grid"></div>
+            <div id="line-pathways" aria-label="six moving-line pathways"></div>
+            <div id="leela-ring" aria-label="72 Leela state ring"></div>
+            <div class="board-center" id="board-center">
+              <span>
+                <strong>State -> Change -> Meaning</strong>
+                Generate a reading to illuminate the path.
+              </span>
+            </div>
+          </div>
+          <aside class="board-legend">
+            <div class="legend-item">
+              <strong>Outer ring</strong>
+              <p class="muted">72 Leela consciousness states arranged as a circular path.</p>
+            </div>
+            <div class="legend-item">
+              <strong>Inner grid</strong>
+              <p class="muted">64 I Ching hexagrams arranged as an 8x8 field of change.</p>
+            </div>
+            <div class="legend-item">
+              <strong>Radial paths</strong>
+              <p class="muted">Six moving-line lessons from foundation through transcendence.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
 
       <form id="reading-form">
         <label>
@@ -109,10 +277,29 @@
       const stateSelect = document.querySelector("#state-select");
       const form = document.querySelector("#reading-form");
       const result = document.querySelector("#result");
+      const leelaRing = document.querySelector("#leela-ring");
+      const ichingGrid = document.querySelector("#iching-grid");
+      const linePathways = document.querySelector("#line-pathways");
+      const boardCenter = document.querySelector("#board-center");
+      const boardData = { states: [], hexagrams: [] };
+      const movingLineNames = [
+        "Foundation",
+        "Relationship",
+        "Action",
+        "Vision",
+        "Expression",
+        "Transcendence",
+      ];
 
-      async function loadStates() {
-        const response = await fetch("/states");
-        const states = await response.json();
+      async function loadBoardData() {
+        const [statesResponse, hexagramsResponse] = await Promise.all([
+          fetch("/states"),
+          fetch("/hexagrams"),
+        ]);
+        const states = await statesResponse.json();
+        const hexagrams = await hexagramsResponse.json();
+        boardData.states = states;
+        boardData.hexagrams = hexagrams;
 
         for (const state of states) {
           const option = document.createElement("option");
@@ -120,10 +307,125 @@
           option.textContent = `${state.stateId}. ${state.stateName}`;
           stateSelect.append(option);
         }
+
+        renderBoard();
+      }
+
+      function renderBoard(reading = null) {
+        renderLeelaRing(reading?.readingState?.stateId);
+        renderHexagramGrid(reading?.readingHexagram?.hexagramNumber);
+        renderLinePathways(reading?.readingMovingLines ?? []);
+        renderBoardCenter(reading);
+      }
+
+      function renderLeelaRing(selectedStateId) {
+        const statesById = new Map(boardData.states.map((state) => [state.stateId, state]));
+        leelaRing.replaceChildren();
+
+        for (let index = 1; index <= 72; index += 1) {
+          const state = statesById.get(index);
+          const angle = ((index - 1) / 72) * Math.PI * 2 - Math.PI / 2;
+          const radius = 45;
+          const node = document.createElement("button");
+          node.type = "button";
+          node.className = "leela-node";
+          node.style.left = `${50 + Math.cos(angle) * radius}%`;
+          node.style.top = `${50 + Math.sin(angle) * radius}%`;
+          node.textContent = index;
+          node.title = state
+            ? `${state.stateName}: ${state.stateDescription}`
+            : `Leela state ${index}`;
+
+          if (state) {
+            node.classList.add("seeded");
+            node.addEventListener("click", () => {
+              stateSelect.value = String(state.stateId);
+            });
+          }
+
+          if (selectedStateId === index) {
+            node.classList.add("selected");
+          }
+
+          leelaRing.append(node);
+        }
+      }
+
+      function renderHexagramGrid(selectedHexagramNumber) {
+        const hexagramsByNumber = new Map(
+          boardData.hexagrams.map((hexagram) => [hexagram.hexagramNumber, hexagram]),
+        );
+        ichingGrid.replaceChildren();
+
+        for (let number = 1; number <= 64; number += 1) {
+          const hexagram = hexagramsByNumber.get(number);
+          const cell = document.createElement("div");
+          cell.className = "hex-cell";
+          cell.textContent = number;
+          cell.title = hexagram
+            ? `${hexagram.hexagramName}: ${hexagram.judgment}`
+            : `Hexagram ${number}`;
+
+          if (hexagram) {
+            cell.classList.add("seeded");
+          }
+
+          if (selectedHexagramNumber === number) {
+            cell.classList.add("selected");
+          }
+
+          ichingGrid.append(cell);
+        }
+      }
+
+      function renderLinePathways(activeLines) {
+        const activeLineNumbers = new Set(activeLines.map((line) => line.number));
+        linePathways.replaceChildren();
+
+        for (let number = 1; number <= 6; number += 1) {
+          const path = document.createElement("div");
+          path.className = "line-path";
+          const angle = (number - 1) * 30 - 75;
+          path.style.setProperty("--angle", `${angle}deg`);
+          path.style.setProperty("--reverse-angle", `${-angle}deg`);
+          path.style.setProperty("--line-offset", `${18 + number * 10}`);
+
+          if (activeLineNumbers.has(number)) {
+            path.classList.add("selected");
+          }
+
+          const marker = document.createElement("span");
+          marker.className = "line-marker";
+          marker.textContent = number;
+          marker.title = `${number}. ${movingLineNames[number - 1]}`;
+          path.append(marker);
+          linePathways.append(path);
+        }
+      }
+
+      function renderBoardCenter(reading) {
+        if (!reading) {
+          boardCenter.innerHTML = `
+            <span>
+              <strong>State -&gt; Change -&gt; Meaning</strong>
+              Generate a reading to illuminate the path.
+            </span>
+          `;
+          return;
+        }
+
+        boardCenter.innerHTML = `
+          <span>
+            <strong>${escapeHtml(reading.readingState.stateName)}</strong>
+            Hexagram ${reading.readingHexagram.hexagramNumber}: ${escapeHtml(reading.readingHexagram.hexagramName)}
+          </span>
+        `;
       }
 
       function renderReading(reading) {
         const interpretation = reading.readingInterpretation;
+        renderBoard(reading);
+
         const lines = reading.readingMovingLines
           .map((line) => `${line.number}. ${escapeHtml(line.name)}`)
           .join(", ");
@@ -177,9 +479,9 @@
         renderReading(await response.json());
       });
 
-      loadStates().catch(() => {
+      loadBoardData().catch(() => {
         result.hidden = false;
-        result.textContent = "Could not load the Leela states.";
+        result.textContent = "Could not load the board data.";
       });
     </script>
   </body>
