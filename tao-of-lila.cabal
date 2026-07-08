@@ -16,6 +16,7 @@ common warnings
 library
   import:           warnings
   exposed-modules:  API.Server
+                  , Domain.HexagramIndex
                   , Domain.Loading
                   , Domain.Types
                   , Engine.Reading
@@ -23,6 +24,7 @@ library
   hs-source-dirs:   src
   build-depends:    base >=4.17 && <5
                   , aeson >=2.0
+                  , array
                   , bytestring
                   , filepath
                   , scientific
