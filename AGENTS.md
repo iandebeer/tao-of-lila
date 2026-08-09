@@ -10,6 +10,8 @@ Use this file as persistent guidance when working in this repository.
 - I Ching Scholar: Owns Bagua, trigrams, and hexagrams.
 - Leela Scholar: Owns Leela states and transitions.
 - Engine Agent: Owns Haskell.
+- Category Theory Architect: Owns categorical abstractions, transformation laws,
+  and composition boundaries.
 - Animation Agent: Owns animations.
 - Integration Agent: Owns merging.
 - Testing Agent: Owns validation.
@@ -41,6 +43,10 @@ Use this file as persistent guidance when working in this repository.
   algorithmically.
 - Keep future lookup tables keyed by binary value unless there is a clear public
   API reason to expose another identifier.
+- Treat Leela movement, I Ching change, Taoist cosmology, and player reflection
+  as composable transformations. Use `docs/category-theory.md` as the conceptual
+  guide, but only introduce formal abstractions when they simplify real engine
+  code.
 
 ## Editing Guidelines
 

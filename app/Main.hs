@@ -4,7 +4,9 @@ module Main
 where
 
 import API.Server (app)
+import Data.IORef (newIORef)
 import Domain.Loading (DataLoadError (..), loadDomainData)
+import Engine.Casting (initialCastingState)
 import Network.Wai.Handler.Warp (run)
 import System.Environment (lookupEnv)
 import Text.Read (readMaybe)
@@ -16,8 +18,9 @@ main = do
   case loaded of
     Left err -> fail (show (renderDataLoadError err))
     Right domain -> do
+      castingRef <- newIORef initialCastingState
       putStrLn ("The Tao of Lila API listening on port " <> show port)
-      run port (app "app/public" domain)
+      run port (app "app/public" domain castingRef)
 
 resolvePort :: IO Int
 resolvePort = do

@@ -200,6 +200,38 @@
         padding-left: 0.75rem;
       }
 
+      .casting-client {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .casting-screen {
+        overflow-x: auto;
+        border-radius: 0.8rem;
+        background: #090806;
+        border: 1px solid rgba(246, 234, 215, 0.16);
+      }
+
+      .casting-screen pre {
+        margin: 0;
+        padding: 1rem;
+        color: #f6ead7;
+        font: 0.95rem/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        white-space: pre;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .button-row button {
+        width: auto;
+        min-width: 10rem;
+        margin-top: 0;
+      }
+
       @media (max-width: 820px) {
         .layout {
           grid-template-columns: 1fr;
@@ -271,12 +303,36 @@
       </form>
 
       <section id="result" hidden></section>
+
+      <section class="casting-client" aria-labelledby="casting-title">
+        <div>
+          <p class="muted">Numerical test client</p>
+          <h2 id="casting-title">I Ching Yarrow Casting</h2>
+          <p class="muted">
+            This client is a truthful window into the Haskell casting engine. It
+            displays numerical state only and never calculates yarrow values in
+            the browser.
+          </p>
+        </div>
+        <div class="casting-screen" aria-live="polite">
+          <pre id="casting-output">Loading casting state...</pre>
+        </div>
+        <div class="button-row">
+          <button type="button" id="casting-next">Advance [SPACE]</button>
+          <button type="button" id="casting-new">New casting [N]</button>
+          <button type="button" id="casting-reset">Reset [R]</button>
+        </div>
+      </section>
     </main>
 
     <script>
       const stateSelect = document.querySelector("#state-select");
       const form = document.querySelector("#reading-form");
       const result = document.querySelector("#result");
+      const castingOutput = document.querySelector("#casting-output");
+      const castingNext = document.querySelector("#casting-next");
+      const castingNew = document.querySelector("#casting-new");
+      const castingReset = document.querySelector("#casting-reset");
       const leelaRing = document.querySelector("#leela-ring");
       const ichingGrid = document.querySelector("#iching-grid");
       const linePathways = document.querySelector("#line-pathways");
@@ -456,6 +512,188 @@
           .replaceAll("'", "&#039;");
       }
 
+      function lineValueText(value) {
+        if (value === 6) return "Changing Yin";
+        if (value === 7) return "Stable Yang";
+        if (value === 8) return "Stable Yin";
+        if (value === 9) return "Changing Yang";
+        return "Unknown";
+      }
+
+      function formatLineSummary(lines) {
+        const byLine = new Map(lines.map((line) => [line.lineNumber, line]));
+        const output = ["================================================", "CURRENT HEXAGRAM", "================================================", ""];
+
+        for (let number = 6; number >= 1; number -= 1) {
+          const line = byLine.get(number);
+          const value = line ? `${line.lineValue}${line.isChanging ? " *" : ""}` : "?";
+          output.push(`Line ${number}:       ${value}`);
+        }
+
+        const changing = lines.filter((line) => line.isChanging).map((line) => line.lineNumber);
+        output.push("");
+        output.push(`Changing:     ${changing.length ? changing.join(", ") : "-"}`);
+        return output.join("\n");
+      }
+
+      function formatRoundSnapshot(snapshot) {
+        if (!snapshot) return "";
+
+        const lines = [];
+        if (snapshot.leftHeap !== null && snapshot.rightHeap !== null) {
+          lines.push(`LEFT HEAP:       ${snapshot.leftHeap}`);
+          lines.push(`RIGHT HEAP:      ${snapshot.rightHeap}`);
+        }
+
+        if (snapshot.removedSide) {
+          lines.push("");
+          lines.push(`One stalk removed from ${snapshot.removedSide.toLowerCase()} heap.`);
+          lines.push(`Left heap:       ${snapshot.leftAfterSingle}`);
+          lines.push(`Right heap:      ${snapshot.rightAfterSingle}`);
+          lines.push(`Removed:         ${snapshot.singleRemoved}`);
+        }
+
+        if (snapshot.leftRemainder !== null && snapshot.rightRemainder !== null) {
+          lines.push("");
+          lines.push("LEFT HEAP");
+          lines.push(`Stalks:          ${snapshot.leftAfterSingle}`);
+          lines.push(`Groups of four:  ${snapshot.leftGroupsOfFour}`);
+          lines.push(`Remainder:       ${snapshot.leftRemainder}`);
+          lines.push("");
+          lines.push("RIGHT HEAP");
+          lines.push(`Stalks:          ${snapshot.rightAfterSingle}`);
+          lines.push(`Groups of four:  ${snapshot.rightGroupsOfFour}`);
+          lines.push(`Remainder:       ${snapshot.rightRemainder}`);
+          lines.push("");
+          lines.push(`Removed stalk:   ${snapshot.singleRemoved}`);
+          lines.push(`Total removed:   ${snapshot.totalRemoved}`);
+        }
+
+        return lines.join("\n");
+      }
+
+      function formatCastingState(state) {
+        const lines = [];
+        const snapshot = state.roundSnapshot;
+        const lastLine = state.completedLines[state.completedLines.length - 1];
+
+        if (state.event === "CastingNew") {
+          lines.push("================================================");
+          lines.push("I CHING YARROW CASTING");
+          lines.push("================================================");
+          lines.push("");
+          lines.push("Casting:  NEW");
+          lines.push(`Stalks:   ${state.totalStalks}`);
+          lines.push(`Set aside: ${state.setAside}`);
+          lines.push(`Working stalks: ${state.workingStalks}`);
+          lines.push("");
+          lines.push(`Line:     ${state.currentLine} / 6`);
+          lines.push(`Round:    ${state.currentRound} / 3`);
+        } else if (state.event === "LineComplete" && lastLine) {
+          lines.push("================================================");
+          lines.push(`LINE ${lastLine.lineNumber} COMPLETE`);
+          lines.push("================================================");
+          lines.push("");
+          lines.push(`Final stalk count:     ${lastLine.finalStalkCount}`);
+          lines.push(`${lastLine.finalStalkCount} / 4 = ${lastLine.lineValue}`);
+          lines.push("");
+          lines.push(`LINE VALUE:            ${lastLine.lineValue}`);
+          lines.push("");
+          lines.push("INTERPRETATION:");
+          lines.push(lastLine.lineInterpretation);
+        } else if (state.event === "CastingComplete") {
+          const result = state.result;
+          lines.push("================================================");
+          lines.push("CASTING COMPLETE");
+          lines.push("================================================");
+          lines.push("");
+          lines.push("PRIMARY HEXAGRAM");
+          lines.push("");
+          lines.push(formatLineSummary(state.completedLines));
+          lines.push("");
+          lines.push("------------------------------------------------");
+          lines.push("");
+          if (result) {
+            lines.push("UPPER TRIGRAM:");
+            lines.push(`${result.upperTrigramResult.trigramName}`);
+            lines.push(`${result.upperTrigramResult.trigramSymbol}`);
+            lines.push("");
+            lines.push("LOWER TRIGRAM:");
+            lines.push(`${result.lowerTrigramResult.trigramName}`);
+            lines.push(`${result.lowerTrigramResult.trigramSymbol}`);
+            lines.push("");
+            lines.push(`PRIMARY HEXAGRAM:      ${result.primaryKingWenNumber ?? "?"}`);
+            lines.push("");
+            lines.push("NUCLEAR TRIGRAMS:");
+            lines.push(`Upper: ${result.nuclearUpperTrigramResult.trigramName}`);
+            lines.push(`Lower: ${result.nuclearLowerTrigramResult.trigramName}`);
+            lines.push("");
+            lines.push(`TRANSFORMED HEXAGRAM:  ${result.transformedKingWenNumber ?? "?"}`);
+            lines.push("");
+            lines.push("------------------------------------------------");
+            lines.push("");
+            lines.push("LILA MOVEMENT:");
+            lines.push("");
+            lines.push(`Changing lines:        ${result.numberChanging}`);
+            lines.push(`Move:                  ${result.lilaMoveSquares} squares`);
+          }
+        } else {
+          lines.push("================================================");
+          lines.push(`LINE ${state.currentLine} / 6 — ROUND ${state.currentRound} / 3`);
+          lines.push("================================================");
+          lines.push("");
+          lines.push(`Total stalks:       ${state.workingStalks}`);
+          lines.push(`Set aside:          ${state.setAside}`);
+          lines.push("");
+          if (snapshot) {
+            lines.push(`Previous working stalks: ${snapshot.previousWorkingStalks}`);
+            lines.push("");
+            lines.push(formatRoundSnapshot(snapshot));
+          }
+        }
+
+        lines.push("");
+        lines.push(state.prompt);
+        lines.push("");
+        lines.push(formatLineSummary(state.completedLines));
+        lines.push("");
+        lines.push("DEBUG");
+        lines.push("");
+        lines.push(`Seed:                ${state.debug.debugSeed}`);
+        lines.push(`Casting ID:          ${state.debug.debugCastingId}`);
+        lines.push(`State ID:            ${state.debug.debugStateId}`);
+        lines.push(`Event:               ${state.debug.debugEvent}`);
+        lines.push("");
+        lines.push("Engine choices:");
+        lines.push(`  Division point:    ${state.debug.debugDivisionPoint ?? "-"}`);
+        lines.push(`  Ritual removal:    ${state.debug.debugRemovedSide ?? "-"}`);
+        lines.push("");
+        lines.push("Working stalks:");
+        lines.push(`  Before:            ${state.debug.debugWorkingBefore}`);
+        lines.push(`  After:             ${state.debug.debugWorkingAfter}`);
+
+        return lines.join("\n");
+      }
+
+      async function loadCasting() {
+        const response = await fetch("/casting/current");
+        renderCasting(await response.json());
+      }
+
+      async function newCasting() {
+        const response = await fetch("/casting/new", { method: "POST" });
+        renderCasting(await response.json());
+      }
+
+      async function advanceCasting() {
+        const response = await fetch("/casting/next", { method: "POST" });
+        renderCasting(await response.json());
+      }
+
+      function renderCasting(state) {
+        castingOutput.textContent = formatCastingState(state);
+      }
+
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
         const selectedState = stateSelect.value;
@@ -479,9 +717,29 @@
         renderReading(await response.json());
       });
 
+      castingNext.addEventListener("click", advanceCasting);
+      castingNew.addEventListener("click", newCasting);
+      castingReset.addEventListener("click", newCasting);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) {
+          return;
+        }
+
+        if (event.code === "Space") {
+          event.preventDefault();
+          advanceCasting();
+        } else if (event.key.toLowerCase() === "n" || event.key.toLowerCase() === "r") {
+          newCasting();
+        }
+      });
+
       loadBoardData().catch(() => {
         result.hidden = false;
         result.textContent = "Could not load the board data.";
+      });
+      loadCasting().catch(() => {
+        castingOutput.textContent = "Could not load the casting state.";
       });
     </script>
   </body>

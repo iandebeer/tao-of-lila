@@ -14,6 +14,7 @@ import Domain.Types
   , ReadingRequest (..)
   )
 import Domain.HexagramIndex (binaryToKingWen)
+import qualified Engine.Casting as Casting
 import Engine.Reading (generateReading)
 
 main :: IO ()
@@ -23,6 +24,9 @@ main = do
   assert "empty explicit moving lines are rejected" emptyMovingLinesRejected
   assert "binary values map to King Wen numbers" binaryValuesMapToKingWenNumbers
   assert "invalid binary values are rejected" invalidBinaryValuesRejected
+  assert "casting begins with one stalk set aside" castingBeginsWithOneStalkSetAside
+  assert "casting removes the ritual stalk from the right heap" castingRemovesRitualStalkFromRightHeap
+  assert "casting completes six yarrow lines" castingCompletesSixYarrowLines
 
 assert :: String -> Bool -> IO ()
 assert label condition =
@@ -81,6 +85,36 @@ invalidBinaryValuesRejected :: Bool
 invalidBinaryValuesRejected =
   binaryToKingWen (-1) == Nothing
     && binaryToKingWen 64 == Nothing
+
+castingBeginsWithOneStalkSetAside :: Bool
+castingBeginsWithOneStalkSetAside =
+  let state = Casting.nextCastingState Casting.initialCastingState
+   in Casting.event state == "LineStarted"
+        && Casting.setAside state == 1
+        && Casting.workingStalks state == 49
+        && Casting.currentLine state == 1
+        && Casting.currentRound state == 1
+
+castingRemovesRitualStalkFromRightHeap :: Bool
+castingRemovesRitualStalkFromRightHeap =
+  case Casting.roundSnapshot state of
+    Just snapshot ->
+      Casting.removedSide snapshot == Just "RIGHT"
+        && Casting.rightAfterSingle snapshot == (subtract 1 <$> Casting.rightHeap snapshot)
+        && Casting.leftAfterSingle snapshot == Casting.leftHeap snapshot
+    Nothing -> False
+  where
+    state = iterate Casting.nextCastingState Casting.initialCastingState !! 3
+
+castingCompletesSixYarrowLines :: Bool
+castingCompletesSixYarrowLines =
+  Casting.event finalState == "CastingComplete"
+    && length (Casting.completedLines finalState) == 6
+    && all validLineValue (Casting.completedLines finalState)
+    && Casting.result finalState /= Nothing
+  where
+    finalState = iterate Casting.nextCastingState Casting.initialCastingState !! 96
+    validLineValue line = Casting.lineValue line `elem` [6, 7, 8, 9]
 
 kingWenMappings :: [(Int, Int)]
 kingWenMappings =

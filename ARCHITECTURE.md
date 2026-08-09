@@ -10,6 +10,11 @@ or browser code.
 State -> Change -> Meaning
 ```
 
+The conceptual transformation model is categorical. Leela states form a
+consciousness category, I Ching hexagrams form a change category, Taoist
+cosmology informs symbolic categories, and player journeys carry context through
+reflection. See `docs/category-theory.md` for the full ontology.
+
 The long-term internal key for I Ching data is the six-bit binary hexagram
 value from `0` to `63`:
 
@@ -32,6 +37,10 @@ to one bit.
   `Reading` without IO.
 - `Interpretation.Engine` composes meaning from state, change pattern, and
   active lines without knowing about HTTP, files, or databases.
+
+Future engine modules should model transitions as explicit composable values
+before introducing stronger categorical abstractions. The architecture should
+earn abstractions from repeated transition logic, not from terminology alone.
 
 ## Imperative Shell
 

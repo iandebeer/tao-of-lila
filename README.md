@@ -12,6 +12,9 @@ State -> Change -> Meaning
 ```
 
 Domain logic is kept independent of UI, persistence, and deployment concerns.
+The deeper transformation model is described in `docs/category-theory.md`, where
+Leela states, I Ching changes, Taoist cosmology, and player reflection are
+treated as composable categories, functors, and contextual transformations.
 
 ## Stack
 
@@ -65,6 +68,9 @@ cabal test
 - `GET /hexagrams` returns loaded hexagrams.
 - `POST /reading` generates a full reading.
 - `POST /interpret` returns only the interpretation for a reading request.
+- `GET /casting/current` returns the current yarrow casting state.
+- `POST /casting/new` resets the numerical casting test engine.
+- `POST /casting/next` advances one observable yarrow casting transition.
 
 Example reading request:
 
@@ -93,3 +99,5 @@ an O(1) lookup table.
 - `ROADMAP.md` tracks planned product and domain-model work.
 - `AGENTS.md` gives guidance for AI agents working in this repository.
 - `docs/board-layout.md` documents the initial board visualization contract.
+- `docs/category-theory.md` defines the conceptual model of transformations.
+- `docs/yarrow-casting.md` defines the numerical yarrow casting state engine.

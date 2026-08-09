@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="tao_of_lila_master_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="2.0" viewBox="0 0 4000 4000" role="img" aria-labelledby="svg_title svg_description">
+<title id="svg_title">The Tao of Lila Master Board</title>
+<desc id="svg_description">Initial vector-only, layered, addressable Master SVG board for The Tao of Lila.</desc>
+<defs id="defs"><style id="style_master_svg_1">
+      :root {
+        --parchment: #f4ead4;
+        --parchment-dark: #ead8b5;
+        --umber: #4b2f1b;
+        --charcoal: #25211c;
+        --muted-gold: #b79a55;
+        --ink-light: #6c5a42;
+      }
+      text {
+        font-family: "Noto Serif", "Noto Serif SC", serif;
+        fill: var(--charcoal);
+      }
+      .fine-stroke {
+        fill: none;
+        stroke: var(--umber);
+        stroke-width: 6;
+        vector-effect: non-scaling-stroke;
+      }
+      .hairline {
+        fill: none;
+        stroke: var(--ink-light);
+        stroke-width: 2;
+        vector-effect: non-scaling-stroke;
+      }
+      .square-rect {
+        fill: rgba(244, 234, 212, 0.72);
+        stroke: var(--umber);
+        stroke-width: 3;
+      }
+      .trigram-use {
+        fill: var(--charcoal);
+      }
+    </style>
+<symbol id="trigram_qian" viewBox="0 0 180 98"><g id="trigram_qian_geometry">
+<rect id="trigram_qian_line_3" x="0" y="0" width="180" height="14" rx="4"/>
+<rect id="trigram_qian_line_2" x="0" y="42" width="180" height="14" rx="4"/>
+<rect id="trigram_qian_line_1" x="0" y="84" width="180" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_dui" viewBox="0 0 180 98"><g id="trigram_dui_geometry">
+<rect id="trigram_dui_line_3_left" x="0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_dui_line_3_right" x="108.0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_dui_line_2" x="0" y="42" width="180" height="14" rx="4"/>
+<rect id="trigram_dui_line_1" x="0" y="84" width="180" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_li" viewBox="0 0 180 98"><g id="trigram_li_geometry">
+<rect id="trigram_li_line_3" x="0" y="0" width="180" height="14" rx="4"/>
+<rect id="trigram_li_line_2_left" x="0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_li_line_2_right" x="108.0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_li_line_1" x="0" y="84" width="180" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_zhen" viewBox="0 0 180 98"><g id="trigram_zhen_geometry">
+<rect id="trigram_zhen_line_3_left" x="0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_zhen_line_3_right" x="108.0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_zhen_line_2_left" x="0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_zhen_line_2_right" x="108.0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_zhen_line_1" x="0" y="84" width="180" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_xun" viewBox="0 0 180 98"><g id="trigram_xun_geometry">
+<rect id="trigram_xun_line_3" x="0" y="0" width="180" height="14" rx="4"/>
+<rect id="trigram_xun_line_2" x="0" y="42" width="180" height="14" rx="4"/>
+<rect id="trigram_xun_line_1_left" x="0" y="84" width="72.0" height="14" rx="4"/>
+<rect id="trigram_xun_line_1_right" x="108.0" y="84" width="72.0" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_kan" viewBox="0 0 180 98"><g id="trigram_kan_geometry">
+<rect id="trigram_kan_line_3_left" x="0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kan_line_3_right" x="108.0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kan_line_2" x="0" y="42" width="180" height="14" rx="4"/>
+<rect id="trigram_kan_line_1_left" x="0" y="84" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kan_line_1_right" x="108.0" y="84" width="72.0" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_gen" viewBox="0 0 180 98"><g id="trigram_gen_geometry">
+<rect id="trigram_gen_line_3" x="0" y="0" width="180" height="14" rx="4"/>
+<rect id="trigram_gen_line_2_left" x="0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_gen_line_2_right" x="108.0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_gen_line_1_left" x="0" y="84" width="72.0" height="14" rx="4"/>
+<rect id="trigram_gen_line_1_right" x="108.0" y="84" width="72.0" height="14" rx="4"/>
+</g></symbol>
+<symbol id="trigram_kun" viewBox="0 0 180 98"><g id="trigram_kun_geometry">
+<rect id="trigram_kun_line_3_left" x="0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kun_line_3_right" x="108.0" y="0" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kun_line_2_left" x="0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kun_line_2_right" x="108.0" y="42" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kun_line_1_left" x="0" y="84" width="72.0" height="14" rx="4"/>
+<rect id="trigram_kun_line_1_right" x="108.0" y="84" width="72.0" height="14" rx="4"/>
+</g></symbol></defs>
+<g id="background"><rect id="background_parchment" x="0" y="0" width="4000" height="4000" fill="#f4ead4"/></g>
+<g id="border"><rect id="border_outer" x="140" y="140" width="3720" height="3720" rx="18" class="fine-stroke"/>
+<rect id="border_inner" x="220" y="220" width="3560" height="3560" rx="10" class="hairline"/>
+<circle id="border_corner_mark_01" cx="300" cy="300" r="32" fill="none" stroke="#b79a55" stroke-width="4"/>
+<circle id="border_corner_mark_02" cx="3700" cy="300" r="32" fill="none" stroke="#b79a55" stroke-width="4"/>
+<circle id="border_corner_mark_03" cx="3700" cy="3700" r="32" fill="none" stroke="#b79a55" stroke-width="4"/>
+<circle id="border_corner_mark_04" cx="300" cy="3700" r="32" fill="none" stroke="#b79a55" stroke-width="4"/></g>
+<g id="guides"><line id="guide_vertical_center" x1="2000" y1="220" x2="2000" y2="3780" class="hairline" opacity="0.16"/>
+<line id="guide_horizontal_center" x1="220" y1="2000" x2="3780" y2="2000" class="hairline" opacity="0.16"/></g>
+<g id="taijitu"><circle id="taijitu_construction_ring_outer" cx="2000" cy="560" r="226" class="hairline" opacity="0.22"/>
+<circle id="taijitu_construction_ring_inner" cx="2000" cy="560" r="188" class="hairline" opacity="0.18"/>
+<circle id="taijitu_disc" cx="2000" cy="560" r="160" fill="#ead8b5" stroke="#4b2f1b" stroke-width="5"/>
+<clipPath id="taijitu_clip"><circle id="taijitu_clip_circle" cx="2000" cy="560" r="160"/></clipPath>
+<g id="taijitu_fields" clip-path="url(#taijitu_clip)"><rect id="taijitu_dark_half" x="2000" y="400" width="160" height="320" fill="#25211c"/>
+<circle id="taijitu_light_lobe" cx="2000" cy="480.0" r="80.0" fill="#ead8b5"/>
+<circle id="taijitu_dark_lobe" cx="2000" cy="640.0" r="80.0" fill="#25211c"/></g>
+<circle id="taijitu_yang_seed" cx="2000" cy="480.0" r="24" fill="#25211c"/>
+<circle id="taijitu_yin_seed" cx="2000" cy="640.0" r="24" fill="#ead8b5"/>
+<circle id="taijitu_boundary" cx="2000" cy="560" r="160" fill="none" stroke="#4b2f1b" stroke-width="5"/></g>
+<g id="earlier_heaven_ring"><g id="earlier_heaven_south_qian" data-trigram="qian" data-position="south"><use id="earlier_heaven_qian_use" href="#trigram_qian" xlink:href="#trigram_qian" x="1910.0" y="811.0" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_qian_label_chinese" x="2000.0" y="938.0" font-size="30" text-anchor="middle">乾</text>
+<text id="earlier_heaven_qian_label_pinyin" x="2000.0" y="970.0" font-size="22" text-anchor="middle">Qian</text>
+<text id="earlier_heaven_qian_label_english" x="2000.0" y="998.0" font-size="18" text-anchor="middle">Heaven</text></g>
+<g id="earlier_heaven_southeast_dui" data-trigram="dui" data-position="southeast"><use id="earlier_heaven_dui_use" href="#trigram_dui" xlink:href="#trigram_dui" x="2122.13" y="723.13" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_dui_label_chinese" x="2212.13" y="850.13" font-size="30" text-anchor="middle">兌</text>
+<text id="earlier_heaven_dui_label_pinyin" x="2212.13" y="882.13" font-size="22" text-anchor="middle">Dui</text>
+<text id="earlier_heaven_dui_label_english" x="2212.13" y="910.13" font-size="18" text-anchor="middle">Lake</text></g>
+<g id="earlier_heaven_east_li" data-trigram="li" data-position="east"><use id="earlier_heaven_li_use" href="#trigram_li" xlink:href="#trigram_li" x="2210.0" y="511.0" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_li_label_chinese" x="2300.0" y="638.0" font-size="30" text-anchor="middle">離</text>
+<text id="earlier_heaven_li_label_pinyin" x="2300.0" y="670.0" font-size="22" text-anchor="middle">Li</text>
+<text id="earlier_heaven_li_label_english" x="2300.0" y="698.0" font-size="18" text-anchor="middle">Fire</text></g>
+<g id="earlier_heaven_northeast_zhen" data-trigram="zhen" data-position="northeast"><use id="earlier_heaven_zhen_use" href="#trigram_zhen" xlink:href="#trigram_zhen" x="2122.13" y="298.87" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_zhen_label_chinese" x="2212.13" y="425.87" font-size="30" text-anchor="middle">震</text>
+<text id="earlier_heaven_zhen_label_pinyin" x="2212.13" y="457.87" font-size="22" text-anchor="middle">Zhen</text>
+<text id="earlier_heaven_zhen_label_english" x="2212.13" y="485.87" font-size="18" text-anchor="middle">Thunder</text></g>
+<g id="earlier_heaven_north_kun" data-trigram="kun" data-position="north"><use id="earlier_heaven_kun_use" href="#trigram_kun" xlink:href="#trigram_kun" x="1910.0" y="211.0" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_kun_label_chinese" x="2000.0" y="338.0" font-size="30" text-anchor="middle">坤</text>
+<text id="earlier_heaven_kun_label_pinyin" x="2000.0" y="370.0" font-size="22" text-anchor="middle">Kun</text>
+<text id="earlier_heaven_kun_label_english" x="2000.0" y="398.0" font-size="18" text-anchor="middle">Earth</text></g>
+<g id="earlier_heaven_northwest_gen" data-trigram="gen" data-position="northwest"><use id="earlier_heaven_gen_use" href="#trigram_gen" xlink:href="#trigram_gen" x="1697.87" y="298.87" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_gen_label_chinese" x="1787.87" y="425.87" font-size="30" text-anchor="middle">艮</text>
+<text id="earlier_heaven_gen_label_pinyin" x="1787.87" y="457.87" font-size="22" text-anchor="middle">Gen</text>
+<text id="earlier_heaven_gen_label_english" x="1787.87" y="485.87" font-size="18" text-anchor="middle">Mountain</text></g>
+<g id="earlier_heaven_west_kan" data-trigram="kan" data-position="west"><use id="earlier_heaven_kan_use" href="#trigram_kan" xlink:href="#trigram_kan" x="1610.0" y="511.0" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_kan_label_chinese" x="1700.0" y="638.0" font-size="30" text-anchor="middle">坎</text>
+<text id="earlier_heaven_kan_label_pinyin" x="1700.0" y="670.0" font-size="22" text-anchor="middle">Kan</text>
+<text id="earlier_heaven_kan_label_english" x="1700.0" y="698.0" font-size="18" text-anchor="middle">Water</text></g>
+<g id="earlier_heaven_southwest_xun" data-trigram="xun" data-position="southwest"><use id="earlier_heaven_xun_use" href="#trigram_xun" xlink:href="#trigram_xun" x="1697.87" y="723.13" width="180" height="98" class="trigram-use"/>
+<text id="earlier_heaven_xun_label_chinese" x="1787.87" y="850.13" font-size="30" text-anchor="middle">巽</text>
+<text id="earlier_heaven_xun_label_pinyin" x="1787.87" y="882.13" font-size="22" text-anchor="middle">Xun</text>
+<text id="earlier_heaven_xun_label_english" x="1787.87" y="910.13" font-size="18" text-anchor="middle">Wind/Wood</text></g></g>
+<g id="arrow_casting_left"><rect id="arrow_casting_left_anchor_bounds" x="420" y="360" width="520" height="420" fill="none" opacity="0" pointer-events="none"/></g>
+<g id="arrow_casting_right"><rect id="arrow_casting_right_anchor_bounds" x="3060" y="360" width="520" height="420" fill="none" opacity="0" pointer-events="none"/></g>
+<g id="spiral_board"><g id="square_01" data-number="01" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="8" data-direction="E"><rect id="square_01_rect" x="1284.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_01_number" x="1360.0" y="2914.0" font-size="42" text-anchor="middle">1</text></g>
+<g id="square_02" data-number="02" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="8" data-direction="E"><rect id="square_02_rect" x="1444.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_02_number" x="1520.0" y="2914.0" font-size="42" text-anchor="middle">2</text></g>
+<g id="square_03" data-number="03" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="8" data-direction="E"><rect id="square_03_rect" x="1604.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_03_number" x="1680.0" y="2914.0" font-size="42" text-anchor="middle">3</text></g>
+<g id="square_04" data-number="04" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="3" data-grid-row="8" data-direction="E"><rect id="square_04_rect" x="1764.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_04_number" x="1840.0" y="2914.0" font-size="42" text-anchor="middle">4</text></g>
+<g id="square_05" data-number="05" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="4" data-grid-row="8" data-direction="E"><rect id="square_05_rect" x="1924.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_05_number" x="2000.0" y="2914.0" font-size="42" text-anchor="middle">5</text></g>
+<g id="square_06" data-number="06" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="5" data-grid-row="8" data-direction="E"><rect id="square_06_rect" x="2084.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_06_number" x="2160.0" y="2914.0" font-size="42" text-anchor="middle">6</text></g>
+<g id="square_07" data-number="07" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="8" data-direction="E"><rect id="square_07_rect" x="2244.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_07_number" x="2320.0" y="2914.0" font-size="42" text-anchor="middle">7</text></g>
+<g id="square_08" data-number="08" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="8" data-direction="E"><rect id="square_08_rect" x="2404.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_08_number" x="2480.0" y="2914.0" font-size="42" text-anchor="middle">8</text></g>
+<g id="square_09" data-number="09" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="8" data-direction="E"><rect id="square_09_rect" x="2564.0" y="2824.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_09_number" x="2640.0" y="2914.0" font-size="42" text-anchor="middle">9</text></g>
+<g id="square_10" data-number="10" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="7" data-direction="N"><rect id="square_10_rect" x="2564.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_10_number" x="2640.0" y="2754.0" font-size="42" text-anchor="middle">10</text></g>
+<g id="square_11" data-number="11" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="6" data-direction="N"><rect id="square_11_rect" x="2564.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_11_number" x="2640.0" y="2594.0" font-size="42" text-anchor="middle">11</text></g>
+<g id="square_12" data-number="12" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="5" data-direction="N"><rect id="square_12_rect" x="2564.0" y="2344.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_12_number" x="2640.0" y="2434.0" font-size="42" text-anchor="middle">12</text></g>
+<g id="square_13" data-number="13" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="4" data-direction="N"><rect id="square_13_rect" x="2564.0" y="2184.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_13_number" x="2640.0" y="2274.0" font-size="42" text-anchor="middle">13</text></g>
+<g id="square_14" data-number="14" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="3" data-direction="N"><rect id="square_14_rect" x="2564.0" y="2024.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_14_number" x="2640.0" y="2114.0" font-size="42" text-anchor="middle">14</text></g>
+<g id="square_15" data-number="15" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="2" data-direction="N"><rect id="square_15_rect" x="2564.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_15_number" x="2640.0" y="1954.0" font-size="42" text-anchor="middle">15</text></g>
+<g id="square_16" data-number="16" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="1" data-direction="N"><rect id="square_16_rect" x="2564.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_16_number" x="2640.0" y="1794.0" font-size="42" text-anchor="middle">16</text></g>
+<g id="square_17" data-number="17" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="8" data-grid-row="0" data-direction="N"><rect id="square_17_rect" x="2564.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_17_number" x="2640.0" y="1634.0" font-size="42" text-anchor="middle">17</text></g>
+<g id="square_18" data-number="18" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="0" data-direction="W"><rect id="square_18_rect" x="2404.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_18_number" x="2480.0" y="1634.0" font-size="42" text-anchor="middle">18</text></g>
+<g id="square_19" data-number="19" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="0" data-direction="W"><rect id="square_19_rect" x="2244.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_19_number" x="2320.0" y="1634.0" font-size="42" text-anchor="middle">19</text></g>
+<g id="square_20" data-number="20" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="5" data-grid-row="0" data-direction="W"><rect id="square_20_rect" x="2084.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_20_number" x="2160.0" y="1634.0" font-size="42" text-anchor="middle">20</text></g>
+<g id="square_21" data-number="21" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="4" data-grid-row="0" data-direction="W"><rect id="square_21_rect" x="1924.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_21_number" x="2000.0" y="1634.0" font-size="42" text-anchor="middle">21</text></g>
+<g id="square_22" data-number="22" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="3" data-grid-row="0" data-direction="W"><rect id="square_22_rect" x="1764.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_22_number" x="1840.0" y="1634.0" font-size="42" text-anchor="middle">22</text></g>
+<g id="square_23" data-number="23" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="0" data-direction="W"><rect id="square_23_rect" x="1604.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_23_number" x="1680.0" y="1634.0" font-size="42" text-anchor="middle">23</text></g>
+<g id="square_24" data-number="24" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="0" data-direction="W"><rect id="square_24_rect" x="1444.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_24_number" x="1520.0" y="1634.0" font-size="42" text-anchor="middle">24</text></g>
+<g id="square_25" data-number="25" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="0" data-direction="W"><rect id="square_25_rect" x="1284.0" y="1544.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_25_number" x="1360.0" y="1634.0" font-size="42" text-anchor="middle">25</text></g>
+<g id="square_26" data-number="26" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="1" data-direction="S"><rect id="square_26_rect" x="1284.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_26_number" x="1360.0" y="1794.0" font-size="42" text-anchor="middle">26</text></g>
+<g id="square_27" data-number="27" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="2" data-direction="S"><rect id="square_27_rect" x="1284.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_27_number" x="1360.0" y="1954.0" font-size="42" text-anchor="middle">27</text></g>
+<g id="square_28" data-number="28" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="3" data-direction="S"><rect id="square_28_rect" x="1284.0" y="2024.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_28_number" x="1360.0" y="2114.0" font-size="42" text-anchor="middle">28</text></g>
+<g id="square_29" data-number="29" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="4" data-direction="S"><rect id="square_29_rect" x="1284.0" y="2184.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_29_number" x="1360.0" y="2274.0" font-size="42" text-anchor="middle">29</text></g>
+<g id="square_30" data-number="30" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="5" data-direction="S"><rect id="square_30_rect" x="1284.0" y="2344.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_30_number" x="1360.0" y="2434.0" font-size="42" text-anchor="middle">30</text></g>
+<g id="square_31" data-number="31" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="6" data-direction="S"><rect id="square_31_rect" x="1284.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_31_number" x="1360.0" y="2594.0" font-size="42" text-anchor="middle">31</text></g>
+<g id="square_32" data-number="32" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="0" data-grid-row="7" data-direction="S"><rect id="square_32_rect" x="1284.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_32_number" x="1360.0" y="2754.0" font-size="42" text-anchor="middle">32</text></g>
+<g id="square_33" data-number="33" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="7" data-direction="E"><rect id="square_33_rect" x="1444.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_33_number" x="1520.0" y="2754.0" font-size="42" text-anchor="middle">33</text></g>
+<g id="square_34" data-number="34" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="7" data-direction="E"><rect id="square_34_rect" x="1604.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_34_number" x="1680.0" y="2754.0" font-size="42" text-anchor="middle">34</text></g>
+<g id="square_35" data-number="35" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="3" data-grid-row="7" data-direction="E"><rect id="square_35_rect" x="1764.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_35_number" x="1840.0" y="2754.0" font-size="42" text-anchor="middle">35</text></g>
+<g id="square_36" data-number="36" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="4" data-grid-row="7" data-direction="E"><rect id="square_36_rect" x="1924.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_36_number" x="2000.0" y="2754.0" font-size="42" text-anchor="middle">36</text></g>
+<g id="square_37" data-number="37" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="5" data-grid-row="7" data-direction="E"><rect id="square_37_rect" x="2084.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_37_number" x="2160.0" y="2754.0" font-size="42" text-anchor="middle">37</text></g>
+<g id="square_38" data-number="38" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="7" data-direction="E"><rect id="square_38_rect" x="2244.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_38_number" x="2320.0" y="2754.0" font-size="42" text-anchor="middle">38</text></g>
+<g id="square_39" data-number="39" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="7" data-direction="E"><rect id="square_39_rect" x="2404.0" y="2664.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_39_number" x="2480.0" y="2754.0" font-size="42" text-anchor="middle">39</text></g>
+<g id="square_40" data-number="40" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="6" data-direction="N"><rect id="square_40_rect" x="2404.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_40_number" x="2480.0" y="2594.0" font-size="42" text-anchor="middle">40</text></g>
+<g id="square_41" data-number="41" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="5" data-direction="N"><rect id="square_41_rect" x="2404.0" y="2344.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_41_number" x="2480.0" y="2434.0" font-size="42" text-anchor="middle">41</text></g>
+<g id="square_42" data-number="42" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="4" data-direction="N"><rect id="square_42_rect" x="2404.0" y="2184.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_42_number" x="2480.0" y="2274.0" font-size="42" text-anchor="middle">42</text></g>
+<g id="square_43" data-number="43" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="3" data-direction="N"><rect id="square_43_rect" x="2404.0" y="2024.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_43_number" x="2480.0" y="2114.0" font-size="42" text-anchor="middle">43</text></g>
+<g id="square_44" data-number="44" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="2" data-direction="N"><rect id="square_44_rect" x="2404.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_44_number" x="2480.0" y="1954.0" font-size="42" text-anchor="middle">44</text></g>
+<g id="square_45" data-number="45" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="7" data-grid-row="1" data-direction="N"><rect id="square_45_rect" x="2404.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_45_number" x="2480.0" y="1794.0" font-size="42" text-anchor="middle">45</text></g>
+<g id="square_46" data-number="46" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="1" data-direction="W"><rect id="square_46_rect" x="2244.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_46_number" x="2320.0" y="1794.0" font-size="42" text-anchor="middle">46</text></g>
+<g id="square_47" data-number="47" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="5" data-grid-row="1" data-direction="W"><rect id="square_47_rect" x="2084.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_47_number" x="2160.0" y="1794.0" font-size="42" text-anchor="middle">47</text></g>
+<g id="square_48" data-number="48" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="4" data-grid-row="1" data-direction="W"><rect id="square_48_rect" x="1924.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_48_number" x="2000.0" y="1794.0" font-size="42" text-anchor="middle">48</text></g>
+<g id="square_49" data-number="49" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="3" data-grid-row="1" data-direction="W"><rect id="square_49_rect" x="1764.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_49_number" x="1840.0" y="1794.0" font-size="42" text-anchor="middle">49</text></g>
+<g id="square_50" data-number="50" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="1" data-direction="W"><rect id="square_50_rect" x="1604.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_50_number" x="1680.0" y="1794.0" font-size="42" text-anchor="middle">50</text></g>
+<g id="square_51" data-number="51" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="1" data-direction="W"><rect id="square_51_rect" x="1444.0" y="1704.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_51_number" x="1520.0" y="1794.0" font-size="42" text-anchor="middle">51</text></g>
+<g id="square_52" data-number="52" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="2" data-direction="S"><rect id="square_52_rect" x="1444.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_52_number" x="1520.0" y="1954.0" font-size="42" text-anchor="middle">52</text></g>
+<g id="square_53" data-number="53" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="3" data-direction="S"><rect id="square_53_rect" x="1444.0" y="2024.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_53_number" x="1520.0" y="2114.0" font-size="42" text-anchor="middle">53</text></g>
+<g id="square_54" data-number="54" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="4" data-direction="S"><rect id="square_54_rect" x="1444.0" y="2184.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_54_number" x="1520.0" y="2274.0" font-size="42" text-anchor="middle">54</text></g>
+<g id="square_55" data-number="55" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="5" data-direction="S"><rect id="square_55_rect" x="1444.0" y="2344.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_55_number" x="1520.0" y="2434.0" font-size="42" text-anchor="middle">55</text></g>
+<g id="square_56" data-number="56" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="1" data-grid-row="6" data-direction="S"><rect id="square_56_rect" x="1444.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_56_number" x="1520.0" y="2594.0" font-size="42" text-anchor="middle">56</text></g>
+<g id="square_57" data-number="57" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="6" data-direction="E"><rect id="square_57_rect" x="1604.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_57_number" x="1680.0" y="2594.0" font-size="42" text-anchor="middle">57</text></g>
+<g id="square_58" data-number="58" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="3" data-grid-row="6" data-direction="E"><rect id="square_58_rect" x="1764.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_58_number" x="1840.0" y="2594.0" font-size="42" text-anchor="middle">58</text></g>
+<g id="square_59" data-number="59" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="4" data-grid-row="6" data-direction="E"><rect id="square_59_rect" x="1924.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_59_number" x="2000.0" y="2594.0" font-size="42" text-anchor="middle">59</text></g>
+<g id="square_60" data-number="60" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="5" data-grid-row="6" data-direction="E"><rect id="square_60_rect" x="2084.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_60_number" x="2160.0" y="2594.0" font-size="42" text-anchor="middle">60</text></g>
+<g id="square_61" data-number="61" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="6" data-direction="E"><rect id="square_61_rect" x="2244.0" y="2504.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_61_number" x="2320.0" y="2594.0" font-size="42" text-anchor="middle">61</text></g>
+<g id="square_62" data-number="62" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="5" data-direction="N"><rect id="square_62_rect" x="2244.0" y="2344.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_62_number" x="2320.0" y="2434.0" font-size="42" text-anchor="middle">62</text></g>
+<g id="square_63" data-number="63" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="4" data-direction="N"><rect id="square_63_rect" x="2244.0" y="2184.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_63_number" x="2320.0" y="2274.0" font-size="42" text-anchor="middle">63</text></g>
+<g id="square_64" data-number="64" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="3" data-direction="N"><rect id="square_64_rect" x="2244.0" y="2024.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_64_number" x="2320.0" y="2114.0" font-size="42" text-anchor="middle">64</text></g>
+<g id="square_65" data-number="65" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="6" data-grid-row="2" data-direction="N"><rect id="square_65_rect" x="2244.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_65_number" x="2320.0" y="1954.0" font-size="42" text-anchor="middle">65</text></g>
+<g id="square_66" data-number="66" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="5" data-grid-row="2" data-direction="W"><rect id="square_66_rect" x="2084.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_66_number" x="2160.0" y="1954.0" font-size="42" text-anchor="middle">66</text></g>
+<g id="square_67" data-number="67" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="4" data-grid-row="2" data-direction="W"><rect id="square_67_rect" x="1924.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_67_number" x="2000.0" y="1954.0" font-size="42" text-anchor="middle">67</text></g>
+<g id="square_68" data-number="68" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="3" data-grid-row="2" data-direction="W"><rect id="square_68_rect" x="1764.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_68_number" x="1840.0" y="1954.0" font-size="42" text-anchor="middle">68</text></g>
+<g id="square_69" data-number="69" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="2" data-direction="W"><rect id="square_69_rect" x="1604.0" y="1864.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_69_number" x="1680.0" y="1954.0" font-size="42" text-anchor="middle">69</text></g>
+<g id="square_70" data-number="70" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="3" data-direction="S"><rect id="square_70_rect" x="1604.0" y="2024.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_70_number" x="1680.0" y="2114.0" font-size="42" text-anchor="middle">70</text></g>
+<g id="square_71" data-number="71" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="4" data-direction="S"><rect id="square_71_rect" x="1604.0" y="2184.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_71_number" x="1680.0" y="2274.0" font-size="42" text-anchor="middle">71</text></g>
+<g id="square_72" data-number="72" data-name="" data-category="" data-snake="" data-ladder="" data-hexagram="" data-grid-col="2" data-grid-row="5" data-direction="S"><rect id="square_72_rect" x="1604.0" y="2344.0" width="152" height="152" rx="8" class="square-rect"/>
+<text id="square_72_number" x="1680.0" y="2434.0" font-size="42" text-anchor="middle">72</text></g></g>
+<g id="snakes"></g>
+<g id="ladders"></g>
+<g id="centre"><circle id="centre_circle" cx="2000" cy="2260" r="235" fill="none" stroke="#4b2f1b" stroke-width="5"/>
+<g id="lotus"><ellipse id="lotus_petal_01" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(0 2000 2260)"/>
+<ellipse id="lotus_petal_02" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(30 2000 2260)"/>
+<ellipse id="lotus_petal_03" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(60 2000 2260)"/>
+<ellipse id="lotus_petal_04" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(90 2000 2260)"/>
+<ellipse id="lotus_petal_05" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(120 2000 2260)"/>
+<ellipse id="lotus_petal_06" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(150 2000 2260)"/>
+<ellipse id="lotus_petal_07" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(180 2000 2260)"/>
+<ellipse id="lotus_petal_08" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(210 2000 2260)"/>
+<ellipse id="lotus_petal_09" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(240 2000 2260)"/>
+<ellipse id="lotus_petal_10" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(270 2000 2260)"/>
+<ellipse id="lotus_petal_11" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(300 2000 2260)"/>
+<ellipse id="lotus_petal_12" cx="2000" cy="2115" rx="30" ry="88" fill="none" stroke="#b79a55" stroke-width="3" transform="rotate(330 2000 2260)"/></g>
+<g id="empty_hexagram_frame"><rect id="centre_hexagram_line_1" x="1908" y="2218" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
+<rect id="centre_hexagram_line_2" x="1908" y="2240" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
+<rect id="centre_hexagram_line_3" x="1908" y="2262" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
+<rect id="centre_hexagram_line_4" x="1908" y="2284" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
+<rect id="centre_hexagram_line_5" x="1908" y="2306" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
+<rect id="centre_hexagram_line_6" x="1908" y="2328" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/></g>
+<text id="centre_title" x="2000" y="2410" font-size="46" text-anchor="middle">The Tao of Lila</text></g>
+<g id="fu_xi_octagon"><polygon id="fu_xi_octagon_outline" points="610.0,3535.0 790.31,3460.31 865.0,3280.0 790.31,3099.69 610.0,3025.0 429.69,3099.69 355.0,3280.0 429.69,3460.31" fill="none" stroke="#4b2f1b" stroke-width="4"/>
+<text id="fu_xi_octagon_title" x="610" y="2973" font-size="32" text-anchor="middle">Fu Xi - Earlier Heaven</text>
+<g id="fu_xi_octagon_south_qian" data-trigram="qian" data-position="south"><use id="fu_xi_octagon_qian_use" href="#trigram_qian" xlink:href="#trigram_qian" x="520.0" y="3486.0" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_qian_label_chinese" x="610.0" y="3611.0" font-size="26" text-anchor="middle">乾</text>
+<text id="fu_xi_octagon_qian_label_pinyin" x="610.0" y="3639.0" font-size="18" text-anchor="middle">Qian</text>
+<text id="fu_xi_octagon_qian_label_english" x="610.0" y="3663.0" font-size="16" text-anchor="middle">Heaven</text></g>
+<g id="fu_xi_octagon_southeast_dui" data-trigram="dui" data-position="southeast"><use id="fu_xi_octagon_dui_use" href="#trigram_dui" xlink:href="#trigram_dui" x="700.31" y="3411.31" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_dui_label_chinese" x="790.31" y="3536.31" font-size="26" text-anchor="middle">兌</text>
+<text id="fu_xi_octagon_dui_label_pinyin" x="790.31" y="3564.31" font-size="18" text-anchor="middle">Dui</text>
+<text id="fu_xi_octagon_dui_label_english" x="790.31" y="3588.31" font-size="16" text-anchor="middle">Lake</text></g>
+<g id="fu_xi_octagon_east_li" data-trigram="li" data-position="east"><use id="fu_xi_octagon_li_use" href="#trigram_li" xlink:href="#trigram_li" x="775.0" y="3231.0" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_li_label_chinese" x="865.0" y="3356.0" font-size="26" text-anchor="middle">離</text>
+<text id="fu_xi_octagon_li_label_pinyin" x="865.0" y="3384.0" font-size="18" text-anchor="middle">Li</text>
+<text id="fu_xi_octagon_li_label_english" x="865.0" y="3408.0" font-size="16" text-anchor="middle">Fire</text></g>
+<g id="fu_xi_octagon_northeast_zhen" data-trigram="zhen" data-position="northeast"><use id="fu_xi_octagon_zhen_use" href="#trigram_zhen" xlink:href="#trigram_zhen" x="700.31" y="3050.69" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_zhen_label_chinese" x="790.31" y="3175.69" font-size="26" text-anchor="middle">震</text>
+<text id="fu_xi_octagon_zhen_label_pinyin" x="790.31" y="3203.69" font-size="18" text-anchor="middle">Zhen</text>
+<text id="fu_xi_octagon_zhen_label_english" x="790.31" y="3227.69" font-size="16" text-anchor="middle">Thunder</text></g>
+<g id="fu_xi_octagon_north_kun" data-trigram="kun" data-position="north"><use id="fu_xi_octagon_kun_use" href="#trigram_kun" xlink:href="#trigram_kun" x="520.0" y="2976.0" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_kun_label_chinese" x="610.0" y="3101.0" font-size="26" text-anchor="middle">坤</text>
+<text id="fu_xi_octagon_kun_label_pinyin" x="610.0" y="3129.0" font-size="18" text-anchor="middle">Kun</text>
+<text id="fu_xi_octagon_kun_label_english" x="610.0" y="3153.0" font-size="16" text-anchor="middle">Earth</text></g>
+<g id="fu_xi_octagon_northwest_gen" data-trigram="gen" data-position="northwest"><use id="fu_xi_octagon_gen_use" href="#trigram_gen" xlink:href="#trigram_gen" x="339.69" y="3050.69" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_gen_label_chinese" x="429.69" y="3175.69" font-size="26" text-anchor="middle">艮</text>
+<text id="fu_xi_octagon_gen_label_pinyin" x="429.69" y="3203.69" font-size="18" text-anchor="middle">Gen</text>
+<text id="fu_xi_octagon_gen_label_english" x="429.69" y="3227.69" font-size="16" text-anchor="middle">Mountain</text></g>
+<g id="fu_xi_octagon_west_kan" data-trigram="kan" data-position="west"><use id="fu_xi_octagon_kan_use" href="#trigram_kan" xlink:href="#trigram_kan" x="265.0" y="3231.0" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_kan_label_chinese" x="355.0" y="3356.0" font-size="26" text-anchor="middle">坎</text>
+<text id="fu_xi_octagon_kan_label_pinyin" x="355.0" y="3384.0" font-size="18" text-anchor="middle">Kan</text>
+<text id="fu_xi_octagon_kan_label_english" x="355.0" y="3408.0" font-size="16" text-anchor="middle">Water</text></g>
+<g id="fu_xi_octagon_southwest_xun" data-trigram="xun" data-position="southwest"><use id="fu_xi_octagon_xun_use" href="#trigram_xun" xlink:href="#trigram_xun" x="339.69" y="3411.31" width="180" height="98" class="trigram-use"/>
+<text id="fu_xi_octagon_xun_label_chinese" x="429.69" y="3536.31" font-size="26" text-anchor="middle">巽</text>
+<text id="fu_xi_octagon_xun_label_pinyin" x="429.69" y="3564.31" font-size="18" text-anchor="middle">Xun</text>
+<text id="fu_xi_octagon_xun_label_english" x="429.69" y="3588.31" font-size="16" text-anchor="middle">Wind/Wood</text></g></g>
+<g id="king_wen_octagon"><polygon id="king_wen_octagon_outline" points="3390.0,3025.0 3570.31,3099.69 3645.0,3280.0 3570.31,3460.31 3390.0,3535.0 3209.69,3460.31 3135.0,3280.0 3209.69,3099.69" fill="none" stroke="#4b2f1b" stroke-width="4"/>
+<text id="king_wen_octagon_title" x="3390" y="2973" font-size="32" text-anchor="middle">King Wen - Later Heaven</text>
+<g id="king_wen_octagon_north_kan" data-trigram="kan" data-position="north"><use id="king_wen_octagon_kan_use" href="#trigram_kan" xlink:href="#trigram_kan" x="3300.0" y="2976.0" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_kan_label_chinese" x="3390.0" y="3101.0" font-size="26" text-anchor="middle">坎</text>
+<text id="king_wen_octagon_kan_label_pinyin" x="3390.0" y="3129.0" font-size="18" text-anchor="middle">Kan</text>
+<text id="king_wen_octagon_kan_label_english" x="3390.0" y="3153.0" font-size="16" text-anchor="middle">Water</text></g>
+<g id="king_wen_octagon_northeast_gen" data-trigram="gen" data-position="northeast"><use id="king_wen_octagon_gen_use" href="#trigram_gen" xlink:href="#trigram_gen" x="3480.31" y="3050.69" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_gen_label_chinese" x="3570.31" y="3175.69" font-size="26" text-anchor="middle">艮</text>
+<text id="king_wen_octagon_gen_label_pinyin" x="3570.31" y="3203.69" font-size="18" text-anchor="middle">Gen</text>
+<text id="king_wen_octagon_gen_label_english" x="3570.31" y="3227.69" font-size="16" text-anchor="middle">Mountain</text></g>
+<g id="king_wen_octagon_east_zhen" data-trigram="zhen" data-position="east"><use id="king_wen_octagon_zhen_use" href="#trigram_zhen" xlink:href="#trigram_zhen" x="3555.0" y="3231.0" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_zhen_label_chinese" x="3645.0" y="3356.0" font-size="26" text-anchor="middle">震</text>
+<text id="king_wen_octagon_zhen_label_pinyin" x="3645.0" y="3384.0" font-size="18" text-anchor="middle">Zhen</text>
+<text id="king_wen_octagon_zhen_label_english" x="3645.0" y="3408.0" font-size="16" text-anchor="middle">Thunder</text></g>
+<g id="king_wen_octagon_southeast_xun" data-trigram="xun" data-position="southeast"><use id="king_wen_octagon_xun_use" href="#trigram_xun" xlink:href="#trigram_xun" x="3480.31" y="3411.31" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_xun_label_chinese" x="3570.31" y="3536.31" font-size="26" text-anchor="middle">巽</text>
+<text id="king_wen_octagon_xun_label_pinyin" x="3570.31" y="3564.31" font-size="18" text-anchor="middle">Xun</text>
+<text id="king_wen_octagon_xun_label_english" x="3570.31" y="3588.31" font-size="16" text-anchor="middle">Wind/Wood</text></g>
+<g id="king_wen_octagon_south_li" data-trigram="li" data-position="south"><use id="king_wen_octagon_li_use" href="#trigram_li" xlink:href="#trigram_li" x="3300.0" y="3486.0" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_li_label_chinese" x="3390.0" y="3611.0" font-size="26" text-anchor="middle">離</text>
+<text id="king_wen_octagon_li_label_pinyin" x="3390.0" y="3639.0" font-size="18" text-anchor="middle">Li</text>
+<text id="king_wen_octagon_li_label_english" x="3390.0" y="3663.0" font-size="16" text-anchor="middle">Fire</text></g>
+<g id="king_wen_octagon_southwest_kun" data-trigram="kun" data-position="southwest"><use id="king_wen_octagon_kun_use" href="#trigram_kun" xlink:href="#trigram_kun" x="3119.69" y="3411.31" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_kun_label_chinese" x="3209.69" y="3536.31" font-size="26" text-anchor="middle">坤</text>
+<text id="king_wen_octagon_kun_label_pinyin" x="3209.69" y="3564.31" font-size="18" text-anchor="middle">Kun</text>
+<text id="king_wen_octagon_kun_label_english" x="3209.69" y="3588.31" font-size="16" text-anchor="middle">Earth</text></g>
+<g id="king_wen_octagon_west_dui" data-trigram="dui" data-position="west"><use id="king_wen_octagon_dui_use" href="#trigram_dui" xlink:href="#trigram_dui" x="3045.0" y="3231.0" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_dui_label_chinese" x="3135.0" y="3356.0" font-size="26" text-anchor="middle">兌</text>
+<text id="king_wen_octagon_dui_label_pinyin" x="3135.0" y="3384.0" font-size="18" text-anchor="middle">Dui</text>
+<text id="king_wen_octagon_dui_label_english" x="3135.0" y="3408.0" font-size="16" text-anchor="middle">Lake</text></g>
+<g id="king_wen_octagon_northwest_qian" data-trigram="qian" data-position="northwest"><use id="king_wen_octagon_qian_use" href="#trigram_qian" xlink:href="#trigram_qian" x="3119.69" y="3050.69" width="180" height="98" class="trigram-use"/>
+<text id="king_wen_octagon_qian_label_chinese" x="3209.69" y="3175.69" font-size="26" text-anchor="middle">乾</text>
+<text id="king_wen_octagon_qian_label_pinyin" x="3209.69" y="3203.69" font-size="18" text-anchor="middle">Qian</text>
+<text id="king_wen_octagon_qian_label_english" x="3209.69" y="3227.69" font-size="16" text-anchor="middle">Heaven</text></g></g>
+<g id="labels"><text id="label_master_title" x="2000" y="260" font-size="82" text-anchor="middle">The Tao of Lila</text>
+<text id="label_master_subtitle" x="2000" y="340" font-size="32" text-anchor="middle">Master SVG 1.0 - Interactive Contemplative Instrument</text></g>
+<g id="metadata"><metadata id="metadata_master_svg">Master SVG 1.0 initial generated vector board.</metadata>
+<rect id="metadata_anchor" x="0" y="0" width="0" height="0" fill="none"/></g>
+<g id="animation"><g id="player_marker"></g>
+<g id="arrow_animation"></g>
+<g id="hexagram_animation"></g>
+<g id="changing_lines"></g>
+<g id="dice"></g>
+<g id="highlight"></g></g>
+</svg>

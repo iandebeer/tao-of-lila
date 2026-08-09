@@ -19,6 +19,7 @@ library
                   , Domain.HexagramIndex
                   , Domain.Loading
                   , Domain.Types
+                  , Engine.Casting
                   , Engine.Reading
                   , Interpretation.Engine
   hs-source-dirs:   src
@@ -27,6 +28,7 @@ library
                   , array
                   , bytestring
                   , filepath
+                  , http-types
                   , scientific
                   , servant
                   , servant-server
@@ -39,6 +41,7 @@ executable tao-of-lila-api
   import:           warnings
   main-is:          Main.hs
   hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base >=4.17 && <5
                   , tao-of-lila
                   , warp

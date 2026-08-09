@@ -13,6 +13,12 @@ toward a richer Tao of Lila and I Ching engine.
 
 ### Milestone 2: Haskell Engine
 
+- Define stable identities for squares, players, hexagrams, and transitions.
+- Model Leela movement, I Ching change, and player reflection as composable
+  transformations.
+- Use the category theory model in `docs/category-theory.md` as the conceptual
+  guide without over-abstracting early code.
+
 ### Milestone 3: Hexagram Casting
 
 ### Milestone 4: Gameplay
@@ -27,6 +33,7 @@ toward a richer Tao of Lila and I Ching engine.
 
 - Keep the Cabal project building cleanly with `cabal test`.
 - Expand tests around domain lookup tables and reading generation.
+- Add focused tests for transition composition as the engine grows.
 - Add complete I Ching seed data for all 64 hexagrams.
 - Add complete moving-line text for all six lines per hexagram.
 - Keep root documentation aligned with the current module boundaries.
@@ -50,6 +57,8 @@ toward a richer Tao of Lila and I Ching engine.
 
 - Separate source text from interpretation composition.
 - Support multiple I Ching translations or commentary layers.
+- Treat different commentary systems as interpretation mappings over the same
+  domain transitions.
 - Make generated interpretations traceable to the state, hexagram, and active
   line data that produced them.
 
