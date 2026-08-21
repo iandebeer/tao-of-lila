@@ -23,6 +23,7 @@ treated as composable categories, functors, and contextual transformations.
 - Servant
 - Aeson
 - Warp
+- PostgreSQL
 
 ## Project Layout
 
@@ -33,8 +34,9 @@ app/
 src/
   API/                 # Servant API
   Domain/              # Domain types, loading, and lookup tables
-  Engine/              # Pure reading generation
+  Engine/              # Pure casting, reading, and game movement
   Interpretation/      # Interpretation composition
+  Persistence/         # PostgreSQL users, sessions, castings, and history
 data/
   leela.json           # Seed Leela state data
   hexagrams.json       # Seed I Ching hexagram data
@@ -46,14 +48,30 @@ test/
 
 ## Run Locally
 
+Start the prototype database:
+
+```bash
+docker compose up -d postgres
+```
+
+Then start the web application:
+
 ```bash
 cabal update
 cabal run tao-of-lila-api
 ```
 
+The default database connection is
+`postgresql://tao:tao@localhost:5432/tao_of_lila`. Override it with
+`DATABASE_URL`. Database tables are created idempotently at application startup.
+On macOS, building `postgresql-simple` requires the `libpq` formula and its
+`pg_config` executable on `PATH`.
+
 The service listens on `PORT` when set, otherwise `8080`.
 
-Open `http://localhost:8080/` for the minimal UI.
+Open `http://localhost:8080/` for the journey prototype. It supports user
+registration/login, persistent continuation, per-encounter question CRUD,
+yarrow casting, casting-driven movement, and journals.
 
 ## Test
 
@@ -68,9 +86,22 @@ cabal test
 - `GET /hexagrams` returns loaded hexagrams.
 - `POST /reading` generates a full reading.
 - `POST /interpret` returns only the interpretation for a reading request.
-- `GET /casting/current` returns the current yarrow casting state.
-- `POST /casting/new` resets the numerical casting test engine.
-- `POST /casting/next` advances one observable yarrow casting transition.
+The authenticated prototype API uses `Authorization: Bearer <token>`:
+
+- `POST /auth/register` creates a user and initial game session.
+- `POST /auth/login` creates a bearer session.
+- `GET /game` returns the current square, six reachable squares, question,
+  casting, and recent journey events.
+- `POST`, `PUT`, and `DELETE /game/question[/<id>]` manage the current
+  encounter's question.
+- `POST /game/casting/new` begins a per-user casting.
+- `POST /game/casting/next` advances the yarrow engine and persists movement
+  when casting completes.
+- `PUT /game/journal/<event-id>` creates or updates an event journal entry.
+
+Passwords are stored as bcrypt hashes. Raw yarrow casting state and completed
+casting results are retained as PostgreSQL JSONB, while movement is recorded as
+append-only game events.
 
 Example reading request:
 

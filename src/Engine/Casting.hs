@@ -15,7 +15,7 @@ module Engine.Casting
   )
 where
 
-import Data.Aeson (ToJSON)
+import Data.Aeson (FromJSON, ToJSON)
 import Data.Bits (clearBit, setBit, testBit)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -44,6 +44,7 @@ data RoundSnapshot = RoundSnapshot
   deriving (Eq, Show, Generic)
 
 instance ToJSON RoundSnapshot
+instance FromJSON RoundSnapshot
 
 data LineResult = LineResult
   { lineNumber :: Int
@@ -55,6 +56,7 @@ data LineResult = LineResult
   deriving (Eq, Show, Generic)
 
 instance ToJSON LineResult
+instance FromJSON LineResult
 
 data TrigramResult = TrigramResult
   { trigramName :: Text
@@ -64,6 +66,7 @@ data TrigramResult = TrigramResult
   deriving (Eq, Show, Generic)
 
 instance ToJSON TrigramResult
+instance FromJSON TrigramResult
 
 data CastingResult = CastingResult
   { primaryBinaryValue :: Int
@@ -81,6 +84,7 @@ data CastingResult = CastingResult
   deriving (Eq, Show, Generic)
 
 instance ToJSON CastingResult
+instance FromJSON CastingResult
 
 data CastingDebug = CastingDebug
   { debugSeed :: Int
@@ -95,6 +99,7 @@ data CastingDebug = CastingDebug
   deriving (Eq, Show, Generic)
 
 instance ToJSON CastingDebug
+instance FromJSON CastingDebug
 
 data CastingState = CastingState
   { castingId :: Text
@@ -115,6 +120,7 @@ data CastingState = CastingState
   deriving (Eq, Show, Generic)
 
 instance ToJSON CastingState
+instance FromJSON CastingState
 
 initialCastingState :: CastingState
 initialCastingState =
@@ -488,4 +494,3 @@ showText =
 fromString :: String -> Text
 fromString =
   T.pack
-

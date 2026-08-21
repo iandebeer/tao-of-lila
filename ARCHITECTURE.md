@@ -15,6 +15,20 @@ consciousness category, I Ching hexagrams form a change category, Taoist
 cosmology informs symbolic categories, and player journeys carry context through
 reflection. See `docs/category-theory.md` for the full ontology.
 
+The application separates three explicit concerns:
+
+```text
+State and rules -> Persistent journey engine -> Rendering
+       |                    |                       |
+I Ching/Leela facts   Participant history     Visual projection
+```
+
+The state and rules layer determines casting, hexagram change, movement, and
+Lila topology. The journey engine records a participant's session as events.
+The renderer receives a resolved snapshot and must not calculate movement or
+mutate the journey. Advice is a separate interpretation over recorded facts,
+not part of state transition logic.
+
 The long-term internal key for I Ching data is the six-bit binary hexagram
 value from `0` to `63`:
 
@@ -38,6 +52,60 @@ to one bit.
 - `Interpretation.Engine` composes meaning from state, change pattern, and
   active lines without knowing about HTTP, files, or databases.
 
+The working `Engine.Casting` state machine remains a self-contained subsystem.
+The game engine consumes its result through a stable contract rather than
+embedding participant, persistence, or rendering concerns in casting.
+
+## Journey Model
+
+The persistent model grows around this ownership hierarchy:
+
+```text
+Participant
+  Profile
+    GameSession
+      GameState
+      GameEvent
+        Question
+        IChingCasting (including raw yarrow rounds)
+        Movement
+        JournalEntry
+        Advice
+```
+
+`GameState` is the current projection of a session. `GameEvent` is the durable
+record of how it changed. Events are append-only so the journey can be replayed
+instead of merely overwriting a current position.
+
+A question belongs to a participant's encounter recorded by a game event. It
+does not belong to the shared Lila state definition. Journal entries and advice
+have the same event context, while canonical Lila and I Ching source material
+remain shared domain data.
+
+The pure turn contract is conceptually:
+
+```text
+GameState + Question + CastingResult
+  -> movement
+  -> accessible states
+  -> special transitions
+  -> GameEvent + new GameState
+```
+
+Persistence stores sessions, states, events, and complete raw castings behind a
+repository boundary. It does not enter the rule functions.
+
+## Rendering Boundary
+
+The renderer consumes a projection containing the current and previous Lila
+positions, accessible positions, special transitions, hexagram and trigram
+results, changing lines, and resolved movement. It renders the relevant local
+neighbourhood rather than requiring the full 72-state topology.
+
+The Lila field answers where the participant is and can move. The I Ching view
+describes the pattern of change through lines, trigrams, and symbols. These are
+two visual coordinate systems for one event; neither owns or computes the other.
+
 Future engine modules should model transitions as explicit composable values
 before introducing stronger categorical abstractions. The architecture should
 earn abstractions from repeated transition logic, not from terminology alone.
@@ -55,8 +123,18 @@ Domain logic should not import API, persistence, or deployment modules. New
 features should keep dependencies pointed inward:
 
 ```text
-Main/API/Storage -> Engine/Interpretation -> Domain
+Main/API/Storage/Browser
+          |
+          v
+Journey Engine -> Rules/Casting/Interpretation -> Domain
+          |
+          v
+Renderer Snapshot
 ```
+
+Imports continue to point inward: domain and rule modules never import journey
+persistence, HTTP, or browser rendering. Renderer snapshots are derived at a
+boundary and contain no behavior that can change game state.
 
 ## Data Direction
 

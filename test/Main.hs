@@ -16,6 +16,7 @@ import Domain.Types
 import Domain.HexagramIndex (binaryToKingWen)
 import qualified Engine.Casting as Casting
 import Engine.Reading (generateReading)
+import Engine.Game (accessibleStateIds, applyCastingMovement)
 
 main :: IO ()
 main = do
@@ -27,6 +28,8 @@ main = do
   assert "casting begins with one stalk set aside" castingBeginsWithOneStalkSetAside
   assert "casting removes the ritual stalk from the right heap" castingRemovesRitualStalkFromRightHeap
   assert "casting completes six yarrow lines" castingCompletesSixYarrowLines
+  assert "game exposes the next six reachable states" gameExposesSixReachableStates
+  assert "casting result advances and bounds the Lila state" castingAdvancesLilaState
 
 assert :: String -> Bool -> IO ()
 assert label condition =
@@ -115,6 +118,23 @@ castingCompletesSixYarrowLines =
   where
     finalState = iterate Casting.nextCastingState Casting.initialCastingState !! 96
     validLineValue line = Casting.lineValue line `elem` [6, 7, 8, 9]
+
+gameExposesSixReachableStates :: Bool
+gameExposesSixReachableStates =
+  accessibleStateIds 1 == [2 .. 7]
+    && accessibleStateIds 69 == [70, 71, 72]
+    && accessibleStateIds 72 == []
+
+castingAdvancesLilaState :: Bool
+castingAdvancesLilaState =
+  case Casting.result completedCasting of
+    Just castingResult ->
+      applyCastingMovement 10 castingResult
+        == min 72 (10 + Casting.lilaMoveSquares castingResult)
+        && applyCastingMovement 71 castingResult <= 72
+    Nothing -> False
+  where
+    completedCasting = iterate Casting.nextCastingState Casting.initialCastingState !! 96
 
 kingWenMappings :: [(Int, Int)]
 kingWenMappings =

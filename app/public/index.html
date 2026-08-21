@@ -3,744 +3,218 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>The Tao of Lila</title>
+    <title>Tao of Lila Journey Prototype</title>
     <style>
-      :root {
-        color-scheme: light dark;
-        font-family: Georgia, "Times New Roman", serif;
-        line-height: 1.5;
-      }
-
-      body {
-        margin: 0;
-        background:
-          radial-gradient(circle at top, rgba(171, 132, 73, 0.24), transparent 35rem),
-          #14110e;
-        color: #f6ead7;
-      }
-
-      main {
-        max-width: 72rem;
-        margin: 0 auto;
-        padding: 3rem 1.25rem;
-      }
-
-      section,
-      form {
-        background: rgba(20, 17, 14, 0.78);
-        border: 1px solid rgba(246, 234, 215, 0.18);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        margin-block: 1rem;
-      }
-
-      label,
-      select,
-      textarea,
-      button {
-        display: block;
-        width: 100%;
-      }
-
-      textarea,
-      select,
-      button {
-        box-sizing: border-box;
-        margin-top: 0.35rem;
-        border-radius: 0.6rem;
-        border: 1px solid rgba(246, 234, 215, 0.32);
-        padding: 0.8rem;
-        font: inherit;
-      }
-
-      button {
-        margin-top: 1rem;
-        cursor: pointer;
-        background: #d5a25f;
-        color: #14110e;
-        font-weight: 700;
-      }
-
-      .muted {
-        color: #d9cab7;
-      }
-
-      .card {
-        border-left: 0.25rem solid #d5a25f;
-      }
-
-      .layout {
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
-        align-items: stretch;
-      }
-
-      .board-shell {
-        position: relative;
-        aspect-ratio: 1;
-        min-height: min(82vw, 43rem);
-        overflow: hidden;
-        background:
-          radial-gradient(circle, rgba(213, 162, 95, 0.16), transparent 34%),
-          radial-gradient(circle, rgba(246, 234, 215, 0.08) 0 45%, transparent 46%),
-          rgba(246, 234, 215, 0.04);
-        border: 1px solid rgba(246, 234, 215, 0.18);
-        border-radius: 50%;
-      }
-
-      .board-center {
-        position: absolute;
-        inset: 33%;
-        display: grid;
-        place-items: center;
-        z-index: 3;
-        border: 1px solid rgba(213, 162, 95, 0.45);
-        border-radius: 50%;
-        background: rgba(20, 17, 14, 0.86);
-        text-align: center;
-        padding: 1rem;
-      }
-
-      .board-center strong {
-        display: block;
-        color: #d5a25f;
-      }
-
-      .leela-node {
-        position: absolute;
-        z-index: 2;
-        display: grid;
-        place-items: center;
-        width: 1.65rem;
-        height: 1.65rem;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        border: 1px solid rgba(246, 234, 215, 0.18);
-        background: rgba(20, 17, 14, 0.9);
-        color: #d9cab7;
-        margin: 0;
-        padding: 0;
-        cursor: pointer;
-        font-size: 0.68rem;
-        font-weight: 400;
-      }
-
-      .leela-node.seeded {
-        border-color: rgba(213, 162, 95, 0.62);
-        color: #f6ead7;
-      }
-
-      .leela-node.selected,
-      .hex-cell.selected,
-      .line-path.selected .line-marker {
-        background: #d5a25f;
-        color: #14110e;
-        box-shadow: 0 0 1rem rgba(213, 162, 95, 0.68);
-      }
-
-      .iching-grid {
-        position: absolute;
-        inset: 24%;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        gap: 0.15rem;
-        transform: rotate(45deg);
-        opacity: 0.88;
-      }
-
-      .hex-cell {
-        aspect-ratio: 1;
-        display: grid;
-        place-items: center;
-        border: 1px solid rgba(246, 234, 215, 0.14);
-        background: rgba(20, 17, 14, 0.62);
-        color: rgba(246, 234, 215, 0.62);
-        font-size: clamp(0.52rem, 1.1vw, 0.78rem);
-        transform: rotate(-45deg);
-      }
-
-      .hex-cell.seeded {
-        border-color: rgba(213, 162, 95, 0.45);
-        color: #f6ead7;
-      }
-
-      .line-path {
-        position: absolute;
-        inset: 11% 49.5%;
-        z-index: 0;
-        transform: rotate(var(--angle));
-        transform-origin: 50% 50%;
-        border-left: 1px dashed rgba(246, 234, 215, 0.18);
-      }
-
-      .line-marker {
-        position: absolute;
-        top: calc(var(--line-offset) * 1%);
-        left: 50%;
-        display: grid;
-        place-items: center;
-        width: 1.35rem;
-        height: 1.35rem;
-        border-radius: 50%;
-        transform: translate(-50%, -50%) rotate(var(--reverse-angle));
-        border: 1px solid rgba(246, 234, 215, 0.24);
-        background: rgba(20, 17, 14, 0.82);
-        font-size: 0.72rem;
-      }
-
-      .board-legend {
-        display: grid;
-        gap: 0.75rem;
-      }
-
-      .legend-item {
-        border-left: 0.2rem solid rgba(213, 162, 95, 0.68);
-        padding-left: 0.75rem;
-      }
-
-      .casting-client {
-        display: grid;
-        gap: 1rem;
-      }
-
-      .casting-screen {
-        overflow-x: auto;
-        border-radius: 0.8rem;
-        background: #090806;
-        border: 1px solid rgba(246, 234, 215, 0.16);
-      }
-
-      .casting-screen pre {
-        margin: 0;
-        padding: 1rem;
-        color: #f6ead7;
-        font: 0.95rem/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-        white-space: pre;
-      }
-
-      .button-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-
-      .button-row button {
-        width: auto;
-        min-width: 10rem;
-        margin-top: 0;
-      }
-
-      @media (max-width: 820px) {
-        .layout {
-          grid-template-columns: 1fr;
-        }
-      }
+      :root { font-family: Georgia, serif; color: #f5ead7; background: #15110d; line-height: 1.5; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: radial-gradient(circle at top, #332618, #15110d 36rem); }
+      main { width: min(68rem, 100%); margin: auto; padding: 2rem 1rem 5rem; }
+      section, article, form { border: 1px solid #5e4934; border-radius: .8rem; background: #1b1611e8; padding: 1.2rem; margin: 1rem 0; }
+      h1, h2, h3 { color: #e2b66f; }
+      label { display: block; margin: .8rem 0; }
+      input, textarea, button { width: 100%; padding: .75rem; margin-top: .3rem; border: 1px solid #7a6044; border-radius: .45rem; font: inherit; }
+      input, textarea { color: #f5ead7; background: #0e0c09; }
+      button { color: #17120d; background: #dda95d; font-weight: bold; cursor: pointer; }
+      button.secondary { color: #f5ead7; background: transparent; }
+      button.danger { color: #ffd8cf; background: #4c211c; }
+      .row { display: flex; gap: .7rem; flex-wrap: wrap; }
+      .row > * { flex: 1 1 10rem; }
+      .square-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: .7rem; }
+      .square { min-height: 8rem; border: 1px solid #6d543a; border-radius: .6rem; padding: .8rem; background: #211a13; }
+      .square.current { border: 2px solid #e2b66f; background: #322516; }
+      .number { font: 700 2rem/1 sans-serif; color: #e2b66f; }
+      .muted, small { color: #c8b8a1; }
+      .notice { min-height: 1.5rem; color: #f2c883; }
+      .error { color: #ffaaa0; }
+      [hidden] { display: none !important; }
+      pre { overflow: auto; padding: 1rem; background: #0b0907; border-radius: .5rem; white-space: pre-wrap; }
     </style>
   </head>
   <body>
     <main>
       <header>
-        <p class="muted">State -> Change -> Meaning</p>
+        <p class="muted">Persistent journey prototype</p>
         <h1>The Tao of Lila</h1>
-        <p>
-          A contemplative Leela and I Ching reading engine written with a pure
-          functional Haskell core.
-        </p>
+        <p>Question → I Ching casting → movement → reflection</p>
       </header>
 
-      <section>
-        <h2>Game board layout</h2>
-        <div class="layout">
-          <div class="board-shell" id="game-board" aria-label="Tao of Lila board layout">
-            <div class="iching-grid" id="iching-grid" aria-label="64 hexagram grid"></div>
-            <div id="line-pathways" aria-label="six moving-line pathways"></div>
-            <div id="leela-ring" aria-label="72 Leela state ring"></div>
-            <div class="board-center" id="board-center">
-              <span>
-                <strong>State -> Change -> Meaning</strong>
-                Generate a reading to illuminate the path.
-              </span>
-            </div>
+      <section id="auth-panel">
+        <h2>Enter your journey</h2>
+        <form id="auth-form">
+          <label>Username <input id="username" autocomplete="username" minlength="3" required /></label>
+          <label>Password <input id="password" type="password" autocomplete="current-password" minlength="10" required /></label>
+          <div class="row">
+            <button type="submit" data-action="login">Log in</button>
+            <button type="button" class="secondary" id="register">Register</button>
           </div>
-          <aside class="board-legend">
-            <div class="legend-item">
-              <strong>Outer ring</strong>
-              <p class="muted">72 Leela consciousness states arranged as a circular path.</p>
-            </div>
-            <div class="legend-item">
-              <strong>Inner grid</strong>
-              <p class="muted">64 I Ching hexagrams arranged as an 8x8 field of change.</p>
-            </div>
-            <div class="legend-item">
-              <strong>Radial paths</strong>
-              <p class="muted">Six moving-line lessons from foundation through transcendence.</p>
-            </div>
-          </aside>
-        </div>
+        </form>
       </section>
 
-      <form id="reading-form">
-        <label>
-          Inquiry
-          <textarea
-            id="question"
-            rows="4"
-            required
-            placeholder="What state is asking to be seen?"
-          ></textarea>
-        </label>
+      <div id="game-panel" hidden>
+        <section>
+          <div class="row">
+            <div><h2 id="welcome">Journey</h2><p class="muted">Your state and history are stored in PostgreSQL.</p></div>
+            <button class="secondary" id="logout">Log out</button>
+          </div>
+          <p id="notice" class="notice" role="status"></p>
+        </section>
 
-        <label>
-          Leela state
-          <select id="state-select">
-            <option value="">Let the engine select</option>
-          </select>
-        </label>
+        <section>
+          <h2>Current field</h2>
+          <div id="squares" class="square-grid"></div>
+          <p class="muted">The six smaller states are the possible destinations for one through six changing lines.</p>
+        </section>
 
-        <button type="submit">Generate reading</button>
-      </form>
+        <form id="question-form">
+          <h2>Question for this encounter</h2>
+          <label>Focus of the I Ching casting
+            <textarea id="question" rows="3" required placeholder="What is this state asking me to understand?"></textarea>
+          </label>
+          <div class="row">
+            <button type="submit" id="save-question">Save question</button>
+            <button type="button" class="danger" id="delete-question">Delete question</button>
+          </div>
+        </form>
 
-      <section id="result" hidden></section>
+        <section>
+          <h2>I Ching casting</h2>
+          <p class="muted">Every click advances the existing Haskell yarrow-stalk state engine. On completion, its changing-line count moves the player.</p>
+          <pre id="casting">No casting started.</pre>
+          <div class="row">
+            <button id="new-casting">New casting</button>
+            <button id="next-casting">Advance casting</button>
+          </div>
+        </section>
 
-      <section class="casting-client" aria-labelledby="casting-title">
-        <div>
-          <p class="muted">Numerical test client</p>
-          <h2 id="casting-title">I Ching Yarrow Casting</h2>
-          <p class="muted">
-            This client is a truthful window into the Haskell casting engine. It
-            displays numerical state only and never calculates yarrow values in
-            the browser.
-          </p>
-        </div>
-        <div class="casting-screen" aria-live="polite">
-          <pre id="casting-output">Loading casting state...</pre>
-        </div>
-        <div class="button-row">
-          <button type="button" id="casting-next">Advance [SPACE]</button>
-          <button type="button" id="casting-new">New casting [N]</button>
-          <button type="button" id="casting-reset">Reset [R]</button>
-        </div>
-      </section>
+        <section>
+          <h2>Journey history and journal</h2>
+          <div id="history"><p class="muted">Complete a casting to create the first journey event.</p></div>
+        </section>
+      </div>
     </main>
-
     <script>
-      const stateSelect = document.querySelector("#state-select");
-      const form = document.querySelector("#reading-form");
-      const result = document.querySelector("#result");
-      const castingOutput = document.querySelector("#casting-output");
-      const castingNext = document.querySelector("#casting-next");
-      const castingNew = document.querySelector("#casting-new");
-      const castingReset = document.querySelector("#casting-reset");
-      const leelaRing = document.querySelector("#leela-ring");
-      const ichingGrid = document.querySelector("#iching-grid");
-      const linePathways = document.querySelector("#line-pathways");
-      const boardCenter = document.querySelector("#board-center");
-      const boardData = { states: [], hexagrams: [] };
-      const movingLineNames = [
-        "Foundation",
-        "Relationship",
-        "Action",
-        "Vision",
-        "Expression",
-        "Transcendence",
-      ];
+      let token = localStorage.getItem("tao-token");
+      let game = null;
+      const authPanel = document.querySelector("#auth-panel");
+      const gamePanel = document.querySelector("#game-panel");
+      const notice = document.querySelector("#notice");
 
-      async function loadBoardData() {
-        const [statesResponse, hexagramsResponse] = await Promise.all([
-          fetch("/states"),
-          fetch("/hexagrams"),
-        ]);
-        const states = await statesResponse.json();
-        const hexagrams = await hexagramsResponse.json();
-        boardData.states = states;
-        boardData.hexagrams = hexagrams;
-
-        for (const state of states) {
-          const option = document.createElement("option");
-          option.value = state.stateId;
-          option.textContent = `${state.stateId}. ${state.stateName}`;
-          stateSelect.append(option);
-        }
-
-        renderBoard();
+      async function api(path, options = {}) {
+        const headers = { "content-type": "application/json", ...(options.headers || {}) };
+        if (token) headers.authorization = `Bearer ${token}`;
+        const response = await fetch(path, { ...options, headers });
+        const value = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(value.error || `Request failed (${response.status})`);
+        return value;
       }
 
-      function renderBoard(reading = null) {
-        renderLeelaRing(reading?.readingState?.stateId);
-        renderHexagramGrid(reading?.readingHexagram?.hexagramNumber);
-        renderLinePathways(reading?.readingMovingLines ?? []);
-        renderBoardCenter(reading);
-      }
-
-      function renderLeelaRing(selectedStateId) {
-        const statesById = new Map(boardData.states.map((state) => [state.stateId, state]));
-        leelaRing.replaceChildren();
-
-        for (let index = 1; index <= 72; index += 1) {
-          const state = statesById.get(index);
-          const angle = ((index - 1) / 72) * Math.PI * 2 - Math.PI / 2;
-          const radius = 45;
-          const node = document.createElement("button");
-          node.type = "button";
-          node.className = "leela-node";
-          node.style.left = `${50 + Math.cos(angle) * radius}%`;
-          node.style.top = `${50 + Math.sin(angle) * radius}%`;
-          node.textContent = index;
-          node.title = state
-            ? `${state.stateName}: ${state.stateDescription}`
-            : `Leela state ${index}`;
-
-          if (state) {
-            node.classList.add("seeded");
-            node.addEventListener("click", () => {
-              stateSelect.value = String(state.stateId);
-            });
-          }
-
-          if (selectedStateId === index) {
-            node.classList.add("selected");
-          }
-
-          leelaRing.append(node);
-        }
-      }
-
-      function renderHexagramGrid(selectedHexagramNumber) {
-        const hexagramsByNumber = new Map(
-          boardData.hexagrams.map((hexagram) => [hexagram.hexagramNumber, hexagram]),
-        );
-        ichingGrid.replaceChildren();
-
-        for (let number = 1; number <= 64; number += 1) {
-          const hexagram = hexagramsByNumber.get(number);
-          const cell = document.createElement("div");
-          cell.className = "hex-cell";
-          cell.textContent = number;
-          cell.title = hexagram
-            ? `${hexagram.hexagramName}: ${hexagram.judgment}`
-            : `Hexagram ${number}`;
-
-          if (hexagram) {
-            cell.classList.add("seeded");
-          }
-
-          if (selectedHexagramNumber === number) {
-            cell.classList.add("selected");
-          }
-
-          ichingGrid.append(cell);
-        }
-      }
-
-      function renderLinePathways(activeLines) {
-        const activeLineNumbers = new Set(activeLines.map((line) => line.number));
-        linePathways.replaceChildren();
-
-        for (let number = 1; number <= 6; number += 1) {
-          const path = document.createElement("div");
-          path.className = "line-path";
-          const angle = (number - 1) * 30 - 75;
-          path.style.setProperty("--angle", `${angle}deg`);
-          path.style.setProperty("--reverse-angle", `${-angle}deg`);
-          path.style.setProperty("--line-offset", `${18 + number * 10}`);
-
-          if (activeLineNumbers.has(number)) {
-            path.classList.add("selected");
-          }
-
-          const marker = document.createElement("span");
-          marker.className = "line-marker";
-          marker.textContent = number;
-          marker.title = `${number}. ${movingLineNames[number - 1]}`;
-          path.append(marker);
-          linePathways.append(path);
-        }
-      }
-
-      function renderBoardCenter(reading) {
-        if (!reading) {
-          boardCenter.innerHTML = `
-            <span>
-              <strong>State -&gt; Change -&gt; Meaning</strong>
-              Generate a reading to illuminate the path.
-            </span>
-          `;
-          return;
-        }
-
-        boardCenter.innerHTML = `
-          <span>
-            <strong>${escapeHtml(reading.readingState.stateName)}</strong>
-            Hexagram ${reading.readingHexagram.hexagramNumber}: ${escapeHtml(reading.readingHexagram.hexagramName)}
-          </span>
-        `;
-      }
-
-      function renderReading(reading) {
-        const interpretation = reading.readingInterpretation;
-        renderBoard(reading);
-
-        const lines = reading.readingMovingLines
-          .map((line) => `${line.number}. ${escapeHtml(line.name)}`)
-          .join(", ");
-
-        result.hidden = false;
-        result.innerHTML = `
-          <article class="card">
-            <h2>${escapeHtml(interpretation.summary)}</h2>
-            <p><strong>Moving lines:</strong> ${lines}</p>
-            <p>${escapeHtml(interpretation.stateReflection)}</p>
-            <p>${escapeHtml(interpretation.changeReflection)}</p>
-            <h3>Line reflections</h3>
-            <ul>
-              ${interpretation.lineReflections.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-            </ul>
-            <h3>Practice</h3>
-            <p>${escapeHtml(interpretation.practice)}</p>
-          </article>
-        `;
+      function showMessage(message, isError = false) {
+        notice.textContent = message;
+        notice.classList.toggle("error", isError);
       }
 
       function escapeHtml(value) {
-        return String(value)
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
+        return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
       }
 
-      function lineValueText(value) {
-        if (value === 6) return "Changing Yin";
-        if (value === 7) return "Stable Yang";
-        if (value === 8) return "Stable Yin";
-        if (value === 9) return "Changing Yang";
-        return "Unknown";
+      function render(nextGame) {
+        game = nextGame;
+        authPanel.hidden = true;
+        gamePanel.hidden = false;
+        document.querySelector("#welcome").textContent = `${game.gameUser.username}'s journey`;
+        const states = [game.gameCurrentState, ...game.gameAccessibleStates];
+        document.querySelector("#squares").innerHTML = states.map((state, index) => `
+          <article class="square ${index === 0 ? "current" : ""}">
+            <div class="number">${state.stateId}</div>
+            <strong>${escapeHtml(state.stateName)}</strong>
+            <p>${escapeHtml(state.stateDescription)}</p>
+            ${index ? `<small>${index} changing line${index === 1 ? "" : "s"}</small>` : "<small>Current state</small>"}
+          </article>`).join("");
+
+        const question = game.gameQuestion;
+        document.querySelector("#question").value = question?.questionText || "";
+        document.querySelector("#delete-question").disabled = !question;
+        document.querySelector("#save-question").textContent = question ? "Update question" : "Create question";
+        renderCasting(game.gameCasting);
+        renderHistory(game.gameHistory);
       }
 
-      function formatLineSummary(lines) {
-        const byLine = new Map(lines.map((line) => [line.lineNumber, line]));
-        const output = ["================================================", "CURRENT HEXAGRAM", "================================================", ""];
-
-        for (let number = 6; number >= 1; number -= 1) {
-          const line = byLine.get(number);
-          const value = line ? `${line.lineValue}${line.isChanging ? " *" : ""}` : "?";
-          output.push(`Line ${number}:       ${value}`);
-        }
-
-        const changing = lines.filter((line) => line.isChanging).map((line) => line.lineNumber);
-        output.push("");
-        output.push(`Changing:     ${changing.length ? changing.join(", ") : "-"}`);
-        return output.join("\n");
+      function renderCasting(casting) {
+        const output = document.querySelector("#casting");
+        if (!casting) { output.textContent = "No casting started."; return; }
+        const lines = casting.completedLines.map(line => `Line ${line.lineNumber}: ${line.lineValue} — ${line.lineInterpretation}`).join("\n");
+        const result = casting.result;
+        output.textContent = [
+          `Event: ${casting.event}`,
+          `Line ${casting.currentLine} / 6 · Round ${casting.currentRound} / 3`,
+          casting.prompt,
+          "",
+          lines || "No completed lines yet.",
+          result ? `\nComplete: ${result.numberChanging} changing lines → move ${result.lilaMoveSquares} squares\nPrimary hexagram: ${result.primaryKingWenNumber ?? "?"}\nTransformed hexagram: ${result.transformedKingWenNumber ?? "?"}` : "",
+        ].join("\n");
       }
 
-      function formatRoundSnapshot(snapshot) {
-        if (!snapshot) return "";
-
-        const lines = [];
-        if (snapshot.leftHeap !== null && snapshot.rightHeap !== null) {
-          lines.push(`LEFT HEAP:       ${snapshot.leftHeap}`);
-          lines.push(`RIGHT HEAP:      ${snapshot.rightHeap}`);
-        }
-
-        if (snapshot.removedSide) {
-          lines.push("");
-          lines.push(`One stalk removed from ${snapshot.removedSide.toLowerCase()} heap.`);
-          lines.push(`Left heap:       ${snapshot.leftAfterSingle}`);
-          lines.push(`Right heap:      ${snapshot.rightAfterSingle}`);
-          lines.push(`Removed:         ${snapshot.singleRemoved}`);
-        }
-
-        if (snapshot.leftRemainder !== null && snapshot.rightRemainder !== null) {
-          lines.push("");
-          lines.push("LEFT HEAP");
-          lines.push(`Stalks:          ${snapshot.leftAfterSingle}`);
-          lines.push(`Groups of four:  ${snapshot.leftGroupsOfFour}`);
-          lines.push(`Remainder:       ${snapshot.leftRemainder}`);
-          lines.push("");
-          lines.push("RIGHT HEAP");
-          lines.push(`Stalks:          ${snapshot.rightAfterSingle}`);
-          lines.push(`Groups of four:  ${snapshot.rightGroupsOfFour}`);
-          lines.push(`Remainder:       ${snapshot.rightRemainder}`);
-          lines.push("");
-          lines.push(`Removed stalk:   ${snapshot.singleRemoved}`);
-          lines.push(`Total removed:   ${snapshot.totalRemoved}`);
-        }
-
-        return lines.join("\n");
+      function renderHistory(history) {
+        const target = document.querySelector("#history");
+        if (!history.length) { target.innerHTML = '<p class="muted">Complete a casting to create the first journey event.</p>'; return; }
+        target.innerHTML = history.map(event => `
+          <article>
+            <h3>Square ${event.gameEventFromStateId} → ${event.gameEventToStateId}</h3>
+            <p><strong>Question:</strong> ${escapeHtml(event.gameEventQuestion)}</p>
+            <p><strong>Changing lines:</strong> ${event.gameEventCastingResult.numberChanging}</p>
+            <label>Journal entry
+              <textarea rows="4" data-journal="${event.gameEventId}">${escapeHtml(event.gameEventJournal)}</textarea>
+            </label>
+            <button data-save-journal="${event.gameEventId}">Save journal</button>
+          </article>`).join("");
       }
 
-      function formatCastingState(state) {
-        const lines = [];
-        const snapshot = state.roundSnapshot;
-        const lastLine = state.completedLines[state.completedLines.length - 1];
-
-        if (state.event === "CastingNew") {
-          lines.push("================================================");
-          lines.push("I CHING YARROW CASTING");
-          lines.push("================================================");
-          lines.push("");
-          lines.push("Casting:  NEW");
-          lines.push(`Stalks:   ${state.totalStalks}`);
-          lines.push(`Set aside: ${state.setAside}`);
-          lines.push(`Working stalks: ${state.workingStalks}`);
-          lines.push("");
-          lines.push(`Line:     ${state.currentLine} / 6`);
-          lines.push(`Round:    ${state.currentRound} / 3`);
-        } else if (state.event === "LineComplete" && lastLine) {
-          lines.push("================================================");
-          lines.push(`LINE ${lastLine.lineNumber} COMPLETE`);
-          lines.push("================================================");
-          lines.push("");
-          lines.push(`Final stalk count:     ${lastLine.finalStalkCount}`);
-          lines.push(`${lastLine.finalStalkCount} / 4 = ${lastLine.lineValue}`);
-          lines.push("");
-          lines.push(`LINE VALUE:            ${lastLine.lineValue}`);
-          lines.push("");
-          lines.push("INTERPRETATION:");
-          lines.push(lastLine.lineInterpretation);
-        } else if (state.event === "CastingComplete") {
-          const result = state.result;
-          lines.push("================================================");
-          lines.push("CASTING COMPLETE");
-          lines.push("================================================");
-          lines.push("");
-          lines.push("PRIMARY HEXAGRAM");
-          lines.push("");
-          lines.push(formatLineSummary(state.completedLines));
-          lines.push("");
-          lines.push("------------------------------------------------");
-          lines.push("");
-          if (result) {
-            lines.push("UPPER TRIGRAM:");
-            lines.push(`${result.upperTrigramResult.trigramName}`);
-            lines.push(`${result.upperTrigramResult.trigramSymbol}`);
-            lines.push("");
-            lines.push("LOWER TRIGRAM:");
-            lines.push(`${result.lowerTrigramResult.trigramName}`);
-            lines.push(`${result.lowerTrigramResult.trigramSymbol}`);
-            lines.push("");
-            lines.push(`PRIMARY HEXAGRAM:      ${result.primaryKingWenNumber ?? "?"}`);
-            lines.push("");
-            lines.push("NUCLEAR TRIGRAMS:");
-            lines.push(`Upper: ${result.nuclearUpperTrigramResult.trigramName}`);
-            lines.push(`Lower: ${result.nuclearLowerTrigramResult.trigramName}`);
-            lines.push("");
-            lines.push(`TRANSFORMED HEXAGRAM:  ${result.transformedKingWenNumber ?? "?"}`);
-            lines.push("");
-            lines.push("------------------------------------------------");
-            lines.push("");
-            lines.push("LILA MOVEMENT:");
-            lines.push("");
-            lines.push(`Changing lines:        ${result.numberChanging}`);
-            lines.push(`Move:                  ${result.lilaMoveSquares} squares`);
-          }
-        } else {
-          lines.push("================================================");
-          lines.push(`LINE ${state.currentLine} / 6 — ROUND ${state.currentRound} / 3`);
-          lines.push("================================================");
-          lines.push("");
-          lines.push(`Total stalks:       ${state.workingStalks}`);
-          lines.push(`Set aside:          ${state.setAside}`);
-          lines.push("");
-          if (snapshot) {
-            lines.push(`Previous working stalks: ${snapshot.previousWorkingStalks}`);
-            lines.push("");
-            lines.push(formatRoundSnapshot(snapshot));
-          }
-        }
-
-        lines.push("");
-        lines.push(state.prompt);
-        lines.push("");
-        lines.push(formatLineSummary(state.completedLines));
-        lines.push("");
-        lines.push("DEBUG");
-        lines.push("");
-        lines.push(`Seed:                ${state.debug.debugSeed}`);
-        lines.push(`Casting ID:          ${state.debug.debugCastingId}`);
-        lines.push(`State ID:            ${state.debug.debugStateId}`);
-        lines.push(`Event:               ${state.debug.debugEvent}`);
-        lines.push("");
-        lines.push("Engine choices:");
-        lines.push(`  Division point:    ${state.debug.debugDivisionPoint ?? "-"}`);
-        lines.push(`  Ritual removal:    ${state.debug.debugRemovedSide ?? "-"}`);
-        lines.push("");
-        lines.push("Working stalks:");
-        lines.push(`  Before:            ${state.debug.debugWorkingBefore}`);
-        lines.push(`  After:             ${state.debug.debugWorkingAfter}`);
-
-        return lines.join("\n");
+      async function authenticate(kind) {
+        try {
+          const response = await api(`/auth/${kind}`, { method: "POST", body: JSON.stringify({ authUsername: document.querySelector("#username").value, authPassword: document.querySelector("#password").value }) });
+          token = response.authToken;
+          localStorage.setItem("tao-token", token);
+          render(await api("/game"));
+          showMessage(kind === "register" ? "Your journey has been created." : "Welcome back.");
+        } catch (error) { alert(error.message); }
       }
 
-      async function loadCasting() {
-        const response = await fetch("/casting/current");
-        renderCasting(await response.json());
-      }
+      document.querySelector("#auth-form").addEventListener("submit", event => { event.preventDefault(); authenticate("login"); });
+      document.querySelector("#register").addEventListener("click", () => authenticate("register"));
+      document.querySelector("#logout").addEventListener("click", () => { token = null; game = null; localStorage.removeItem("tao-token"); gamePanel.hidden = true; authPanel.hidden = false; });
 
-      async function newCasting() {
-        const response = await fetch("/casting/new", { method: "POST" });
-        renderCasting(await response.json());
-      }
-
-      async function advanceCasting() {
-        const response = await fetch("/casting/next", { method: "POST" });
-        renderCasting(await response.json());
-      }
-
-      function renderCasting(state) {
-        castingOutput.textContent = formatCastingState(state);
-      }
-
-      form.addEventListener("submit", async (event) => {
+      document.querySelector("#question-form").addEventListener("submit", async event => {
         event.preventDefault();
-        const selectedState = stateSelect.value;
-        const payload = {
-          question: document.querySelector("#question").value,
-          leelaStateId: selectedState ? Number(selectedState) : null,
-        };
-
-        const response = await fetch("/reading", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          result.hidden = false;
-          result.textContent = "The reading could not be generated.";
-          return;
-        }
-
-        renderReading(await response.json());
+        try {
+          const request = { requestedQuestionText: document.querySelector("#question").value };
+          render(await api(game.gameQuestion ? `/game/question/${game.gameQuestion.questionId}` : "/game/question", { method: game.gameQuestion ? "PUT" : "POST", body: JSON.stringify(request) }));
+          showMessage("Question saved.");
+        } catch (error) { showMessage(error.message, true); }
+      });
+      document.querySelector("#delete-question").addEventListener("click", async () => {
+        if (!game.gameQuestion || !confirm("Delete this question?")) return;
+        try { render(await api(`/game/question/${game.gameQuestion.questionId}`, { method: "DELETE" })); showMessage("Question deleted."); }
+        catch (error) { showMessage(error.message, true); }
+      });
+      document.querySelector("#new-casting").addEventListener("click", async () => {
+        try { render(await api("/game/casting/new", { method: "POST" })); showMessage("New casting started."); }
+        catch (error) { showMessage(error.message, true); }
+      });
+      document.querySelector("#next-casting").addEventListener("click", async () => {
+        try { render(await api("/game/casting/next", { method: "POST" })); showMessage(game.gameCasting?.event === "CastingComplete" ? "Casting complete. Your state has advanced." : "Casting advanced."); }
+        catch (error) { showMessage(error.message, true); }
+      });
+      document.querySelector("#history").addEventListener("click", async event => {
+        const id = event.target.dataset.saveJournal;
+        if (!id) return;
+        try {
+          const text = document.querySelector(`[data-journal="${id}"]`).value;
+          render(await api(`/game/journal/${id}`, { method: "PUT", body: JSON.stringify({ journalText: text }) }));
+          showMessage("Journal saved.");
+        } catch (error) { showMessage(error.message, true); }
       });
 
-      castingNext.addEventListener("click", advanceCasting);
-      castingNew.addEventListener("click", newCasting);
-      castingReset.addEventListener("click", newCasting);
-
-      document.addEventListener("keydown", (event) => {
-        if (event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) {
-          return;
-        }
-
-        if (event.code === "Space") {
-          event.preventDefault();
-          advanceCasting();
-        } else if (event.key.toLowerCase() === "n" || event.key.toLowerCase() === "r") {
-          newCasting();
-        }
-      });
-
-      loadBoardData().catch(() => {
-        result.hidden = false;
-        result.textContent = "Could not load the board data.";
-      });
-      loadCasting().catch(() => {
-        castingOutput.textContent = "Could not load the casting state.";
-      });
+      if (token) api("/game").then(render).catch(() => { token = null; localStorage.removeItem("tao-token"); });
     </script>
   </body>
 </html>
