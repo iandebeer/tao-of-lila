@@ -8,7 +8,13 @@ Tao
 ├── Namelessness
 │   ├── The limit of language
 │   ├── The limit of formalization
-│   └── The role of silence
+│   ├── The role of silence
+│   └── The boundary that cannot contain itself
+│       ├── The paradox of totality
+│       ├── Russell's paradox
+│       ├── Gödel incompleteness
+│       ├── Nāgārjuna and emptiness of emptiness
+│       └── Tao that cannot become a thing
 │
 ├── Change
 │   ├── Transformation
@@ -30,6 +36,10 @@ Tao
 │   ├── Composition
 │   ├── Functors
 │   ├── Natural transformations
+│   ├── Monads
+│   │   ├── Endofunctor, unit, multiplication
+│   │   ├── Context rather than container
+│   │   └── join: m (m a) -> m a
 │   ├── Monoidal structure
 │   ├── Universal properties
 │   └── Limits and colimits
@@ -45,6 +55,11 @@ Tao
 ├── Tao Te Ching
 │   ├── Wu Wei
 │   ├── Emptiness
+│   │   ├── Dependent arising
+│   │   ├── Absence of svabhāva
+│   │   ├── Emptiness of emptiness
+│   │   ├── Usefulness of the hollow (TTC 11)
+│   │   └── Vol-ledig (full / empty)
 │   ├── Softness
 │   ├── Return
 │   ├── Reversal
@@ -70,6 +85,13 @@ Tao
 ## Working Relationships
 
 - Tao describes the ungraspable source and movement of transformation.
+- The search for a final container (Russell, Gödel, Nāgārjuna, Laozi) turns
+  attention from objects toward relation and transformation.
+- The categorical monad is used as a metaphor for context that can encounter
+  itself without becoming another substance or a larger container.
+- Afrikaans and English are different domains: translation preserves some
+  structure and necessarily transforms other structure; *Vol-ledig* is a hinge
+  that does not map cleanly.
 - The I Ching gives images and procedures for consulting transformation.
 - Category theory gives a precise language for relationships and composition.
 - Neigong grounds transformation in embodied practice.

@@ -61,6 +61,8 @@ toward a richer Tao of Lila and I Ching engine.
   symbolic attributes.
 - Animate resolved transitions without placing rule logic in the animation
   layer.
+- [x] Isolated yarrow ceremony: TypeScript/SVG client bound to the Haskell
+  casting engine, user-paced, not yet integrated with the Lila board.
 
 ### Milestone 7: Advice And Commentary
 

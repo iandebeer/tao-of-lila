@@ -60,3 +60,35 @@ canonical binary hexagram value.
 - The seed must be visible for reproducibility.
 - Future animation clients must bind to the same state transitions rather than
   reimplementing casting behavior.
+
+## Ceremony Layer
+
+The isolated page at `/yarrow/` is the first visual client of this engine.
+
+```text
+Haskell = truth and state
+TypeScript = ceremony and movement
+SVG = what is seen
+```
+
+`GET /casting/initial` and `POST /casting/next` expose the pure state machine
+without a user session or the Lila board. The browser may add slower ceremonial
+phases (untying, counting left then right, drawing a line) that reveal engine
+facts at human speed. Those display phases are not additional yarrow
+calculations.
+
+Each stalk is an SVG object with a stable identity. The ceremony interpolates
+positions when the engine reports a new heap, remainder, or line. Reloading the
+page restores the last engine snapshot plus the current ceremonial phase from
+`localStorage`; it does not reconstruct the ritual from an animation timeline.
+
+## After the ceremony
+
+The isolated `/yarrow/` page remains a visual projection and does not create a
+journey event. In the authenticated game, a completed casting creates the event
+that owns its question, movement, journal, canonical text context, and optional
+contemplation. The first textual reference slice covers Hexagram 11, changing
+line 2, to Hexagram 36. Its text can be explored without invoking a model; AI
+contemplation requires a separate user action.
+
+Rebuild the client with `./scripts/build-yarrow.sh`.

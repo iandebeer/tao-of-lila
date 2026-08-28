@@ -5,6 +5,9 @@ module Persistence.Postgres
   , StoreError (..)
   , authenticate
   , completeCasting
+  , contemplateEvent
+  , contemplationCosts
+  , contemplationContext
   , createQuestion
   , deleteQuestion
   , getGameView
@@ -19,7 +22,7 @@ module Persistence.Postgres
   )
 where
 
-import Control.Exception (Exception, bracket, throwIO)
+import Control.Exception (Exception, bracket, throwIO, try)
 import Crypto.BCrypt (hashPasswordUsingPolicy, slowerBcryptHashingPolicy, validatePassword)
 import Crypto.Random (getRandomBytes)
 import qualified Data.ByteString as BS
@@ -32,9 +35,11 @@ import Database.PostgreSQL.Simple
 import Database.PostgreSQL.Simple.FromRow (FromRow (..), field)
 import qualified Database.PostgreSQL.Simple.Newtypes as PG
 import Domain.Game
+import Domain.Contemplation
 import Domain.Types (DomainData (..), LeelaState (..))
 import Engine.Casting (CastingResult, CastingState, initialCastingState, nextCastingState, result)
 import Engine.Game (accessibleStateIds, applyCastingMovement)
+import Interpretation.ContemplationModel (ContemplationModel (..), ModelError (..))
 import Numeric (showHex)
 import Data.Word (Word8)
 
@@ -47,6 +52,7 @@ data StoreError
   | NotFound Text
   | Conflict Text
   | CorruptData Text
+  | ExternalService Text
   deriving (Eq, Show)
 
 instance Exception StoreError
@@ -65,6 +71,8 @@ migrate store = withStore store $ \connection -> do
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS game_sessions (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE, current_state_id INTEGER NOT NULL DEFAULT 1 CHECK (current_state_id BETWEEN 1 AND 72), previous_state_id INTEGER, casting JSONB, updated_at TIMESTAMPTZ NOT NULL DEFAULT now())"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS questions (id SERIAL PRIMARY KEY, game_session_id INTEGER NOT NULL REFERENCES game_sessions(id) ON DELETE CASCADE, state_id INTEGER NOT NULL, body TEXT NOT NULL, UNIQUE(game_session_id, state_id))"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS game_events (id SERIAL PRIMARY KEY, game_session_id INTEGER NOT NULL REFERENCES game_sessions(id) ON DELETE CASCADE, from_state_id INTEGER NOT NULL, to_state_id INTEGER NOT NULL, question TEXT NOT NULL, journal TEXT NOT NULL DEFAULT '', casting_result JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now())"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS contemplations (game_event_id INTEGER PRIMARY KEY REFERENCES game_events(id) ON DELETE CASCADE, response JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now())"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS llm_requests (id SERIAL PRIMARY KEY, game_event_id INTEGER REFERENCES game_events(id) ON DELETE SET NULL, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, requested_at TIMESTAMPTZ NOT NULL DEFAULT now(), provider TEXT NOT NULL, model TEXT NOT NULL, input_tokens INTEGER NOT NULL DEFAULT 0, output_tokens INTEGER NOT NULL DEFAULT 0, cached_input_tokens INTEGER NOT NULL DEFAULT 0, latency_ms INTEGER NOT NULL DEFAULT 0, estimated_cost_micros INTEGER NOT NULL DEFAULT 0, succeeded BOOLEAN NOT NULL, error_message TEXT)"
   pure ()
 
 register :: Store -> AuthRequest -> IO AuthResponse
@@ -148,6 +156,37 @@ saveJournal :: Store -> DomainData -> User -> Int -> JournalRequest -> IO GameVi
 saveJournal store domain user eventId request = withStore store $ \connection -> do
   changed <- execute connection "UPDATE game_events SET journal = ? FROM game_sessions WHERE game_events.id = ? AND game_events.game_session_id = game_sessions.id AND game_sessions.user_id = ?" (T.strip (journalText request), eventId, userId user)
   if changed == 0 then throwIO (NotFound "Game event") else loadGameView connection domain user
+
+contemplateEvent :: Store -> DomainData -> ContemplationModel -> User -> Int -> IO ContemplationView
+contemplateEvent store domain model user requestedEventId = do
+  context <- contemplationContext store domain user requestedEventId
+  outcome <- try (contemplate model context) :: IO (Either ModelError ModelResult)
+  case outcome of
+    Left modelError -> do
+      withStore store $ \connection -> do
+        _ <- execute connection "INSERT INTO llm_requests (game_event_id, user_id, provider, model, succeeded, error_message) VALUES (?, ?, 'openai', 'unavailable', FALSE, ?)" (requestedEventId, userId user, renderModelError modelError)
+        pure ()
+      throwIO (ExternalService (renderModelError modelError))
+    Right modelResult -> withStore store $ \connection -> withTransaction connection $ do
+      _ <- execute connection "INSERT INTO contemplations (game_event_id, response) VALUES (?, ?) ON CONFLICT (game_event_id) DO UPDATE SET response = EXCLUDED.response, created_at = now()" (requestedEventId, PG.Aeson (modelContemplation modelResult))
+      _ <- execute connection "INSERT INTO llm_requests (game_event_id, user_id, provider, model, input_tokens, output_tokens, cached_input_tokens, latency_ms, estimated_cost_micros, succeeded) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)" (requestedEventId, userId user, modelProvider modelResult, modelName modelResult, modelInputTokens modelResult, modelOutputTokens modelResult, modelCachedInputTokens modelResult, modelLatencyMilliseconds modelResult, modelEstimatedCostMicros modelResult)
+      pure (ContemplationView requestedEventId context (modelContemplation modelResult))
+
+contemplationContext :: Store -> DomainData -> User -> Int -> IO ContemplationContext
+contemplationContext store domain user requestedEventId = do
+  (event, fromState) <- withStore store $ \connection -> do
+    rows <- query connection "SELECT game_events.id, from_state_id, to_state_id, question, journal, casting_result FROM game_events JOIN game_sessions ON game_sessions.id = game_events.game_session_id WHERE game_events.id = ? AND game_sessions.user_id = ?" (requestedEventId, userId user)
+    case rows of
+      [row] -> let found = eventFromRow row in pure (found, resolveState domain (gameEventFromStateId found))
+      _ -> throwIO (NotFound "Game event")
+  either (throwIO . CorruptData) pure (buildContemplationContext fromState (gameEventQuestion event) (gameEventCastingResult event))
+
+contemplationCosts :: Store -> User -> IO CostSummary
+contemplationCosts store user = withStore store $ \connection -> do
+  rows <- query connection "SELECT COUNT(*), COALESCE(AVG(estimated_cost_micros), 0)::bigint, COALESCE(SUM(estimated_cost_micros), 0)::bigint, COALESCE(AVG(input_tokens + output_tokens), 0)::bigint FROM llm_requests WHERE user_id = ? AND succeeded = TRUE AND requested_at >= date_trunc('month', now())" (Only (userId user)) :: IO [(Int, Int, Int, Int)]
+  case rows of
+    [(count, averageCost, totalCost, averageTokens)] -> pure (CostSummary count averageCost totalCost averageTokens)
+    _ -> pure (CostSummary 0 0 0 0)
 
 loadGameView :: Connection -> DomainData -> User -> IO GameView
 loadGameView connection domain user = do

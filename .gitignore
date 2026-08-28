@@ -5,3 +5,5 @@ dist-newstyle/
 *.dyn_hi
 *.dyn_o
 tao-of-lila-api
+.runtime/
+node_modules/

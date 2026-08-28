@@ -12,7 +12,8 @@ Use this file as persistent guidance when working in this repository.
 - Engine Agent: Owns Haskell.
 - Category Theory Architect: Owns categorical abstractions, transformation laws,
   and composition boundaries.
-- Animation Agent: Owns animations.
+- Animation Agent: Owns TypeScript ceremony and movement, including the isolated
+  yarrow casting page.
 - Integration Agent: Owns merging.
 - Testing Agent: Owns validation.
 - Curator: Owns philosophical consistency.
@@ -21,6 +22,8 @@ Use this file as persistent guidance when working in this repository.
 
 - This is a Haskell/Cabal project for a contemplative Leela and I Ching engine.
 - Keep domain logic independent of HTTP, persistence, deployment, and browser UI.
+- The yarrow ceremony in `web/yarrow-casting/` may animate engine state but must
+  not calculate casting results.
 - Prefer small pure functions and explicit data structures over hidden runtime
   behavior.
 - Preserve the functional-core, imperative-shell architecture described in

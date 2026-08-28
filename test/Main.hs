@@ -14,6 +14,7 @@ import Domain.Types
   , ReadingRequest (..)
   )
 import Domain.HexagramIndex (binaryToKingWen)
+import Domain.Contemplation
 import qualified Engine.Casting as Casting
 import Engine.Reading (generateReading)
 import Engine.Game (accessibleStateIds, applyCastingMovement)
@@ -30,6 +31,7 @@ main = do
   assert "casting completes six yarrow lines" castingCompletesSixYarrowLines
   assert "game exposes the next six reachable states" gameExposesSixReachableStates
   assert "casting result advances and bounds the Lila state" castingAdvancesLilaState
+  assert "Innocence 11 changing line 2 becomes 36 contemplation context" contemplationContextMatchesFirstCase
 
 assert :: String -> Bool -> IO ()
 assert label condition =
@@ -135,6 +137,39 @@ castingAdvancesLilaState =
     Nothing -> False
   where
     completedCasting = iterate Casting.nextCastingState Casting.initialCastingState !! 96
+
+contemplationContextMatchesFirstCase :: Bool
+contemplationContextMatchesFirstCase =
+  case buildContemplationContext innocence questionText casting of
+    Right context ->
+      textChineseName (contemplationPrimaryHexagram context) == "泰"
+        && textChineseName (contemplationResultingHexagram context) == "明夷"
+        && case contemplationChangingLines context of
+          [activeLine] ->
+            changingLineNumber activeLine == 2
+              && changingLineValue activeLine == 9
+              && changingLineChinese activeLine == "九二：包荒，用馮河，不遐遺，朋亡，得尚于中行。"
+          _ -> False
+    Left _ -> False
+  where
+    innocence = LeelaState 1 "Innocence" "Direct experience before self-protection." "Beginner's mind"
+    questionText = "How can I retain my innocence in moving forward in this world?"
+    heaven = Casting.TrigramResult "Heaven" "☰" 7
+    earth = Casting.TrigramResult "Earth" "☷" 0
+    fire = Casting.TrigramResult "Fire" "☲" 5
+    casting = Casting.CastingResult
+      { Casting.primaryBinaryValue = 7
+      , Casting.transformedBinaryValue = 5
+      , Casting.primaryKingWenNumber = Just 11
+      , Casting.transformedKingWenNumber = Just 36
+      , Casting.changingLines = [2]
+      , Casting.numberChanging = 1
+      , Casting.upperTrigramResult = earth
+      , Casting.lowerTrigramResult = heaven
+      , Casting.nuclearUpperTrigramResult = earth
+      , Casting.nuclearLowerTrigramResult = fire
+      , Casting.lilaMoveSquares = 1
+      }
 
 kingWenMappings :: [(Int, Int)]
 kingWenMappings =

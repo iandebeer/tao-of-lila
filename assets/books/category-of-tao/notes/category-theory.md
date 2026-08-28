@@ -10,6 +10,7 @@ Use this file for raw mathematical notes.
 - Composition
 - Functors
 - Natural transformations
+- Monads (endofunctor, unit \(\eta\), multiplication \(\mu\); Haskell `join`)
 - Monoidal categories
 - Adjunctions
 - Universal properties

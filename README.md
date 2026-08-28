@@ -30,13 +30,16 @@ treated as composable categories, functors, and contextual transformations.
 ```text
 app/
   Main.hs              # HTTP executable entry point
-  public/index.html    # Minimal browser UI and board layout
+  public/index.html    # Minimal journey prototype
+  public/yarrow/       # Isolated yarrow ceremony page
 src/
   API/                 # Servant API
   Domain/              # Domain types, loading, and lookup tables
   Engine/              # Pure casting, reading, and game movement
   Interpretation/      # Interpretation composition
   Persistence/         # PostgreSQL users, sessions, castings, and history
+web/
+  yarrow-casting/      # TypeScript ceremony layer (SVG stalks, pacing)
 data/
   leela.json           # Seed Leela state data
   hexagrams.json       # Seed I Ching hexagram data
@@ -48,18 +51,28 @@ test/
 
 ## Run Locally
 
-Start the prototype database:
+The convenience scripts prepare the local `libpq` path, start the Podman VM when
+needed, start and check PostgreSQL, build the application, and launch the web
+server in the background:
 
 ```bash
-docker compose up -d postgres
+./scripts/start-prototype.sh
 ```
 
-Then start the web application:
+Open `http://localhost:8080/`. Runtime logs and the API process ID are kept in
+the ignored `.runtime/` directory.
+
+Stop the API and PostgreSQL cleanly with:
 
 ```bash
-cabal update
-cabal run tao-of-lila-api
+./scripts/stop-prototype.sh
 ```
+
+The PostgreSQL volume is preserved by the stop script, so registered users and
+journey history remain available the next time the prototype starts.
+
+For manual startup, use `docker compose up -d postgres` followed by
+`cabal run tao-of-lila-api`.
 
 The default database connection is
 `postgresql://tao:tao@localhost:5432/tao_of_lila`. Override it with
@@ -73,6 +86,23 @@ Open `http://localhost:8080/` for the journey prototype. It supports user
 registration/login, persistent continuation, per-encounter question CRUD,
 yarrow casting, casting-driven movement, and journals.
 
+Completed journey events can progressively reveal canonical Chinese, lexical
+possibilities, the Tao of Lila working translation, and the separately labelled
+James Legge (1882) comparison for the initial Hexagram 11 → 36 corpus slice.
+The **Contemplate this casting** action is deliberately separate and requires
+`OPENAI_API_KEY`; `OPENAI_MODEL` defaults to `gpt-5-mini`. The Responses API is
+called with provider storage disabled, and never calculates casting mechanics.
+
+Model usage, latency, success, and cost estimates are recorded in
+`llm_requests`. Cost estimates default to zero until deployment-specific rates
+are configured, avoiding volatile pricing in domain code. The authenticated
+`GET /game/contemplation-costs` endpoint returns the participant's monthly
+aggregate.
+
+Open `http://localhost:8080/yarrow/` for the isolated yarrow ceremony. Haskell
+computes each casting step; the browser only performs it visually. Rebuild that
+client after TypeScript changes with `./scripts/build-yarrow.sh`.
+
 ## Test
 
 ```bash
@@ -82,6 +112,8 @@ cabal test
 ## API
 
 - `GET /health` returns service health.
+- `GET /casting/initial` returns the pure yarrow engine's initial state.
+- `POST /casting/next` advances a supplied `CastingState` without persistence.
 - `GET /states` returns loaded Leela states.
 - `GET /hexagrams` returns loaded hexagrams.
 - `POST /reading` generates a full reading.

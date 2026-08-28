@@ -28,6 +28,11 @@
       .error { color: #ffaaa0; }
       [hidden] { display: none !important; }
       pre { overflow: auto; padding: 1rem; background: #0b0907; border-radius: .5rem; white-space: pre-wrap; }
+      details { margin: .8rem 0; padding: .7rem; border-left: 2px solid #6d543a; }
+      summary { color: #e2b66f; cursor: pointer; font-weight: bold; }
+      .chinese { font-size: 1.3rem; letter-spacing: .04em; }
+      .contemplation { border-color: #75644f; background: #191713; }
+      .contemplation h4 { color: #d8c7aa; }
     </style>
   </head>
   <body>
@@ -36,6 +41,7 @@
         <p class="muted">Persistent journey prototype</p>
         <h1>The Tao of Lila</h1>
         <p>Question → I Ching casting → movement → reflection</p>
+        <p class="muted"><a href="/yarrow/" style="color:#e2b66f">Isolated yarrow ceremony</a></p>
       </header>
 
       <section id="auth-panel">
@@ -157,16 +163,65 @@
       function renderHistory(history) {
         const target = document.querySelector("#history");
         if (!history.length) { target.innerHTML = '<p class="muted">Complete a casting to create the first journey event.</p>'; return; }
-        target.innerHTML = history.map(event => `
+        target.innerHTML = history.map(event => {
+          const casting = event.gameEventCastingResult;
+          const textAvailable = casting.primaryKingWenNumber === 11 && casting.transformedKingWenNumber === 36 && casting.changingLines.includes(2);
+          return `
           <article>
             <h3>Square ${event.gameEventFromStateId} → ${event.gameEventToStateId}</h3>
             <p><strong>Question:</strong> ${escapeHtml(event.gameEventQuestion)}</p>
             <p><strong>Changing lines:</strong> ${event.gameEventCastingResult.numberChanging}</p>
+            ${textAvailable ? `<div class="row">
+              <button class="secondary" data-view-text="${event.gameEventId}">Explore the casting text</button>
+              <button data-contemplate="${event.gameEventId}">Contemplate this casting</button>
+            </div>` : `<p class="muted">Canonical text for this result is not yet included in the initial 11 → 36 reference slice.</p>`}
+            <div id="casting-text-${event.gameEventId}"></div>
+            <div id="contemplation-${event.gameEventId}"></div>
             <label>Journal entry
               <textarea rows="4" data-journal="${event.gameEventId}">${escapeHtml(event.gameEventJournal)}</textarea>
             </label>
             <button data-save-journal="${event.gameEventId}">Save journal</button>
-          </article>`).join("");
+          </article>`;
+        }).join("");
+      }
+
+      function lexicalNotes(notes) {
+        return notes.map(note => `<details><summary>${escapeHtml(note.lexicalExpression)} · ${escapeHtml(note.lexicalPinyin)}</summary><p>${note.lexicalPossibilities.map(escapeHtml).join(" · ")}</p></details>`).join("");
+      }
+
+      function hexagramText(title, hexagram) {
+        return `<section>
+          <h3>${escapeHtml(title)}: ${hexagram.textHexagramNumber} ${escapeHtml(hexagram.textChineseName)} · ${escapeHtml(hexagram.textPinyin)} ${escapeHtml(hexagram.textUnicodeSymbol)}</h3>
+          <p>${escapeHtml(hexagram.textLowerTrigram)} below · ${escapeHtml(hexagram.textUpperTrigram)} above</p>
+          <details open><summary>Original Chinese</summary><p class="chinese">${escapeHtml(hexagram.textJudgmentChinese)}</p><p>${escapeHtml(hexagram.textWorkingTranslation)}</p></details>
+          <details><summary>Explore words</summary>${lexicalNotes(hexagram.textLexicalNotes)}</details>
+          <details><summary>Compare with James Legge (1882)</summary><p class="muted">Historical public-domain comparison · ${escapeHtml(hexagram.textLeggeJudgment.translationSourceReference)}</p><p>${escapeHtml(hexagram.textLeggeJudgment.translationText)}</p></details>
+        </section>`;
+      }
+
+      function renderContext(id, context) {
+        const lines = context.contemplationChangingLines.map(line => `<section>
+          <h3>Changing line ${line.changingLineNumber} · ${line.changingLineValue}</h3>
+          <p class="chinese">${escapeHtml(line.changingLineChinese)}</p>
+          <p>${escapeHtml(line.changingLineWorkingTranslation)}</p>
+          <details><summary>Explore words</summary>${lexicalNotes(line.changingLineLexicalNotes)}</details>
+          <details><summary>Compare with James Legge (1882)</summary><p>${escapeHtml(line.changingLineLegge.translationText)}</p></details>
+        </section>`).join("");
+        document.querySelector(`#casting-text-${id}`).innerHTML = `
+          <section><h3>The participant and question</h3><p><strong>${escapeHtml(context.contemplationLeelaState.stateName)}</strong> — ${escapeHtml(context.contemplationLeelaState.stateDescription)}</p><blockquote>${escapeHtml(context.contemplationQuestion)}</blockquote></section>
+          ${hexagramText("Primary hexagram", context.contemplationPrimaryHexagram)}${lines}${hexagramText("Resulting hexagram", context.contemplationResultingHexagram)}`;
+      }
+
+      function renderContemplation(id, response) {
+        document.querySelector(`#contemplation-${id}`).innerHTML = `<section class="contemplation">
+          <p class="muted">AI-assisted contemplation · an interpretive aid, not an oracle</p>
+          <h4>Context</h4><p>${escapeHtml(response.context)}</p>
+          <h4>Primary hexagram</h4><p>${escapeHtml(response.primary_hexagram)}</p>
+          <h4>Changing lines</h4>${response.changing_lines.map(item => `<p>${escapeHtml(item)}</p>`).join("")}
+          <h4>Transformation</h4><p>${escapeHtml(response.transformation)}</p>
+          <h4>Possible readings</h4><ul>${response.possible_readings.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          <h4>Questions for contemplation</h4><ul>${response.questions_for_contemplation.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </section>`;
       }
 
       async function authenticate(kind) {
@@ -205,6 +260,23 @@
         catch (error) { showMessage(error.message, true); }
       });
       document.querySelector("#history").addEventListener("click", async event => {
+        const viewTextId = event.target.dataset.viewText;
+        if (viewTextId) {
+          try { renderContext(viewTextId, await api(`/game/contemplation-context/${viewTextId}`)); }
+          catch (error) { showMessage(error.message, true); }
+          return;
+        }
+        const contemplationId = event.target.dataset.contemplate;
+        if (contemplationId) {
+          event.target.disabled = true;
+          try {
+            const value = await api(`/game/contemplation/${contemplationId}`, { method: "POST" });
+            renderContext(contemplationId, value.contemplationViewContext);
+            renderContemplation(contemplationId, value.contemplationViewResponse);
+          } catch (error) { showMessage(error.message, true); }
+          finally { event.target.disabled = false; }
+          return;
+        }
         const id = event.target.dataset.saveJournal;
         if (!id) return;
         try {

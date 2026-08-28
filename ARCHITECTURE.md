@@ -29,6 +29,12 @@ The renderer receives a resolved snapshot and must not calculate movement or
 mutate the journey. Advice is a separate interpretation over recorded facts,
 not part of state transition logic.
 
+`Domain.Contemplation` builds a compact, immutable context from a completed
+game event and canonical textual material. `Interpretation.ContemplationModel`
+is the provider-neutral effect boundary; `Interpretation.OpenAI` is its first
+imperative adapter. Neither module can feed values back into casting or
+movement.
+
 The long-term internal key for I Ching data is the six-bit binary hexagram
 value from `0` to `63`:
 
@@ -106,6 +112,19 @@ The Lila field answers where the participant is and can move. The I Ching view
 describes the pattern of change through lines, trigrams, and symbols. These are
 two visual coordinate systems for one event; neither owns or computes the other.
 
+The yarrow ceremony is a separate visual projection of `Engine.Casting`. Haskell
+remains the source of truth for every numerical transition. TypeScript in
+`web/yarrow-casting/` interpolates stalk positions, ceremonial pacing, and SVG
+appearance. It must not divide heaps, count remainders, or decide line values.
+The isolated page is served at `/yarrow/` and talks to the pure
+`/casting/initial` and `/casting/next` endpoints, not to the journey board.
+
+The contemplation flow belongs to completed journey events. Reading canonical
+text (`GET /game/contemplation-context/:eventId`) is independent of requesting
+AI assistance (`POST /game/contemplation/:eventId`). The latter is always an
+explicit participant action. Provider storage is disabled, and request logs
+retain operational metadata rather than duplicated prompts.
+
 Future engine modules should model transitions as explicit composable values
 before introducing stronger categorical abstractions. The architecture should
 earn abstractions from repeated transition logic, not from terminology alone.
@@ -116,6 +135,8 @@ earn abstractions from repeated transition logic, not from terminology alone.
 - `API.Server` exposes the pure engine through Servant endpoints.
 - `app/Main.hs` resolves the port, loads data, and starts Warp.
 - `app/public/index.html` provides the minimal browser UI.
+- `web/yarrow-casting/` is the TypeScript ceremony layer for yarrow casting.
+- `app/public/yarrow/` is the isolated SVG ceremony page served by the API.
 
 ## Dependency Direction
 

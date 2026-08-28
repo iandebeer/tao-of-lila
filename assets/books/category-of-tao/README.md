@@ -26,7 +26,8 @@ but to let each illuminate the others without reducing their differences.
 - `concept-graph.md` maps the relationships from which the book grows.
 - `preface.md` and `introduction.md` frame the project.
 - `chapters/` contains one Markdown file per chapter.
-- `notes/` collects raw ideas before they are promoted into chapters.
+- `notes/` collects raw ideas before they are promoted into chapters
+  (including bilingual material such as `notes/vol-ledig.md`).
 - `figures/`, `diagrams/`, and `references/` remain available for supporting
   material.
 
@@ -38,6 +39,9 @@ but to let each illuminate the others without reducing their differences.
 - Preserve historical respect: analogy is not proof of influence.
 - Let diagrams, examples, and formal language serve understanding rather than
   display cleverness.
+- Where an insight originated in Afrikaans, keep the Afrikaans. Offer a plain
+  English handrail, and explain where the language itself carries the
+  philosophy. Translation carries across; it does not replace.
 
 ## Future Outputs
 

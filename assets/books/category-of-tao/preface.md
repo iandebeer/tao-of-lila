@@ -53,4 +53,18 @@ The ideas explored in these pages are not the execution of a carefully designed 
 
 If this book has a method, it is simply this: to follow relationships wherever they appear, to allow mathematics and mysticism to converse without forcing agreement, and to resist the temptation of premature certainty.
 
+There is one further convention I should state plainly.
+
+Some of the insights that shape this book first arrived in Afrikaans. Where that is so, I have allowed the Afrikaans to remain. English can carry a reader toward the insight without pretending to replace the experience that generated it.
+
+The distinction I have in mind is between *translation* and *carrying-across*. A dictionary rendering may transmit the conventional meaning of a word while destroying the paradox through which the meaning came to me. Afrikaans and English need not compete as containers for identical content. They can be different domains, connected by mappings that preserve some structures while necessarily transforming others.
+
+Something survives the morphism, and something does not.
+
+That failure is philosophically meaningful. It says something about language that Laozi has already warned us about: the name cannot exhaust what is named. The book is already concerned with the difference between the thing and its representation, between Tao and the name Tao, between an object and the relationships through which we understand it. Translation is simply a concrete instance of the same problem.
+
+So the convention is this: Afrikaans where the insight originated; a plain English handrail where possible; a short explanation where the language itself carries part of the philosophy. I will not hide the Afrikaans, nor apologise for it, nor make the English reader struggle without assistance. Sometimes the reader must cross a small linguistic bridge to follow me.
+
+Sometimes the bridge itself is part of the journey.
+
 Perhaps, when the final page has been written, I will discover that the book was about something quite different from what I imagine today. If so, that will not be a failure of the process, but its fulfilment.

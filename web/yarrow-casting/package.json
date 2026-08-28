@@ -1,0 +1,12 @@
+{
+  "name": "yarrow-casting",
+  "private": true,
+  "description": "Isolated TypeScript ceremony layer for the Haskell yarrow casting engine.",
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --outfile=../../app/public/yarrow/casting.js --target=es2020 --minify",
+    "watch": "esbuild src/main.ts --bundle --outfile=../../app/public/yarrow/casting.js --target=es2020 --sourcemap --watch"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

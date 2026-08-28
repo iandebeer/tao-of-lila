@@ -5,8 +5,9 @@ matures.
 
 ## Preface
 
-Why this book exists, why it belongs beside The Tao of Lila, and why Markdown is
-the right medium for developing it.
+Why this book exists, why it belongs beside The Tao of Lila, why Markdown is the
+right medium for developing it, and why Afrikaans may remain where an insight
+originated.
 
 ## Introduction: Why Another Book?
 
@@ -15,9 +16,11 @@ and category theory are read as languages of transformation?
 
 ## Part I: The Tao
 
-### Chapter 1: The Tao That Can Be Named
+### Chapter 1: The Monad and the Tao
 
-Naming, namelessness, and the limits of formal systems.
+Working heading. The temptation of a final container; Russell, Gödel,
+Nāgārjuna, and Laozi on self-reference; the categorical monad as a metaphor
+for context that can encounter itself without becoming another object.
 
 ### Chapter 2: Change Before Objects
 
@@ -67,7 +70,8 @@ Action, non-forcing, and natural transformation.
 
 ### Chapter 12: Emptiness
 
-The usefulness of absence and the structure of possibility.
+The usefulness of absence and the structure of possibility; *Vol-ledig* as a
+bilingual hinge between fullness and emptiness.
 
 ### Chapter 13: Return
 
