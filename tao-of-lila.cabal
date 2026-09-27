@@ -22,6 +22,7 @@ library
                   , Domain.Loading
                   , Domain.Types
                   , Engine.Casting
+                  , Engine.Movement
                   , Engine.Game
                   , Engine.Reading
                   , Interpretation.Engine
@@ -67,6 +68,16 @@ test-suite tao-of-lila-test
   main-is:          Main.hs
   hs-source-dirs:   test
   build-depends:    base >=4.17 && <5
+                  , aeson >=2.0
                   , tao-of-lila
                   , text
+  default-language: Haskell2010
+
+test-suite movement-statistics
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test/movement-statistics
+  build-depends:    base >=4.17 && <5
+                  , tao-of-lila
   default-language: Haskell2010

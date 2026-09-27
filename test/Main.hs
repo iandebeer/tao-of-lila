@@ -5,6 +5,10 @@ module Main
   )
 where
 
+import Data.Aeson (Value (..), toJSON, fromJSON, Result (..))
+import qualified Data.Aeson.KeyMap as KM
+import Data.Bits (testBit, xor)
+import Engine.Movement (movementFromChangingLines)
 import Domain.Types
   ( DomainData (..)
   , Hexagram (..)
@@ -21,6 +25,23 @@ import Engine.Game (accessibleStateIds, applyCastingMovement)
 
 main :: IO ()
 main = do
+  let weights = [sum [3 ^ (6 - length positions) | mask <- [0..63 :: Int], let positions = [i+1 | i <- [0..5], testBit mask i], movementFromChangingLines positions == move] | move <- [0..6]] :: [Int]
+  assert "exact independent yarrow movement probabilities" (weights == 1054 : replicate 6 507)
+  let final = until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState
+  case Casting.result final of
+    Nothing -> fail "Missing casting result"
+    Just casting -> do
+      let positions = [Casting.lineNumber line | line <- Casting.completedLines final, Casting.lineValue line `elem` [6,9]]
+          primary = sum [2 ^ (Casting.lineNumber line-1) | line <- Casting.completedLines final, Casting.lineValue line `elem` [7,9]]
+          mask = sum [2 ^ (position-1) | position <- positions]
+      assert "casting facts remain separate from movement" (Casting.numberChanging casting == length positions && Casting.changingLines casting == positions && Casting.lilaMoveSquares casting == movementFromChangingLines positions)
+      assert "hexagrams still reflect the authentic line values" (Casting.primaryBinaryValue casting == primary && Casting.transformedBinaryValue casting == (primary `xor` mask))
+      let legacy = case fromJSON (encodeResult casting) :: Result Casting.CastingResult of
+            Success old -> Casting.movementRule old == "changing-line-count-v1" && Casting.lilaMoveSquares old == Casting.numberChanging casting
+            Error _ -> False
+      assert "legacy casting keeps its recorded count-based movement" legacy
+  mapM_ (\(positions, expected) -> assert ("position movement " <> show positions) (movementFromChangingLines positions == expected))
+    [([],0),([1],1),([4],4),([6],6),([1,4],5),([2,5],0),([2,4,6],5),([1..6],0)]
   assert "explicit state is honored" explicitStateIsHonored
   assert "generated readings are deterministic" generatedReadingsAreDeterministic
   assert "empty explicit moving lines are rejected" emptyMovingLinesRejected
@@ -168,7 +189,8 @@ contemplationContextMatchesFirstCase =
       , Casting.lowerTrigramResult = heaven
       , Casting.nuclearUpperTrigramResult = earth
       , Casting.nuclearLowerTrigramResult = fire
-      , Casting.lilaMoveSquares = 1
+      , Casting.movementRule = "changing-line-positions-mod7-v1"
+      , Casting.lilaMoveSquares = 2
       }
 
 kingWenMappings :: [(Int, Int)]
@@ -252,3 +274,8 @@ sampleDomain =
         ]
     , movingLineFocuses = []
     }
+
+encodeResult :: Casting.CastingResult -> Value
+encodeResult casting = case toJSON casting of
+  Object fields -> Object (KM.insert "lilaMoveSquares" (toJSON (Casting.numberChanging casting)) (KM.delete "movementRule" fields))
+  value -> value

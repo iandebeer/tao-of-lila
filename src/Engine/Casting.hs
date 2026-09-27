@@ -15,7 +15,8 @@ module Engine.Casting
   )
 where
 
-import Data.Aeson (FromJSON, ToJSON)
+import Data.Aeson (FromJSON (..), ToJSON, withObject, (.:), (.:?), (.!=))
+import Engine.Movement (movementFromChangingLines)
 import Data.Bits (clearBit, setBit, testBit)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -79,12 +80,26 @@ data CastingResult = CastingResult
   , lowerTrigramResult :: TrigramResult
   , nuclearUpperTrigramResult :: TrigramResult
   , nuclearLowerTrigramResult :: TrigramResult
+  , movementRule :: Text
   , lilaMoveSquares :: Int
   }
   deriving (Eq, Show, Generic)
 
 instance ToJSON CastingResult
-instance FromJSON CastingResult
+instance FromJSON CastingResult where
+  parseJSON = withObject "CastingResult" $ \v -> CastingResult
+    <$> v .: "primaryBinaryValue"
+    <*> v .: "transformedBinaryValue"
+    <*> v .: "primaryKingWenNumber"
+    <*> v .: "transformedKingWenNumber"
+    <*> v .: "changingLines"
+    <*> v .: "numberChanging"
+    <*> v .: "upperTrigramResult"
+    <*> v .: "lowerTrigramResult"
+    <*> v .: "nuclearUpperTrigramResult"
+    <*> v .: "nuclearLowerTrigramResult"
+    <*> v .:? "movementRule" .!= "changing-line-count-v1"
+    <*> v .: "lilaMoveSquares"
 
 data CastingDebug = CastingDebug
   { debugSeed :: Int
@@ -360,7 +375,8 @@ buildCastingResult linesNow =
         , lowerTrigramResult = trigramFromBinary (primary `mod` 8)
         , nuclearUpperTrigramResult = trigramFromBinary (nuclearUpper primary)
         , nuclearLowerTrigramResult = trigramFromBinary (nuclearLower primary)
-        , lilaMoveSquares = length changing
+        , movementRule = "changing-line-positions-mod7-v1"
+        , lilaMoveSquares = movementFromChangingLines changing
         }
 
 lineResultsToBinary :: [LineResult] -> Int

@@ -164,3 +164,22 @@ an O(1) lookup table.
 - `docs/board-layout.md` documents the initial board visualization contract.
 - `docs/category-theory.md` defines the conceptual model of transformations.
 - `docs/yarrow-casting.md` defines the numerical yarrow casting state engine.
+
+### Movement from changing-line positions
+
+New castings derive movement with `sum(changingLines) mod 7`, where line 1 is
+at the bottom and line 6 at the top. `numberChanging` retains the actual count;
+`lilaMoveSquares` stores the separate movement. Stillness can include changing
+lines and a transformed hexagram: lines 2 and 5 change, but movement is zero.
+Try `/journey/?demo&scenario=still-changing#splash`.
+
+New results identify `movementRule: "changing-line-positions-mod7-v1"`. Existing
+saved casts retain their count-based movement and decode as the earlier rule.
+The yarrow sampling and hexagram calculations have not changed.
+
+`cabal test tao-of-lila-test` passes the movement examples, exact probability
+proof, compatibility checks and existing regression tests. `cabal test
+movement-statistics` runs 100,000 full castings and currently **fails**: the
+existing yarrow sampler does not match the traditional line-value frequencies.
+Consequently, aggregate `cabal test` is not green. See
+[the statistical findings](docs/responsive-journey.md#statistical-acceptance-findings).

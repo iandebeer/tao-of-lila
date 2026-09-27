@@ -83,6 +83,7 @@ export interface CastingResult {
   lowerTrigramResult: TrigramResult;
   nuclearUpperTrigramResult: TrigramResult;
   nuclearLowerTrigramResult: TrigramResult;
+  movementRule?: string;
   lilaMoveSquares: number;
 }
 

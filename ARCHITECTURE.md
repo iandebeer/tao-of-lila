@@ -171,3 +171,17 @@ The architecture should grow toward binary-keyed domain tables:
 
 The binary value should remain the primary internal identifier even when public
 APIs continue to accept or return King Wen numbers for familiarity.
+
+## Movement projection
+
+`Engine.Movement.movementFromChangingLines` derives board movement from the
+bottom-to-top changing-line positions using their sum modulo seven. The casting
+result assembler records this projection in `lilaMoveSquares` while retaining
+`changingLines` and `numberChanging` for interpretation. Sampling, heap operations,
+line values, binary hexagrams and transformations are unchanged.
+
+`movementRule` versions the recorded projection. Legacy JSON without this field
+keeps its saved movement and is labeled `changing-line-count-v1`; new results use
+`changing-line-positions-mod7-v1`. No database rewrite or historical replay is
+performed. Presentation shows the formula and recorded movement; it does not
+calculate an alternative result.

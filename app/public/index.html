@@ -68,7 +68,7 @@
         <section>
           <h2>Current field</h2>
           <div id="squares" class="square-grid"></div>
-          <p class="muted">The six smaller states are the possible destinations for one through six changing lines.</p>
+          <p class="muted">The six smaller states are the possible destinations for movements of one through six squares.</p>
         </section>
 
         <form id="question-form">
@@ -134,7 +134,7 @@
             <div class="number">${state.stateId}</div>
             <strong>${escapeHtml(state.stateName)}</strong>
             <p>${escapeHtml(state.stateDescription)}</p>
-            ${index ? `<small>${index} changing line${index === 1 ? "" : "s"}</small>` : "<small>Current state</small>"}
+            ${index ? `<small>Move ${index}</small>` : "<small>Current state</small>"}
           </article>`).join("");
 
         const question = game.gameQuestion;
@@ -156,7 +156,7 @@
           casting.prompt,
           "",
           lines || "No completed lines yet.",
-          result ? `\nComplete: ${result.numberChanging} changing lines → move ${result.lilaMoveSquares} squares\nPrimary hexagram: ${result.primaryKingWenNumber ?? "?"}\nTransformed hexagram: ${result.transformedKingWenNumber ?? "?"}` : "",
+          result ? `\nComplete: changing positions ${result.changingLines.join(", ") || "none"} → recorded movement ${result.lilaMoveSquares} squares\nPrimary hexagram: ${result.primaryKingWenNumber ?? "?"}\nTransformed hexagram: ${result.transformedKingWenNumber ?? "?"}` : "",
         ].join("\n");
       }
 
