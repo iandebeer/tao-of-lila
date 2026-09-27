@@ -5,6 +5,8 @@ module Main
   )
 where
 
+import qualified Domain.Persona as P
+import qualified Data.Text as T
 import Data.Text (Text)
 import Data.Aeson (Value (..), toJSON, encode, object, (.=), fromJSON, Result (..))
 import qualified Data.Aeson.KeyMap as KM
@@ -21,6 +23,7 @@ import Domain.Types
   , ReadingRequest (..)
   )
 import Engine.Movement (movementFromChangingLines)
+import Domain.Journey (allowedStage)
 import Domain.HexagramIndex (binaryToKingWen, kingWenToBinary)
 import Domain.Contemplation
 import qualified Engine.Casting as Casting
@@ -29,6 +32,24 @@ import Engine.Game (accessibleStateIds, applyCastingMovement)
 
 main :: IO ()
 main = do
+  let draft = P.PersonaDraft "Scholar" "An elderly fictional scholar" [] "Community responsibilities" Nothing Nothing
+  a <- either (fail . T.unpack) pure (P.newPersona 1 (P.Player 7) "2026-09-23" draft)
+  b <- either (fail . T.unpack) pure (P.newPersona 2 (P.Player 7) "2026-09-23" draft)
+  changed <- either (fail . T.unpack) pure (P.revisePersona "2026-09-24" draft {P.draftDescription="A later intervention", P.draftRevision=Just 0} a)
+  assert "one Player owns distinct Personas" (P.personaPlayerId a == P.personaPlayerId b && P.personaId a /= P.personaId b)
+  assert "editing preserves initial Persona and leaves sibling unchanged" (P.personaInitialDescription changed == P.personaDescription a && P.personaDescription b /= P.personaDescription changed)
+  assert "stale Persona edit rejected" (case P.revisePersona "later" draft changed of Left _ -> True; _ -> False)
+  let evidence = P.Evidence "event:1" P.AIInferred "question:1" 1 True "2026-09-23"
+  supported <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence a)
+  duplicate <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence supported)
+  contradicted <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence {P.evidenceId="event:2",P.evidenceSupports=False} supported)
+  assert "evidence strengthens themes with uncertainty" (map P.themeConfidence (P.personaThemes supported) == [2/3])
+  assert "duplicate evidence is idempotent" (supported == duplicate)
+  assert "contradiction weakens themes" (map P.themeConfidence (P.personaThemes contradicted) == [0.5])
+  assert "theme observations do not change initial context or siblings" (null (P.personaThemes b) && P.personaInitialDescription supported == P.personaInitialDescription a)
+  assert "AI prompt marks constructed Persona and protects Player privacy" ("fictional or constructed persona" `T.isInfixOf` P.personaPrompt a && "never factual attributes of the Player" `T.isInfixOf` P.personaPrompt a)
+  assert "archived Persona rejects edits" (case P.revisePersona "later" draft {P.draftRevision=Just 0} a {P.personaArchived=True} of Left _ -> True; _ -> False)
+
   let weights = [sum [3 ^ (6 - length positions) | mask <- [0..63 :: Int], let positions = [i+1 | i <- [0..5], testBit mask i], movementFromChangingLines positions == move] | move <- [0..6]] :: [Int]
   assert "exact independent yarrow movement probabilities" (weights == 1054 : replicate 6 507)
   let final = until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState
@@ -46,6 +67,10 @@ main = do
       assert "legacy casting keeps its recorded count-based movement" legacy
   mapM_ (\(positions, expected) -> assert ("position movement " <> show positions) (movementFromChangingLines positions == expected))
     [([],0),([1],1),([4],4),([6],6),([1,4],5),([2,5],0),([2,4,6],5),([1..6],0)]
+  assert "finalized questions cannot be edited" (all (not . allowedStage "draft") ["casting", "result", "interpretation", "reflection", "movement"])
+  assert "movement cannot be acknowledged before reflection" (all (not . allowedStage "acknowledge") ["progress", "question", "casting", "result", "interpretation", "reflection"])
+  assert "a completed movement cannot be acknowledged twice" (allowedStage "acknowledge" "movement" && not (allowedStage "acknowledge" "progress"))
+  assert "journal edits are restricted to reflection" (allowedStage "journal" "reflection" && not (allowedStage "journal" "casting"))
   assert "King Wen lookup round-trips all 64 values" (all (\n -> (kingWenToBinary n >>= binaryToKingWen) == Just n) [1..64])
   assert "King Wen lookup rejects out-of-range inputs" (all ((== Nothing) . kingWenToBinary) [-1,0,65])
   assert "direct pair changes line 2 from Yang" (pairLines 11 36 == Right [(2,9)])

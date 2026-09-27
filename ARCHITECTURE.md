@@ -20,11 +20,11 @@ The application separates three explicit concerns:
 ```text
 State and rules -> Persistent journey engine -> Rendering
        |                    |                       |
-I Ching/Leela facts   Participant history     Visual projection
+I Ching/Leela facts   Persona history     Visual projection
 ```
 
 The state and rules layer determines casting, hexagram change, movement, and
-Lila topology. The journey engine records a participant's session as events.
+Lila topology. The journey engine records a Persona's journey as events.
 The renderer receives a resolved snapshot and must not calculate movement or
 mutate the journey. Advice is a separate interpretation over recorded facts,
 not part of state transition logic.
@@ -67,23 +67,19 @@ embedding participant, persistence, or rendering concerns in casting.
 The persistent model grows around this ownership hierarchy:
 
 ```text
-Participant
-  Profile
-    GameSession
-      GameState
-      GameEvent
-        Question
-        IChingCasting (including raw yarrow rounds)
-        Movement
-        JournalEntry
-        Advice
+Player (authenticated User)
+  Persona (many per Player; constructed identity)
+    Avatar (visual representation)
+    Journey (existing GameSession; one resumable journey initially)
+      GameState / workflow
+      GameEvent / Question / casting / journal / advice
 ```
 
 `GameState` is the current projection of a session. `GameEvent` is the durable
 record of how it changed. Events are append-only so the journey can be replayed
 instead of merely overwriting a current position.
 
-A question belongs to a participant's encounter recorded by a game event. It
+A question belongs to a Persona's encounter recorded by a game event. It
 does not belong to the shared Lila state definition. Journal entries and advice
 have the same event context, while canonical Lila and I Ching source material
 remain shared domain data.
@@ -108,7 +104,7 @@ positions, accessible positions, special transitions, hexagram and trigram
 results, changing lines, and resolved movement. It renders the relevant local
 neighbourhood rather than requiring the full 72-state topology.
 
-The Lila field answers where the participant is and can move. The I Ching view
+The Lila field answers where the Persona is and can move. The I Ching view
 describes the pattern of change through lines, trigrams, and symbols. These are
 two visual coordinate systems for one event; neither owns or computes the other.
 
@@ -205,3 +201,53 @@ keeps its saved movement and is labeled `changing-line-count-v1`; new results us
 `changing-line-positions-mod7-v1`. No database rewrite or historical replay is
 performed. Presentation shows the formula and recorded movement; it does not
 calculate an alternative result.
+
+## Persona foundation and impact assessment
+
+Before this evolution, `Domain.Game.User` and PostgreSQL `users` represented the
+account, while `game_sessions.user_id UNIQUE` and `journey_workflows.user_id`
+implied one account = one game piece. `JourneyState` represented position;
+`questions`, `game_events`, and `contemplations` already held session/event-owned
+questions, castings, journals and interpretations. `Domain.Journey` and
+`Persistence.Journey` own responsive orchestration; `API.Server` is the API
+specification. There was no Avatar entity, external schema directory, or ADR
+system. README, this document, docs/architecture.md, docs/category-theory.md,
+docs/responsive-journey.md, ROADMAP and the Category of Tao book are the relevant
+manifests/design material; historical book notes remain historical.
+
+The migration preserves session/event IDs and JSON casting/workflow snapshots.
+Existing journeys receive a neutral Legacy persona, without treating the account
+name as a Persona description. New accounts create Personas explicitly. Auth
+sessions select a Persona; requests capture that selection during authentication.
+The old `/game` and `/journey-session` APIs operate on that selection. A Player
+may select different Personas in separate login sessions. No selection yields a
+conflict asking for selection rather than inventing or overwriting a journey.
+
+`Domain.Persona` owns constructed identity, initial and evolving attributes,
+evidence-weighted themes, avatar, and a dormant relationship boundary. Persistence
+records revision snapshots and gameplay changes in an audit table. Initial context
+is immutable; later Player edits and AI evidence remain distinguishable. Theme
+confidence is an evidence ratio, not a calibrated probability or diagnosis.
+AI suggestions are inspectable data; they never silently replace Player context.
+
+API: authenticated GET/POST `/personas`, GET/PUT `/personas/:id`, POST
+`/personas/:id/select`, POST `/personas/:id/journey`, and DELETE `/personas/:id`
+(archive only). Updating uses the returned revision; archive preserves all history.
+GET `/personas/:id/question-context` supplies constructed Persona context, current
+state, history, recent casting history, themes and unresolved questions for a
+future question generator. Question proposals and edits retain separate records.
+
+The Leela Field is shared symbolic material inhabited by independent Personas.
+Current awareness is Level 0 (Independent). Future levels are Resonance, Encounter,
+Influence and Relationship. A future relationship can carry two Persona IDs,
+open-ended type, timestamps, evidence/confidence, awareness and interaction
+history. Board, thematic, I Ching, trigram, temporal, historical and question
+proximity remain separate ideas, with no compatibility score. Relationships,
+awareness, influence and cross-player interaction have no gameplay implementation.
+
+Avatar is deliberately separate from Persona. Future visual changes may accumulate
+trigram, element, colour, clothing, object, posture and environment motifs from a
+journey; no simplistic emotion-to-appearance mapping is implemented. Initial
+attributes accept open-ended structured values (for example life_stage,
+material_circumstances, health_or_vitality, social_context, responsibilities,
+aspirations, tensions and worldview) alongside natural language, never diagnoses.

@@ -1,5 +1,31 @@
 # The Tao of Lila
 
+The Player does not enter the Leela board directly. The Player creates and guides
+one or more Personas. It is the Persona that enters the symbolic field of Leela,
+moves through states, encounters the I Ching, asks questions, accumulates history
+and undergoes transformation.
+
+**Player → many Personas → independent Journeys.** A Persona is a constructed
+identity, not an avatar, account profile, or journey. Its avatar is a visual
+representation; its journey records position, castings, questions and reflections.
+Initial characteristics are Player-authored narrative context; emergent themes
+retain evidence and uncertainty without overwriting that origin.
+
+Tao of Leela does not build a psychological model of its Player. A Persona may be
+an elderly scholar, a fictional character, or someone in circumstances unlike the
+Player's own. These descriptions never assert facts about the Player. Player,
+Observer, Persona and Interpretation remain distinct; personal parallels belong
+to the Player to recognise. **AI proposes; the Player disposes.** Questions may be
+accepted, edited or replaced; edits are creative interventions, not psychological
+signals about the Player. AI interpretation is assistance, not authority.
+
+The board is the **Leela Field**, currently inhabited by independent Personas.
+The affinity with Hermann Hesse's *The Glass Bead Game* is a design intention:
+depth can grow through recognising relationships among Leela, I Ching, changing
+lines, trigrams, Taoist ideas, Personas, questions, symbols, history and reflection,
+rather than competition or optimisation. This introduces no new gameplay rule.
+
+
 The Tao of Lila is an interactive contemplative system combining the traditional
 Leela game with the cosmology and divination framework of the I Ching. The
 project aims to produce a historically respectful yet original digital
@@ -182,13 +208,20 @@ network access. Live output quality is assessed separately with the command abov
 - `POST /interpret` returns only the interpretation for a reading request.
 The authenticated prototype API uses `Authorization: Bearer <token>`:
 
-- `POST /auth/register` creates a user and initial game session.
+- `POST /auth/register` creates a Player account; create/select a Persona next.
 - `POST /auth/login` creates a bearer session.
+- `GET/POST /personas` lists or creates Personas; `GET/PUT /personas/<id>`
+  reads or edits one, preserving its initial context.
+- `POST /personas/<id>/select` selects the Persona for this bearer session;
+  `POST /personas/<id>/journey` selects and resumes its journey.
+- `DELETE /personas/<id>` archives without deleting history.
+- `GET /personas/<id>/question-context` returns Persona-specific generation context;
+  `GET /personas/<id>/history` exposes audit records.
 - `GET /game` returns the current square, six reachable squares, question,
   casting, and recent journey events.
 - `POST`, `PUT`, and `DELETE /game/question[/<id>]` manage the current
   encounter's question.
-- `POST /game/casting/new` begins a per-user casting.
+- `POST /game/casting/new` begins a casting for the selected Persona.
 - `POST /game/casting/next` advances the yarrow engine and persists movement
   when casting completes.
 - `PUT /game/journal/<event-id>` creates or updates an event journal entry.

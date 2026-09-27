@@ -17,6 +17,8 @@ library
   import:           warnings
   exposed-modules:  API.Server
                   , Domain.Contemplation
+                  , Domain.Persona
+                  , Domain.Journey
                   , Domain.Game
                   , Domain.HexagramIndex
                   , Domain.Loading
@@ -28,6 +30,9 @@ library
                   , Interpretation.Engine
                   , Interpretation.ContemplationModel
                   , Interpretation.OpenAI
+                  , Persistence.PersonaSchema
+                  , Persistence.Persona
+                  , Persistence.Journey
                   , Persistence.Postgres
   hs-source-dirs:   src
   build-depends:    base >=4.17 && <5
@@ -74,16 +79,6 @@ test-suite tao-of-lila-test
                   , text
   default-language: Haskell2010
 
-test-suite movement-statistics
-  import:           warnings
-  type:             exitcode-stdio-1.0
-  main-is:          Main.hs
-  hs-source-dirs:   test/movement-statistics
-  build-depends:    base >=4.17 && <5
-                  , tao-of-lila
-  default-language: Haskell2010
-
-
 executable tao-of-lila-interpretation-test
   import:           warnings
   main-is:          Main.hs
@@ -98,4 +93,27 @@ executable tao-of-lila-interpretation-test
                   , servant
                   , servant-server
                   , warp
+  default-language: Haskell2010
+
+test-suite movement-statistics
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test/movement-statistics
+  build-depends:    base >=4.17 && <5
+                  , tao-of-lila
+  default-language: Haskell2010
+
+test-suite persona-persistence
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test/persona-persistence
+  build-depends:    base >=4.17 && <5
+                  , tao-of-lila
+                  , postgresql-simple
+                  , aeson
+                  , bytestring
+                  , text
+                  , time
   default-language: Haskell2010

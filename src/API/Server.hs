@@ -6,8 +6,12 @@ module API.Server (API, app) where
 
 import Control.Exception (try)
 import Control.Monad.IO.Class (liftIO)
-import Data.Aeson (encode, object, (.=))
+import Data.Aeson (Value, encode, object, (.=))
 import Data.Text (Text)
+import Domain.Persona (Persona, PersonaDraft)
+import qualified Persistence.Persona as Persona
+import Domain.Journey (JourneyCommand)
+import qualified Persistence.Journey as Journey
 import Domain.Game
 import Domain.Contemplation (ContemplationContext, ContemplationView, CostSummary)
 import Domain.Types (DomainData (..), Health (..), Hexagram, Interpretation, LeelaState, Reading (..), ReadingRequest)
@@ -45,6 +49,18 @@ type API =
     :<|> "game" :> "contemplation" :> Capture "eventId" Int :> Protected :> Post '[JSON] ContemplationView
     :<|> "game" :> "contemplation-context" :> Capture "eventId" Int :> Protected :> Get '[JSON] ContemplationContext
     :<|> "game" :> "contemplation-costs" :> Protected :> Get '[JSON] CostSummary
+    :<|> "journey-session" :> Protected :> Get '[JSON] Value
+    :<|> "journey-session" :> Protected :> ReqBody '[JSON] JourneyCommand :> Post '[JSON] Value
+    :<|> "personas" :> Protected :> Get '[JSON] [Persona]
+    :<|> "personas" :> Protected :> ReqBody '[JSON] PersonaDraft :> Post '[JSON] Persona
+    :<|> "personas" :> Capture "personaId" Int :> Protected :> Get '[JSON] Persona
+    :<|> "personas" :> Capture "personaId" Int :> Protected :> ReqBody '[JSON] PersonaDraft :> Put '[JSON] Persona
+    :<|> "personas" :> Capture "personaId" Int :> Protected :> Delete '[JSON] Persona
+    :<|> "personas" :> Capture "personaId" Int :> "select" :> Protected :> Post '[JSON] Persona
+    :<|> "personas" :> Capture "personaId" Int :> "journey" :> Protected :> Post '[JSON] Value
+    :<|> "personas" :> Capture "personaId" Int :> "question-context" :> Protected :> Get '[JSON] Value
+    :<|> "personas" :> Capture "personaId" Int :> "history" :> Protected :> Get '[JSON] [Value]
+    :<|> "personas" :> Capture "personaId" Int :> "themes" :> Capture "theme" Text :> Protected :> Delete '[JSON] Persona
     :<|> "health" :> Get '[JSON] Health
     :<|> "casting" :> "initial" :> Get '[JSON] CastingState
     :<|> "casting" :> "next" :> ReqBody '[JSON] CastingState :> Post '[JSON] CastingState
@@ -71,6 +87,20 @@ app staticDirectory domain store model = serve (Proxy :: Proxy API) server
         :<|> (\eventId authorization -> withUser store (\user -> contemplateEvent store domain model user eventId) authorization)
         :<|> (\eventId authorization -> withUser store (\user -> contemplationContext store domain user eventId) authorization)
         :<|> withUser store (contemplationCosts store)
+        :<|> withUser store (Journey.getJourney store domain)
+        :<|> (\authorization command -> withUser store (\user -> Journey.commandJourney store domain user command) authorization)
+        :<|> withUser store (Persona.listPersonas store)
+        :<|> (\authorization draft -> withUser store (\user -> Persona.createPersona store user draft) authorization)
+        :<|> (\ident authorization -> withUser store (\user -> Persona.getPersona store user ident) authorization)
+        :<|> (\ident authorization draft -> withUser store (\user -> Persona.updatePersona store user ident draft) authorization)
+        :<|> (\ident authorization -> withUser store (\user -> Persona.archivePersona store user ident) authorization)
+        :<|> (\ident authorization -> withUser store (\user -> Persona.selectPersona store user (maybe "" id authorization) ident) authorization)
+        :<|> (\ident authorization -> withUser store (\user -> do
+              _ <- Persona.selectPersona store user (maybe "" id authorization) ident
+              Journey.getJourney store domain user {userPersonaId = Just ident}) authorization)
+        :<|> (\ident authorization -> withUser store (\user -> Persona.questionContext store domain user ident) authorization)
+        :<|> (\ident authorization -> withUser store (\user -> Persona.personaHistory store user ident) authorization)
+        :<|> (\ident theme authorization -> withUser store (\user -> Persona.rejectTheme store user ident theme) authorization)
         :<|> pure (Health "ok" "tao-of-lila")
         :<|> pure initialCastingState
         :<|> (pure . nextCastingState)

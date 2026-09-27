@@ -70,22 +70,17 @@ Define a category `T`, the Tao cosmology category.
 This category should remain symbolic and carefully curated. It informs Bagua,
 trigram, and cosmological metadata without collapsing them into game mechanics.
 
-## Player Category
+## Persona and the observing Player
 
-A player is not merely a token. A player is an evolving contextual object `P`.
+The Player guides one or more constructed Personas. Journey history, intention,
+current Leela state, hexagrams and reflections belong to each Persona's journey,
+not to a psychological model of the real Player. A Persona's identity need not
+be an immutable essence: it can be understood through transformations, history,
+encounters, relationships, and arrows into and out of it. A future relationship
+`Persona A → Persona B` may become as meaningful as either object.
 
-The player carries:
-
-- history
-- intention
-- karma
-- current Leela state
-- current hexagram
-- reflections
-
-Player morphisms include experience, reflection, choice, chance, commitment, and
-integration. The engine should model these as explicit events or transitions
-rather than hidden UI state.
+This is philosophical guidance, not a requirement for literal categorical classes.
+The Player observes and chooses; interpretation remains the Player's prerogative.
 
 ## Functors
 
@@ -146,7 +141,7 @@ hexagram or movement model.
 
 ## Monoidal Structure
 
-Player transformation rarely comes from one input alone. Reflection, meditation,
+Persona transformation rarely comes from one input alone. Reflection, meditation,
 coin toss, yarrow stalks, dice, hexagram change, and board movement can combine.
 
 This suggests a monoidal structure:
@@ -176,11 +171,11 @@ consistent way while preserving the category.
 
 ## Monad
 
-The player carries context. A monad is the right conceptual model for
+The Persona carries journey context. A monad is the right conceptual model for
 context-aware transformation:
 
 ```text
-Player a -> Reflection -> Transformation -> Player b
+Persona a -> Reflection -> Transformation -> Persona b
 ```
 
 The project should not force a monad abstraction before it is needed, but future
@@ -195,7 +190,7 @@ single category.
 One layer represents objective game transitions:
 
 ```text
-Player moves from Faith to Compassion
+Persona moves from Faith to Compassion
 ```
 
 Another layer represents subjective interpretation:
@@ -206,7 +201,7 @@ Understanding moves toward Forgiveness
 
 These layers interact but are not identical. A bicategorical model leaves room
 for both the concrete mechanics of the board and the evolving meaning of the
-player's journey.
+Persona's journey.
 
 ## Whole System
 
@@ -218,7 +213,7 @@ Tao
   -> Hexagram category
   -> Tao of Lila functor
   -> Consciousness category
-  -> Player monad
+  -> Persona context
   -> Reflection monad
 ```
 

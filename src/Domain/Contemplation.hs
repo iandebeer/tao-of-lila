@@ -86,6 +86,9 @@ instance ToJSON ChangingLineContext
 
 data ContemplationContext = ContemplationContext
   { contemplationLeelaState :: LeelaState
+  , contemplationPreviousLeelaState :: Maybe LeelaState
+  , contemplationCastingFacts :: Maybe CastingResult
+  , contemplationPersonaContext :: Maybe Text
   , contemplationQuestion :: Text
   , contemplationPrimaryHexagram :: HexagramText
   , contemplationChangingLines :: [ChangingLineContext]
@@ -169,7 +172,7 @@ buildContemplationContext leela question casting = do
   primary <- maybe (Left "Canonical text for the primary hexagram is not seeded") Right (lookupHexagramText primaryNumber)
   resulting <- maybe (Left "Canonical text for the resulting hexagram is not seeded") Right (lookupHexagramText resultingNumber)
   activeLines <- traverse (lineContext primary (primaryBinaryValue casting)) (changingLines casting)
-  pure (ContemplationContext leela question primary activeLines resulting)
+  pure (ContemplationContext leela Nothing (Just casting) Nothing question primary activeLines resulting)
 
 -- Supply the observed pair directly, without simulating a casting or movement.
 buildPairContemplationContext :: LeelaState -> Text -> Int -> Int -> Either Text ContemplationContext
@@ -180,7 +183,7 @@ buildPairContemplationContext leela question primaryNumber resultingNumber = do
   resulting <- resolveText resultingNumber
   let changed = [line | line <- [1 .. 6], testBit (primaryBinary `xor` resultingBinary) (line - 1)]
   activeLines <- traverse (lineContext primary primaryBinary) changed
-  pure (ContemplationContext leela question primary activeLines resulting)
+  pure (ContemplationContext leela Nothing Nothing Nothing question primary activeLines resulting)
   where
     resolveNumber label number = maybe
       (Left (label <> " King Wen number must be between 1 and 64")) Right

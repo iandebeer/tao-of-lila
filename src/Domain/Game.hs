@@ -31,6 +31,7 @@ instance ToJSON AuthRequest
 data User = User
   { userId :: Int
   , username :: Text
+  , userPersonaId :: Maybe Int
   }
   deriving (Eq, Show, Generic)
 
@@ -48,6 +49,7 @@ instance ToJSON AuthResponse
 
 data JourneyState = JourneyState
   { journeySessionId :: Int
+  , journeyPersonaId :: Int
   , journeyCurrentStateId :: Int
   , journeyPreviousStateId :: Maybe Int
   }
@@ -61,6 +63,8 @@ data Question = Question
   , questionSessionId :: Int
   , questionStateId :: Int
   , questionText :: Text
+  , questionAIProposedText :: Maybe Text
+  , questionFinalizedAt :: Maybe Text
   }
   deriving (Eq, Show, Generic)
 
