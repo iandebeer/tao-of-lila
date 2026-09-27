@@ -1,106 +1,74 @@
 # Concept Graph
 
-This file is the conceptual map from which the book grows. Every chapter,
-argument, diagram, and example should be traceable back to this graph.
+The book grows through a sequence of relationships. The chapter numbers follow
+[the working outline](outline.md); definitions and limits of analogy belong in
+[the glossary](glossary.md).
 
 ```text
-Tao
-├── Namelessness
-│   ├── The limit of language
-│   ├── The limit of formalization
-│   ├── The role of silence
-│   └── The boundary that cannot contain itself
-│       ├── The paradox of totality
-│       ├── Russell's paradox
-│       ├── Gödel incompleteness
-│       ├── Nāgārjuna and emptiness of emptiness
-│       └── Tao that cannot become a thing
-│
-├── Change
-│   ├── Transformation
-│   ├── Process
-│   ├── Return
-│   ├── Reversal
-│   └── Emergence
-│
-├── Yin and Yang
-│   ├── Polarity
-│   ├── Complementarity
-│   ├── Balance
-│   └── Mutual arising
-│
-├── Category Theory
-│   ├── Objects
-│   ├── Morphisms
-│   ├── Identity
-│   ├── Composition
-│   ├── Functors
-│   ├── Natural transformations
-│   ├── Monads
-│   │   ├── Endofunctor, unit, multiplication
-│   │   ├── Context rather than container
-│   │   └── join: m (m a) -> m a
-│   ├── Monoidal structure
-│   ├── Universal properties
-│   └── Limits and colimits
-│
-├── I Ching
-│   ├── Trigrams
-│   ├── Hexagrams
-│   ├── Nuclear trigrams
-│   ├── Changing lines
-│   ├── Casting
-│   └── Interpretation
-│
-├── Tao Te Ching
-│   ├── Wu Wei
-│   ├── Emptiness
-│   │   ├── Dependent arising
-│   │   ├── Absence of svabhāva
-│   │   ├── Emptiness of emptiness
-│   │   ├── Usefulness of the hollow (TTC 11)
-│   │   └── Vol-ledig (full / empty)
-│   ├── Softness
-│   ├── Return
-│   ├── Reversal
-│   └── The ten thousand things
-│
-├── Neigong
-│   ├── Stillness
-│   ├── Breath
-│   ├── Transformation
-│   ├── Yin/Yang
-│   ├── Return
-│   └── Embodiment
-│
-└── The Tao of Lila
-    ├── Leela states
-    ├── Player journey
-    ├── Oracle
-    ├── Reflection
-    ├── Category of consciousness
-    └── Interactive contemplative instrument
+Part I — The Arrow
+  1. Crossing → morphism → composition
+     River; Anderkant nêrens; farther shore; finger and moon; Laozi 25 and 40
+     Seed: could a thing be known through its relationships?
+  2. Return → isomorphism → structural sameness without equality
+     Traveller and shore; moon and water; Laozi 40
+  3. Hungry stranger → more → enough → identity and idempotence
+     Wahe Guru; monoid; Laozi 44 and 48
+     Diminishing predicates → neti neti → Sat–Chit–Ānanda
+     Consciousness is a question, not a property of mathematical identity
+
+Part II — The Ten Thousand Things
+  4. One and many → products / coproducts → universal properties
+     Laozi 42; characterization through unique relationships
+  5. Reversal of arrows → opposite category → duality
+     A conversation with yin and yang, not an identification
+  6. Form and emptiness → dependence → relational characterization
+     Heart Sutra; śūnyatā is neither zero nor the empty set
+
+Part III — Relationship
+  7. Streams and paths → composition → commutative diagrams and coherence
+  8. Translation → functors → preservation of identity and composition
+  9. Changing perspective → natural transformations → coherence
+ 10. Situated action → monads / Kleisli arrows / comonads
+     Tree and soil; person and community; context and consequence
+ 11. Complementary directions → adjunction → mutual fit
+
+Part IV — Mother and Master
+ 12. Arising and returning → Mother and children → limits of objectification
+     Laozi 51 and 52; reversed attention need not mean inverse morphisms
+ 13. The opening question returns → Hom(-, A) → Yoneda
+     Relational profile determines an object up to isomorphism
+     The Master is contemplated through relationships, not proved by a theorem
+ 14. Knowing → acting → wu wei
+     Identity revisited as an image of participation without imposition
+     Give rise without possessing; act without claiming; nourish without ruling
+     Relinquish the arrow as another finger pointing at the moon
 ```
 
-## Working Relationships
+## Threads that return
 
-- Tao describes the ungraspable source and movement of transformation.
-- The search for a final container (Russell, Gödel, Nāgārjuna, Laozi) turns
-  attention from objects toward relation and transformation.
-- The categorical monad is used as a metaphor for context that can encounter
-  itself without becoming another substance or a larger container.
-- Afrikaans and English are different domains: translation preserves some
-  structure and necessarily transforms other structure; *Vol-ledig* is a hinge
-  that does not map cleanly.
-- The I Ching gives images and procedures for consulting transformation.
-- Category theory gives a precise language for relationships and composition.
-- Neigong grounds transformation in embodied practice.
-- The Tao of Lila turns these relationships into an interactive instrument.
+- **River and crossing:** experience in Chapter 1, composition in Chapter 7,
+  the relinquished arrow in Chapter 14.
+- **Identity:** structural sameness in Chapter 2, sufficiency and diminishing
+  predicates in Chapter 3, participation without imposition in Chapter 14.
+- **Relational knowledge:** the opening question, universal properties in
+  Chapter 4, emptiness in Chapter 6, Yoneda in Chapter 13.
+- **Arising and return:** Laozi 40, duality in Chapter 5, Mother and children
+  in Chapter 12. Return is not automatically an inverse.
+- **Translation:** Afrikaans with an English handrail; functors in Chapter 8;
+  distinct traditions brought into conversation without being equated.
+- **Nothing:** relinquished claims and possession in Chapters 13–14, carefully
+  distinguished from nonexistence, zero and Buddhist emptiness.
 
-## Open Questions
+## Supporting branches
 
-- Where does analogy clarify, and where does it overreach?
-- Which category-theoretic structures are genuinely useful for the book's
-  argument?
-- Which concepts require diagrams before prose?
-- How can the book remain historically respectful while still being original?
+The I Ching, Leela, Neigong and the earlier container/context exploration remain
+available in [notes](notes/chapter-ideas.md) and the
+[preserved drafts](notes/previous-architecture/README.md). They support the
+current progression where they illuminate it rather than determine a competing
+chapter order. *Vol-ledig* remains a possible bilingual contribution to Chapter 6.
+
+## Method
+
+Experience → image → mathematics. Every correspondence must illuminate the
+passage. Category theory does not define Tao, establish consciousness or prove
+non-duality. The equation is a finger. It is not the moon.

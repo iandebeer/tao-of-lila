@@ -1,7 +1,8 @@
 # The Category of Tao
 
-A philosophical and mathematical exploration of the Tao Te Ching, the I Ching,
-and Category Theory.
+A philosophical and mathematical exploration of the Tao Te Ching and category
+theory, in conversation with Buddhist and Vedantic traditions. The I Ching and
+The Tao of Lila remain part of the project’s background and supporting material.
 
 The purpose of this work is not to prove that ancient Chinese philosophy
 anticipated modern mathematics.
@@ -16,16 +17,24 @@ The Category of Tao
 
 ## North Star
 
-This book treats Taoist philosophy, the I Ching, and category theory as three
-languages for transformation. The aim is not to collapse them into one another,
-but to let each illuminate the others without reducing their differences.
+The book moves from the arrow through return, identity, multiplicity, emptiness
+and relationship toward wu wei. Yoneda brings the relational question to its
+mathematical culmination in Chapter 13; Chapter 14 turns from knowing to acting.
+The traditions converse without becoming identical, and no theorem defines Tao
+or proves a claim about consciousness.
 
 ## Project Shape
 
-- `outline.md` keeps the evolving structure lightweight.
+- [outline.md](outline.md) gives the four-part, fourteen-chapter reading order.
+- [glossary.md](glossary.md) collects mathematical and contemplative terms,
+  recurring images, and the limits of their correspondences.
 - `concept-graph.md` maps the relationships from which the book grows.
 - `preface.md` and `introduction.md` frame the project.
-- `chapters/` contains one Markdown file per chapter.
+- `chapters/` contains one Markdown file per chapter and an appendix. Chapter 3
+  retains the developed identity draft; the other chapters contain the supplied
+  working passages and directions for expansion.
+- [Earlier drafts](notes/previous-architecture/README.md) preserve displaced
+  material and explain where it can contribute to the new architecture.
 - `notes/` collects raw ideas before they are promoted into chapters
   (including bilingual material such as `notes/vol-ledig.md`).
 - `figures/`, `diagrams/`, and `references/` remain available for supporting
@@ -33,6 +42,9 @@ but to let each illuminate the others without reducing their differences.
 
 ## Writing Principles
 
+- Begin with experience, develop an image, then introduce mathematics.
+- Keep a correspondence only when it illuminates the passage.
+- The equation is a finger. It is not the moon.
 - Keep chapters small enough for focused editing in Cursor.
 - Put fragments and sparks in `notes/` before polishing them.
 - Prefer clear relationships over premature conclusions.

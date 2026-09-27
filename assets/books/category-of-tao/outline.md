@@ -1,86 +1,102 @@
-# Outline
+# CATEGORY OF TAO
 
-This outline is intentionally light. Chapter names may change as the book
-matures.
+## Working architecture
 
-## Preface
+The reading order follows four parts, from the arrow to unforced action.
+Chapter files retain working passages and development directions; they are not
+yet a finished manuscript.
 
-Why this book exists, why it belongs beside The Tao of Lila, why Markdown is the
-right medium for developing it, and why Afrikaans may remain where an insight
-originated.
+[Preface](preface.md) · [Introduction](introduction.md)
 
-## Introduction: Why Another Book?
+## Part I — The Arrow
 
-The central question: what becomes visible when the Tao Te Ching, the I Ching,
-and category theory are read as languages of transformation?
+### [Chapter 1 — The Way Is the Arrow](chapters/01-the-way-is-the-arrow.md)
 
-## Part I: The Tao
+*Morphism, relationship, crossing, composition*
 
-### Chapter 1: The Monad and the Tao
+### [Chapter 2 — The Way of Return](chapters/02-the-way-of-return.md)
 
-Working heading. The temptation of a final container; Russell, Gödel,
-Nāgārjuna, and Laozi on self-reference; the categorical monad as a metaphor
-for context that can encounter itself without becoming another object.
+*Isomorphism, sameness, difference, return*
 
-### Chapter 2: Change Before Objects
+### [Chapter 3 — The Idempotency of Identity](chapters/03-the-idempotency-of-identity.md)
 
-Process before substance; relation before isolated identity.
+*Monoid, identity, idempotence, consciousness, enough*
 
-### Chapter 3: The Birth of the Ten Thousand Things
+## Part II — The Ten Thousand Things
 
-Differentiation from unity, emergence, and the first language of distinction.
+### [Chapter 4 — The One and the Many](chapters/04-the-one-and-the-many.md)
 
-## Part II: Thinking Categorically
+*Products, coproducts, universal properties*
 
-### Chapter 4: Objects and Relationships
+### [Chapter 5 — The Other Way Around](chapters/05-the-other-way-around.md)
 
-Objects as positions in a web of morphisms.
+*Opposite categories, duality, yin and yang*
 
-### Chapter 5: Composition
+### [Chapter 6 — Form and Emptiness](chapters/06-form-and-emptiness.md)
 
-The discipline of lawful transformation.
+*Śūnyatā, relation, universal characterization*
 
-### Chapter 6: Universality
+## Part III — Relationship
 
-Patterns that remain stable across contexts.
+### [Chapter 7 — Ways That Agree](chapters/07-ways-that-agree.md)
 
-## Part III: The I Ching
+*Composition, commutative diagrams, coherence*
 
-### Chapter 7: The Eight Trigrams
+### [Chapter 8 — Between Worlds](chapters/08-between-worlds.md)
 
-Bagua as a relational grammar of change.
+*Functors*
 
-### Chapter 8: Hexagrams
+### [Chapter 9 — Transformation of Perspective](chapters/09-transformation-of-perspective.md)
 
-Sixty-four images of transformation.
+*Natural transformations*
 
-### Chapter 9: Changing Lines
+### [Chapter 10 — Context and Consequence](chapters/10-context-and-consequence.md)
 
-Morphisms inside the oracle.
+*Monads, Kleisli arrows, comonads*
 
-### Chapter 10: The Oracle
+### [Chapter 11 — Mutual Fit](chapters/11-mutual-fit.md)
 
-Casting, interpretation, and the movement from sign to counsel.
+*Adjunction*
 
-## Part IV: Conversations
+## Part IV — Mother and Master
 
-### Chapter 11: Wu Wei
+### [Chapter 12 — The Mother and the Ten Thousand Things](chapters/12-the-mother-and-the-ten-thousand-things.md)
 
-Action, non-forcing, and natural transformation.
+*Chapters 51 and 52*
 
-### Chapter 12: Emptiness
+### [Chapter 13 — The Master Has No Name](chapters/13-the-master-has-no-name.md)
 
-The usefulness of absence and the structure of possibility; *Vol-ledig* as a
-bilingual hinge between fullness and emptiness.
+*Yoneda*
 
-### Chapter 13: Return
+### [Chapter 14 — Wu Wei](chapters/14-wu-wei.md)
 
-Cycles, recurrence, and the morphism of reversal.
+*The action that does not force*
 
-### Chapter 14: The Category of Tao
+## Supporting material
 
-The proposed synthesis and its limits.
+- [Working glossary](glossary.md)
+- [Concept graph](concept-graph.md)
+- [Appendix](chapters/appendix.md)
+- [Earlier drafts and migration notes](notes/previous-architecture/README.md)
 
-## Epilogue
+## A rule for the remainder of the book
 
-What remains unnamed.
+Every mathematical concept should pass through three stages:
+
+**Experience → image → mathematics.**
+
+The reader should encounter the idea before encountering the notation.
+
+Every correspondence should also pass one test:
+
+> **Does the categorical concept illuminate the Taoist passage, or are we merely looking for somewhere to attach mathematics?**
+
+Where the correspondence illuminates, retain it.
+
+Where it merely decorates, remove it.
+
+And throughout:
+
+\[
+\boxed{\text{The equation is a finger. It is not the moon.}}
+\]
