@@ -260,6 +260,22 @@ an O(1) lookup table.
 - `docs/category-theory.md` defines the conceptual model of transformations.
 - `docs/yarrow-casting.md` defines the numerical yarrow casting state engine.
 
+## Responsive journey
+
+Open `/journey/` on the API server for the guided Question → Casting → Result →
+Interpretation → Reflection → Movement cycle. Casting and movement remain in
+the existing Haskell engines. The new workflow persists the active screen,
+question, casting/animation snapshot and journal; acknowledgment updates progress.
+
+Open `/journey/?demo&scenario=ordinary#splash` for the complete deterministic
+preview without an account or AI calls. Nine scenarios cover changing-line counts,
+special-transition fixtures, long text, interruption and completion. Live ladder,
+snake and terminal rules remain unavailable in the current domain model.
+
+See [architecture, persistence and acceptance notes](docs/responsive-journey.md).
+Build the integrated animation with `npm run build:journey --prefix
+web/yarrow-casting`; run `cabal test` and `node scripts/journey-test.mjs`.
+
 ### Movement from changing-line positions
 
 New castings derive movement with `sum(changingLines) mod 7`, where line 1 is

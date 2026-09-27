@@ -4,7 +4,8 @@
   "description": "Isolated TypeScript ceremony layer for the Haskell yarrow casting engine.",
   "scripts": {
     "build": "esbuild src/main.ts --bundle --outfile=../../app/public/yarrow/casting.js --target=es2020 --minify",
-    "watch": "esbuild src/main.ts --bundle --outfile=../../app/public/yarrow/casting.js --target=es2020 --sourcemap --watch"
+    "watch": "esbuild src/main.ts --bundle --outfile=../../app/public/yarrow/casting.js --target=es2020 --sourcemap --watch",
+    "build:journey": "esbuild src/journey.ts --bundle --format=esm --outfile=../../app/public/journey/ceremony.js --target=es2020 --minify"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"

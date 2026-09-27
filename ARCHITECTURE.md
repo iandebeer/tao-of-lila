@@ -188,6 +188,26 @@ shell (`app/interpretation-test/Web.hs`) exposes `GET /api/states`,
 changing-line derivation stay in Haskell. The API key stays in the server
 process. These test endpoints are not added to the public journey API.
 
+## Responsive journey workflow
+
+`app/public/journey/` is a separate responsive presentation layer with hash routing,
+shared components and an isolated authentication/JSON adapter. `/journey-session`
+provides its durable projection and revision-checked commands. `Domain.Journey`
+defines workflow stages; `Persistence.Journey` coordinates the existing casting,
+movement and interpretation services under a session row lock.
+
+The responsive workflow records a completed casting event before interpretation,
+then applies the engine-resolved movement only after reflection and acknowledgment.
+Questions cannot be edited during or after casting. The existing prototype retains
+its original orchestration, with conflicting mutations blocked while a responsive
+encounter is active. No casting or movement rule is implemented in JavaScript.
+
+The integrated ceremony imports the existing renderer/choreography through
+`web/yarrow-casting/src/journey.ts`. Engine snapshots and visual phases are saved
+separately; visual metadata is validated against the server-owned engine snapshot.
+See [responsive journey](docs/responsive-journey.md) for recovery semantics,
+contract changes, domain gaps and validation status.
+
 ## Movement projection
 
 `Engine.Movement.movementFromChangingLines` derives board movement from the
