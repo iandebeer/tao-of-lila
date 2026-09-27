@@ -7,3 +7,7 @@ dist-newstyle/
 tao-of-lila-api
 .runtime/
 node_modules/
+
+# Local OS metadata and generated publications
+.DS_Store
+output/

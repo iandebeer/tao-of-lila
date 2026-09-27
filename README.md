@@ -253,6 +253,10 @@ an O(1) lookup table.
 
 ## More Docs
 
+- [Introduction and promotional pamphlet](docs/introduction-pamphlet.md): the invitation, experience and prototype scope.
+- [User manual](docs/user-manual.md): Persona creation, a first encounter, recovery and troubleshooting.
+- [Developer manual](docs/developer-manual.md): concepts mapped to Haskell, tables, routes and workflow transitions.
+
 - `ARCHITECTURE.md` describes the functional-core architecture and boundaries.
 - `ROADMAP.md` tracks planned product and domain-model work.
 - `AGENTS.md` gives guidance for AI agents working in this repository.
