@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I Ching · Interpretation test</title>
+<link rel="stylesheet" href="style.css">
+<script src="test.js" defer></script>
+</head>
+<body>
+<main>
+<header><p class="eyebrow">TAO OF LILA / INTERPRETATION LAB</p><h1>Two hexagrams.<br>A space for reflection.</h1><p class="intro">Explore a casting by entering its primary and resulting King Wen numbers.</p></header>
+<div class="layout">
+<section class="card input-card" aria-labelledby="input-title">
+<h2 id="input-title">Your casting</h2>
+<form id="casting-form">
+<div class="pair"><label>Primary hexagram<input id="primary" name="primary" type="number" min="1" max="64" step="1" value="11" required><span>The starting hexagram</span></label><span class="arrow" aria-hidden="true">→</span><label>Resulting hexagram<input id="resulting" name="resulting" type="number" min="1" max="64" step="1" value="36" required><span>The hexagram after change</span></label></div>
+<p class="note">The current reference texts cover <strong>11 (Peace)</strong> and <strong>36 (Darkening of the Light)</strong>. Use either in each field; matching numbers mean no changing lines.</p>
+<label>Your question<textarea id="question" name="question" rows="4" maxlength="4000" required>How can I retain my innocence while moving forward?</textarea></label>
+<label>Leela state<select id="leelaState" name="leelaState" required><option value="">Loading states…</option></select></label>
+<div class="actions"><button id="preview" type="submit" class="secondary" disabled>Preview casting</button><button id="interpret" type="submit" disabled>Interpret with OpenAI</button></div>
+<p class="hint">Preview makes no AI request. Interpretation uses your configured OpenAI account.</p>
+</form>
+</section>
+<section class="card result-card" aria-labelledby="result-title" aria-busy="false">
+<p class="eyebrow">THE READING</p><h2 id="result-title">What changes between them?</h2>
+<p id="status" role="status" aria-live="polite">Preview your pair to see the changing lines, or request a contemplative interpretation.</p>
+<div id="error" role="alert" hidden></div>
+<div id="pair-preview" hidden></div>
+<div id="reading" hidden></div>
+<details id="raw-context" hidden><summary>Inspect the interpretation context</summary><pre id="context-json"></pre></details>
+</section>
+</div>
+<footer>AI-assisted contemplation is an interpretive aid. The hexagrams and changing lines are determined by the Haskell engine.</footer>
+</main>
+</body>
+</html>

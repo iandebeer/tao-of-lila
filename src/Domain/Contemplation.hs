@@ -12,14 +12,17 @@ module Domain.Contemplation
   , ModelResult (..)
   , SourceTranslation (..)
   , buildContemplationContext
+  , buildPairContemplationContext
   , lookupHexagramText
   )
 where
 
 import Data.Aeson (FromJSON (..), ToJSON (..), object, withObject, (.:), (.=))
-import Data.Bits (testBit)
+import Data.Bits (testBit, xor)
 import Data.List (find)
 import Data.Text (Text)
+import qualified Data.Text as T
+import Domain.HexagramIndex (kingWenToBinary)
 import Domain.Types (LeelaState)
 import Engine.Casting (CastingResult (..))
 import GHC.Generics (Generic)
@@ -167,6 +170,25 @@ buildContemplationContext leela question casting = do
   resulting <- maybe (Left "Canonical text for the resulting hexagram is not seeded") Right (lookupHexagramText resultingNumber)
   activeLines <- traverse (lineContext primary (primaryBinaryValue casting)) (changingLines casting)
   pure (ContemplationContext leela question primary activeLines resulting)
+
+-- Supply the observed pair directly, without simulating a casting or movement.
+buildPairContemplationContext :: LeelaState -> Text -> Int -> Int -> Either Text ContemplationContext
+buildPairContemplationContext leela question primaryNumber resultingNumber = do
+  primaryBinary <- resolveNumber "Primary" primaryNumber
+  resultingBinary <- resolveNumber "Resulting" resultingNumber
+  primary <- resolveText primaryNumber
+  resulting <- resolveText resultingNumber
+  let changed = [line | line <- [1 .. 6], testBit (primaryBinary `xor` resultingBinary) (line - 1)]
+  activeLines <- traverse (lineContext primary primaryBinary) changed
+  pure (ContemplationContext leela question primary activeLines resulting)
+  where
+    resolveNumber label number = maybe
+      (Left (label <> " King Wen number must be between 1 and 64")) Right
+      (kingWenToBinary number)
+    resolveText number = maybe
+      (Left ("Canonical text for Hexagram " <> T.pack (show number)
+        <> " is not seeded. The current interpretation corpus contains 11 and 36.")) Right
+      (lookupHexagramText number)
 
 lineContext :: HexagramText -> Int -> Int -> Either Text ChangingLineContext
 lineContext hexagram binary line = do

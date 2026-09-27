@@ -109,6 +109,68 @@ client after TypeScript changes with `./scripts/build-yarrow.sh`.
 cabal test
 ```
 
+## Test interpretation in a browser
+
+From the repository root, start the standalone local server:
+
+```zsh
+source ~/.zshrc
+cabal run tao-of-lila-interpretation-test -- --web
+```
+
+Open **http://127.0.0.1:8081/**. Enter primary and resulting King Wen numbers,
+a question, and a Leela state. **Preview casting** shows the hexagrams, derived
+changing lines, and structured context without an AI call. **Interpret with
+OpenAI** uses the same context and provider as the command-line test and shows
+the interpretation, token usage, and latency. The page supports both desktop
+and mobile layouts and displays validation/provider errors alongside the form.
+
+The server binds only to `127.0.0.1`, uses `OPENAI_API_KEY` on the server, and
+requires no database, login, or casting ceremony. Without a key, preview still
+works and live interpretation reports the missing configuration. Stop the
+server with Ctrl+C. Source-text coverage remains limited to hexagrams 11 and 36.
+The OpenAI client allows up to 120 seconds for a response and reports response
+timeouts separately from connection failures. Restart the test server after
+changing or rebuilding the client.
+
+## Test interpretation directly
+
+Supply the **primary** and **resulting** King Wen numbers, in that order,
+without running a casting ceremony or starting the API/database:
+
+```bash
+cabal run tao-of-lila-interpretation-test -- 11 36 "How can I retain my innocence while moving forward?"
+```
+
+Live mode requires `OPENAI_API_KEY` in the environment and uses `OPENAI_MODEL`
+(default `gpt-5-mini`). It makes one model request using the same structured
+context, prompt, response schema, and provider adapter as journey contemplation.
+It prints the interpretation and token usage. It does not create a game event,
+move a player, or write database records. Normal API token charges apply; this
+standalone test does not record costs in the journey's usage ledger.
+
+To inspect the input without an API key or a model request:
+
+```bash
+cabal run tao-of-lila-interpretation-test -- --dry-run 11 36 "How can I meet this transition?"
+```
+
+The command derives changing lines by comparing the canonical binary values
+looked up from the King Wen table, bottom line first. `11 36` changes line 2
+(old Yang, value 9); `36 11` changes line 2 (old Yin, value 6). An identical
+pair has no changing lines. The optional final argument selects a Leela state
+ID from `data/leela.json`; the default is state 1. Run from the repository root.
+
+The current source-text corpus contains **11 and 36 only**, so supported pairs
+are `11 36`, `36 11`, `11 11`, and `36 36`. Other valid numbers report missing
+source text before any LLM request. Legge line comparisons remain incomplete
+and are labelled as such in the context. This test uses the existing
+interpretation guide; it does not add a new tradition of line-selection rules.
+
+`cabal test` covers number lookup, pair-derived context, and Responses API
+parsing (including reasoning items, refusals, and incomplete responses) without
+network access. Live output quality is assessed separately with the command above.
+
 ## API
 
 - `GET /health` returns service health.

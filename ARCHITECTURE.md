@@ -172,6 +172,26 @@ The architecture should grow toward binary-keyed domain tables:
 The binary value should remain the primary internal identifier even when public
 APIs continue to accept or return King Wen numbers for familiarity.
 
+## Standalone interpretation test
+
+`tao-of-lila-interpretation-test` is an imperative command-line shell over
+`Domain.Contemplation.buildPairContemplationContext` and the existing
+`Interpretation.OpenAI` adapter. It accepts a primary/resulting King Wen pair,
+a question, and an optional Leela state. King Wen inputs are resolved by
+inverting the explicit binary-keyed lookup table. Binary differences determine
+the changing lines without inventing casting history or journey movement.
+The pure context builder requires the existing canonical corpus; unsupported
+hexagrams fail before contacting the provider. Dry-run mode only prints the
+context. This executable has no runtime dependency on a database or API server.
+
+The same executable's `--web` mode serves the local interface from
+`app/public/interpretation-test/` on loopback port 8081. Its separate Servant
+shell (`app/interpretation-test/Web.hs`) exposes `GET /api/states`,
+`POST /api/preview`, and `POST /api/interpret`. Both POST endpoints accept
+`primary`, `resulting`, `question`, and `leelaState`; context construction and
+changing-line derivation stay in Haskell. The API key stays in the server
+process. These test endpoints are not added to the public journey API.
+
 ## Movement projection
 
 `Engine.Movement.movementFromChangingLines` derives board movement from the

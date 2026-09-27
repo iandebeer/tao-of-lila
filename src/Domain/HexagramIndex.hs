@@ -2,12 +2,14 @@ module Domain.HexagramIndex
   ( BinaryValue
   , KingWenNumber
   , binaryToKingWen
+  , kingWenToBinary
   , binaryToKingWenTable
   , validBinaryValue
   )
 where
 
-import Data.Array (Array, bounds, listArray, (!))
+import Data.Array (Array, assocs, bounds, listArray, (!))
+import Data.List (find)
 
 type BinaryValue = Int
 
@@ -17,6 +19,10 @@ binaryToKingWen :: BinaryValue -> Maybe KingWenNumber
 binaryToKingWen binaryValue
   | validBinaryValue binaryValue = Just (binaryToKingWenTable ! binaryValue)
   | otherwise = Nothing
+
+-- Invert the explicit lookup table; King Wen ordering is not arithmetic.
+kingWenToBinary :: KingWenNumber -> Maybe BinaryValue
+kingWenToBinary number = fst <$> find ((== number) . snd) (assocs binaryToKingWenTable)
 
 validBinaryValue :: BinaryValue -> Bool
 validBinaryValue binaryValue =

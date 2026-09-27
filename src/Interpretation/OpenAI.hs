@@ -2,16 +2,19 @@
 
 module Interpretation.OpenAI
   ( OpenAIConfig (..)
+  , decodeContemplationResponse
   , openAIContemplationModel
   )
 where
 
-import Control.Exception (throwIO)
+import Control.Exception (throwIO, try)
+import Control.Monad (unless)
 import Data.Aeson
   ( FromJSON (..), Value, eitherDecode, eitherDecodeStrict', encode, object, withObject
   , (.:), (.:?), (.!=), (.=)
   )
 import qualified Data.ByteString.Lazy as LBS
+import Data.Aeson.Types (Parser)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as TE
@@ -20,7 +23,7 @@ import Data.Time.Clock (diffUTCTime, getCurrentTime)
 import Domain.Contemplation
 import Interpretation.ContemplationModel
 import Network.HTTP.Client
-  ( Request (..), RequestBody (RequestBodyLBS), httpLbs, newManager, parseRequest
+  ( HttpException (..), HttpExceptionContent (..), Request (..), RequestBody (RequestBodyLBS), httpLbs, newManager, parseRequest
   , responseBody, responseStatus, responseTimeoutMicro
   )
 import Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -49,9 +52,12 @@ openAIContemplationModel config = do
                 , ("content-type", "application/json")
                 ]
             , requestBody = RequestBodyLBS (encode (requestValue config context))
-            , responseTimeout = responseTimeoutMicro 30000000
+            , responseTimeout = responseTimeoutMicro 120000000
             }
-    response <- httpLbs request manager
+    attempted <- try (httpLbs request manager)
+    response <- case attempted of
+      Left err -> transportFailure err
+      Right value -> pure value
     finished <- getCurrentTime
     if statusCode (responseStatus response) < 200 || statusCode (responseStatus response) >= 300
       then throwIO (ModelError ("OpenAI request failed: " <> decodeBody (responseBody response)))
@@ -132,8 +138,34 @@ data ResponseEnvelope = ResponseEnvelope
   }
 
 instance FromJSON ResponseEnvelope where
-  parseJSON = withObject "ResponseEnvelope" $ \value ->
-    ResponseEnvelope <$> value .: "output_text" <*> value .: "model" <*> value .: "usage"
+  parseJSON = withObject "ResponseEnvelope" $ \value -> do
+    status <- value .: "status" :: Parser Text
+    unless (status == "completed") (fail ("OpenAI response is " <> T.unpack status))
+    output <- value .: "output" :: Parser [Value]
+    chunks <- traverse outputText output
+    let text = T.concat chunks
+    unless (not (T.null text)) (fail "OpenAI response contains no output text")
+    ResponseEnvelope text <$> value .: "model" <*> value .: "usage"
+
+outputText :: Value -> Parser Text
+outputText = withObject "OutputItem" $ \item -> do
+  kind <- item .: "type" :: Parser Text
+  if kind /= "message" then pure "" else do
+    content <- item .: "content" :: Parser [Value]
+    T.concat <$> traverse contentText content
+  where
+    contentText = withObject "Content" $ \part -> do
+      kind <- part .: "type" :: Parser Text
+      case kind of
+        "output_text" -> part .: "text"
+        "refusal" -> fail "OpenAI declined to generate a contemplation"
+        _ -> pure ""
+
+-- Also used by offline regression tests with actual wire-format fixtures.
+decodeContemplationResponse :: LBS.ByteString -> Either String ContemplationResponse
+decodeContemplationResponse body = do
+  envelope <- eitherDecode body
+  eitherDecodeStrict' (TE.encodeUtf8 (responseOutputText envelope))
 
 data Usage = Usage
   { usageInputTokens :: Int
@@ -159,3 +191,13 @@ estimateCost config usage =
 
 decodeBody :: LBS.ByteString -> Text
 decodeBody = TE.decodeUtf8With lenientDecode . LBS.toStrict
+
+-- HttpException may contain the request headers; never expose credentials.
+transportFailure :: HttpException -> IO a
+transportFailure exception = throwIO (ModelError message)
+  where
+    message = case exception of
+      HttpExceptionRequest _ ResponseTimeout -> "OpenAI took longer than 120 seconds to respond. Please try again."
+      HttpExceptionRequest _ ConnectionTimeout -> "The connection to OpenAI timed out. Check your connection or proxy settings."
+      HttpExceptionRequest _ (ConnectionFailure _) -> "The connection to OpenAI failed during network or TLS setup. Check your connection and certificate configuration."
+      _ -> "The connection to OpenAI was interrupted. Please try again."

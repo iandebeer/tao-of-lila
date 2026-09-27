@@ -5,10 +5,13 @@ module Main
   )
 where
 
-import Data.Aeson (Value (..), toJSON, fromJSON, Result (..))
+import Data.Text (Text)
+import Data.Aeson (Value (..), toJSON, encode, object, (.=), fromJSON, Result (..))
 import qualified Data.Aeson.KeyMap as KM
 import Data.Bits (testBit, xor)
-import Engine.Movement (movementFromChangingLines)
+import qualified Data.Text.Encoding as TE
+import qualified Data.ByteString.Lazy as LBS
+import Interpretation.OpenAI (decodeContemplationResponse)
 import Domain.Types
   ( DomainData (..)
   , Hexagram (..)
@@ -17,7 +20,8 @@ import Domain.Types
   , Reading (..)
   , ReadingRequest (..)
   )
-import Domain.HexagramIndex (binaryToKingWen)
+import Engine.Movement (movementFromChangingLines)
+import Domain.HexagramIndex (binaryToKingWen, kingWenToBinary)
 import Domain.Contemplation
 import qualified Engine.Casting as Casting
 import Engine.Reading (generateReading)
@@ -42,6 +46,19 @@ main = do
       assert "legacy casting keeps its recorded count-based movement" legacy
   mapM_ (\(positions, expected) -> assert ("position movement " <> show positions) (movementFromChangingLines positions == expected))
     [([],0),([1],1),([4],4),([6],6),([1,4],5),([2,5],0),([2,4,6],5),([1..6],0)]
+  assert "King Wen lookup round-trips all 64 values" (all (\n -> (kingWenToBinary n >>= binaryToKingWen) == Just n) [1..64])
+  assert "King Wen lookup rejects out-of-range inputs" (all ((== Nothing) . kingWenToBinary) [-1,0,65])
+  assert "direct pair changes line 2 from Yang" (pairLines 11 36 == Right [(2,9)])
+  assert "reversed pair changes line 2 from Yin" (pairLines 36 11 == Right [(2,6)])
+  assert "identical hexagrams have no changes" (pairLines 11 11 == Right [])
+  assert "direct pair rejects invalid numbers" (isLeft (pairLines 0 36) && isLeft (pairLines 11 65))
+  assert "unseeded pair reports unavailable corpus" (isLeft (pairLines 1 2))
+  assert "raw Responses API output is decoded after reasoning items" (decodeContemplationResponse (wireResponse "completed" textContent) == Right sampleContemplation)
+  assert "incomplete Responses API output is rejected" (isLeft (decodeContemplationResponse (wireResponse "incomplete" textContent)))
+  assert "refused Responses API output is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [object ["type" .= ("refusal" :: String), "refusal" .= ("Declined" :: String)]])) )
+  assert "missing output text is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [])))
+  assert "invalid structured response is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [object ["type" .= ("output_text" :: String), "text" .= ("not JSON" :: String)]])) )
+
   assert "explicit state is honored" explicitStateIsHonored
   assert "generated readings are deterministic" generatedReadingsAreDeterministic
   assert "empty explicit moving lines are rejected" emptyMovingLinesRejected
@@ -274,6 +291,31 @@ sampleDomain =
         ]
     , movingLineFocuses = []
     }
+
+isLeft :: Either a b -> Bool
+isLeft (Left _) = True
+isLeft _ = False
+
+pairLines :: Int -> Int -> Either Text [(Int, Int)]
+pairLines primary resulting = do
+  context <- buildPairContemplationContext
+    (LeelaState 1 "Innocence" "Direct experience." "Beginner's mind")
+    "How can I meet this change?" primary resulting
+  pure [(changingLineNumber line, changingLineValue line) | line <- contemplationChangingLines context]
+
+sampleContemplation :: ContemplationResponse
+sampleContemplation = ContemplationResponse "Context" "Primary" ["Line 2"] "Change" ["A reading"] ["A question?"]
+
+textContent :: [Value]
+textContent = [object ["type" .= ("output_text" :: String), "text" .= TE.decodeUtf8 (LBS.toStrict (encode sampleContemplation))]]
+
+wireResponse :: String -> [Value] -> LBS.ByteString
+wireResponse status content = encode (object
+  [ "status" .= status
+  , "model" .= ("test-model" :: String)
+  , "output" .= [object ["type" .= ("reasoning" :: String)], object ["type" .= ("message" :: String), "content" .= content]]
+  , "usage" .= object ["input_tokens" .= (10 :: Int), "output_tokens" .= (20 :: Int)]
+  ])
 
 encodeResult :: Casting.CastingResult -> Value
 encodeResult casting = case toJSON casting of
