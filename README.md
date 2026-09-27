@@ -77,6 +77,10 @@ test/
 
 ## Run Locally
 
+For a fully containerized server and phone access via Tailscale or Wi-Fi, see
+[mobile testing instructions](docs/mobile-testing.md). Start that isolated
+app-and-database stack with `./scripts/mobile.sh start`.
+
 The convenience scripts prepare the local `libpq` path, start the Podman VM when
 needed, start and check PostgreSQL, build the application, and launch the web
 server in the background:

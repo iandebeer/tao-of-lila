@@ -1,0 +1,34 @@
+# Separate project and volume keep mobile tests independent of local development.
+services:
+  postgres:
+    image: docker.io/library/postgres:16-alpine
+    environment:
+      POSTGRES_DB: tao_of_lila
+      POSTGRES_USER: tao
+      POSTGRES_PASSWORD: tao
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tao -d tao_of_lila"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - mobile-postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+  app:
+    build: .
+    ports:
+      - "${TAO_BIND_ADDRESS:-127.0.0.1}:${TAO_PORT:-8080}:8080"
+    environment:
+      PORT: "8080"
+      DATABASE_URL: postgresql://tao:tao@postgres:5432/tao_of_lila
+      OPENAI_API_KEY:
+      OPENAI_MODEL:
+      OPENAI_INPUT_COST_MICROS_PER_MILLION:
+      OPENAI_CACHED_INPUT_COST_MICROS_PER_MILLION:
+      OPENAI_OUTPUT_COST_MICROS_PER_MILLION:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  mobile-postgres:
