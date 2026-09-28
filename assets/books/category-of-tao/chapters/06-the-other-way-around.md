@@ -1,4 +1,4 @@
-# Chapter 5 — The Other Way Around
+# Chapter 6 — The Other Way Around
 
 *Opposite categories, duality, yin and yang*
 

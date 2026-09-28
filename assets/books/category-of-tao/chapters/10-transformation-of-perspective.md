@@ -1,4 +1,4 @@
-# Chapter 9 — Transformation of Perspective
+# Chapter 10 — Transformation of Perspective
 
 *Natural transformations*
 

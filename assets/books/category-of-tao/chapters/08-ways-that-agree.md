@@ -1,4 +1,4 @@
-# Chapter 7 — Ways That Agree
+# Chapter 8 — Ways That Agree
 
 *Composition, commutative diagrams, coherence*
 

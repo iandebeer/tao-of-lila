@@ -1,4 +1,4 @@
-# Chapter 4 — The One and the Many
+# Chapter 5 — The One and the Many
 
 *Products, coproducts, universal properties*
 

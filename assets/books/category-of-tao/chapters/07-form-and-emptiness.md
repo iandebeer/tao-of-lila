@@ -1,4 +1,4 @@
-# Chapter 6 — Form and Emptiness
+# Chapter 7 — Form and Emptiness
 
 *Śūnyatā, relation, universal characterization*
 

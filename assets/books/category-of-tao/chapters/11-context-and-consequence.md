@@ -1,4 +1,4 @@
-# Chapter 10 — Context and Consequence
+# Chapter 11 — Context and Consequence
 
 *Monads, Kleisli arrows, comonads*
 

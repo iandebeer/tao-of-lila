@@ -19,20 +19,21 @@ The Category of Tao
 
 The book moves from the arrow through return, identity, multiplicity, emptiness
 and relationship toward wu wei. Yoneda brings the relational question to its
-mathematical culmination in Chapter 13; Chapter 14 turns from knowing to acting.
+mathematical culmination in Chapter 14; Chapter 15 turns from knowing to acting.
 The traditions converse without becoming identical, and no theorem defines Tao
 or proves a claim about consciousness.
 
 ## Project Shape
 
-- [outline.md](outline.md) gives the four-part, fourteen-chapter reading order.
+- [outline.md](outline.md) gives the four-part, fifteen-chapter reading order.
 - [glossary.md](glossary.md) collects mathematical and contemplative terms,
   recurring images, and the limits of their correspondences.
 - `concept-graph.md` maps the relationships from which the book grows.
 - `preface.md` and `introduction.md` frame the project.
-- `chapters/` contains one Markdown file per chapter and an appendix. Chapter 3
-  retains the developed identity draft; the other chapters contain the supplied
-  working passages and directions for expansion.
+- `chapters/` contains one Markdown file per chapter and an appendix. Chapter 4
+  retains the developed identity draft; Chapter 2 contains “The Net of Heaven.”
+  The other chapters contain the supplied working passages and directions for
+  expansion.
 - [Earlier drafts](notes/previous-architecture/README.md) preserve displaced
   material and explain where it can contribute to the new architecture.
 - `notes/` collects raw ideas before they are promoted into chapters
@@ -42,6 +43,8 @@ or proves a claim about consciousness.
 
 ## Writing Principles
 
+- When quoting the Dao De Jing (Tao Te Ching) or the I Ching, always include
+  both the original Chinese text and its translation.
 - Begin with experience, develop an image, then introduce mathematics.
 - Keep a correspondence only when it illuminates the passage.
 - The equation is a finger. It is not the moon.

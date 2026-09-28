@@ -1,4 +1,4 @@
-# Chapter 3 — The Idempotency of Identity
+# Chapter 4 — The Idempotency of Identity
 
 ## Wahe Guru
 

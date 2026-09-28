@@ -1,4 +1,4 @@
-# Chapter 8 — Between Worlds
+# Chapter 9 — Between Worlds
 
 *Functors*
 

@@ -53,6 +53,8 @@ Use this file as persistent guidance when working in this repository.
 
 ## Editing Guidelines
 
+- When quoting the Dao De Jing (Tao Te Ching) or the I Ching, always include
+  both the original Chinese text and its translation.
 - Keep changes scoped to the requested behavior.
 - Preserve existing seed data and docs unless the task asks to replace them.
 - Update tests when changing domain logic or lookup tables.

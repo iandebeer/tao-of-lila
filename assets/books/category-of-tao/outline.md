@@ -14,61 +14,65 @@ yet a finished manuscript.
 
 *Morphism, relationship, crossing, composition*
 
-### [Chapter 2 — The Way of Return](chapters/02-the-way-of-return.md)
+### [Chapter 2 — The Net of Heaven](chapters/02-the-net-of-heaven.md)
+
+*Heaven’s net, Indra’s Net, composition, emptiness, relatedness*
+
+### [Chapter 3 — The Way of Return](chapters/03-the-way-of-return.md)
 
 *Isomorphism, sameness, difference, return*
 
-### [Chapter 3 — The Idempotency of Identity](chapters/03-the-idempotency-of-identity.md)
+### [Chapter 4 — The Idempotency of Identity](chapters/04-the-idempotency-of-identity.md)
 
 *Monoid, identity, idempotence, consciousness, enough*
 
 ## Part II — The Ten Thousand Things
 
-### [Chapter 4 — The One and the Many](chapters/04-the-one-and-the-many.md)
+### [Chapter 5 — The One and the Many](chapters/05-the-one-and-the-many.md)
 
 *Products, coproducts, universal properties*
 
-### [Chapter 5 — The Other Way Around](chapters/05-the-other-way-around.md)
+### [Chapter 6 — The Other Way Around](chapters/06-the-other-way-around.md)
 
 *Opposite categories, duality, yin and yang*
 
-### [Chapter 6 — Form and Emptiness](chapters/06-form-and-emptiness.md)
+### [Chapter 7 — Form and Emptiness](chapters/07-form-and-emptiness.md)
 
 *Śūnyatā, relation, universal characterization*
 
 ## Part III — Relationship
 
-### [Chapter 7 — Ways That Agree](chapters/07-ways-that-agree.md)
+### [Chapter 8 — Ways That Agree](chapters/08-ways-that-agree.md)
 
 *Composition, commutative diagrams, coherence*
 
-### [Chapter 8 — Between Worlds](chapters/08-between-worlds.md)
+### [Chapter 9 — Between Worlds](chapters/09-between-worlds.md)
 
 *Functors*
 
-### [Chapter 9 — Transformation of Perspective](chapters/09-transformation-of-perspective.md)
+### [Chapter 10 — Transformation of Perspective](chapters/10-transformation-of-perspective.md)
 
 *Natural transformations*
 
-### [Chapter 10 — Context and Consequence](chapters/10-context-and-consequence.md)
+### [Chapter 11 — Context and Consequence](chapters/11-context-and-consequence.md)
 
 *Monads, Kleisli arrows, comonads*
 
-### [Chapter 11 — Mutual Fit](chapters/11-mutual-fit.md)
+### [Chapter 12 — Mutual Fit](chapters/12-mutual-fit.md)
 
 *Adjunction*
 
 ## Part IV — Mother and Master
 
-### [Chapter 12 — The Mother and the Ten Thousand Things](chapters/12-the-mother-and-the-ten-thousand-things.md)
+### [Chapter 13 — The Mother and the Ten Thousand Things](chapters/13-the-mother-and-the-ten-thousand-things.md)
 
 *Chapters 51 and 52*
 
-### [Chapter 13 — The Master Has No Name](chapters/13-the-master-has-no-name.md)
+### [Chapter 14 — The Master Has No Name](chapters/14-the-master-has-no-name.md)
 
 *Yoneda*
 
-### [Chapter 14 — Wu Wei](chapters/14-wu-wei.md)
+### [Chapter 15 — Wu Wei](chapters/15-wu-wei.md)
 
 *The action that does not force*
 

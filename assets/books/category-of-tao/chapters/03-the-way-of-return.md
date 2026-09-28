@@ -1,4 +1,4 @@
-# Chapter 2 — The Way of Return
+# Chapter 3 — The Way of Return
 
 *Isomorphism, sameness, difference, return*
 

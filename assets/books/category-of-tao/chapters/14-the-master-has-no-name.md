@@ -1,4 +1,4 @@
-# Chapter 13 — The Master Has No Name
+# Chapter 14 — The Master Has No Name
 
 *Yoneda*
 
