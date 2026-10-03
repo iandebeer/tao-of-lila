@@ -19,7 +19,7 @@ import Domain.Types
   , ReadingRequest
   )
 import Engine.Reading (ReadingError (..), generateReading)
-import Network.Wai (Application)
+import Network.Wai (Application, Request (pathInfo))
 import Servant
   ( (:<|>) (..)
   , (:>)
@@ -47,8 +47,14 @@ type API =
     :<|> Raw
 
 app :: FilePath -> DomainData -> Application
-app staticDirectory domain =
-  serve apiProxy (server staticDirectory domain)
+app staticDirectory domain request respond =
+  -- The web-app static settings do not resolve directory index files.
+  -- Rewrite only the homepage; API routes and missing files keep their behavior.
+  let routedRequest =
+        if null (pathInfo request)
+          then request {pathInfo = ["index.html"]}
+          else request
+   in serve apiProxy (server staticDirectory domain) routedRequest respond
 
 apiProxy :: Proxy API
 apiProxy = Proxy
