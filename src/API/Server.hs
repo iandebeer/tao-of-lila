@@ -141,6 +141,7 @@ serveIndex staticDirectory request respond =
     file =
       case pathInfo request of
         "yarrow" : _ -> staticDirectory </> "yarrow" </> "index.html"
+        "journey" : _ -> staticDirectory </> "journey" </> "index.html"
         _ -> staticDirectory </> "index.html"
 
 createReading :: DomainData -> ReadingRequest -> Handler Reading
