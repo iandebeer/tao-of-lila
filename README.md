@@ -103,3 +103,9 @@ without it, the image can build successfully but crash at startup with
 Rebuild and redeploy the image after changing this option. The app reads `PORT`
 from its environment, defaulting to `8080`; the public domain's target port must
 match that listening port.
+
+The public homepage is `/`, which serves `app/public/index.html` explicitly.
+`/index.html` also works, and `/health` returns the API health response. Unknown
+paths retain their 404 response. This version on `main` is the original reading
+interface; the Persona journey interface at `/journey/` is developed separately
+on `king-wen-map` and is not included in this deployment.
