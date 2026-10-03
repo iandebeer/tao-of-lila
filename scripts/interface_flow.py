@@ -86,7 +86,7 @@ def interface_flow():
         ('Resume selected Persona', 'Restore its saved stage'),
         ('Progress', 'Current state and possible moves'),
         ('Prepare the question', 'Write, edit or use a saved suggestion'),
-        ('Begin Casting / Next', 'Question fixed; build six lines'),
+        ('Begin Casting / Next', 'One complete line per click; six in all'),
         ('See the Hexagram', 'Completed casting is recorded'),
         ('Interpretation', 'Read saved output or request AI'),
         ('Reflection', 'Journal; Save / Continue'),
@@ -98,11 +98,11 @@ def interface_flow():
         box(x,ys[i],w,h,[title,sub])
         if i<len(rows)-1:
             arrow([(x+w/2,ys[i]+h),(x+w/2,ys[i+1])],dashed=i==2)
-    # Creation returns to selection; Resume is a separate Player action.
-    box(520,81,148,48,['Create Persona','Name and context'])
+    # Creation selects the new Persona and enters its journey.
+    box(520,81,148,48,['Create Persona','and begin'])
     arrow([(492,94),(520,94)])
-    arrow([(520,118),(506,118),(506,139),(475,139),(475,129)])
-    text(592,158,'Then select Resume',13)
+    arrow([(520,118),(506,118),(506,235),(492,235)])
+    text(592,158,'Opens new journey',13)
     # A continuing encounter resumes at its accepted stage, not necessarily Progress.
     box(5,149,133,98,['Saved encounter','returns to its','current stage.','New: Progress.'],WHITE)
     # Optional assistance never gates reflection.

@@ -3,7 +3,8 @@
 ## Run and review
 
 Run `cabal run tao-of-lila-api` with the existing PostgreSQL configuration and
-open `/journey/`. The existing `/` prototype and `/yarrow/` remain available.
+open `/` or `/journey/`. The root opens the guided journey interface; the older
+prototype remains at `/?prototype` and the standalone ceremony at `/yarrow/`.
 Database migrations run through the existing startup path.
 
 For the complete browser-only development journey, open
@@ -23,7 +24,9 @@ they do not establish domain rules.
 1. Shared shell, visual language, routing and components are implemented.
 2. Splash, authentication, contextual progress and question are implemented.
 3. The existing yarrow animation is integrated with server-owned engine state,
-   manual Next, saved visual poses, and a Pause/Exit confirmation dialog.
+   one complete line per Next click, saved intermediate snapshots, and a
+   Pause/Exit confirmation dialog. Six generation clicks complete a new hexagram;
+   the next action opens its result.
 4. Hexagram results, saved AI interpretation and journal reflection are
    implemented. Questions become immutable once casting begins.
 5. Movement acknowledgment updates the game and returns to progress. A history
@@ -278,8 +281,10 @@ preview sessions cannot silently mix the two rules.
 ## Persona selection and provenance
 
 Live login now opens Persona selection. Create a constructed identity with a name,
-description, narrative context and optional avatar description, then Resume its
-journey. The Personas control returns to selection after flushing pending edits;
+description, narrative context and optional avatar description. **Create Persona
+and begin** saves and selects it, then opens its journey immediately. Existing
+Personas use **Resume**. The Personas control is available before entering a
+journey and returns to selection after flushing pending edits;
 each Persona keeps its own workflow, position, questions, castings and journal.
 Editing preserves the initial description/context; Archive retains all history.
 The selection screen exposes initial context, evidence themes and saved audit

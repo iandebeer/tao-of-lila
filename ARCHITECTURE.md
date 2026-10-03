@@ -191,7 +191,10 @@ process. These test endpoints are not added to the public journey API.
 ## Responsive journey workflow
 
 `app/public/journey/` is a separate responsive presentation layer with hash routing,
-shared components and an isolated authentication/JSON adapter. `/journey-session`
+shared components and an isolated authentication/JSON adapter. `/` opens this
+interface; the legacy diagnostic client remains at `/?prototype`. Login and
+registration open Persona selection. Creating a Persona selects it before loading
+its journey; no game load is attempted without selection. `/journey-session`
 provides its durable projection and revision-checked commands. `Domain.Journey`
 defines workflow stages; `Persistence.Journey` coordinates the existing casting,
 movement and interpretation services under a session row lock.
@@ -205,6 +208,11 @@ encounter is active. No casting or movement rule is implemented in JavaScript.
 The integrated ceremony imports the existing renderer/choreography through
 `web/yarrow-casting/src/journey.ts`. Engine snapshots and visual phases are saved
 separately; visual metadata is validated against the server-owned engine snapshot.
+Both casting clients use `web/yarrow-casting/src/line.ts` to request intermediate
+engine transitions automatically until one complete line is ready. Each click
+reveals one line; six generation clicks complete a fresh hexagram. Accepted
+intermediate snapshots support retry and reload without recalculating results
+in the browser.
 See [responsive journey](docs/responsive-journey.md) for recovery semantics,
 contract changes, domain gaps and validation status.
 

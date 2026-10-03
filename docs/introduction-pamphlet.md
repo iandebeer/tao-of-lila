@@ -73,7 +73,7 @@ is yours to decide.
 
 1. **Create or resume a Persona.** Give it a name and a situation to explore.
 2. **Bring a question.** Ask from that Persona's point of view.
-3. **Follow the yarrow ceremony.** Advance the visual casting step by step.
+3. **Follow the yarrow ceremony.** Generate one complete line per click, six lines in all.
 4. **Consider the pattern.** Observe the hexagram and its changing lines.
 5. **Reflect and continue.** Record what stays with you and acknowledge movement.
 
@@ -104,7 +104,7 @@ person guiding it.
 ## Begin a journey
 
 On a running installation, open **`/journey/`**, sign up or log in, and choose
-**Create Persona**. A name, a situation and a little curiosity are enough to begin.
+**Create Persona and begin**. A name, a situation and a little curiosity are enough to begin.
 
 For a browser-only introduction, open
 **`/journey/?demo&scenario=ordinary#splash`**. The labelled development preview

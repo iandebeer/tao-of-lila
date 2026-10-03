@@ -1,6 +1,6 @@
-import { assignForTransition } from "./assign";
+import { generateLine, lineAction } from './line';
 import { animatePoses } from "./animator";
-import { animationDuration, caption, continueLabel, continueNeedsAdvance, phaseAfterContinue, statusLine } from "./ceremony";
+import { caption, statusLine } from "./ceremony";
 import { fetchInitialCasting, fetchNextCasting } from "./engine-client";
 import { layoutStalks, leatherPose } from "./layout";
 import { clearCeremony, createStalks, loadCeremony, saveCeremony, snapshot } from "./persist";
@@ -65,15 +65,14 @@ async function onContinue(): Promise<void> {
 
   try {
     const from = ceremony.phase;
-    let engine = ceremony.engine;
-    if (continueNeedsAdvance(from)) {
-      engine = await fetchNextCasting(engine);
-    }
-    const to = phaseAfterContinue(from, engine);
-    const stalks = assignForTransition(ceremony.stalks, from, to, engine);
-    const next = snapshot(engine, to, stalks, ceremony.visualSeed);
-    const target = layoutStalks(stalks, to, next.visualSeed);
-    const timing = animationDuration(from, to);
+    captionNode.textContent = 'Generating a line…';
+    const next = await generateLine(ceremony, fetchNextCasting, async state => {
+      saveCeremony(state);
+      ceremony = state;
+    });
+    const to = next.phase;
+    const target = layoutStalks(next.stalks, to, next.visualSeed);
+    const timing = { move: 650, settle: 100 };
     const leatherMotion =
       to === "untying" || to === "full-set-50" ? animateLeather(from, to, timing.move) : Promise.resolve();
     const stalkMotion = animatePoses(poses, target, timing.move, timing.settle, (frame) => {
@@ -84,7 +83,7 @@ async function onContinue(): Promise<void> {
 
     ceremony = next;
     saveCeremony(ceremony);
-    renderHexagram(scene, ceremony.engine.completedLines, to === "draw-line");
+    renderHexagram(scene, ceremony.engine.completedLines, false);
     applyLeather(scene, ceremony.phase);
     updateDock(ceremony);
   } catch (error: unknown) {
@@ -98,7 +97,7 @@ async function onContinue(): Promise<void> {
 function updateDock(state: CeremonyState): void {
   captionNode.textContent = caption(state.phase, state.engine);
   statusNode.textContent = statusLine(state.engine, state.phase);
-  continueButton.textContent = continueLabel(state.phase, state.engine);
+  continueButton.textContent = lineAction(state);
 }
 
 function showError(message: string): void {

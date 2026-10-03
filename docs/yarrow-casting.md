@@ -72,10 +72,12 @@ SVG = what is seen
 ```
 
 `GET /casting/initial` and `POST /casting/next` expose the pure state machine
-without a user session or the Lila board. The browser may add slower ceremonial
-phases (untying, counting left then right, drawing a line) that reveal engine
-facts at human speed. Those display phases are not additional yarrow
-calculations.
+without a user session or the Lila board. Both casting interfaces advance all
+intermediate phases automatically on each click, stopping at a completed line.
+The next click generates the following line, bottom-to-top, until all six are
+visible. The browser still requests every numerical transition from Haskell;
+it does not calculate line values. Intermediate snapshots are saved so an
+interrupted line can be resumed without recasting accepted steps.
 
 Each stalk is an SVG object with a stable identity. The ceremony interpolates
 positions when the engine reports a new heap, remainder, or line. Reloading the

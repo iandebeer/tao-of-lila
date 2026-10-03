@@ -15,4 +15,5 @@ if [[ ! -d node_modules ]]; then
 fi
 
 npm run build
-echo "Wrote app/public/yarrow/casting.js"
+npm run build:journey
+echo "Wrote app/public/yarrow/casting.js and app/public/journey/ceremony.js"

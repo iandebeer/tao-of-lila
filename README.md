@@ -56,7 +56,7 @@ treated as composable categories, functors, and contextual transformations.
 ```text
 app/
   Main.hs              # HTTP executable entry point
-  public/index.html    # Minimal journey prototype
+  public/index.html    # Opens /journey/; legacy controls at /?prototype
   public/yarrow/       # Isolated yarrow ceremony page
 src/
   API/                 # Servant API
@@ -112,9 +112,16 @@ On macOS, building `postgresql-simple` requires the `libpq` formula and its
 
 The service listens on `PORT` when set, otherwise `8080`.
 
-Open `http://localhost:8080/` for the journey prototype. It supports user
-registration/login, persistent continuation, per-encounter question CRUD,
-yarrow casting, casting-driven movement, and journals.
+Open `http://localhost:8080/` to enter the journey interface at `/journey/`.
+After registration or login, create or select a Persona before entering its
+journey. Creating a Persona selects it and opens its journey immediately.
+The Personas button remains available to create or switch Personas.
+The legacy diagnostic client is available at `/?prototype` for unfinished
+prototype castings. Existing prototype sign-ins also work in the journey UI.
+
+Yarrow casting generates one complete line per click, displaying each line
+before the next is requested. Six clicks complete a new hexagram; intermediate
+stalk operations run automatically using the Haskell engine.
 
 Completed journey events can progressively reveal canonical Chinese, lexical
 possibilities, the Tao of Lila working translation, and the separately labelled
@@ -137,7 +144,13 @@ client after TypeScript changes with `./scripts/build-yarrow.sh`.
 
 ```bash
 cabal test
+node scripts/journey-test.mjs
+node scripts/persona-ui-test.mjs
+node scripts/yarrow-line-test.mjs
 ```
+
+The line-generation check uses the frontend build dependency installed by
+`./scripts/build-yarrow.sh`.
 
 ## Test interpretation in a browser
 

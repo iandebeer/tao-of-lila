@@ -1,9 +1,10 @@
 // The adapter owns authentication and transport; views receive server projections.
 const key = 'tao-journey-token';
-let token = sessionStorage.getItem(key);
+let token = sessionStorage.getItem(key) || localStorage.getItem('tao-token');
+if (token) sessionStorage.setItem(key, token);
 export const api = {
   get authenticated() { return Boolean(token); },
-  logout() { token = null; sessionStorage.removeItem(key); },
+  logout() { token = null; sessionStorage.removeItem(key); localStorage.removeItem('tao-token'); },
   async request(path, method = 'GET', body) {
     let response;
     try {

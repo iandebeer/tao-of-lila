@@ -173,7 +173,7 @@
 			<polygon points="325 449, 320.844 456.983, 329.156 456.983" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1; fill: rgb(65%,48%,22%); fill-rule: evenodd;"/>
 			<rect x="158" y="401" width="334" height="48" rx="7" ry="7" style="stroke: rgb(9%,23%,21%); stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,94%,92%); fill-rule: evenodd;"/>
 			<text x="247.208" y="430.0" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,860) scale(1,-1)">Begin Casting / Next</text>
-			<text x="234.74200000000002" y="410.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,820) scale(1,-1)">Question fixed; build six lines</text>
+			<text x="325" text-anchor="middle" y="410.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,820) scale(1,-1)">One complete line per click; six in all</text>
 			<path d="M 325,401 L 325,384 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
 			<polygon points="325 384, 320.844 391.983, 329.156 391.983" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1; fill: rgb(65%,48%,22%); fill-rule: evenodd;"/>
 			<rect x="158" y="336" width="334" height="48" rx="7" ry="7" style="stroke: rgb(9%,23%,21%); stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,94%,92%); fill-rule: evenodd;"/>
@@ -196,15 +196,14 @@
 			<text x="207.099" y="150.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,300) scale(1,-1)">Continue the Journey: update position</text>
 			<rect x="520" y="661" width="148" height="48" rx="7" ry="7" style="stroke: rgb(9%,23%,21%); stroke-linecap: butt; stroke-width: 1; fill: rgb(92%,94%,92%); fill-rule: evenodd;"/>
 			<text x="535.312" y="690.0" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1380) scale(1,-1)">Create Persona</text>
-			<text x="537.195" y="670.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1340) scale(1,-1)">Name and context</text>
+			<text x="594" text-anchor="middle" y="670.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1340) scale(1,-1)">and begin</text>
 			<path d="M 492,696 L 520,696 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
 			<polygon points="520 696, 512.017 691.844, 512.017 700.156" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1; fill: rgb(65%,48%,22%); fill-rule: evenodd;"/>
 			<path d="M 520,672 L 506,672 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
-			<path d="M 506,672 L 506,651 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
-			<path d="M 506,651 L 475,651 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
-			<path d="M 475,651 L 475,661 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
-			<polygon points="475 661, 479.156 653.017, 470.844 653.017" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1; fill: rgb(65%,48%,22%); fill-rule: evenodd;"/>
-			<text x="532.395" y="632" style="font-family: Helvetica; font-size: 13px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1264) scale(1,-1)">Then select Resume</text>
+			<path d="M 506,672 L 506,555 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
+			<path d="M 506,555 L 492,555 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6;"/>
+			<polygon points="492 555, 499.983 559.156, 499.983 550.844" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1; fill: rgb(65%,48%,22%); fill-rule: evenodd;"/>
+			<text x="592" text-anchor="middle" y="632" style="font-family: Helvetica; font-size: 13px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1264) scale(1,-1)">Opens new journey</text>
 			<rect x="5" y="543" width="133" height="98" rx="7" ry="7" style="stroke: rgb(9%,23%,21%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
 			<text x="7.036000000000001" y="617.0" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1234) scale(1,-1)">Saved encounter</text>
 			<text x="32.986000000000004" y="597.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1194) scale(1,-1)">returns to its</text>

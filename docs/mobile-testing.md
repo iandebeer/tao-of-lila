@@ -35,8 +35,12 @@ compiles Haskell dependencies, so allow substantial time. Later builds use cache
 If Compose is not found, install the provider with `brew install docker-compose`.
 On a new Mac without a VM, first run `podman machine init`.
 
-Open <http://localhost:8080/journey/> and register a test account. The older UI
-is at `/`; the standalone ceremony is at `/yarrow/`.
+Open <http://localhost:8080/> (which opens `/journey/`) and register a test
+account. Choose **Create Persona and begin** to enter its journey. The older
+diagnostic UI is at `/?prototype`; the standalone ceremony is at `/yarrow/`.
+Both casting interfaces generate one complete line per click. Check that six
+clicks reveal all six lines, and that returning to an interrupted cast resumes
+its accepted state.
 
 AI contemplation is optional. To enable it, make `OPENAI_API_KEY` available in
 your shell before starting the stack; `OPENAI_MODEL` is optional. Restart with

@@ -3,6 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      // Keep the legacy diagnostic client available for unfinished prototype casts.
+      if (!new URLSearchParams(location.search).has('prototype')) {
+        location.replace('/journey/' + location.search + location.hash);
+      }
+    </script>
     <title>Tao of Lila Journey Prototype</title>
     <style>
       :root { font-family: Georgia, serif; color: #f5ead7; background: #15110d; line-height: 1.5; }

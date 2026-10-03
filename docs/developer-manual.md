@@ -150,13 +150,11 @@ schedule is embedded in this manual.
 ### Browser builds
 
 ```sh
-npm install --prefix web/yarrow-casting
-npm run build:journey --prefix web/yarrow-casting
 ./scripts/build-yarrow.sh
 ```
 
-The first bundle becomes `app/public/journey/ceremony.js`; the isolated client
-build becomes `app/public/yarrow/casting.js`. Regular guided-screen composition
+The script installs dependencies when needed and rebuilds both
+`app/public/journey/ceremony.js` and `app/public/yarrow/casting.js`. Regular guided-screen composition
 is JavaScript under `app/public/journey/`.
 
 ## 4. Construct and evolve a Persona
@@ -487,6 +485,7 @@ it does not invent casting history, create a Persona or record a journey event.
 | [components.js](../app/public/journey/components.js) | Escaped content, hexagrams, interpretation and movement presentation. |
 | [demo.js](../app/public/journey/demo.js) | Browser-only fixtures, clearly separated from live rules. |
 | [journey.ts](../web/yarrow-casting/src/journey.ts) | Integration with existing stalk renderer and choreography. |
+| [line.ts](../web/yarrow-casting/src/line.ts) | Advances engine-owned steps through a complete line, saving intermediate snapshots and stopping at the reveal. |
 
 The browser can interpolate stalk positions and display ceremonial phases. It
 cannot divide heaps, determine line values, decide movement or invent transitions.
@@ -525,6 +524,8 @@ cabal test tao-of-lila-test --test-show-details=direct
 TAO_PERSONA_TEST_DB='postgresql://postgres:test-password@127.0.0.1:55439/postgres' \
   cabal test persona-persistence --test-show-details=direct
 node scripts/journey-test.mjs
+node scripts/persona-ui-test.mjs
+node scripts/yarrow-line-test.mjs
 ```
 
 The database URL above is an example; supply an actual disposable test connection.
@@ -541,7 +542,10 @@ python3 scripts/persona-api-test.py http://127.0.0.1:8080
 
 That script creates test accounts and leaves them in that test database. It covers
 HTTP creation, selection, resume, editing, privacy and ownership isolation without
-requesting AI. The Node tests exercise preview fixtures, not live PostgreSQL or
+requesting AI. The Node tests exercise journey fixtures, login/signup and Persona-creation
+handlers with a simulated DOM/API, and six-click casting with saved-phase
+recovery and retry after engine acceptance. Install the frontend build dependencies
+before running the line test. These checks do not cover live PostgreSQL or
 visual browser rendering. The older `journey-api-test.py` predates explicit Persona
 creation; review its registration/setup assumptions before using it unchanged.
 

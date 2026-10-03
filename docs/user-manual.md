@@ -67,7 +67,8 @@ below. For a default local installation the base address is `http://localhost:80
 | `/journey/` | Guided, authenticated Persona journeys. Start here. | Accepted journey actions are saved on the server. |
 | `/journey/?demo&scenario=ordinary#splash` | Labelled development preview with example encounters. | Preview state in this browser tab's session storage, not a live account. |
 | `/yarrow/` | Standalone casting demonstration. | A local browser snapshot; no Persona journey event. |
-| `/` | Earlier prototype controls. | Uses the selected Persona's server journey, but has a different encounter flow. |
+| `/` | Opens the guided interface at `/journey/`. | Same server persistence as the guided interface. |
+| `/?prototype` | Earlier diagnostic controls for unfinished prototype casts. | Uses the selected Persona's server journey with the older encounter flow. |
 
 The preview's **Reset example** resets preview data only. Demonstrations containing
 snakes, ladders or completion are examples of presentation, not available live rules.
@@ -78,7 +79,7 @@ started in the earlier prototype may need to be finished there first.
 
 ### Create an account
 
-1. Open `/journey/` and choose **Sign Up**.
+1. Open `/` (or `/journey/`) and choose **Sign Up**.
 2. Enter a User ID of 3-40 letters, numbers, underscores or hyphens. Use the same
    ID on later visits; it is not an email address.
 3. Choose a password of at least 10 characters and submit the form.
@@ -106,8 +107,10 @@ For example:
 > wishes to remain useful while learning to listen.  
 > **Avatar description:** A traveller in a plain robe carrying a worn notebook.
 
-Choose **Create Persona**, then **Resume** on the new card. Creating a Persona
-saves it; Resume opens its journey. A new journey starts at state 1.
+Choose **Create Persona and begin** to save the Persona, select it and open its
+journey immediately. A new journey starts at state 1. For an existing Persona,
+choose **Resume** on its card. The **Personas** control is also available before
+you enter a journey, so you can always return to creation or selection.
 
 If an older saved game was migrated, it appears as **Legacy persona**. Resume it
 to continue its existing history; you can edit its name and current description.
@@ -139,9 +142,14 @@ The original AI proposal, if used, is retained separately from your final text.
 
 ### C. Follow the ceremony
 
-Use **Next** to advance the yarrow presentation. Captions describe the current
-operation. The ceremony builds six lines from bottom to top; several visual steps
-are needed for each line.
+Choose **Next · Generate line 1 of 6** to generate and display the bottom line.
+Each subsequent **Next** generates one more complete line above it. Removing,
+splitting and counting stalks happen automatically; no clicks are needed between
+those operations. Six generation clicks complete a new hexagram. Read each
+line's value and interpretation before continuing.
+
+Accepted intermediate steps are saved. If generation is interrupted, return to
+the same Persona and continue its saved casting.
 
 When all six lines are complete, choose **See the Hexagram**. The completed result
 is recorded before interpretation. You can use **Pause / Exit** if you need to stop.
@@ -277,8 +285,8 @@ not automatically invoked by the current UI.
 
 | What you see | What to do |
 | --- | --- |
-| A request to select a Persona | Open `/journey/`, log in and Resume an active Persona. Creating an account alone does not start a journey. |
-| An unfinished prototype-casting message | Finish the casting in `/`, then return to `/journey/`. |
+| A request to select a Persona | Open `/journey/`, log in and choose **Create Persona and begin**, or **Resume** an active Persona. Creating an account alone does not start a journey. |
+| An unfinished prototype-casting message | Finish the casting in `/?prototype`, then return to `/journey/`. |
 | No suggested question available | Write your own. The button depends on a previous saved interpretation. |
 | Missing source-text or AI-service error | Choose Reflect without AI. The casting remains recorded. |
 | Journey or Persona changed | Another action has changed its revision. Preserve any unsaved wording, then reload the saved state. |

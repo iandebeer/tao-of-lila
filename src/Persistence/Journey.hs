@@ -47,7 +47,7 @@ loadLocked connection domain user = do
           question = maybe "" questionText (gameQuestion game)
           adopted = base {workflowQuestion = question}
       case gameCasting game of
-        Just casting | Casting.result casting == Nothing && Casting.stateId casting > 0 -> throwIO (Conflict "Finish the existing prototype casting at / before starting this journey interface")
+        Just casting | Casting.result casting == Nothing && Casting.stateId casting > 0 -> throwIO (Conflict "Finish the existing prototype casting at /?prototype before starting this journey interface")
         _ -> pure ()
       _ <- execute connection "INSERT INTO journey_workflows (persona_id, document) VALUES (?, ?)" (selectedPersonaId user, PG.Aeson adopted)
       pure adopted

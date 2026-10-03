@@ -1,7 +1,7 @@
+import { generateLine, lineAction } from './line';
 // Reuses the isolated ceremony's renderer and choreography. The host owns IO.
-import { assignForTransition } from './assign';
 import { animatePoses } from './animator';
-import { animationDuration, caption, continueLabel, continueNeedsAdvance, phaseAfterContinue, statusLine } from './ceremony';
+import { caption, statusLine } from './ceremony';
 import { layoutStalks, leatherPose } from './layout';
 import { createStalks, snapshot } from './persist';
 import { applyLeather, applyPoses, mountScene, renderHexagram } from './render';
@@ -25,7 +25,7 @@ export function mountJourneyCeremony(host: Host) {
   const draw = () => {
     applyPoses(scene, poses); applyLeather(scene, visual.phase);
     renderHexagram(scene, visual.engine.completedLines, false);
-    host.describe(caption(visual.phase, visual.engine), statusLine(visual.engine, visual.phase), continueLabel(visual.phase, visual.engine), visual.phase === 'hexagram-complete');
+    host.describe(caption(visual.phase, visual.engine), statusLine(visual.engine, visual.phase), lineAction(visual), visual.phase === 'hexagram-complete');
   };
   draw();
   return {
@@ -36,14 +36,15 @@ export function mountJourneyCeremony(host: Host) {
       try {
         if (visual.phase === 'hexagram-complete') return;
         const from = visual.phase;
-        const engine = continueNeedsAdvance(from) ? await host.advance(visual.engine) : visual.engine;
-        const to = phaseAfterContinue(from, engine);
-        const stalks = assignForTransition(visual.stalks, from, to, engine);
-        const next = snapshot(engine, to, stalks, visual.visualSeed);
-        // Save before animation: interruption resumes the accepted end pose.
-        await host.persist(next);
-        const target = layoutStalks(stalks, to, next.visualSeed);
-        const timing = animationDuration(from, to);
+        host.describe('Generating a line…', statusLine(visual.engine, visual.phase), 'Generating…', false);
+        const next = await generateLine(visual, host.advance, async state => {
+          await host.persist(state);
+          visual = state;
+        }, () => disposed);
+        if (disposed) return;
+        const to = next.phase;
+        const target = layoutStalks(next.stalks, to, next.visualSeed);
+        const timing = { move: 650, settle: 100 };
         const start = leatherPose(from), end = leatherPose(to);
         poses = await animatePoses(poses, target, timing.move, timing.settle, (frame, t) => {
           if (disposed) return;
