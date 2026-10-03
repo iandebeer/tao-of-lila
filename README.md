@@ -93,3 +93,13 @@ an O(1) lookup table.
 - `ROADMAP.md` tracks planned product and domain-model work.
 - `AGENTS.md` gives guidance for AI agents working in this repository.
 - `docs/board-layout.md` documents the initial board visualization contract.
+
+## Railway startup
+
+The API executable must be linked with GHC's `-threaded` option, as configured
+in `tao-of-lila.cabal`. Warp's timer manager requires the threaded runtime;
+without it, the image can build successfully but crash at startup with
+`the TimerManager requires linking against the threaded runtime`.
+Rebuild and redeploy the image after changing this option. The app reads `PORT`
+from its environment, defaulting to `8080`; the public domain's target port must
+match that listening port.

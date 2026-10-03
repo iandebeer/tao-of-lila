@@ -39,6 +39,7 @@ executable tao-of-lila-api
   import:           warnings
   main-is:          Main.hs
   hs-source-dirs:   app
+  ghc-options:      -threaded -rtsopts
   build-depends:    base >=4.17 && <5
                   , tao-of-lila
                   , warp
