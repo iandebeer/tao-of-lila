@@ -20,7 +20,6 @@ import Domain.Types
   )
 import Engine.Reading (ReadingError (..), generateReading)
 import Network.Wai (Application)
-import Network.Wai.Application.Static (serveDirectoryWebApp)
 import Servant
   ( (:<|>) (..)
   , (:>)
@@ -35,6 +34,7 @@ import Servant
   , err400
   , errBody
   , serve
+  , serveDirectoryWebApp
   , throwError
   )
 
