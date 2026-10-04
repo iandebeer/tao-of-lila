@@ -55,6 +55,16 @@ main = do
   assert "one Player owns distinct Personas" (P.personaPlayerId a == P.personaPlayerId b && P.personaId a /= P.personaId b)
   assert "editing preserves initial Persona and leaves sibling unchanged" (P.personaInitialDescription changed == P.personaDescription a && P.personaDescription b /= P.personaDescription changed)
   assert "stale Persona edit rejected" (case P.revisePersona "later" draft changed of Left _ -> True; _ -> False)
+  let profile = [P.PersonaAttribute "sex" (String "Female") P.PlayerSpecified [], P.PersonaAttribute "age" (Number 45) P.PlayerSpecified [], P.PersonaAttribute "raceEthnicity" (String "Self-described heritage") P.PlayerSpecified [], P.PersonaAttribute "historicalPeriod" (String "Renaissance") P.PlayerSpecified []]
+      structured = draft {P.draftAttributes=profile,P.draftContext="Additional information"}
+  profiled <- either (fail . T.unpack) pure (P.newPersona 3 (P.Player 7) "2026-10-04" structured)
+  revisedProfile <- either (fail . T.unpack) pure (P.revisePersona "later" structured {P.draftAttributes=[P.PersonaAttribute "age" Null P.PlayerIntervention []],P.draftRevision=Just 0} profiled)
+  assert "structured attributes preserve initial identity when cleared" (P.personaInitialAttributes revisedProfile == profile && map P.attributeValue (P.personaEvolvingAttributes revisedProfile) == [Null])
+  assert "negative Persona age is rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "age" (Number (-1)) P.PlayerSpecified []]}))
+  assert "fractional Persona age is rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "age" (Number 2.5) P.PlayerSpecified []]}))
+  assert "structured text cannot be an arbitrary JSON object" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "sex" (object []) P.PlayerSpecified []]}))
+  assert "duplicate Persona attributes rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=profile++profile}))
+  assert "prompt treats demographic fields as narrative context without stereotypes" ("demographic stereotypes" `T.isInfixOf` P.personaPrompt profiled)
   let evidence = P.Evidence "event:1" P.AIInferred "question:1" 1 True "2026-09-23"
   supported <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence a)
   duplicate <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence supported)

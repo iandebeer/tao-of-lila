@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {personaFields,personaFieldsMarkup,readPersonaFields,currentPersonaAttributes,personaAttributesSummary,bindPersonaFields} from '../app/public/journey/persona-fields.js';
+const attr=(name,value)=>({attributeName:name,attributeValue:value,attributeOrigin:'PlayerSpecified',attributeEvidence:[]});
+const original={personaDescription:'An existing scholar',personaInitialAttributes:[attr('sex','Female'),attr('age',62),attr('raceEthnicity','Self-described heritage'),attr('historicalPeriod','Ming dynasty'),attr('occupation','Scholar')],personaEvolvingAttributes:[attr('age',63)]};
+const before=JSON.stringify(original),nodes=new Map();
+const document={querySelector(selector){if(!nodes.has(selector))nodes.set(selector,{value:'',hidden:false,required:false,handlers:{},addEventListener(type,fn){this.handlers[type]=fn;},focus(){this.focused=true;}});return nodes.get(selector);}};
+const set=(name,value)=>document.querySelector(`#persona-${name}`).value=value;
+set('sex','__custom__');set('sex-custom','Self-described sex');set('age','64');set('raceEthnicity','');set('historicalPeriod','__custom__');set('historicalPeriod-custom','Song dynasty, 1100 CE');
+const edited=readPersonaFields(document,original);
+assert.equal(edited.find(a=>a.attributeName==='occupation').attributeValue,'Scholar');
+assert.equal(edited.find(a=>a.attributeName==='age').attributeValue,64);
+assert.equal(edited.find(a=>a.attributeName==='raceEthnicity').attributeValue,null);
+assert.equal(edited.find(a=>a.attributeName==='historicalPeriod').attributeValue,'Song dynasty, 1100 CE');
+assert.equal(JSON.stringify(original),before,'form reads must not overwrite immutable initial context');
+const saved={...original,personaEvolvingAttributes:edited};
+assert.equal(currentPersonaAttributes(saved).find(a=>a.attributeName==='raceEthnicity').attributeValue,null);
+assert.match(personaFieldsMarkup(original),/Ming dynasty/);assert.match(personaFieldsMarkup(original),/value="63"/);
+assert.match(personaAttributesSummary(saved),/Song dynasty/);assert.doesNotMatch(personaAttributesSummary(saved),/Self-described heritage/);
+assert.ok(personaFields.every(f=>personaFieldsMarkup(null).includes(`persona-${f.name}`)));
+set('age','0');assert.equal(readPersonaFields(document,null).find(a=>a.attributeName==='age').attributeValue,0);
+for(const invalid of ['-1','2.5','nope']){set('age',invalid);assert.throws(()=>readPersonaFields(document,null),/Age/);}
+set('age','');set('sex','');set('historicalPeriod','');
+assert.ok(readPersonaFields(document,null).every(a=>a.attributeValue===null));
+set('sex','__custom__');set('sex-custom','');assert.throws(()=>readPersonaFields(document,null),/describe sex/);
+bindPersonaFields(document);document.querySelector('#persona-sex').handlers.change();assert.equal(document.querySelector('#persona-sex-custom').required,true);
+set('sex','');document.querySelector('#persona-sex').handlers.change();assert.equal(document.querySelector('#persona-sex-custom-wrap').hidden,true);assert.equal(document.querySelector('#persona-sex-custom').required,false);
+console.log('ok - structured Persona creation/edit, optional attributes, custom periods, immutable origin and validation');

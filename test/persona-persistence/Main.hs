@@ -2,6 +2,7 @@
 module Main (main) where
 import Control.Exception (bracket, finally, try)
 import Control.Monad (unless)
+import Crypto.BCrypt (hashPasswordUsingPolicy, slowerBcryptHashingPolicy)
 import qualified Data.ByteString.Char8 as B
 import qualified Data.Text as T
 import Data.Time.Clock.POSIX (getPOSIXTime)
@@ -40,6 +41,7 @@ main = do
 acceptance :: Store -> IO ()
 acceptance store = do
   domain <- loadDomainData "data" >>= either (fail . show) pure
+  legacyHash <- hashPasswordUsingPolicy slowerBcryptHashingPolicy "legacy-test-password" >>= maybe (fail "Could not hash test password") pure
   -- Reproduce the pre-Persona schema before invoking the real startup migration.
   withStore store $ \c -> do
     _ <- execute_ c "CREATE TABLE users(id SERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL,password_hash BYTEA NOT NULL,created_at TIMESTAMPTZ DEFAULT now())"
@@ -47,7 +49,7 @@ acceptance store = do
     _ <- execute_ c "CREATE TABLE journey_workflows(user_id INTEGER PRIMARY KEY REFERENCES users(id),document JSONB NOT NULL,updated_at TIMESTAMPTZ DEFAULT now())"
     _ <- execute_ c "CREATE TABLE questions(id SERIAL PRIMARY KEY,game_session_id INTEGER REFERENCES game_sessions(id),state_id INTEGER,body TEXT,UNIQUE(game_session_id,state_id))"
     _ <- execute_ c "CREATE TABLE game_events(id SERIAL PRIMARY KEY,game_session_id INTEGER REFERENCES game_sessions(id),from_state_id INTEGER,to_state_id INTEGER,question TEXT,journal TEXT NOT NULL DEFAULT '',casting_result JSONB,created_at TIMESTAMPTZ DEFAULT now())"
-    _ <- execute_ c "INSERT INTO users(username,password_hash) VALUES('legacy','legacy')"
+    _ <- execute c "INSERT INTO users(username,password_hash) VALUES('legacy',?)" (Only legacyHash)
     _ <- execute c "INSERT INTO game_sessions(user_id,current_state_id,casting) VALUES(1,27,?)" (Only (PG.Aeson Casting.initialCastingState))
     _ <- execute_ c "INSERT INTO questions(game_session_id,state_id,body) VALUES(1,27,'Legacy question')"
     let legacyCast = until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState
@@ -56,6 +58,8 @@ acceptance store = do
     pure ()
   migrate store
   migrate store
+  legacyLogin <- login store (AuthRequest "LEGACY" "legacy-test-password")
+  assert "a pre-Persona account can still log in after migrations" (userId (authUser legacyLogin)==1)
   let legacy = User 1 "legacy" Nothing
   adopted <- P.listPersonas store legacy
   assert "migration creates exactly one neutral Persona" (length adopted == 1 && personaName (head adopted) == "Legacy persona")
@@ -64,9 +68,25 @@ acceptance store = do
   assert "migration retains existing questions and journal history" (fmap questionText (gameQuestion old)==Just "Legacy question" && map gameEventJournal (gameHistory old)==["Legacy reflection"])
   workflow <- withStore store $ \c -> query_ c "SELECT document FROM journey_workflows" :: IO [Only (PG.Aeson Workflow)]
   assert "migration preserves workflow exactly" (case workflow of [Only (PG.Aeson w)] -> w==initialWorkflow 27 (Just 20); _ -> False)
-  let draft = PersonaDraft "Constructed scholar" "elderly, fictional" [] "" Nothing Nothing
+  -- Registration must round-trip through the same stored hash on later login.
+  let credentials = AuthRequest "  Returning_Player  " "known-test-password"
+  registered <- register store credentials
+  loggedIn <- login store (AuthRequest "returning_player" "known-test-password")
+  assert "registered Player can log in with a persisted password" (userId (authUser registered) == userId (authUser loggedIn))
+  invalid <- try (login store (AuthRequest "returning_player" "incorrect-test-password")) :: IO (Either StoreError AuthResponse)
+  assert "incorrect passwords are rejected" (invalid == Left InvalidCredentials)
+  duplicate <- try (register store credentials) :: IO (Either StoreError AuthResponse)
+  assert "duplicate registration is rejected independently of login" (duplicate == Left UsernameTaken)
+  verified <- authenticate store (authToken loggedIn)
+  assert "login token authenticates the same Player" (userId verified == userId (authUser registered))
+  expired <- try (authenticate store "missing-session") :: IO (Either StoreError User)
+  assert "expired session is distinct from incorrect credentials" (expired == Left InvalidSession)
+  let profile = [PersonaAttribute "sex" (String "Female") PlayerSpecified [],PersonaAttribute "age" (Number 62) PlayerSpecified [],PersonaAttribute "raceEthnicity" (String "Self-described heritage") PlayerSpecified [],PersonaAttribute "historicalPeriod" (String "Medieval period") PlayerSpecified []]
+      draft = PersonaDraft "Constructed scholar" "elderly, fictional" profile "Additional information" Nothing Nothing
   a <- P.createPersona store legacy draft
   b <- P.createPersona store legacy draft
+  storedProfile <- P.getPersona store legacy (personaId a)
+  assert "structured Persona attributes and additional information persist" (personaInitialAttributes storedProfile==profile && personaContext storedProfile=="Additional information")
   assert "one Player can create multiple Personas" (personaId a/=personaId b && personaPlayerId a==personaPlayerId b)
   let ua=legacy {userPersonaId=Just (personaId a)}; ub=legacy {userPersonaId=Just (personaId b)}
   _ <- createQuestion store domain ua (QuestionRequest "A question")

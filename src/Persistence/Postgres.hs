@@ -54,6 +54,7 @@ newtype Store = Store BS.ByteString
 
 data StoreError
   = InvalidCredentials
+  | InvalidSession
   | UsernameTaken
   | InvalidInput Text
   | NotFound Text
@@ -109,7 +110,7 @@ login store request = withStore store $ \connection -> do
 authenticate :: Store -> Text -> IO User
 authenticate store rawToken = withStore store $ \connection -> do
   rows <- query connection "SELECT users.id, users.username, CASE WHEN personas.archived=FALSE THEN auth_sessions.persona_id ELSE NULL END FROM auth_sessions LEFT JOIN personas ON personas.id=auth_sessions.persona_id JOIN users ON users.id = auth_sessions.user_id WHERE token = ?" (Only (stripBearer rawToken))
-  maybe (throwIO InvalidCredentials) (pure . userFromRow) (listToMaybe rows)
+  maybe (throwIO InvalidSession) (pure . userFromRow) (listToMaybe rows)
 
 getGameView :: Store -> DomainData -> User -> IO GameView
 getGameView store domain user = withStore store $ \connection -> loadGameView connection domain user

@@ -117,6 +117,7 @@ test-suite persona-persistence
                   , tao-of-lila
                   , postgresql-simple
                   , aeson
+                  , bcrypt
                   , bytestring
                   , text
                   , time

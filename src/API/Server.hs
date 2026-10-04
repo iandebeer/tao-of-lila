@@ -111,7 +111,7 @@ app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API)
 
 withUser :: Store -> (User -> IO a) -> Maybe Text -> Handler a
 withUser store action authorization = do
-  header <- maybe (throwError (jsonError err401 "Authorization is required")) pure authorization
+  header <- maybe (throwError (renderStoreError InvalidSession)) pure authorization
   user <- runStore (authenticate store header)
   runStore (action user)
 
@@ -123,7 +123,8 @@ runStore action = do
     Left storeError -> throwError (renderStoreError storeError)
 
 renderStoreError :: StoreError -> ServerError
-renderStoreError InvalidCredentials = jsonError err401 "Invalid username, password, or session"
+renderStoreError InvalidCredentials = err401 {errBody = encode (object ["error" .= ("User ID or password is incorrect" :: Text), "code" .= ("invalid_credentials" :: Text)])}
+renderStoreError InvalidSession = err401 {errBody = encode (object ["error" .= ("Your session is no longer valid. Please log in again." :: Text), "code" .= ("invalid_session" :: Text)])}
 renderStoreError UsernameTaken = jsonError err409 "That username is already registered"
 renderStoreError (InvalidInput message) = jsonError err400 message
 renderStoreError (NotFound message) = jsonError err404 (message <> " not found")
