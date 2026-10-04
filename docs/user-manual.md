@@ -151,22 +151,23 @@ line's value and interpretation before continuing.
 Accepted intermediate steps are saved. If generation is interrupted, return to
 the same Persona and continue its saved casting.
 
-When all six lines are complete, choose **See the Hexagram**. The completed result
-is recorded before interpretation. You can use **Pause / Exit** if you need to stop.
+When all six lines are complete, the casting is recorded and the AI interpretation
+opens automatically. You can use **Pause / Exit** if you need to stop.
 
-### D. Consider the result
+### D. Read the AI interpretation
 
-The result screen shows the primary hexagram, changing lines, a resulting hexagram
-when lines change, and the movement calculation. Expand the symbolic-context
-section for available trigram information.
+The screen shows the primary hexagram, changing lines, and the resulting hexagram
+when lines change. The AI reading is requested automatically; a waiting message
+appears while it is prepared. Movement and trigram details remain expandable.
 
-Choose **Interpret this Casting** to open the interpretation screen. Entering
-that screen does not itself call an AI service. **Request AI interpretation** is
-the separate action that requests assistance.
+Read the interpretation as a proposal, then choose **Continue to your reflection**.
+Your own written interpretation comes afterward in the journal. Previously saved
+AI readings are reused when you return.
 
-If no service is configured or the needed source texts are unavailable, choose
-**Reflect without AI**. If an interpretation is present, read it as a proposal
-and choose **Continue to Reflection**.
+If generation fails, the casting stays saved. Choose **Retry AI interpretation**;
+there is no need to cast again. If curated source text is unavailable, the AI can
+reflect on the recorded casting structure while identifying that limitation.
+Missing quotations and translations must not be invented.
 
 ### E. Record a reflection
 
@@ -288,7 +289,7 @@ not automatically invoked by the current UI.
 | A request to select a Persona | Open `/journey/`, log in and choose **Create Persona and begin**, or **Resume** an active Persona. Creating an account alone does not start a journey. |
 | An unfinished prototype-casting message | Finish the casting in `/?prototype`, then return to `/journey/`. |
 | No suggested question available | Write your own. The button depends on a previous saved interpretation. |
-| Missing source-text or AI-service error | Choose Reflect without AI. The casting remains recorded. |
+| AI-service error or incomplete response | Choose Retry AI interpretation. The casting remains recorded. If failures persist, contact the service administrator. |
 | Journey or Persona changed | Another action has changed its revision. Preserve any unsaved wording, then reload the saved state. |
 | Visual snapshot does not match | Reload the saved journey to restore the server's accepted casting state. |
 | An unavailable action | Follow the current screen's next step; changing a URL cannot skip a saved stage. |

@@ -17,12 +17,14 @@ export const journey={
       }
       state=fixture.get();
     }else{
-      [state,initial]=await Promise.all([api.request('/journey-session'),api.request('/casting/initial')]);
+      state=await api.request('/journey-session');
+      initial=state.workflow.workflowCasting;
     }
     return state;
   },
   async command(action,text=null,visual=null){
     state=preview?fixture.command(action,text,visual):await api.request('/journey-session','POST',{expectedRevision:state.workflow.workflowRevision,commandPersonaId:state.game.gameJourney.journeyPersonaId,commandAction:action,commandText:text,commandVisual:visual});
+    if(action==='begin')initial=state.workflow.workflowCasting;
     if(preview)sessionStorage.setItem(cacheKey,JSON.stringify(state));
     return state;
   },

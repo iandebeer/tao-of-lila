@@ -63,5 +63,15 @@ await click({viewState:'3'});assert.equal(loadCount,2);assert.match(activeDialog
 const img={tagName:'IMG',hidden:false};activeDialog.handlers.error({target:img});assert.equal(img.hidden,true);
 await click({viewHex:'5',primary:'7',resulting:'5',changing:'2',role:'resulting'});assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/36 ·/);
 activeDialog.close();assert.equal(activeDialog,null);assert.equal(restoreCount,1);
+// Tapping card text/artwork/padding resolves its button, without a CSS overlay.
+const cardButton={dataset:{viewState:'3'},isConnected:true,hasAttribute:()=>true,focus(){restoreCount++;}};
+const card={querySelector:()=>cardButton};
+const cardTarget={closest:selector=>selector==='.local-state'?card:null};
+await listener({target:cardTarget,preventDefault(){}});
+assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/Discipline/);
+activeDialog.close();assert.equal(restoreCount,2);
+cardButton.disabled=true;
+await listener({target:cardTarget,preventDefault(){}});
+assert.equal(activeDialog,null,'disabled cards do not open during a pending action');
 installStateViewer({preview:true});fetchMode='pending';const pending=click({viewState:'1'});activeDialog.close();resolveFetch({ok:true,json:async()=>catalog});await pending;assert.equal(activeDialog,null);
 console.log('ok - canonical retrieval, transitions, eight trigrams, both hexagrams, artwork fallback, retry, close and focus');

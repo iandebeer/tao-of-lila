@@ -101,7 +101,9 @@ the occupied state and the engine-provided reachable destinations; there is no
 padding to six cards and no wider viewport expansion of the state set. Phone
 cards are vertical; tablet/desktop can use two columns for the same records.
 
-Whole cards are selectable through accessible buttons. Opening a destination
+Clicking or tapping a card’s text, artwork, or padding opens its expanded
+description in the state dialog. The Explore button provides keyboard access;
+Close, Escape, or a click outside the dialog dismisses it and restores focus. Opening a destination
 or its transition preview does not call any movement endpoint or modify current
 position. Active transition markers come only from the game projection, never
 from the separate traditional-reference edition. The existing live engine has

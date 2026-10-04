@@ -337,3 +337,39 @@ After editing canonical viewer metadata or seed identities, run
 Gameplay shows only the present state and the engine-supplied forward possibilities,
 with fewer destinations near the end. Larger screens show the same states.
 Run `node scripts/local-field-test.mjs` to verify this constraint.
+
+### Casting randomness
+
+New live castings draw a fresh seed from server-side cryptographic randomness,
+including the journey, prototype, and `GET /casting/initial` entry points.
+The pure engine then advances deterministically from that saved state, so
+resuming a ceremony preserves its result. `initialCastingState` is a fixed
+fixture for tests; live callers use `Runtime.Casting.freshCastingState`.
+Repeated hexagrams remain possible and are not rejected or rerolled.
+Browser demo scenarios intentionally replay fixed fixtures.
+
+This fixes the repeated fixed-seed sequence, but does not change the existing
+heap-split sampler. Its known deviation from traditional yarrow probabilities
+is recorded in `docs/responsive-journey.md`; the strict `movement-statistics`
+suite remains the check for that separate distribution issue.
+
+### Automatic AI interpretation
+
+Completing the sixth line records the casting and automatically opens and requests
+its AI interpretation. Cached readings are reused. A failed request leaves the
+casting intact and offers an explicit retry; it does not silently repeat paid
+requests. Personal reflection follows a successful AI reading, and the journey
+API rejects the reflection transition until that event has a saved interpretation.
+
+`OPENAI_MAX_OUTPUT_TOKENS` sets the live server response budget (positive integer;
+default 16000, previously 1200). This budget includes reasoning as well as visible
+output. Incomplete responses distinguish output exhaustion, content filtering,
+and other interruptions; partial JSON is never stored as a finished reading.
+See the [OpenAI reasoning guide](https://developers.openai.com/api/docs/guides/reasoning).
+
+Live casting interpretation can use recorded casting facts outside the curated
+11/36 source corpus. Unavailable quotation/translation fields remain empty and
+the model is instructed to identify the limitation and avoid invented citations.
+The direct source-text pair endpoint retains its curated-corpus restriction.
+
+Verify frontend orchestration with `node scripts/interpretation-flow-test.mjs`.

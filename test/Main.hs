@@ -29,11 +29,29 @@ import Domain.Journey (allowedStage)
 import Domain.HexagramIndex (binaryToKingWen, kingWenToBinary)
 import Domain.Contemplation
 import qualified Engine.Casting as Casting
+import Runtime.Casting (freshCastingState)
+import Control.Monad (replicateM)
+import Data.List (nub)
 import Engine.Reading (generateReading)
 import Engine.Game (accessibleStateIds, applyCastingMovement)
 
 main :: IO ()
 main = do
+  fresh <- replicateM 32 freshCastingState
+  assert "new castings draw varied seeds" (length (nub (map Casting.seed fresh)) > 1)
+  assert "initial debug seed matches engine seed" (all (\s -> Casting.debugSeed (Casting.debug s) == Casting.seed s) fresh)
+  let complete = until ((/= Nothing) . Casting.result) Casting.nextCastingState
+      seeded = Casting.initialCastingStateWithSeed 123456
+      partial = iterate Casting.nextCastingState seeded !! 37
+  assert "saved casting resumes identically" (complete partial == complete seeded)
+  let contexts = [buildContemplationContext (LeelaState 1 "Innocence" "" "") "What can I learn?" result | casting <- fresh, Just result <- [Casting.result (complete casting)]]
+  assert "fresh casting results can all be interpreted" (all (either (const False) (const True)) contexts)
+  let baseline = maybe (error "Fixture casting did not finish") id (Casting.result (complete seeded))
+      allPairs = [baseline {Casting.primaryBinaryValue = binary, Casting.transformedBinaryValue = binary `xor` 63, Casting.primaryKingWenNumber = binaryToKingWen binary, Casting.transformedKingWenNumber = binaryToKingWen (binary `xor` 63), Casting.changingLines = [1..6], Casting.numberChanging = 6} | binary <- [0..63]]
+  assert "all 64 primary/resulting configurations have live interpretation context" (all (either (const False) ((== 6) . length . contemplationChangingLines) . buildContemplationContext (LeelaState 1 "Innocence" "" "") "What can I learn?") allPairs)
+
+  assert "same seed replays exactly" (complete seeded == complete (Casting.initialCastingStateWithSeed 123456))
+  assert "fresh castings produce varied results" (length (nub (map (Casting.result . complete) fresh)) > 1)
   catalog <- SV.loadStateCatalog "data/state-views.json" >>= either fail pure
   assert "all 72 canonical view identities are retrievable" (all (\n -> maybe False ((== n) . stateId . SV.identity) (SV.lookupStateView catalog n)) [1..72])
   assert "invalid tile has no identity" (SV.lookupStateView catalog 73 == Nothing)
@@ -105,6 +123,10 @@ main = do
   assert "direct pair rejects invalid numbers" (isLeft (pairLines 0 36) && isLeft (pairLines 11 65))
   assert "unseeded pair reports unavailable corpus" (isLeft (pairLines 1 2))
   assert "raw Responses API output is decoded after reasoning items" (decodeContemplationResponse (wireResponse "completed" textContent) == Right sampleContemplation)
+  let limited = encode (object ["status" .= ("incomplete" :: Text), "incomplete_details" .= object ["reason" .= ("max_output_tokens" :: Text)]])
+      filtered = encode (object ["status" .= ("incomplete" :: Text), "incomplete_details" .= object ["reason" .= ("content_filter" :: Text)]])
+  assert "output exhaustion explains the configuration and preserves the casting" (case decodeContemplationResponse limited of Left message -> "output limit" `T.isInfixOf` T.pack message; _ -> False)
+  assert "content filtering is distinguished from output exhaustion" (case decodeContemplationResponse filtered of Left message -> "content filter" `T.isInfixOf` T.pack message; _ -> False)
   assert "incomplete Responses API output is rejected" (isLeft (decodeContemplationResponse (wireResponse "incomplete" textContent)))
   assert "refused Responses API output is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [object ["type" .= ("refusal" :: String), "refusal" .= ("Declined" :: String)]])) )
   assert "missing output text is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [])))

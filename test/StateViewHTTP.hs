@@ -3,6 +3,9 @@ module StateViewHTTP (checkStateViewHTTP) where
 
 import qualified API.Server as API
 import Data.Aeson (eitherDecode)
+import Control.Monad (replicateM)
+import Data.List (nub)
+import qualified Engine.Casting as Casting
 import Data.ByteString.Builder (toLazyByteString)
 import qualified Data.ByteString.Lazy as LBS
 import Data.IORef (newIORef, modifyIORef', readIORef)
@@ -26,6 +29,11 @@ checkStateViewHTTP domain catalog = do
           withBody $ \body -> body (\builder -> modifyIORef' bytes (<> toLazyByteString builder)) (pure ())
           pure ResponseReceived
         readIORef bytes
+  castings <- replicateM 8 $ do
+    body <- get ["casting", "initial"]
+    either fail pure (eitherDecode body)
+  if length (nub (map Casting.seed castings)) > 1 then pure ()
+    else fail "Casting initial API reused a fixed seed"
   response <- get ["state-views"]
   case eitherDecode response of
     Right decoded | decoded == catalog -> pure ()

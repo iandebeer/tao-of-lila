@@ -47,6 +47,12 @@ resolveContemplationModel :: IO ContemplationModel
 resolveContemplationModel = do
   apiKey <- lookupEnv "OPENAI_API_KEY"
   modelName <- lookupEnv "OPENAI_MODEL"
+  outputLimit <- lookupEnv "OPENAI_MAX_OUTPUT_TOKENS"
+  maxOutput <- case outputLimit of
+    Nothing -> pure 16000
+    Just raw -> case readMaybe raw of
+      Just n | n > 0 -> pure n
+      _ -> fail "OPENAI_MAX_OUTPUT_TOKENS must be a positive integer"
   inputRate <- resolveIntEnv "OPENAI_INPUT_COST_MICROS_PER_MILLION"
   cachedInputRate <- resolveIntEnv "OPENAI_CACHED_INPUT_COST_MICROS_PER_MILLION"
   outputRate <- resolveIntEnv "OPENAI_OUTPUT_COST_MICROS_PER_MILLION"
@@ -55,7 +61,7 @@ resolveContemplationModel = do
     Just key -> openAIContemplationModel OpenAIConfig
       { openAIApiKey = T.pack key
       , openAIModelName = T.pack (maybe "gpt-5-mini" id modelName)
-      , openAIMaxOutputTokens = 1200
+      , openAIMaxOutputTokens = maxOutput
       , openAIInputCostMicrosPerMillion = inputRate
       , openAICachedInputCostMicrosPerMillion = cachedInputRate
       , openAIOutputCostMicrosPerMillion = outputRate

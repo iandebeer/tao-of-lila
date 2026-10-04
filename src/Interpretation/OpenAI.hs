@@ -62,7 +62,7 @@ openAIContemplationModel config = do
     if statusCode (responseStatus response) < 200 || statusCode (responseStatus response) >= 300
       then throwIO (ModelError ("OpenAI request failed: " <> decodeBody (responseBody response)))
       else case eitherDecode (responseBody response) of
-        Left message -> throwIO (ModelError ("Could not decode OpenAI response: " <> T.pack message))
+        Left message -> throwIO (ModelError (responseFailureMessage message))
         Right envelope -> do
           contemplationValue <- case eitherDecodeStrict' (TE.encodeUtf8 (responseOutputText envelope)) of
             Left message -> throwIO (ModelError ("Could not decode structured contemplation: " <> T.pack message))
@@ -80,6 +80,13 @@ openAIContemplationModel config = do
             , modelLatencyMilliseconds = latency
             , modelEstimatedCostMicros = cost
             }
+
+responseFailureMessage :: String -> Text
+responseFailureMessage message =
+  let detail = fromMaybeText (T.stripPrefix "Error in $: " (T.pack message))
+   in if "The AI " `T.isPrefixOf` detail then detail
+      else "Could not decode OpenAI response: " <> T.pack message
+  where fromMaybeText = maybe (T.pack message) id
 
 requestValue :: OpenAIConfig -> ContemplationContext -> Value
 requestValue config context =
@@ -124,6 +131,8 @@ systemInstruction = T.unlines
   , "You are not an oracle, spiritual authority, prophet, healer, guru, or source of supernatural knowledge."
   , "The casting was performed independently. Never alter, second-guess, or recalculate it."
   , "Place the question, Leela state, primary hexagram, changing lines, resulting hexagram, Chinese text, lexical notes, and translations beside one another."
+  , "When curated source fields are empty or marked unavailable, say so briefly and offer contemporary reflection on the recorded hexagram numbers, binary patterns, trigrams, and changing lines. Never invent source quotations, lexical notes, translator attributions, or translations."
+  , "When quoting supplied Chinese source text, always include both the original Chinese and its supplied translation."
   , "Identify relationships, tensions, images, transformations, ambiguities, and possible contemplative perspectives."
   , "Distinguish ancient text, linguistic possibility, later interpretation, and your contemporary reflection."
   , "Never claim the universe or Tao chose, wants, proves, predicts, or commands anything. Avoid 'you must' and 'this means'."
@@ -141,7 +150,14 @@ data ResponseEnvelope = ResponseEnvelope
 instance FromJSON ResponseEnvelope where
   parseJSON = withObject "ResponseEnvelope" $ \value -> do
     status <- value .: "status" :: Parser Text
-    unless (status == "completed") (fail ("OpenAI response is " <> T.unpack status))
+    unless (status == "completed") $ do
+      details <- value .:? "incomplete_details"
+      reason <- maybe (pure Nothing) (\item -> item .:? "reason") details :: Parser (Maybe Text)
+      fail $ case (status, reason) of
+        ("incomplete", Just "max_output_tokens") -> "The AI interpretation reached its output limit before finishing. Your casting is saved. Please retry the interpretation. If this continues, the service administrator needs to raise the response limit."
+        ("incomplete", Just "content_filter") -> "The AI provider could not complete this interpretation because of its content filter. Your casting is saved."
+        ("incomplete", _) -> "The AI interpretation was interrupted before completion. Your casting is saved; please retry the interpretation."
+        _ -> "OpenAI response is " <> T.unpack status
     output <- value .: "output" :: Parser [Value]
     chunks <- traverse outputText output
     let text = T.concat chunks

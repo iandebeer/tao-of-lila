@@ -44,7 +44,8 @@ import Domain.Game
 import qualified Persistence.PersonaSchema as PersonaSchema
 import Domain.Contemplation
 import Domain.Types (DomainData (..), LeelaState (..))
-import Engine.Casting (CastingResult, CastingState, initialCastingState, nextCastingState, result)
+import Runtime.Casting (freshCastingState)
+import Engine.Casting (CastingResult, CastingState, nextCastingState, result)
 import Engine.Game (accessibleStateIds, applyCastingMovement)
 import Interpretation.ContemplationModel (ContemplationModel (..), ModelError (..))
 import Numeric (showHex)
@@ -141,7 +142,8 @@ deleteQuestion store domain user requestedId = withStore store $ \connection -> 
 newCasting :: Store -> DomainData -> User -> IO GameView
 newCasting store domain user = withStore store $ \connection -> withTransaction connection $ do
   guardWorkflow connection user
-  changed <- execute connection "UPDATE game_sessions SET casting = ?, updated_at = now() WHERE persona_id = ?" (PG.Aeson initialCastingState, selectedPersonaId user)
+  casting <- freshCastingState
+  changed <- execute connection "UPDATE game_sessions SET casting = ?, updated_at = now() WHERE persona_id = ?" (PG.Aeson casting, selectedPersonaId user)
   if changed == 0 then throwIO (NotFound "Game session") else loadGameView connection domain user
 
 nextCasting :: Store -> DomainData -> User -> IO GameView
@@ -253,7 +255,7 @@ loadCastingMaybe connection journey = do
     _ -> throwIO (CorruptData "Multiple game sessions found")
 
 loadCasting :: Connection -> JourneyState -> IO CastingState
-loadCasting connection journey = maybe initialCastingState id <$> loadCastingMaybe connection journey
+loadCasting connection journey = loadCastingMaybe connection journey >>= maybe freshCastingState pure
 
 resolveState :: DomainData -> Int -> LeelaState
 resolveState domain requestedId =

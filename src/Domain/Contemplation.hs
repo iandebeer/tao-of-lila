@@ -20,6 +20,7 @@ where
 import Data.Aeson (FromJSON (..), ToJSON (..), object, withObject, (.:), (.=))
 import Data.Bits (testBit, xor)
 import Data.List (find)
+import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Domain.HexagramIndex (kingWenToBinary)
@@ -169,10 +170,32 @@ buildContemplationContext :: LeelaState -> Text -> CastingResult -> Either Text 
 buildContemplationContext leela question casting = do
   primaryNumber <- maybe (Left "The primary King Wen number is unavailable") Right (primaryKingWenNumber casting)
   resultingNumber <- maybe (Left "The resulting King Wen number is unavailable") Right (transformedKingWenNumber casting)
-  primary <- maybe (Left "Canonical text for the primary hexagram is not seeded") Right (lookupHexagramText primaryNumber)
-  resulting <- maybe (Left "Canonical text for the resulting hexagram is not seeded") Right (lookupHexagramText resultingNumber)
+  let primary = fromMaybe (unavailableHexagramText primaryNumber) (lookupHexagramText primaryNumber)
+      resulting = fromMaybe (unavailableHexagramText resultingNumber) (lookupHexagramText resultingNumber)
   activeLines <- traverse (lineContext primary (primaryBinaryValue casting)) (changingLines casting)
   pure (ContemplationContext leela Nothing (Just casting) Nothing question primary activeLines resulting)
+
+-- Live castings can be contemplated from their recorded structural facts even
+-- outside the curated corpus. Empty source fields are deliberate: no fabricated
+-- ancient text, attribution, or translation is supplied to the model.
+unavailableHexagramText :: Int -> HexagramText
+unavailableHexagramText number = HexagramText
+  { textHexagramNumber = number
+  , textChineseName = ""
+  , textPinyin = ""
+  , textUnicodeSymbol = ""
+  , textLowerTrigram = ""
+  , textUpperTrigram = ""
+  , textJudgmentChinese = ""
+  , textImageChinese = ""
+  , textLineChinese = replicate 6 ""
+  , textLexicalNotes = []
+  , textWorkingTranslation = "Curated source text and translations are unavailable for this hexagram. Offer a contemporary reflection on the supplied casting facts; do not supply quotations or translations."
+  , textLineWorkingTranslations = replicate 6 ""
+  , textLeggeJudgment = unavailableSource
+  , textLeggeLines = replicate 6 unavailableSource
+  }
+  where unavailableSource = SourceTranslation "" "" 0 "unavailable" "" ""
 
 -- Supply the observed pair directly, without simulating a casting or movement.
 buildPairContemplationContext :: LeelaState -> Text -> Int -> Int -> Either Text ContemplationContext

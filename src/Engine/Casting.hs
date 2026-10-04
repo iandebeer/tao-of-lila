@@ -11,6 +11,7 @@ module Engine.Casting
   , RoundSnapshot (..)
   , TrigramResult (..)
   , initialCastingState
+  , initialCastingStateWithSeed
   , nextCastingState
   )
 where
@@ -138,9 +139,13 @@ instance ToJSON CastingState
 instance FromJSON CastingState
 
 initialCastingState :: CastingState
-initialCastingState =
+-- Fixed fixture for reproducible tests; live entry points supply fresh entropy.
+initialCastingState = initialCastingStateWithSeed 827364923
+
+initialCastingStateWithSeed :: Int -> CastingState
+initialCastingStateWithSeed suppliedSeed =
   mkState
-    827364923
+    (suppliedSeed `mod` 2147483647)
     0
     "CastingNew"
     "[CLICK TO BEGIN]"

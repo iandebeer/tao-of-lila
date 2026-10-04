@@ -13,6 +13,7 @@ import Domain.Contemplation (ContemplationResponse (..))
 import Domain.Game
 import Domain.Journey
 import Domain.Types (DomainData)
+import Runtime.Casting (freshCastingState)
 import qualified Engine.Casting as Casting
 import Engine.Game (applyCastingMovement)
 import Persistence.Postgres (Store, guardPersona, selectedPersonaId, StoreError (..), withStore, loadGameView, resolveState)
@@ -77,7 +78,8 @@ transition connection domain user workflow command = case commandAction command 
       if finalized > 0 then pure () else do
         _ <- execute connection "INSERT INTO persona_questions(persona_id,journey_id,player_final_text,contextual_basis,finalized_at) VALUES (?,?,?,jsonb_build_object('workflow',?::jsonb),now())" (selectedPersonaId user,journeySessionId (gameJourney game),workflowQuestion workflow,PG.Aeson workflow)
         pure ()
-      pure workflow {workflowStage = "casting", workflowCasting = Just Casting.initialCastingState, workflowVisual = Nothing, workflowEventId = Nothing, workflowJournal = ""}
+      casting <- freshCastingState
+      pure workflow {workflowStage = "casting", workflowCasting = Just casting, workflowVisual = Nothing, workflowEventId = Nothing, workflowJournal = ""}
   "next" -> do
     casting <- requireCasting workflow
     if Casting.result casting /= Nothing then throwIO (Conflict "Casting is already complete") else pure ()
@@ -102,7 +104,11 @@ transition connection domain user workflow command = case commandAction command 
         pure workflow {workflowStage = "result", workflowEventId = Just eventId}
       _ -> throwIO (CorruptData "Could not record casting")
   "interpretation" -> pure workflow {workflowStage = "interpretation"}
-  "reflection" -> pure workflow {workflowStage = "reflection"}
+  "reflection" -> do
+    eventId <- maybe (throwIO (Conflict "No completed encounter")) pure (workflowEventId workflow)
+    rows <- query connection "SELECT EXISTS (SELECT 1 FROM contemplations WHERE game_event_id = ?)" (Only eventId) :: IO [Only Bool]
+    if rows == [Only True] then pure workflow {workflowStage = "reflection"}
+      else throwIO (Conflict "Read the AI interpretation before continuing to your reflection. Retry the interpretation if it did not finish.")
   "journal" -> saveReflection connection workflow (fromMaybe "" (commandText command))
   "movement" -> do
     saved <- saveReflection connection workflow (fromMaybe (workflowJournal workflow) (commandText command))

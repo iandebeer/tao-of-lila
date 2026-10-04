@@ -50,7 +50,7 @@ export function createDemo(seed, traces, scenario = 'ordinary') {
           data.history.unshift({eventId:w.workflowEventId,from:w.workflowFrom,to:final,question:w.workflowQuestion,journal:'',casting:w.workflowCasting.result,rawCasting:w.workflowCasting,createdAt:'2026-09-11T12:00:00Z',interpretation:null});break;
         }
         case 'interpretation':w.workflowStage='interpretation';break;
-        case 'reflection':w.workflowStage='reflection';if(name==='long-journal')w.workflowJournal='I notice a little more room between the question and my response.\n\n'.repeat(35);break;
+        case 'reflection':if(!data.interpretation)throw new Error('Read the AI interpretation before continuing to your reflection.');w.workflowStage='reflection';if(name==='long-journal')w.workflowJournal='I notice a little more room between the question and my response.\n\n'.repeat(35);break;
         case 'journal':w.workflowJournal=text;data.history[0].journal=text;break;
         case 'movement':w.workflowJournal=text;data.history[0].journal=text;w.workflowStage='movement';break;
         case 'acknowledge': {

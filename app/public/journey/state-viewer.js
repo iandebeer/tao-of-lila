@@ -15,7 +15,7 @@ export function hexControl(binary,text,selection={}){
   const p=selection.primary??binary,r=selection.resulting??binary,c=selection.changing||[];
   return `<button type="button" class="state-link" data-view-hex="${esc(binary)}" data-primary="${esc(p)}" data-resulting="${esc(r)}" data-changing="${esc(c.join(','))}" data-role="${esc(selection.role||'primary')}">${esc(text)}</button>`;
 }
-export const stateControl=(id,text='Explore this state',relation={})=>`<button type="button" class="state-link" data-view-state="${esc(id)}"${['snake','ladder'].includes(relation.type)&&Number.isInteger(relation.destination)?` data-transition="${esc(relation.type)}" data-destination="${esc(relation.destination)}"`:''}>${esc(text)}</button>`;
+export const stateControl=(id,text='Explore this state',relation={})=>`<button type="button" class="state-link" aria-haspopup="dialog" data-view-state="${esc(id)}"${['snake','ladder'].includes(relation.type)&&Number.isInteger(relation.destination)?` data-transition="${esc(relation.type)}" data-destination="${esc(relation.destination)}"`:''}>${esc(text)}</button>`;
 export function lineFigure(binary,count,changing=[]){return `<div class="state-lines" role="img" aria-label="Lines from bottom to top: ${Array.from({length:count},(_,i)=>binary>>i&1?'Yang':'Yin').join(', ')}">${Array.from({length:count},(_,i)=>count-1-i).map(bit=>`<div class="state-line ${binary>>bit&1?'yang':'yin'} ${changing.includes(bit+1)?'is-changing':''}"><span></span><span></span><small>${bit+1}${changing.includes(bit+1)?' •':''}</small></div>`).join('')}</div>`;}
 export function trigramMarkup(t,position){
   if(!t)return '<p>Trigram details are not yet available.</p>';
@@ -43,7 +43,12 @@ export function installStateViewer({preview=false}={}){
   const load=()=>catalogPromise??=(fetch(preview?'./state-views.json':'/state-views').then(r=>{if(!r.ok)throw Error('State information could not be loaded. Please try again.');return r.json();}).catch(error=>{catalogPromise=null;throw error;}));
   const close=()=>dialog?.close();
   document.addEventListener('click',async event=>{
-    const button=event.target.closest('[data-view-state],[data-view-hex]');if(!button)return;
+    // Resolve the card's real button so text, artwork and padding all open
+    // the same view, with keyboard focus returning to an accessible control.
+    const direct=event.target.closest('[data-view-state],[data-view-hex]');
+    const card=event.target.closest('.local-state');
+    const button=direct||(!event.target.closest('button,a,input,textarea,select')&&card?.querySelector('[data-view-state]'));
+    if(!button||button.disabled)return;
     event.preventDefault();
     if(!dialog){
       opener=button;dialog=document.createElement('dialog');dialog.className='state-viewer';dialog.setAttribute('aria-labelledby','state-view-title');

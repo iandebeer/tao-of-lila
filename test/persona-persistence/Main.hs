@@ -90,8 +90,10 @@ acceptance store = do
   assert "one Player can create multiple Personas" (personaId a/=personaId b && personaPlayerId a==personaPlayerId b)
   let ua=legacy {userPersonaId=Just (personaId a)}; ub=legacy {userPersonaId=Just (personaId b)}
   _ <- createQuestion store domain ua (QuestionRequest "A question")
-  _ <- newCasting store domain ua
+  starts <- mapM (\_ -> newCasting store domain ua) ([1..8] :: [Int])
+  assert "new prototype castings receive fresh seeds" (any ((/= gameCasting (head starts)) . gameCasting) (tail starts))
   ga <- getGameView store domain ua
+  assert "loading a casting preserves its seed" (gameCasting ga == gameCasting (last starts))
   let complete=until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState
   case (gameQuestion ga,Casting.result complete) of
     (Just q,Just r) -> withStore store $ \c -> completeCasting c (gameJourney ga) q complete r
@@ -120,7 +122,9 @@ acceptance store = do
   questioning <- J.commandJourney store domain ua (JourneyCommand (revision initial) (userPersonaId ua) "question" Nothing Nothing)
   suggested <- J.commandJourney store domain ua (JourneyCommand (revision questioning) (userPersonaId ua) "suggest" Nothing Nothing)
   drafted <- J.commandJourney store domain ua (JourneyCommand (revision suggested) (userPersonaId ua) "draft" (Just "Player replacement") Nothing)
-  _ <- J.commandJourney store domain ua (JourneyCommand (revision drafted) (userPersonaId ua) "begin" Nothing Nothing)
+  begun <- J.commandJourney store domain ua (JourneyCommand (revision drafted) (userPersonaId ua) "begin" Nothing Nothing)
+  resumed <- J.getJourney store domain ua
+  assert "reloading a journey preserves the casting" (begun == resumed)
   stored <- withStore store $ \c -> query c "SELECT ai_proposed_text,player_final_text,finalized_at IS NOT NULL FROM persona_questions WHERE persona_id=? ORDER BY id DESC LIMIT 1" (Only (personaId a)) :: IO [(T.Text,T.Text,Bool)]
   assert "AI proposal and final Player question both survive" (stored==[("AI proposed question","Player replacement",True)])
   mismatch <- try (J.commandJourney store domain ub (JourneyCommand 0 (userPersonaId ua) "question" Nothing Nothing)) :: IO (Either StoreError Value)

@@ -25,6 +25,7 @@ library
                   , Domain.Loading
                   , Domain.Types
                   , Engine.Casting
+                  , Runtime.Casting
                   , Engine.Movement
                   , Engine.Game
                   , Engine.Reading

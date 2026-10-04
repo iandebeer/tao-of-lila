@@ -16,7 +16,8 @@ import qualified Persistence.Journey as Journey
 import Domain.Game
 import Domain.Contemplation (ContemplationContext, ContemplationView, CostSummary)
 import Domain.Types (DomainData (..), Health (..), Hexagram, Interpretation, LeelaState, Reading (..), ReadingRequest)
-import Engine.Casting (CastingState, initialCastingState, nextCastingState)
+import Runtime.Casting (freshCastingState)
+import Engine.Casting (CastingState, nextCastingState)
 import Engine.Reading (ReadingError (..), generateReading)
 import Interpretation.ContemplationModel (ContemplationModel)
 import Network.HTTP.Types (hContentType, status200)
@@ -105,7 +106,7 @@ app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API)
         :<|> (\ident authorization -> withUser store (\user -> Persona.personaHistory store user ident) authorization)
         :<|> (\ident theme authorization -> withUser store (\user -> Persona.rejectTheme store user ident theme) authorization)
         :<|> pure (Health "ok" "tao-of-lila")
-        :<|> pure initialCastingState
+        :<|> liftIO freshCastingState
         :<|> (pure . nextCastingState)
         :<|> serveStaticClient staticDirectory
 

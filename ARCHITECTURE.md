@@ -289,3 +289,8 @@ uses one native dialog to explore it without advancing or recomputing engine
 state. Traditional reference identities remain separate from the existing game
 edition; see [State Viewer](docs/state-viewer.md) for content provenance, PNG
 assets, catalogue packaging and future contextual-interpretation boundaries.
+
+Fresh casting entropy is supplied by `Runtime.Casting` in the IO shell using
+`Crypto.Random`. Every live casting start passes that seed to the pure
+`Engine.Casting.initialCastingStateWithSeed` constructor. Saved castings resume
+without reseeding; the browser only animates their engine state.
