@@ -315,3 +315,25 @@ movement-statistics` runs 100,000 full castings and currently **fails**: the
 existing yarrow sampler does not match the traditional line-value frequencies.
 Consequently, aggregate `cabal test` is not green. See
 [the statistical findings](docs/responsive-journey.md#statistical-acceptance-findings).
+
+## Expanded state views
+
+Select the current tile, a reachable destination in the local gameplay view, or a casting's
+primary/resulting hexagram to open the responsive State Viewer. It shows stable
+identities, curated descriptions and reusable trigram associations separately
+from contextual AI interpretation. PNG artwork is optional. `GET /state-views`
+provides the versioned catalogue; existing game APIs and movement are unchanged.
+
+The current prototype's state names are preserved. Traditional snake/arrow
+examples are explicitly labelled as a separate reference edition and do not
+move the Persona. Uncurated entries remain clearly labelled.
+See [State Viewer architecture, content and artwork](docs/state-viewer.md).
+
+After editing canonical viewer metadata or seed identities, run
+`node scripts/build-state-catalog.mjs`. Verify with `cabal test`,
+`node scripts/build-state-catalog.mjs --check`, and
+`node scripts/state-viewer-test.mjs`.
+
+Gameplay shows only the present state and the engine-supplied forward possibilities,
+with fewer destinations near the end. Larger screens show the same states.
+Run `node scripts/local-field-test.mjs` to verify this constraint.

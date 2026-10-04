@@ -279,3 +279,13 @@ journey; no simplistic emotion-to-appearance mapping is implemented. Initial
 attributes accept open-ended structured values (for example life_stage,
 material_circumstances, health_or_vitality, social_context, responsibilities,
 aspirations, tensions and worldview) alongside natural language, never diagnoses.
+
+## Read-only state catalogue
+
+`Domain.StateView` models and validates visual identity, typed snake/ladder
+reference relationships, and trigram/hexagram information. `GET /state-views`
+serves this catalogue independently of game mutation routes. The journey client
+uses one native dialog to explore it without advancing or recomputing engine
+state. Traditional reference identities remain separate from the existing game
+edition; see [State Viewer](docs/state-viewer.md) for content provenance, PNG
+assets, catalogue packaging and future contextual-interpretation boundaries.

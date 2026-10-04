@@ -1,0 +1,2017 @@
+{
+  "catalogVersion": "state-view-v1",
+  "catalogNote": "Current game identities are preserved. Traditional references are a separate, partial edition supplied in the State Viewer brief; its snakes and arrows are not active movement rules. Colours are an editorial palette. Unfilled descriptions and associations are not inferred by AI.",
+  "sources": [
+    "data/leela.json — existing Tao of Lila game identities",
+    "assets/bagua.json — existing trigram identities, lines and arrangements",
+    "app/public/journey/hexagram-labels.json — existing binary-keyed names",
+    "User-supplied Expanded State Views brief — traditional examples 55 → 3 and 37 → 66",
+    "https://www.themathesontrust.org/papers/fareasternreligions/Yijing-Shuo_Gua-Wilhelm-Lynn.pdf — Shuo Gua animal and family associations; summaries are original Tao of Lila editorial text"
+  ],
+  "trigramViews": [
+    {
+      "trigramBinary": 7,
+      "trigramChinese": "乾",
+      "trigramPinyin": "Qian",
+      "naturalImage": "Heaven",
+      "linesBottomToTop": [
+        1,
+        1,
+        1
+      ],
+      "family": "Father",
+      "animal": "Horse",
+      "trigramVisual": {
+        "hue": "#c9c5b4",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "south",
+      "laterHeavenDirection": "northwest"
+    },
+    {
+      "trigramBinary": 3,
+      "trigramChinese": "兌",
+      "trigramPinyin": "Dui",
+      "naturalImage": "Lake",
+      "linesBottomToTop": [
+        1,
+        1,
+        0
+      ],
+      "family": "Youngest daughter",
+      "animal": "Sheep",
+      "trigramVisual": {
+        "hue": "#c7c0ae",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "southeast",
+      "laterHeavenDirection": "west"
+    },
+    {
+      "trigramBinary": 5,
+      "trigramChinese": "離",
+      "trigramPinyin": "Li",
+      "naturalImage": "Fire",
+      "linesBottomToTop": [
+        1,
+        0,
+        1
+      ],
+      "family": "Middle daughter",
+      "animal": "Pheasant",
+      "trigramVisual": {
+        "hue": "#c6a397",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "east",
+      "laterHeavenDirection": "south"
+    },
+    {
+      "trigramBinary": 1,
+      "trigramChinese": "震",
+      "trigramPinyin": "Zhen",
+      "naturalImage": "Thunder",
+      "linesBottomToTop": [
+        1,
+        0,
+        0
+      ],
+      "family": "Eldest son",
+      "animal": "Dragon",
+      "trigramVisual": {
+        "hue": "#a8b89a",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "northeast",
+      "laterHeavenDirection": "east"
+    },
+    {
+      "trigramBinary": 6,
+      "trigramChinese": "巽",
+      "trigramPinyin": "Xun",
+      "naturalImage": "Wind/Wood",
+      "linesBottomToTop": [
+        0,
+        1,
+        1
+      ],
+      "family": "Eldest daughter",
+      "animal": "Rooster",
+      "trigramVisual": {
+        "hue": "#a8bcb0",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "southwest",
+      "laterHeavenDirection": "southeast"
+    },
+    {
+      "trigramBinary": 2,
+      "trigramChinese": "坎",
+      "trigramPinyin": "Kan",
+      "naturalImage": "Water",
+      "linesBottomToTop": [
+        0,
+        1,
+        0
+      ],
+      "family": "Middle son",
+      "animal": "Pig",
+      "trigramVisual": {
+        "hue": "#9bacbd",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "west",
+      "laterHeavenDirection": "north"
+    },
+    {
+      "trigramBinary": 4,
+      "trigramChinese": "艮",
+      "trigramPinyin": "Gen",
+      "naturalImage": "Mountain",
+      "linesBottomToTop": [
+        0,
+        0,
+        1
+      ],
+      "family": "Youngest son",
+      "animal": "Dog",
+      "trigramVisual": {
+        "hue": "#b1ad9f",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "northwest",
+      "laterHeavenDirection": "northeast"
+    },
+    {
+      "trigramBinary": 0,
+      "trigramChinese": "坤",
+      "trigramPinyin": "Kun",
+      "naturalImage": "Earth",
+      "linesBottomToTop": [
+        0,
+        0,
+        0
+      ],
+      "family": "Mother",
+      "animal": "Ox",
+      "trigramVisual": {
+        "hue": "#c4b28d",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "north",
+      "laterHeavenDirection": "southwest"
+    }
+  ],
+  "hexagramViews": [
+    {
+      "binaryValue": 0,
+      "kingWenNumber": 2,
+      "translatedName": "The Receptive Earth",
+      "chineseName": "坤",
+      "glyph": "䷁",
+      "upperBinary": 0,
+      "lowerBinary": 0,
+      "traditionalSummary": "Receptivity offers support and room for things to take form. Responsiveness can be an active way of participating."
+    },
+    {
+      "binaryValue": 1,
+      "kingWenNumber": 24,
+      "translatedName": "Return",
+      "chineseName": null,
+      "glyph": "䷗",
+      "upperBinary": 0,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 2,
+      "kingWenNumber": 7,
+      "translatedName": "The Army",
+      "chineseName": null,
+      "glyph": "䷆",
+      "upperBinary": 0,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 3,
+      "kingWenNumber": 19,
+      "translatedName": "Approach",
+      "chineseName": null,
+      "glyph": "䷒",
+      "upperBinary": 0,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 4,
+      "kingWenNumber": 15,
+      "translatedName": "Modesty",
+      "chineseName": null,
+      "glyph": "䷎",
+      "upperBinary": 0,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 5,
+      "kingWenNumber": 36,
+      "translatedName": "Darkening Of The Light",
+      "chineseName": "明夷",
+      "glyph": "䷣",
+      "upperBinary": 0,
+      "lowerBinary": 5,
+      "traditionalSummary": "When brightness is obscured, discernment may need protection. Quietly preserving clarity can matter more than displaying it."
+    },
+    {
+      "binaryValue": 6,
+      "kingWenNumber": 46,
+      "translatedName": "Pushing Upward",
+      "chineseName": null,
+      "glyph": "䷭",
+      "upperBinary": 0,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 7,
+      "kingWenNumber": 11,
+      "translatedName": "Peace",
+      "chineseName": "泰",
+      "glyph": "䷊",
+      "upperBinary": 0,
+      "lowerBinary": 7,
+      "traditionalSummary": "Peace is pictured through the meeting of heaven and earth. Exchange becomes possible when different positions remain open to one another."
+    },
+    {
+      "binaryValue": 8,
+      "kingWenNumber": 16,
+      "translatedName": "Enthusiasm",
+      "chineseName": null,
+      "glyph": "䷏",
+      "upperBinary": 1,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 9,
+      "kingWenNumber": 51,
+      "translatedName": "The Arousing Thunder",
+      "chineseName": null,
+      "glyph": "䷲",
+      "upperBinary": 1,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 10,
+      "kingWenNumber": 40,
+      "translatedName": "Deliverance",
+      "chineseName": null,
+      "glyph": "䷧",
+      "upperBinary": 1,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 11,
+      "kingWenNumber": 54,
+      "translatedName": "The Marrying Maiden",
+      "chineseName": null,
+      "glyph": "䷵",
+      "upperBinary": 1,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 12,
+      "kingWenNumber": 62,
+      "translatedName": "Small Preponderance",
+      "chineseName": null,
+      "glyph": "䷽",
+      "upperBinary": 1,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 13,
+      "kingWenNumber": 55,
+      "translatedName": "Abundance",
+      "chineseName": null,
+      "glyph": "䷶",
+      "upperBinary": 1,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 14,
+      "kingWenNumber": 32,
+      "translatedName": "Duration",
+      "chineseName": null,
+      "glyph": "䷟",
+      "upperBinary": 1,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 15,
+      "kingWenNumber": 34,
+      "translatedName": "Great Power",
+      "chineseName": null,
+      "glyph": "䷡",
+      "upperBinary": 1,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 16,
+      "kingWenNumber": 8,
+      "translatedName": "Holding Together",
+      "chineseName": null,
+      "glyph": "䷇",
+      "upperBinary": 2,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 17,
+      "kingWenNumber": 3,
+      "translatedName": "Difficulty At The Beginning",
+      "chineseName": null,
+      "glyph": "䷂",
+      "upperBinary": 2,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 18,
+      "kingWenNumber": 29,
+      "translatedName": "The Abysmal Water",
+      "chineseName": null,
+      "glyph": "䷜",
+      "upperBinary": 2,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 19,
+      "kingWenNumber": 60,
+      "translatedName": "Limitation",
+      "chineseName": null,
+      "glyph": "䷻",
+      "upperBinary": 2,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 20,
+      "kingWenNumber": 39,
+      "translatedName": "Obstruction",
+      "chineseName": null,
+      "glyph": "䷦",
+      "upperBinary": 2,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 21,
+      "kingWenNumber": 63,
+      "translatedName": "After Completion",
+      "chineseName": null,
+      "glyph": "䷾",
+      "upperBinary": 2,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 22,
+      "kingWenNumber": 48,
+      "translatedName": "The Well",
+      "chineseName": null,
+      "glyph": "䷯",
+      "upperBinary": 2,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 23,
+      "kingWenNumber": 5,
+      "translatedName": "Waiting",
+      "chineseName": null,
+      "glyph": "䷄",
+      "upperBinary": 2,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 24,
+      "kingWenNumber": 45,
+      "translatedName": "Gathering Together",
+      "chineseName": null,
+      "glyph": "䷬",
+      "upperBinary": 3,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 25,
+      "kingWenNumber": 17,
+      "translatedName": "Following",
+      "chineseName": null,
+      "glyph": "䷐",
+      "upperBinary": 3,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 26,
+      "kingWenNumber": 47,
+      "translatedName": "Oppression",
+      "chineseName": null,
+      "glyph": "䷮",
+      "upperBinary": 3,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 27,
+      "kingWenNumber": 58,
+      "translatedName": "The Joyous Lake",
+      "chineseName": null,
+      "glyph": "䷹",
+      "upperBinary": 3,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 28,
+      "kingWenNumber": 31,
+      "translatedName": "Influence",
+      "chineseName": null,
+      "glyph": "䷞",
+      "upperBinary": 3,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 29,
+      "kingWenNumber": 49,
+      "translatedName": "Revolution",
+      "chineseName": null,
+      "glyph": "䷰",
+      "upperBinary": 3,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 30,
+      "kingWenNumber": 28,
+      "translatedName": "Great Preponderance",
+      "chineseName": null,
+      "glyph": "䷛",
+      "upperBinary": 3,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 31,
+      "kingWenNumber": 43,
+      "translatedName": "Breakthrough",
+      "chineseName": null,
+      "glyph": "䷪",
+      "upperBinary": 3,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 32,
+      "kingWenNumber": 23,
+      "translatedName": "Splitting Apart",
+      "chineseName": null,
+      "glyph": "䷖",
+      "upperBinary": 4,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 33,
+      "kingWenNumber": 27,
+      "translatedName": "Mouth Corners",
+      "chineseName": null,
+      "glyph": "䷚",
+      "upperBinary": 4,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 34,
+      "kingWenNumber": 4,
+      "translatedName": "Youthful Folly",
+      "chineseName": null,
+      "glyph": "䷃",
+      "upperBinary": 4,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 35,
+      "kingWenNumber": 41,
+      "translatedName": "Decrease",
+      "chineseName": null,
+      "glyph": "䷨",
+      "upperBinary": 4,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 36,
+      "kingWenNumber": 52,
+      "translatedName": "The Keeping Still Mountain",
+      "chineseName": null,
+      "glyph": "䷳",
+      "upperBinary": 4,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 37,
+      "kingWenNumber": 22,
+      "translatedName": "Grace",
+      "chineseName": null,
+      "glyph": "䷕",
+      "upperBinary": 4,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 38,
+      "kingWenNumber": 18,
+      "translatedName": "Work On The Decayed",
+      "chineseName": null,
+      "glyph": "䷑",
+      "upperBinary": 4,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 39,
+      "kingWenNumber": 26,
+      "translatedName": "Great Taming",
+      "chineseName": null,
+      "glyph": "䷙",
+      "upperBinary": 4,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 40,
+      "kingWenNumber": 35,
+      "translatedName": "Progress",
+      "chineseName": null,
+      "glyph": "䷢",
+      "upperBinary": 5,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 41,
+      "kingWenNumber": 21,
+      "translatedName": "Biting Through",
+      "chineseName": null,
+      "glyph": "䷔",
+      "upperBinary": 5,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 42,
+      "kingWenNumber": 64,
+      "translatedName": "Before Completion",
+      "chineseName": null,
+      "glyph": "䷿",
+      "upperBinary": 5,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 43,
+      "kingWenNumber": 38,
+      "translatedName": "Opposition",
+      "chineseName": null,
+      "glyph": "䷥",
+      "upperBinary": 5,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 44,
+      "kingWenNumber": 56,
+      "translatedName": "The Wanderer",
+      "chineseName": null,
+      "glyph": "䷷",
+      "upperBinary": 5,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 45,
+      "kingWenNumber": 30,
+      "translatedName": "The Clinging Fire",
+      "chineseName": null,
+      "glyph": "䷝",
+      "upperBinary": 5,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 46,
+      "kingWenNumber": 50,
+      "translatedName": "The Cauldron",
+      "chineseName": null,
+      "glyph": "䷱",
+      "upperBinary": 5,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 47,
+      "kingWenNumber": 14,
+      "translatedName": "Great Possession",
+      "chineseName": null,
+      "glyph": "䷍",
+      "upperBinary": 5,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 48,
+      "kingWenNumber": 20,
+      "translatedName": "Contemplation",
+      "chineseName": null,
+      "glyph": "䷓",
+      "upperBinary": 6,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 49,
+      "kingWenNumber": 42,
+      "translatedName": "Increase",
+      "chineseName": null,
+      "glyph": "䷩",
+      "upperBinary": 6,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 50,
+      "kingWenNumber": 59,
+      "translatedName": "Dispersion",
+      "chineseName": null,
+      "glyph": "䷺",
+      "upperBinary": 6,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 51,
+      "kingWenNumber": 61,
+      "translatedName": "Inner Truth",
+      "chineseName": null,
+      "glyph": "䷼",
+      "upperBinary": 6,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 52,
+      "kingWenNumber": 53,
+      "translatedName": "Development",
+      "chineseName": null,
+      "glyph": "䷴",
+      "upperBinary": 6,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 53,
+      "kingWenNumber": 37,
+      "translatedName": "The Family",
+      "chineseName": null,
+      "glyph": "䷤",
+      "upperBinary": 6,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 54,
+      "kingWenNumber": 57,
+      "translatedName": "The Gentle Wind",
+      "chineseName": null,
+      "glyph": "䷸",
+      "upperBinary": 6,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 55,
+      "kingWenNumber": 9,
+      "translatedName": "Small Taming",
+      "chineseName": null,
+      "glyph": "䷈",
+      "upperBinary": 6,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 56,
+      "kingWenNumber": 12,
+      "translatedName": "Standstill",
+      "chineseName": null,
+      "glyph": "䷋",
+      "upperBinary": 7,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 57,
+      "kingWenNumber": 25,
+      "translatedName": "Innocence",
+      "chineseName": null,
+      "glyph": "䷘",
+      "upperBinary": 7,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 58,
+      "kingWenNumber": 6,
+      "translatedName": "Conflict",
+      "chineseName": null,
+      "glyph": "䷅",
+      "upperBinary": 7,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 59,
+      "kingWenNumber": 10,
+      "translatedName": "Treading",
+      "chineseName": null,
+      "glyph": "䷉",
+      "upperBinary": 7,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 60,
+      "kingWenNumber": 33,
+      "translatedName": "Retreat",
+      "chineseName": null,
+      "glyph": "䷠",
+      "upperBinary": 7,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 61,
+      "kingWenNumber": 13,
+      "translatedName": "Fellowship",
+      "chineseName": null,
+      "glyph": "䷌",
+      "upperBinary": 7,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 62,
+      "kingWenNumber": 44,
+      "translatedName": "Coming To Meet",
+      "chineseName": null,
+      "glyph": "䷫",
+      "upperBinary": 7,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 63,
+      "kingWenNumber": 1,
+      "translatedName": "The Creative Heaven",
+      "chineseName": "乾",
+      "glyph": "䷀",
+      "upperBinary": 7,
+      "lowerBinary": 7,
+      "traditionalSummary": "Creative strength asks for sustained, well-timed action. Its force becomes useful through care in how it is expressed."
+    }
+  ],
+  "stateViews": [
+    {
+      "identity": {
+        "stateId": 1,
+        "stateName": "Innocence",
+        "stateDescription": "The mind returns to direct experience before strategy, blame, or self-protection.",
+        "stateSeed": "Beginner's mind"
+      },
+      "canonicalInterpretation": "A beginning need not be empty of experience. Innocence invites fresh attention without requiring the Persona to forget what has been learned.",
+      "visualIdentity": {
+        "hue": "#b6c2ae",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 2,
+        "stateName": "Seeking",
+        "stateDescription": "Longing becomes movement, and movement reveals the shape of the question.",
+        "stateSeed": "The pilgrim steps onto the path"
+      },
+      "canonicalInterpretation": "Seeking gives longing a direction. Notice whether the search makes room for discovery or already demands a particular answer.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 3,
+        "stateName": "Discipline",
+        "stateDescription": "Freedom is tested by rhythm, repetition, and fidelity to practice.",
+        "stateSeed": "The vessel is formed"
+      },
+      "canonicalInterpretation": "Discipline gives intention a repeatable form. Its question is whether a chosen rhythm sustains attention while remaining responsive to life.",
+      "visualIdentity": {
+        "hue": "#b8b1a0",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Krodha",
+        "englishName": "Anger",
+        "coreMeaning": "Heat narrows attention around an obstacle.",
+        "traditionalInterpretation": "Anger can expose a hurt or boundary; identifying wholly with it may conceal other possible responses.",
+        "transition": null
+      }
+    },
+    {
+      "identity": {
+        "stateId": 4,
+        "stateName": "Compassion",
+        "stateDescription": "The boundary between self and other softens without collapsing discernment.",
+        "stateSeed": "The heart recognizes itself elsewhere"
+      },
+      "canonicalInterpretation": "Compassion recognises another’s difficulty without surrendering discernment. Care may take the form of presence, help, or a clear boundary.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 5,
+        "stateName": "Pride",
+        "stateDescription": "Identity gathers around achievement and asks to be seen without being obeyed.",
+        "stateSeed": "The crown becomes a mirror"
+      },
+      "canonicalInterpretation": "Pride gathers identity around what has been achieved. Recognition can be received without making it the sole measure of worth.",
+      "visualIdentity": {
+        "hue": "#c0a98e",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 6,
+        "stateName": "Acceptance",
+        "stateDescription": "What is present is no longer treated as an interruption to the path.",
+        "stateSeed": "Yes to the given moment"
+      },
+      "canonicalInterpretation": "Acceptance begins by acknowledging what is already present. Seeing a situation clearly can make deliberate action possible.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 7,
+        "stateName": "Discernment",
+        "stateDescription": "Attention separates signal from noise and chooses the next true action.",
+        "stateSeed": "The sword of clarity"
+      },
+      "canonicalInterpretation": "Discernment listens for what matters among competing impressions. Clarity grows through attention to consequences as well as intentions.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 8,
+        "stateName": "Surrender",
+        "stateDescription": "Control relaxes enough for a deeper intelligence to participate.",
+        "stateSeed": "The river carries the raft"
+      },
+      "canonicalInterpretation": "Surrender loosens an insistence on controlling every outcome. Responsibility can remain while the demand for certainty softens.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 9,
+        "stateName": "Integration",
+        "stateDescription": "Insight descends into habit, relationship, body, and speech.",
+        "stateSeed": "Wisdom takes form"
+      },
+      "canonicalInterpretation": "Integration tests whether insight can live in ordinary habits. A small consistent action may carry an understanding further than explanation.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 10,
+        "stateName": "Liberation",
+        "stateDescription": "The player recognizes the board, the dice, and the witness of the game.",
+        "stateSeed": "The play is seen as play"
+      },
+      "canonicalInterpretation": "Liberation invites a wider view of the roles and patterns in play. Seeing a pattern can create room to respond differently.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 11,
+        "stateName": "Lila State 11",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 12,
+        "stateName": "Lila State 12",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 13,
+        "stateName": "Lila State 13",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 14,
+        "stateName": "Lila State 14",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 15,
+        "stateName": "Lila State 15",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 16,
+        "stateName": "Lila State 16",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 17,
+        "stateName": "Lila State 17",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 18,
+        "stateName": "Lila State 18",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 19,
+        "stateName": "Lila State 19",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 20,
+        "stateName": "Lila State 20",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 21,
+        "stateName": "Lila State 21",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 22,
+        "stateName": "Lila State 22",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 23,
+        "stateName": "Lila State 23",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 24,
+        "stateName": "Lila State 24",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 25,
+        "stateName": "Lila State 25",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 26,
+        "stateName": "Lila State 26",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 27,
+        "stateName": "Lila State 27",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 28,
+        "stateName": "Lila State 28",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 29,
+        "stateName": "Lila State 29",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 30,
+        "stateName": "Lila State 30",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 31,
+        "stateName": "Lila State 31",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 32,
+        "stateName": "Lila State 32",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 33,
+        "stateName": "Lila State 33",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 34,
+        "stateName": "Lila State 34",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 35,
+        "stateName": "Lila State 35",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 36,
+        "stateName": "Lila State 36",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 37,
+        "stateName": "Lila State 37",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": "#b4bdc5",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Jnana",
+        "englishName": "True Knowledge",
+        "coreMeaning": "Understanding recognises a wider order.",
+        "traditionalInterpretation": "Knowledge here suggests lived recognition rather than the accumulation of information.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 66,
+          "transitionInterpretation": "Understanding loosens the demand to possess an answer, opening toward the spaciousness of bliss."
+        }
+      }
+    },
+    {
+      "identity": {
+        "stateId": 38,
+        "stateName": "Lila State 38",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 39,
+        "stateName": "Lila State 39",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 40,
+        "stateName": "Lila State 40",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 41,
+        "stateName": "Lila State 41",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 42,
+        "stateName": "Lila State 42",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 43,
+        "stateName": "Lila State 43",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 44,
+        "stateName": "Lila State 44",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 45,
+        "stateName": "Lila State 45",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 46,
+        "stateName": "Lila State 46",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 47,
+        "stateName": "Lila State 47",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 48,
+        "stateName": "Lila State 48",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 49,
+        "stateName": "Lila State 49",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 50,
+        "stateName": "Lila State 50",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 51,
+        "stateName": "Lila State 51",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 52,
+        "stateName": "Lila State 52",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 53,
+        "stateName": "Lila State 53",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 54,
+        "stateName": "Lila State 54",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 55,
+        "stateName": "Lila State 55",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": "#b9a6b2",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Ahamkara",
+        "englishName": "Egotism",
+        "coreMeaning": "Identity contracts around the claim of “I” and “mine”.",
+        "traditionalInterpretation": "A useful sense of self becomes constricting when every encounter must confirm it.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 3,
+          "transitionInterpretation": "When identity depends on being affirmed, contradiction can become anger. The descent invites attention to that dependence."
+        }
+      }
+    },
+    {
+      "identity": {
+        "stateId": 56,
+        "stateName": "Lila State 56",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 57,
+        "stateName": "Lila State 57",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 58,
+        "stateName": "Lila State 58",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 59,
+        "stateName": "Lila State 59",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 60,
+        "stateName": "Lila State 60",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 61,
+        "stateName": "Lila State 61",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 62,
+        "stateName": "Lila State 62",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 63,
+        "stateName": "Lila State 63",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 64,
+        "stateName": "Lila State 64",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 65,
+        "stateName": "Lila State 65",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 66,
+        "stateName": "Lila State 66",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": "#c9bea1",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Ananda-loka",
+        "englishName": "Bliss",
+        "coreMeaning": "Fulfilment is experienced without grasping.",
+        "traditionalInterpretation": "Bliss points toward a spacious contentment rather than a reward to secure or an emotion to force.",
+        "transition": null
+      }
+    },
+    {
+      "identity": {
+        "stateId": 67,
+        "stateName": "Lila State 67",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 68,
+        "stateName": "Lila State 68",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 69,
+        "stateName": "Lila State 69",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 70,
+        "stateName": "Lila State 70",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 71,
+        "stateName": "Lila State 71",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    },
+    {
+      "identity": {
+        "stateId": 72,
+        "stateName": "Lila State 72",
+        "stateDescription": "Consciousness-state commentary is not yet seeded for this prototype.",
+        "stateSeed": "Unseeded state"
+      },
+      "canonicalInterpretation": null,
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": null
+    }
+  ]
+}

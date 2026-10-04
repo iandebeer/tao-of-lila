@@ -6,6 +6,8 @@ module Main
 where
 
 import qualified Domain.Persona as P
+import qualified Domain.StateView as SV
+import StateViewHTTP (checkStateViewHTTP)
 import qualified Data.Text as T
 import Data.Text (Text)
 import Data.Aeson (Value (..), toJSON, encode, object, (.=), fromJSON, Result (..))
@@ -32,6 +34,20 @@ import Engine.Game (accessibleStateIds, applyCastingMovement)
 
 main :: IO ()
 main = do
+  catalog <- SV.loadStateCatalog "data/state-views.json" >>= either fail pure
+  assert "all 72 canonical view identities are retrievable" (all (\n -> maybe False ((== n) . stateId . SV.identity) (SV.lookupStateView catalog n)) [1..72])
+  assert "invalid tile has no identity" (SV.lookupStateView catalog 73 == Nothing)
+  assert "all eight trigrams are retrievable" (all (\n -> maybe False ((== n) . SV.trigramBinary) (SV.lookupTrigramView catalog n)) [0..7])
+  assert "all binary-keyed hexagrams match King Wen lookup" (all (\n -> fmap SV.kingWenNumber (SV.lookupHexagramView catalog n) == binaryToKingWen n) [0..63])
+  let relation n = SV.lookupStateView catalog n >>= SV.traditionalReference >>= SV.transition
+  assert "snake reference is 55 to 3" (fmap SV.destination (relation 55) == Just 3)
+  assert "arrow reference is 37 to 66" (fmap SV.destination (relation 37) == Just 66)
+  assert "snake destination uses reference identity, not prototype Discipline" (fmap SV.englishName (SV.lookupStateView catalog 55 >>= SV.transitionDestination catalog) == Just "Anger")
+  assert "missing artwork remains valid" (SV.validateStateCatalog catalog == Right catalog)
+  assert "duplicate canonical identities rejected" (isLeft (SV.validateStateCatalog catalog {SV.stateViews = take 1 (SV.stateViews catalog) ++ SV.stateViews catalog}))
+  let badStates = map (\v -> if stateId (SV.identity v) == 55 then v {SV.traditionalReference = fmap (\r -> r {SV.transition = Just (SV.StateTransition SV.Snake 99 "Invalid")}) (SV.traditionalReference v)} else v) (SV.stateViews catalog)
+  assert "out-of-range transition rejected" (isLeft (SV.validateStateCatalog catalog {SV.stateViews = badStates}))
+  checkStateViewHTTP sampleDomain catalog
   let draft = P.PersonaDraft "Scholar" "An elderly fictional scholar" [] "Community responsibilities" Nothing Nothing
   a <- either (fail . T.unpack) pure (P.newPersona 1 (P.Player 7) "2026-09-23" draft)
   b <- either (fail . T.unpack) pure (P.newPersona 2 (P.Player 7) "2026-09-23" draft)

@@ -5,6 +5,13 @@ RUN npm ci
 COPY web/yarrow-casting/src ./src
 RUN npm run build && npm run build:journey
 
+# Regenerate the shared catalogue from canonical seeds for every deployment.
+WORKDIR /opt/tao-of-lila
+COPY scripts/build-state-catalog.mjs ./scripts/build-state-catalog.mjs
+COPY data/leela.json data/state-view-metadata.json ./data/
+COPY app/public/journey/hexagram-labels.json ./app/public/journey/hexagram-labels.json
+RUN node scripts/build-state-catalog.mjs
+
 FROM docker.io/library/haskell:9.10.3-slim-bookworm AS build
 
 RUN apt-get update \
@@ -31,6 +38,8 @@ RUN apt-get update \
 COPY --from=build /opt/dist/tao-of-lila-api /usr/local/bin/tao-of-lila-api
 COPY data ./data
 COPY app/public ./app/public
+COPY --from=web /opt/tao-of-lila/data/state-views.json ./data/state-views.json
+COPY --from=web /opt/tao-of-lila/app/public/journey/state-views.json ./app/public/journey/state-views.json
 COPY --from=web /opt/tao-of-lila/app/public/yarrow/casting.js ./app/public/yarrow/casting.js
 COPY --from=web /opt/tao-of-lila/app/public/journey/ceremony.js ./app/public/journey/ceremony.js
 

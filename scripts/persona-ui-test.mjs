@@ -23,7 +23,7 @@ for(const mode of ['signup','login']){
   const journey={clear(){},async load(){assert.ok(requests.includes('POST /personas/1/select'),'persona selected before loading game');return projection;}};
   let hash=`#${mode}`;
   const location={get hash(){return hash;},set hash(value){hash=value.startsWith('#')?value:`#${value}`;},search:''};
-  const context=vm.createContext({document,api,journey,preview:false,scenario:'',scenarios:[],location,window:{scrollTo(){}},addEventListener(){},loadAssets:async()=>{},fetch:async()=>({json:async()=>({})}),setTimeout,clearTimeout,esc:String,label:()=>'',action:()=>'',questionDisplay:()=>'',hexagram:()=>'',reading:()=>'',movement:()=>'',movementDerivation:()=>'',artwork:()=>''});
+  const context=vm.createContext({document,api,journey,installStateViewer:()=>{},localStateField:()=>'',stateControl:()=>'',hexControl:()=>'',preview:false,scenario:'',scenarios:[],location,window:{scrollTo(){}},addEventListener(){},loadAssets:async()=>{},fetch:async()=>({json:async()=>({})}),setTimeout,clearTimeout,esc:String,label:()=>'',action:()=>'',questionDisplay:()=>'',hexagram:()=>'',reading:()=>'',movement:()=>'',movementDerivation:()=>'',artwork:()=>''});
   await vm.runInContext(`(async()=>{${source}\n})()`,context);
   node('#auth').handlers.submit({preventDefault(){},target:{username:{value:'test-player'},password:{value:'test-password'}}});
   await new Promise(resolve=>setImmediate(resolve));

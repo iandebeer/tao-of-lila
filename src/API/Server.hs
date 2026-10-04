@@ -8,6 +8,7 @@ import Control.Exception (try)
 import Control.Monad.IO.Class (liftIO)
 import Data.Aeson (Value, encode, object, (.=))
 import Data.Text (Text)
+import Domain.StateView (StateCatalog)
 import Domain.Persona (Persona, PersonaDraft)
 import qualified Persistence.Persona as Persona
 import Domain.Journey (JourneyCommand)
@@ -33,7 +34,8 @@ import System.FilePath ((</>))
 type Protected = Header "Authorization" Text
 
 type API =
-  "states" :> Get '[JSON] [LeelaState]
+  "state-views" :> Get '[JSON] StateCatalog
+    :<|> "states" :> Get '[JSON] [LeelaState]
     :<|> "hexagrams" :> Get '[JSON] [Hexagram]
     :<|> "reading" :> ReqBody '[JSON] ReadingRequest :> Post '[JSON] Reading
     :<|> "interpret" :> ReqBody '[JSON] ReadingRequest :> Post '[JSON] Interpretation
@@ -66,12 +68,13 @@ type API =
     :<|> "casting" :> "next" :> ReqBody '[JSON] CastingState :> Post '[JSON] CastingState
     :<|> Raw
 
-app :: FilePath -> DomainData -> Store -> ContemplationModel -> Application
-app staticDirectory domain store model = serve (Proxy :: Proxy API) server
+app :: FilePath -> DomainData -> StateCatalog -> Store -> ContemplationModel -> Application
+app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API) server
   where
     server :: Server API
     server =
-      pure (leelaStates domain)
+      pure stateCatalog
+        :<|> pure (leelaStates domain)
         :<|> pure (hexagrams domain)
         :<|> createReading domain
         :<|> createInterpretation domain

@@ -4,6 +4,7 @@ module Main
 where
 
 import API.Server (app)
+import Domain.StateView (loadStateCatalog)
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.Text as T
 import Domain.Loading (DataLoadError (..), loadDomainData)
@@ -21,12 +22,13 @@ main = do
   case loaded of
     Left err -> fail (show (renderDataLoadError err))
     Right domain -> do
+      stateCatalog <- loadStateCatalog "data/state-views.json" >>= either fail pure
       databaseUrl <- resolveDatabaseUrl
       let store = newStore (B8.pack databaseUrl)
       migrate store
       model <- resolveContemplationModel
       putStrLn ("The Tao of Lila API listening on port " <> show port)
-      run port (app "app/public" domain store model)
+      run port (app "app/public" domain stateCatalog store model)
 
 resolvePort :: IO Int
 resolvePort = do

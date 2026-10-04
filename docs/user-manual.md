@@ -314,3 +314,21 @@ not symbolic messages to interpret.
 For the technical boundaries and recorded validation status, see the
 [Developer Manual](developer-manual.md). For the purpose and invitation behind
 the game, see the [introductory pamphlet](introduction-pamphlet.md).
+
+## Explore a state
+
+Select your current state or one of the reachable possibilities immediately
+ahead. The game shows this local field rather than the complete board. A panel shows its stable identity and any
+curated meaning, visual associations and traditional reference information.
+Uncurated entries say so explicitly. Traditional reference names and transitions
+are labelled separately from the current prototype board and do not move your
+Persona.
+
+Select a hexagram figure or linked hexagram name to explore its upper and lower
+trigrams, animal and family associations. **Primary** and **Resulting** let you
+inspect either side of the same casting; changing lines remain attached to the
+primary figure. Opening the viewer never makes a new casting.
+
+Close the panel with **Close ×** or Escape to return to exactly where you were,
+including an unfinished question or journal entry. Artwork is optional; the
+information remains available even when no illustration has been supplied.
