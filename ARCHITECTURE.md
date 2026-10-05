@@ -294,3 +294,10 @@ Fresh casting entropy is supplied by `Runtime.Casting` in the IO shell using
 `Crypto.Random`. Every live casting start passes that seed to the pure
 `Engine.Casting.initialCastingStateWithSeed` constructor. Saved castings resume
 without reseeding; the browser only animates their engine state.
+
+The `LeelaBalanced` sampler version chooses four equally likely line values in
+the pure Haskell engine, then realizes them through valid stalk arithmetic.
+Changing-line positions remain the sole input to movement. `samplingRule` and
+`samplingSeed` are durable casting metadata; missing rule fields select legacy
+sampling for backward-compatible replay. No browser component samples lines or
+adjusts movement probabilities.

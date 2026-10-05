@@ -2,7 +2,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Engine.Casting
-  ( CastingDebug (..)
+  ( SamplingRule (..)
+  , CastingDebug (..)
   , CastingEvent
   , CastingResult (..)
   , CastingState (..)
@@ -17,6 +18,9 @@ module Engine.Casting
 where
 
 import Data.Aeson (FromJSON (..), ToJSON, withObject, (.:), (.:?), (.!=))
+import Crypto.Hash (Digest, SHA256, hash)
+import qualified Data.ByteString.Char8 as B8
+import Data.Char (digitToInt)
 import Engine.Movement (movementFromChangingLines)
 import Data.Bits (clearBit, setBit, testBit)
 import Data.Text (Text)
@@ -117,8 +121,16 @@ data CastingDebug = CastingDebug
 instance ToJSON CastingDebug
 instance FromJSON CastingDebug
 
+-- Missing rule fields in saved JSON always mean the original heap sampler.
+data SamplingRule = LegacyHeapSplit | LeelaBalanced
+  deriving (Eq, Show, Generic)
+instance ToJSON SamplingRule
+instance FromJSON SamplingRule
+
 data CastingState = CastingState
-  { castingId :: Text
+  { samplingRule :: SamplingRule
+  , samplingSeed :: Int
+  , castingId :: Text
   , seed :: Int
   , stateId :: Int
   , event :: CastingEvent
@@ -136,14 +148,31 @@ data CastingState = CastingState
   deriving (Eq, Show, Generic)
 
 instance ToJSON CastingState
-instance FromJSON CastingState
+instance FromJSON CastingState where
+  parseJSON = withObject "CastingState" $ \v -> do
+    rule <- v .:? "samplingRule" .!= LegacyHeapSplit
+    currentSeed <- v .: "seed"
+    originalSeed <- case rule of
+      LegacyHeapSplit -> v .:? "samplingSeed" .!= currentSeed
+      LeelaBalanced -> v .: "samplingSeed"
+    CastingState rule originalSeed
+      <$> v .: "castingId" <*> pure currentSeed <*> v .: "stateId"
+      <*> v .: "event" <*> v .: "prompt" <*> v .: "totalStalks"
+      <*> v .: "setAside" <*> v .: "workingStalks" <*> v .: "currentLine"
+      <*> v .: "currentRound" <*> v .: "roundSnapshot"
+      <*> v .: "completedLines" <*> v .: "result" <*> v .: "debug"
 
 initialCastingState :: CastingState
 -- Fixed fixture for reproducible tests; live entry points supply fresh entropy.
-initialCastingState = initialCastingStateWithSeed 827364923
+initialCastingState = legacyInitialCastingState 827364923
 
 initialCastingStateWithSeed :: Int -> CastingState
 initialCastingStateWithSeed suppliedSeed =
+  (legacyInitialCastingState suppliedSeed)
+    { samplingRule = LeelaBalanced, samplingSeed = suppliedSeed }
+
+legacyInitialCastingState :: Int -> CastingState
+legacyInitialCastingState suppliedSeed =
   mkState
     (suppliedSeed `mod` 2147483647)
     0
@@ -162,6 +191,11 @@ initialCastingStateWithSeed suppliedSeed =
 
 nextCastingState :: CastingState -> CastingState
 nextCastingState state =
+  let advanced = advanceCastingState state
+   in advanced { samplingRule = samplingRule state, samplingSeed = samplingSeed state }
+
+advanceCastingState :: CastingState -> CastingState
+advanceCastingState state =
   case event state of
     "CastingNew" -> startRound state 1 1 49
     "LineStarted" -> divideHeaps state
@@ -197,7 +231,9 @@ divideHeaps state =
     Nothing -> state
     Just snapshot ->
       let newSeed = nextSeed (seed state) (stateId state)
-          divisionPoint = 2 + (newSeed `mod` (previousWorkingStalks snapshot - 3))
+          divisionPoint = case samplingRule state of
+            LegacyHeapSplit -> 2 + (newSeed `mod` (previousWorkingStalks snapshot - 3))
+            LeelaBalanced -> balancedSplit state (previousWorkingStalks snapshot)
           right = previousWorkingStalks snapshot - divisionPoint
           nextSnapshot =
             snapshot
@@ -478,7 +514,9 @@ mkState ::
 mkState nextSeedValue nextStateId nextEvent nextPrompt nextSetAside nextWorking line roundNumber snapshot linesNow finalResult randomChoice workingBefore workingAfter =
   let castingIdentifier = "casting-827364923"
    in CastingState
-        { castingId = castingIdentifier
+        { samplingRule = LegacyHeapSplit
+        , samplingSeed = nextSeedValue
+        , castingId = castingIdentifier
         , seed = nextSeedValue
         , stateId = nextStateId
         , event = nextEvent
@@ -503,6 +541,34 @@ mkState nextSeedValue nextStateId nextEvent nextPrompt nextSetAside nextWorking 
               , debugWorkingAfter = workingAfter
               }
         }
+
+-- Each line independently chooses one of 6,7,8,9 with equal weight.
+-- The stalk ceremony then realizes that line using legal splits and the usual
+-- remove-one/count-by-four arithmetic. Movement is never sampled separately.
+balancedSplit :: CastingState -> Int -> Int
+balancedSplit state working =
+  let label = show (samplingSeed state) <> ":line:" <> show (currentLine state)
+      target = 4 * (6 + uniformIndex 4 label)
+      roundsLeft = 3 - currentRound state
+      possible = [left | left <- [2 .. working - 2]
+        , let remaining = working - 1 - yarrowRemainder left - yarrowRemainder (working - left - 1)
+        , let difference = remaining - target
+        , difference >= 4 * roundsLeft, difference <= 8 * roundsLeft
+        , difference `mod` 4 == 0]
+   in possible !! uniformIndex (length possible) (label <> ":round:" <> show (currentRound state))
+
+-- Domain-separated SHA-256 draws give deterministic replay without the old
+-- linear generator's correlations. Rejection avoids modulo bias for heap sizes.
+uniformIndex :: Int -> String -> Int
+uniformIndex bound label = draw (0 :: Int)
+  where
+    range = 4294967296 :: Integer
+    limit = range - range `mod` toInteger bound
+    draw counter =
+      let digest = show (hash (B8.pack ("leela-balanced-v1:" <> label <> ":" <> show counter)) :: Digest SHA256)
+          value = foldl (\n c -> n * 16 + toInteger (digitToInt c)) 0 (take 8 digest)
+       in if value < limit then fromInteger (value `mod` toInteger bound)
+          else draw (counter + 1)
 
 nextSeed :: Int -> Int -> Int
 nextSeed current salt =

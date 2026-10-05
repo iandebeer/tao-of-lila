@@ -335,3 +335,19 @@ resume, editing, privacy and cross-account rejection. Core Haskell tests and exi
 browser fixture tests passed. The pre-existing `movement-statistics` suite still
 fails its yarrow-frequency assertions; casting rules were not changed by Persona
 work. The new selection screen has syntax checks but awaits visual browser QA.
+
+## Balanced Leela sampler (2026-10-05)
+
+The user-selected live rule supersedes the traditional-probability target above.
+Each line has equal chances of values 6, 7, 8, and 9. The resulting 64 equally
+likely changing-line patterns produce movement counts 10,9,9,9,9,9,9 under the
+unchanged sum-of-positions modulo-seven rule: 15.625% stillness and 14.0625% per
+forward move. New casts use `LeelaBalanced`; old snapshots lacking a rule use
+`LegacyHeapSplit` and continue unchanged. Browser demo fixtures stay historical.
+The earlier statistical failure table describes the legacy sampler only.
+
+Validation: 100,000 full castings produced movement frequencies 15.639%, 14.028%,
+14.041%, 14.135%, 14.039%, 14.079%, and 14.039% for 0–6 respectively. Line-value,
+changing-pattern, and primary-hexagram distribution checks pass. Core regression
+and JSON-resume compatibility tests pass. Database acceptance skips unless a
+disposable PostgreSQL test connection is configured.

@@ -333,3 +333,12 @@ primary figure. Opening the viewer never makes a new casting.
 Close the panel with **Close ×** or Escape to return to exactly where you were,
 including an unfinished question or journal entry. Artwork is optional; the
 information remains available even when no illustration has been supplied.
+
+### Balanced Leela casting probabilities
+
+New castings use a Leela variant of the stalk ceremony: each line is equally
+likely to be changing or stable, and Yin or Yang. This differs from traditional
+yarrow probabilities. Before board-edge limits, no move has probability 15.625%;
+each move of 1–6 tiles has probability 14.0625%. Movement remains the sum of the
+changing-line positions modulo seven. Repeated hexagrams are possible. Castings
+already in progress retain the rule with which they began.

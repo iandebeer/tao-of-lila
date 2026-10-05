@@ -99,6 +99,8 @@ export interface CastingDebug {
 }
 
 export interface EngineCastingState {
+  samplingRule?: "LegacyHeapSplit" | "LeelaBalanced";
+  samplingSeed?: number;
   castingId: string;
   seed: number;
   stateId: number;

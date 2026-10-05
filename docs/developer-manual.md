@@ -269,11 +269,12 @@ ceremonial facts: heaps, removals, remainders, completed lines and a final resul
 Three rounds produce one line. Six lines produce the hexagram. See the full
 [yarrow contract](yarrow-casting.md) rather than duplicating it in a browser module.
 
-The current initial seed is the literal `827364923`. Both live orchestration paths
-start from that same initial state; fresh entropy is not currently supplied per
-encounter. Deterministic replay is useful, but does not imply independent random
-castings. The statistical suite separately detects line-frequency discrepancies.
-Do not describe this implementation as statistically validated traditional sampling.
+Live starts draw fresh entropy in `Runtime.Casting` and use the versioned
+`LeelaBalanced` sampler. Each of 6/7/8/9 is equally likely. The engine chooses
+legal stalk splits that realize the sampled line; the animation does not choose
+outcomes. Saved states carry `samplingRule` and `samplingSeed`. Missing fields
+select the original sampler. `initialCastingState` remains a legacy fixture.
+This is the balanced Leela variant, not traditional yarrow probabilities.
 
 ### Movement projection
 
@@ -510,12 +511,13 @@ Use Cabal as the primary check:
 cabal test
 ```
 
-The last recorded implementation validation reports core and Persona acceptance
-passing, but **aggregate `cabal test` is not green**: `movement-statistics` fails
-its traditional yarrow-frequency assertions. See
-[the statistical findings](responsive-journey.md#statistical-acceptance-findings).
-Do not widen tolerances or alter movement to conceal a sampler discrepancy.
-These are recorded implementation results, not tests rerun for this documentation.
+The probability suite targets balanced Leela sampling: each line value 25%,
+no move 15.625%, and each move 1–6 at 14.0625%. It also checks the distribution
+of all 64 changing-line patterns and primary hexagrams. Core tests prove the
+10:9:9:9:9:9:9 pattern counts and legacy/new JSON replay compatibility.
+PostgreSQL acceptance requires `TAO_PERSONA_TEST_DB`; without it that suite skips.
+Historical traditional-sampler measurements remain documented for comparison.
+
 
 For focused work:
 

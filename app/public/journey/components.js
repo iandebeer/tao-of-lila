@@ -1,4 +1,4 @@
-import {esc} from './text.js';
+import {esc,paragraphs} from './text.js';
 export {esc} from './text.js';
 import {hexControl,stateControl} from './state-viewer.js';
 export const label=s=>s?`${esc(s.stateId)} · ${esc(s.stateName)}`:'The beginning of your journey';
@@ -16,7 +16,7 @@ export function hexagram(binary,number,name,changing=[],values=[],selection={}){
 }
 export function reading(response){
   if(!response)return '<p class="muted">No AI interpretation has been saved for this move.</p>';
-  const section=(title,value)=>`<section><h3>${title}</h3>${(Array.isArray(value)?value:[value]).map(v=>`<p>${esc(v)}</p>`).join('')}</section>`;
+  const section=(title,value)=>`<section class="reading-section"><h3>${title}</h3><div class="prose">${(Array.isArray(value)?value:[value]).map(paragraphs).join('')}</div></section>`;
   return section('Context',response.context)+section('Primary hexagram',response.primary_hexagram)+section('Changing lines',response.changing_lines)+section('Transformation',response.transformation)+section('Possible readings',response.possible_readings)+section('Questions to sit with',response.questions_for_contemplation);
 }
 export function movement(view){

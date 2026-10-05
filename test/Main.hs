@@ -94,6 +94,23 @@ main = do
   assert "AI prompt marks constructed Persona and protects Player privacy" ("fictional or constructed persona" `T.isInfixOf` P.personaPrompt a && "never factual attributes of the Player" `T.isInfixOf` P.personaPrompt a)
   assert "archived Persona rejects edits" (case P.revisePersona "later" draft {P.draftRevision=Just 0} a {P.personaArchived=True} of Left _ -> True; _ -> False)
 
+  let patternCounts = [length [() | mask <- [0..63 :: Int], movementFromChangingLines [i+1 | i <- [0..5], testBit mask i] == move] | move <- [0..6]]
+  assert "exact balanced Leela movement probabilities" (patternCounts == 10 : replicate 6 9)
+  assert "fresh castings use the balanced sampler" (all ((== Casting.LeelaBalanced) . Casting.samplingRule) fresh)
+  let legacy = Casting.initialCastingState
+      legacyWithoutVersion step = case toJSON step of
+        Object fields -> fromJSON (Object (KM.delete "samplingSeed" (KM.delete "samplingRule" fields)))
+        _ -> error "Casting state must be an object"
+      sameOutcome a b = Casting.result a == Casting.result b && Casting.completedLines a == Casting.completedLines b && Casting.seed a == Casting.seed b
+  assert "old saved casts resume the legacy sequence at every step" (all (\step -> case legacyWithoutVersion step of Success decoded -> Casting.samplingRule decoded == Casting.LegacyHeapSplit && sameOutcome (complete decoded) (complete legacy); _ -> False) (take 97 (iterate Casting.nextCastingState legacy)))
+  assert "balanced casts resume identically at every step" (all (\step -> case fromJSON (toJSON step) of Success decoded -> complete decoded == complete seeded; _ -> False) (take 97 (iterate Casting.nextCastingState seeded)))
+  let legalRound step = case Casting.roundSnapshot step of
+        Just snapshot -> case (Casting.leftHeap snapshot,Casting.rightHeap snapshot,Casting.stalksRemaining snapshot) of
+          (Just left,Just right,Just remaining) -> left >= 2 && right >= 2 && left + right == Casting.previousWorkingStalks snapshot && Just (Casting.previousWorkingStalks snapshot - remaining) == Casting.totalRemoved snapshot && remaining `mod` 4 == 0
+          _ -> True
+        _ -> True
+  assert "balanced ceremony preserves legal stalk arithmetic" (all legalRound (concat [take 97 (iterate Casting.nextCastingState (Casting.initialCastingStateWithSeed n)) | n <- [1..256]]))
+
   let weights = [sum [3 ^ (6 - length positions) | mask <- [0..63 :: Int], let positions = [i+1 | i <- [0..5], testBit mask i], movementFromChangingLines positions == move] | move <- [0..6]] :: [Int]
   assert "exact independent yarrow movement probabilities" (weights == 1054 : replicate 6 507)
   let final = until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState

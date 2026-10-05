@@ -307,13 +307,13 @@ Try `/journey/?demo&scenario=still-changing#splash`.
 
 New results identify `movementRule: "changing-line-positions-mod7-v1"`. Existing
 saved casts retain their count-based movement and decode as the earlier rule.
-The yarrow sampling and hexagram calculations have not changed.
+Hexagram calculations are unchanged. New live castings now use the balanced
+Leela sampler described below; historical castings keep their original sampler.
 
-`cabal test tao-of-lila-test` passes the movement examples, exact probability
-proof, compatibility checks and existing regression tests. `cabal test
-movement-statistics` runs 100,000 full castings and currently **fails**: the
-existing yarrow sampler does not match the traditional line-value frequencies.
-Consequently, aggregate `cabal test` is not green. See
+`cabal test tao-of-lila-test` checks movement examples, exact probability counts,
+and saved-casting compatibility. `cabal test movement-statistics` checks 100,000
+full balanced Leela castings, including changing-pattern and primary-hexagram
+frequencies. Historical traditional-sampler measurements are retained in
 [the statistical findings](docs/responsive-journey.md#statistical-acceptance-findings).
 
 ## Expanded state views
@@ -348,10 +348,24 @@ fixture for tests; live callers use `Runtime.Casting.freshCastingState`.
 Repeated hexagrams remain possible and are not rejected or rerolled.
 Browser demo scenarios intentionally replay fixed fixtures.
 
-This fixes the repeated fixed-seed sequence, but does not change the existing
-heap-split sampler. Its known deviation from traditional yarrow probabilities
-is recorded in `docs/responsive-journey.md`; the strict `movement-statistics`
-suite remains the check for that separate distribution issue.
+New live castings use `samplingRule: "LeelaBalanced"` with a saved `samplingSeed`.
+Each line value 6, 7, 8, or 9 has probability 1/4: changing and stable lines are
+equally likely, as are Yin and Yang. This is a Leela variant, not the traditional
+yarrow probability distribution. The engine draws each line deterministically
+from its fresh casting seed, then chooses legal three-round stalk splits that
+realize it. SHA-256 draws are separated by line and round; bounded split selection
+uses rejection sampling. The browser animates only the engine's facts.
+
+All 64 changing-line patterns are equally likely. Summing their positions modulo
+7 gives 10 patterns for zero and 9 for each other move: **0 = 15.625%; each of
+1–6 = 14.0625%**, before board-edge limits or topology. Movement itself is unchanged.
+Repeated hexagrams remain valid outcomes.
+
+Old JSON without a sampling rule decodes as `LegacyHeapSplit`; unfinished casts
+continue their original sequence. The new rule and original sampling seed survive
+every transition and JSON round trip. Existing results, history, and demo fixtures
+are not rewritten. `initialCastingState` remains the legacy fixture, while
+`initialCastingStateWithSeed` constructs the new balanced variant.
 
 ### Automatic AI interpretation
 
