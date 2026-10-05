@@ -2,7 +2,6 @@
 module Main (main) where
 import Control.Exception (bracket, finally, try)
 import Control.Monad (unless)
-import Crypto.BCrypt (hashPasswordUsingPolicy, slowerBcryptHashingPolicy)
 import qualified Data.ByteString.Char8 as B
 import qualified Data.Text as T
 import Data.Time.Clock.POSIX (getPOSIXTime)
@@ -41,33 +40,8 @@ main = do
 acceptance :: Store -> IO ()
 acceptance store = do
   domain <- loadDomainData "data" >>= either (fail . show) pure
-  legacyHash <- hashPasswordUsingPolicy slowerBcryptHashingPolicy "legacy-test-password" >>= maybe (fail "Could not hash test password") pure
-  -- Reproduce the pre-Persona schema before invoking the real startup migration.
-  withStore store $ \c -> do
-    _ <- execute_ c "CREATE TABLE users(id SERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL,password_hash BYTEA NOT NULL,created_at TIMESTAMPTZ DEFAULT now())"
-    _ <- execute_ c "CREATE TABLE game_sessions(id SERIAL PRIMARY KEY,user_id INTEGER NOT NULL UNIQUE REFERENCES users(id),current_state_id INTEGER DEFAULT 1,previous_state_id INTEGER,casting JSONB,updated_at TIMESTAMPTZ DEFAULT now())"
-    _ <- execute_ c "CREATE TABLE journey_workflows(user_id INTEGER PRIMARY KEY REFERENCES users(id),document JSONB NOT NULL,updated_at TIMESTAMPTZ DEFAULT now())"
-    _ <- execute_ c "CREATE TABLE questions(id SERIAL PRIMARY KEY,game_session_id INTEGER REFERENCES game_sessions(id),state_id INTEGER,body TEXT,UNIQUE(game_session_id,state_id))"
-    _ <- execute_ c "CREATE TABLE game_events(id SERIAL PRIMARY KEY,game_session_id INTEGER REFERENCES game_sessions(id),from_state_id INTEGER,to_state_id INTEGER,question TEXT,journal TEXT NOT NULL DEFAULT '',casting_result JSONB,created_at TIMESTAMPTZ DEFAULT now())"
-    _ <- execute c "INSERT INTO users(username,password_hash) VALUES('legacy',?)" (Only legacyHash)
-    _ <- execute c "INSERT INTO game_sessions(user_id,current_state_id,casting) VALUES(1,27,?)" (Only (PG.Aeson Casting.initialCastingState))
-    _ <- execute_ c "INSERT INTO questions(game_session_id,state_id,body) VALUES(1,27,'Legacy question')"
-    let legacyCast = until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState
-    _ <- execute c "INSERT INTO game_events(game_session_id,from_state_id,to_state_id,question,journal,casting_result) VALUES(1,20,27,'Legacy encounter','Legacy reflection',?)" (Only (PG.Aeson (Casting.result legacyCast)))
-    _ <- execute c "INSERT INTO journey_workflows(user_id,document) VALUES(1,?)" (Only (PG.Aeson (initialWorkflow 27 (Just 20))))
-    pure ()
   migrate store
   migrate store
-  legacyLogin <- login store (AuthRequest "LEGACY" "legacy-test-password")
-  assert "a pre-Persona account can still log in after migrations" (userId (authUser legacyLogin)==1)
-  let legacy = User 1 "legacy" Nothing
-  adopted <- P.listPersonas store legacy
-  assert "migration creates exactly one neutral Persona" (length adopted == 1 && personaName (head adopted) == "Legacy persona")
-  old <- getGameView store domain legacy {userPersonaId=Just (personaId (head adopted))}
-  assert "migration preserves session ID, board position and casting" (journeySessionId (gameJourney old)==1 && journeyCurrentStateId (gameJourney old)==27 && gameCasting old==Just Casting.initialCastingState)
-  assert "migration retains existing questions and journal history" (fmap questionText (gameQuestion old)==Just "Legacy question" && map gameEventJournal (gameHistory old)==["Legacy reflection"])
-  workflow <- withStore store $ \c -> query_ c "SELECT document FROM journey_workflows" :: IO [Only (PG.Aeson Workflow)]
-  assert "migration preserves workflow exactly" (case workflow of [Only (PG.Aeson w)] -> w==initialWorkflow 27 (Just 20); _ -> False)
   -- Registration must round-trip through the same stored hash on later login.
   let credentials = AuthRequest "  Returning_Player  " "known-test-password"
   registered <- register store credentials
@@ -81,14 +55,26 @@ acceptance store = do
   assert "login token authenticates the same Player" (userId verified == userId (authUser registered))
   expired <- try (authenticate store "missing-session") :: IO (Either StoreError User)
   assert "expired session is distinct from incorrect credentials" (expired == Left InvalidSession)
+  let owner = verified
+  empty <- P.listPersonas store owner
+  assert "new account has no invented Personas" (null empty)
   let profile = [PersonaAttribute "sex" (String "Female") PlayerSpecified [],PersonaAttribute "age" (Number 62) PlayerSpecified [],PersonaAttribute "raceEthnicity" (String "Self-described heritage") PlayerSpecified [],PersonaAttribute "historicalPeriod" (String "Medieval period") PlayerSpecified []]
       draft = PersonaDraft "Constructed scholar" "elderly, fictional" profile "Additional information" Nothing Nothing
-  a <- P.createPersona store legacy draft
-  b <- P.createPersona store legacy draft
-  storedProfile <- P.getPersona store legacy (personaId a)
+  a <- P.createPersona store owner draft
+  oneLogin <- login store credentials
+  oneUser <- authenticate store (authToken oneLogin)
+  assert "login selects the only active persona" (userPersonaId oneUser == Just (personaId a))
+  b <- P.createPersona store owner draft
+  manyLogin <- login store credentials
+  manyUser <- authenticate store (authToken manyLogin)
+  assert "login with multiple personas requires an explicit selection" (userPersonaId manyUser == Nothing)
+  migrate store
+  stable <- P.listPersonas store owner
+  assert "normal startup retains personas in the current schema" (length stable == 2)
+  storedProfile <- P.getPersona store owner (personaId a)
   assert "structured Persona attributes and additional information persist" (personaInitialAttributes storedProfile==profile && personaContext storedProfile=="Additional information")
   assert "one Player can create multiple Personas" (personaId a/=personaId b && personaPlayerId a==personaPlayerId b)
-  let ua=legacy {userPersonaId=Just (personaId a)}; ub=legacy {userPersonaId=Just (personaId b)}
+  let ua=owner {userPersonaId=Just (personaId a)}; ub=owner {userPersonaId=Just (personaId b)}
   _ <- createQuestion store domain ua (QuestionRequest "A question")
   starts <- mapM (\_ -> newCasting store domain ua) ([1..8] :: [Int])
   assert "new prototype castings receive fresh seeds" (any ((/= gameCasting (head starts)) . gameCasting) (tail starts))
@@ -104,15 +90,15 @@ acceptance store = do
   assert "independent board positions" (journeyCurrentStateId (gameJourney untouched)==1)
   assert "independent casting histories" (gameCasting untouched==Nothing && null (gameHistory untouched))
   assert "independent questions and journals" (gameQuestion untouched==Nothing && null (gameHistory untouched))
-  edited <- P.updatePersona store legacy (personaId a) draft {draftDescription="changed",draftRevision=Just 0}
-  sibling <- P.getPersona store legacy (personaId b)
+  edited <- P.updatePersona store owner (personaId a) draft {draftDescription="changed",draftRevision=Just 0}
+  sibling <- P.getPersona store owner (personaId b)
   assert "editing A leaves B unchanged" (sibling==b && personaInitialDescription edited==personaDescription a)
   denied <- try (P.getPersona store (User 999 "unrelated" Nothing) (personaId a)) :: IO (Either StoreError Persona)
   assert "another Player cannot read the Persona" (case denied of Left (NotFound _) -> True; _ -> False)
-  evidence <- P.recordEvidence store legacy (personaId a) "uncertainty" (Evidence "question:1" AIInferred "question:1" 0.5 True "2026-09-23")
+  evidence <- P.recordEvidence store owner (personaId a) "uncertainty" (Evidence "question:1" AIInferred "question:1" 0.5 True "2026-09-23")
   assert "inferred evidence is persisted separately from initial context" (not (null (personaThemes evidence)) && personaInitialDescription evidence==personaDescription a)
-  rejected <- P.rejectTheme store legacy (personaId a) "uncertainty"
-  audit <- P.personaHistory store legacy (personaId a)
+  rejected <- P.rejectTheme store owner (personaId a) "uncertainty"
+  audit <- P.personaHistory store owner (personaId a)
   assert "Player can reject inferred themes while audit remains" (null (personaThemes rejected) && not (null audit))
   -- A previous model response supplies a proposal; edits must not replace it.
   withStore store $ \c -> do
@@ -129,12 +115,22 @@ acceptance store = do
   assert "AI proposal and final Player question both survive" (stored==[("AI proposed question","Player replacement",True)])
   mismatch <- try (J.commandJourney store domain ub (JourneyCommand 0 (userPersonaId ua) "question" Nothing Nothing)) :: IO (Either StoreError Value)
   assert "stale Persona selection cannot retarget a command" (case mismatch of Left (Conflict _) -> True; _ -> False)
-  _ <- P.archivePersona store legacy (personaId a)
+  _ <- P.archivePersona store owner (personaId a)
   retained <- getGameView store domain ub
   assert "archive preserves sibling journey and Player" (gameUser retained==ub && gameJourney retained==gameJourney untouched)
   rows <- withStore store $ \c -> query_ c "SELECT COUNT(*) FROM game_events" :: IO [Only Int]
-  assert "archive retains historical events" (rows==[Only 2])
+  assert "archive retains historical events" (rows==[Only 1])
   _ <- J.getJourney store domain ub
+  -- Exercise the disposable development reset, not a legacy data migration.
+  withStore store $ \c -> do
+    _ <- execute_ c "ALTER TABLE journey_workflows ADD COLUMN user_id INTEGER"
+    pure ()
+  migrate store
+  reset <- P.listPersonas store owner
+  assert "obsolete development tables reset without creating legacy personas" (null reset)
+  resetLogin <- login store credentials
+  resetUser <- authenticate store (authToken resetLogin)
+  assert "development reset retains account authentication and clears persona selection" (userId resetUser == userId owner && userPersonaId resetUser == Nothing)
   putStrLn "PostgreSQL persona acceptance passed"
 
 assert :: String -> Bool -> IO ()

@@ -387,3 +387,40 @@ the model is instructed to identify the limitation and avoid invented citations.
 The direct source-text pair endpoint retains its curated-corpus restriction.
 
 Verify frontend orchestration with `node scripts/interpretation-flow-test.mjs`.
+
+## Persona selection and development data
+
+User accounts authenticate players; Personas hold constructed identity; each
+Persona owns its own resumable Journey (game session, casting, board position,
+questions, interpretations and journal). After login, zero active personas opens
+Create Persona, one selects that persona and offers Continue Journey, and multiple
+personas opens Choose Your Persona. My Personas remains available in the game.
+Creation is a separate, explicit action whenever active personas already exist.
+
+Creation and editing provide name, sex/gender, age and/or life stage, optional
+cultural/ethnic background, time period, place/cultural setting, defining
+characteristic and an optional description. Structured attributes and description
+are included in AI context; none are taken from the authenticated account.
+
+Optional **Generate Avatar** calls authenticated `POST /personas/avatar` with a
+`PersonaDraft`. The server uses `OPENAI_API_KEY` and `OPENAI_IMAGE_MODEL` (default
+`gpt-image-1`) through the [Images API](https://developers.openai.com/api/reference/resources/images/methods/generate).
+A preview is returned without saving a persona. Regenerate replaces the preview;
+Accept includes the image when the persona is saved. Unaccepted images are not
+saved. Missing configuration or provider failure never blocks persona creation.
+Images are stored as PNG data URLs in the avatar record for this development
+stage. No upload or external image URL is required. Provider calls occur only
+when Generate Avatar or Regenerate is pressed; each may incur an API charge.
+
+Development records are disposable. Startup detects the obsolete account-owned
+workflow schema (`journey_workflows.user_id`) and drops/recreates the game,
+persona and authentication-session tables transactionally. Account credentials
+remain, but users must sign in and create personas again. Subsequent startup on
+the current schema retains records. There is no legacy-persona backfill or
+production data migration; introduce versioned migrations before real users.
+
+Validation: `cabal test`, `node scripts/persona-fields-test.mjs`, and
+`node scripts/persona-ui-test.mjs`. Set `TAO_PERSONA_TEST_DB` to a disposable
+PostgreSQL connection string to run the database acceptance suite (it creates
+and removes an isolated schema); `python3 scripts/persona-api-test.py BASE_URL`
+checks a disposable running API.

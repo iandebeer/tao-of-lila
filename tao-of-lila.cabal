@@ -26,6 +26,7 @@ library
                   , Domain.Types
                   , Engine.Casting
                   , Runtime.Casting
+                  , Runtime.Avatar
                   , Engine.Movement
                   , Engine.Game
                   , Engine.Reading

@@ -98,7 +98,7 @@ revisePersona timestamp draft persona
       , personaEvolvingAttributes = map (\a -> a {attributeOrigin = PlayerIntervention}) (draftAttributes draft)
       , personaRevision = personaRevision persona + 1, personaUpdatedAt = timestamp }
 
--- Structured attributes reuse the extensible record and preserve old documents.
+-- Explicit narrative fields share the extensible, provenance-bearing attribute record.
 -- Null is an explicit clearing of a field, distinct from retaining its origin.
 validateAttributes :: [PersonaAttribute] -> Either Text ()
 validateAttributes attributes
@@ -113,7 +113,7 @@ validateAttributes attributes
             Just age | age >= 0 && age <= 9007199254740991 -> Right ()
             _ -> Left "Age must be a non-negative whole number"
           _ -> Left "Age must be a non-negative whole number"
-      | attributeName attribute `elem` ["sex", "raceEthnicity", "historicalPeriod"] = case attributeValue attribute of
+      | attributeName attribute `elem` ["sex", "raceEthnicity", "historicalPeriod", "lifeStage", "place", "definingCharacteristic"] = case attributeValue attribute of
           Null -> Right ()
           String value | T.length value <= 200 -> Right ()
           _ -> Left "Persona circumstance fields must be text of at most 200 characters"

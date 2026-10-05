@@ -22,6 +22,7 @@ services:
       PORT: "8080"
       DATABASE_URL: postgresql://tao:tao@postgres:5432/tao_of_lila
       OPENAI_API_KEY:
+      OPENAI_IMAGE_MODEL:
       OPENAI_MODEL:
       OPENAI_INPUT_COST_MICROS_PER_MILLION:
       OPENAI_CACHED_INPUT_COST_MICROS_PER_MILLION:

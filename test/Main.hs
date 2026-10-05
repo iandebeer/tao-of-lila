@@ -29,6 +29,7 @@ import Domain.Journey (allowedStage)
 import Domain.HexagramIndex (binaryToKingWen, kingWenToBinary)
 import Domain.Contemplation
 import qualified Engine.Casting as Casting
+import Runtime.Avatar (avatarPrompt, decodeAvatar)
 import Runtime.Casting (freshCastingState)
 import Control.Monad (replicateM)
 import Data.List (nub)
@@ -83,6 +84,15 @@ main = do
   assert "structured text cannot be an arbitrary JSON object" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "sex" (object []) P.PlayerSpecified []]}))
   assert "duplicate Persona attributes rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=profile++profile}))
   assert "prompt treats demographic fields as narrative context without stereotypes" ("demographic stereotypes" `T.isInfixOf` P.personaPrompt profiled)
+  let locatedDraft = structured {P.draftAttributes=profile ++ [P.PersonaAttribute "lifeStage" (String "Elder") P.PlayerSpecified [],P.PersonaAttribute "place" (String "Hangzhou") P.PlayerSpecified [],P.PersonaAttribute "definingCharacteristic" (String "Patient curiosity") P.PlayerSpecified []]}
+  located <- either (fail . T.unpack) pure (P.newPersona 4 (P.Player 7) "now" locatedDraft)
+  assert "AI context includes place, period, life stage and defining characteristic" (all (`T.isInfixOf` P.personaPrompt located) ["Hangzhou","Renaissance","Elder","Patient curiosity"])
+  prompt <- either (fail . T.unpack) pure (avatarPrompt locatedDraft)
+  assert "avatar prompt combines attributes and description" (all (`T.isInfixOf` prompt) ["Hangzhou","Renaissance","elderly fictional scholar"])
+  assert "avatar generation needs more than a name" (isLeft (avatarPrompt draft {P.draftDescription="",P.draftContext="",P.draftAttributes=[P.PersonaAttribute "place" Null P.PlayerSpecified []]}))
+  assert "generated image can be accepted as a persistent avatar" (decodeAvatar "portrait" "{\"data\":[{\"b64_json\":\"AAAA\"}]}" == Right (P.Avatar "portrait" (Just "data:image/png;base64,AAAA")))
+  assert "missing generated image is rejected" (isLeft (decodeAvatar "portrait" "{\"data\":[]}"))
+  assert "new structured fields reject non-text values" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "place" (Number 42) P.PlayerSpecified []]}))
   let evidence = P.Evidence "event:1" P.AIInferred "question:1" 1 True "2026-09-23"
   supported <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence a)
   duplicate <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence supported)

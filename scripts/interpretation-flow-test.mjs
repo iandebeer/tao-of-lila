@@ -1,3 +1,4 @@
+import {splashMarkup,bindSplashTerms} from '../app/public/journey/splash.js';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createDemo} from '../app/public/journey/demo.js';
@@ -43,7 +44,7 @@ const node=selector=>{if(!nodes.has(selector))nodes.set(selector,{innerHTML:'',t
 let hash='#casting',uiCalls=0;
 const location={get hash(){return hash;},set hash(value){hash=value.startsWith('#')?value:`#${value}`;},search:'?demo'};
 const uiJourney={get state(){return demo.get();},get initial(){return original;},async load(){return demo.get();},async command(...args){return demo.command(...args);},async interpret(){uiCalls++;if(uiCalls===1)throw Error('Incomplete response; please retry.');return demo.interpret();}};
-const context=vm.createContext({document:{querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){handlers[type]=fn;}},location,journey:uiJourney,createInterpretationFlow,queueMicrotask,api:{authenticated:false},preview:true,scenario:'ordinary',scenarios:[],window:{scrollTo(){}},addEventListener(){},loadAssets:async()=>{},fetch:async()=>({json:async()=>[]}),setTimeout,clearTimeout,installStateViewer(){},bindPersonaFields(){},esc:String,label:()=>'',action:(a,label)=>`<button data-action="${a}">${label}</button>`,questionDisplay:()=>'',hexagram:()=>'',hexControl:()=>'',reading:()=>'<p>AI reading</p>',movementDerivation:()=>'',artwork:()=>'',mountJourneyCeremony:host=>({dispose(){},async next(){host.describe('Complete','Complete','Complete',true);}})});
+const context=vm.createContext({splashMarkup,bindSplashTerms,document:{querySelector:node,querySelectorAll:()=>[],addEventListener(type,fn){handlers[type]=fn;}},location,journey:uiJourney,createInterpretationFlow,queueMicrotask,api:{authenticated:false},preview:true,scenario:'ordinary',scenarios:[],window:{scrollTo(){}},addEventListener(){},loadAssets:async()=>{},fetch:async()=>({json:async()=>[]}),setTimeout,clearTimeout,installStateViewer(){},bindPersonaFields(){},esc:String,label:()=>'',action:(a,label)=>`<button data-action="${a}">${label}</button>`,questionDisplay:()=>'',hexagram:()=>'',hexControl:()=>'',reading:()=>'<p>AI reading</p>',movementDerivation:()=>'',artwork:()=>'',mountJourneyCeremony:host=>({dispose(){},async next(){host.describe('Complete','Complete','Complete',true);}})});
 await vm.runInContext(`(async()=>{${readFileSync('app/public/journey/app.js','utf8').replace(/^import .*;\n/gm,'')}\n})()`,context);
 const click=action=>handlers.click({target:{closest:()=>({dataset:{action}})}});
 click('next');await new Promise(resolve=>setImmediate(resolve));

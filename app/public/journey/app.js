@@ -1,4 +1,6 @@
-import {personaFieldsMarkup,bindPersonaFields,readPersonaFields,personaAttributesSummary} from './persona-fields.js';
+import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js';
+import {splashMarkup,bindSplashTerms} from './splash.js';
+import {bindPersonaFields,readPersonaFields} from './persona-fields.js';
 import {localStateField} from './local-field.js';
 import {installStateViewer,stateControl,hexControl} from './state-viewer.js';
 import {api} from './api.js';
@@ -9,7 +11,7 @@ import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDeriv
 import {mountJourneyCeremony} from './ceremony.js';
 const main=document.querySelector('main'), nav=document.querySelector('#navigation'), status=document.querySelector('#status');
 const interpretationFlow=createInterpretationFlow(journey);
-let personas=[], editingPersona=null;
+let personas=[], editingPersona=null, selectedPersonaId=null, acceptedAvatar=null, pendingAvatar=null, disposeSplash=()=>{};
 let data=null, catalog=[], labels={}, draft='', journal='', dirty=false, timer, ceremony, ceremonyComplete=false, busy=false, queue=Promise.resolve();
 const link=(route,text,secondary=false)=>`<a class="button ${secondary?'secondary':''}" href="#${route}">${text}</a>`;
 const w=()=>data.workflow;
@@ -17,14 +19,21 @@ const heading=(eyebrow,title)=>`<div class="page-head"><p class="eyebrow">${eyeb
 const buttons=content=>`<div class="actions">${content}</div>`;
 const fieldError='<p id="form-error" class="error" role="alert"></p>';
 const context=()=>`<div class="context"><small>FROM ${label(data.previousState)}</small><p>CURRENT · ${label(data.fromState)}</p></div>`;
-function personaSelection(){return `<section class="narrow">${heading('The Player guides; the Persona journeys','Choose a Persona')}<p>A Persona is a constructed identity. Its circumstances need not describe you.</p>${personas.map(p=>`<article class="panel"><h2>${esc(p.personaName)}</h2><p>${esc(p.personaDescription)}</p>${personaAttributesSummary(p)}<details><summary>Initial Persona and observed themes</summary><p>${esc(p.personaInitialDescription)}</p><p>${esc(p.personaInitialContext)}</p><ul>${p.personaThemes.map(t=>`<li>${esc(t.themeName)} · support ${esc(t.themeConfidence)} · ${esc(t.themeEvidence.length)} observations</li>`).join('')}</ul><a href="#" data-persona-audit="${p.personaId}">Inspect saved history</a></details>${p.personaArchived?'<small>Archived · history retained</small>':`<div class="actions"><button data-persona="${p.personaId}">Resume</button><button class="secondary" data-edit-persona="${p.personaId}">Edit</button><button class="secondary" data-archive-persona="${p.personaId}">Archive</button></div>`}</article>`).join('')}<h2>${editingPersona?'Edit Persona':'Create a Persona'}</h2><form id="persona-form"><label for="persona-name">Name</label><input id="persona-name" required value="${esc(editingPersona?.personaName||'')}">${personaFieldsMarkup(editingPersona)}<label for="persona-context">Additional information</label><textarea id="persona-context" placeholder="Setting, circumstances, aspirations, responsibilities, or anything else that matters to this Persona…">${esc(editingPersona?.personaContext||'')}</textarea>${editingPersona?.personaDescription?`<details><summary>Existing description</summary><label for="persona-description">Previously saved description</label><textarea id="persona-description">${esc(editingPersona.personaDescription)}</textarea></details>`:''}<label for="persona-avatar">Avatar description</label><input id="persona-avatar" value="${esc(editingPersona?.personaAvatar?.avatarDescription||'')}">${fieldError}<button>${editingPersona?'Save changes':'Create Persona and begin'}</button></form></section>`;}
-async function selectPersona(id){await api.request(`/personas/${id}/select`,'POST');journey.clear();data=null;await load();go();}
-async function choosePersonas(){await saveDraft();personas=await api.request('/personas');editingPersona=null;go('personas');}
+function personaSelection(){return personaCards(personas,selectedPersonaId);}
+function createPersonaScreen(){return personaForm(editingPersona,acceptedAvatar);}
+function personaDraft(){return {draftName:document.querySelector('#persona-name').value,draftDescription:document.querySelector('#persona-description').value,draftContext:editingPersona?.personaContext||'',draftAttributes:readPersonaFields(document,editingPersona),draftAvatar:acceptedAvatar,draftRevision:editingPersona?.personaRevision??null};}
+async function selectPersona(id){await saveDraft();await api.request(`/personas/${id}/select`,'POST');selectedPersonaId=Number(id);journey.clear();data=null;await load();go();}
+async function choosePersonas(){
+  await saveDraft();personas=availablePersonas(await api.request('/personas'));editingPersona=null;acceptedAvatar=null;pendingAvatar=null;
+  if(personas.length===1){selectedPersonaId=personas[0].personaId;await api.request(`/personas/${selectedPersonaId}/select`,'POST');}
+  else if(!personas.some(p=>p.personaId===selectedPersonaId))selectedPersonaId=null;
+  go(personaEntryRoute(personas));
+}
 function castingLinks(r){const pair={primary:r.primaryBinaryValue,resulting:r.transformedBinaryValue,changing:r.changingLines};return hexControl(r.primaryBinaryValue,`${r.primaryKingWenNumber} · ${name(r.primaryKingWenNumber)}`,pair)+(r.numberChanging?` → ${hexControl(r.transformedBinaryValue,`${r.transformedKingWenNumber} · ${name(r.transformedKingWenNumber)}`,{...pair,role:'resulting'})}`:'');}
 function identity(){const r=w().workflowCasting?.result;return r?castingLinks(r):'';}
 function name(number){return catalog.find(h=>h.hexagramNumber===number)?.hexagramName||Object.values(labels).find(h=>h.hexagramNumber===number)?.hexagramName||'Name not supplied';}
 
-function splash() { return `<section class="hero"><div class="hero-copy"><p class="eyebrow">A journey of consciousness</p><h1>The Tao<br>of Leela</h1><p class="serif" style="font-size:1.45rem">Every question opens a path.</p><p class="muted">Pause where you are. Listen to the pattern of change. Discover what your next step might reveal.</p><div class="actions">${link('login','Log In')}${link('signup','Sign Up',true)}</div><p><small>A contemplative meeting of Leela and the I Ching.</small></p></div><div class="local-invitation" aria-label="The journey unfolds locally"><p>Present state</p><span aria-hidden="true">↓</span><p>Field of possibility</p><span aria-hidden="true">↓</span><p>Transformation</p><span aria-hidden="true">↓</span><p>New present state</p></div></section>`; }
+function splash(){return splashMarkup();}
 function auth(signup) { return `<section class="narrow"><p class="eyebrow">${signup ? 'Begin your journey' : 'Return to your journey'}</p><h1>${signup ? 'Make a little space.' : 'Welcome back.'}</h1><p class="muted">${signup ? 'Create an account to keep your questions and your journey together.' : 'Your journey will be waiting where you left it.'}</p><form id="auth" class="panel"><label for="username">User ID</label><input id="username" name="username" autocomplete="username" minlength="3" required><small class="help">Use your registered user ID (at least 3 characters).</small><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="${signup ? 'new-password' : 'current-password'}" ${signup ? 'minlength="10"' : ''} required>${signup ? '<small class="help">Choose at least 10 characters.</small>' : ''}<button type="button" id="password-visibility" class="secondary" aria-controls="password" aria-pressed="false">Show password</button><p id="form-error" class="error" role="alert"></p><div class="actions"><button>${signup ? 'Sign Up' : 'Log In'}</button></div></form><p><a href="#${signup ? 'login' : 'signup'}">${signup ? 'Already have an account? Log In' : 'New here? Sign Up'}</a></p></section>`; }function progress(){
   return `<section class="journey">${heading(esc(personas.find(p=>p.personaId===data.game.gameJourney.journeyPersonaId)?.personaName||'Your Leela progress'),'Here, in this moment.')}${localStateField(data.game)}<p><small>Movement is the sum of changing-line positions modulo 7. A zero result means remain here, even when lines change.${data.topologyAvailable?'':' Active ladder and snake rules are not yet available in this game edition.'}</small></p>${buttons(action('question',w().workflowQuestion?'Refine your question':'Bring a question'))}</section>`;
 }
@@ -39,14 +48,16 @@ function paused(){return `<section class="narrow">${heading('A moment of stillne
 function sync(value,resetDrafts=false){data=value;if(resetDrafts){draft=w().workflowQuestion;journal=w().workflowJournal;dirty=false;}}
 function stage(){return data.terminal?'completion':w().workflowStage;}
 function render(){
+  disposeSplash();
   ceremony?.dispose();ceremony=null;ceremonyComplete=false;
   let route=location.hash.slice(1)||'splash';
-  if(data && !['splash','login','signup','paused','history','personas'].includes(route))route=stage();
-  if(!data && !['splash','login','signup','personas'].includes(route))route='login';
-  const screens={personas:personaSelection,splash,login:()=>auth(false),signup:()=>auth(true),progress,question,casting,result:interpretation,interpretation,reflection,movement:consequence,completion:history,history,paused};
-  nav.innerHTML=data?`${preview?'':action('personas','Personas',true)}${action('pause','Pause',true)}${action('history','History',true)}${action('logout','Log out',true)}`:api.authenticated?`${action('personas','Personas',true)}${action('logout','Log out',true)}`:'<a href="#login">Log In</a>';
+  if(data && !['splash','login','signup','paused','history','personas','create-persona'].includes(route))route=stage();
+  if(!data && !['splash','login','signup','personas','create-persona'].includes(route))route='login';
+  const screens={personas:personaSelection,'create-persona':createPersonaScreen,splash,login:()=>auth(false),signup:()=>auth(true),progress,question,casting,result:interpretation,interpretation,reflection,movement:consequence,completion:history,history,paused};
+  nav.innerHTML=data?`${preview?'':action('personas','My Personas',true)}${action('pause','Pause',true)}${action('history','History',true)}${action('logout','Log out',true)}`:api.authenticated?`${action('personas','My Personas',true)}${action('logout','Log out',true)}`:'<a href="#login">Log In</a>';
   main.innerHTML=(preview?`<div class="demo-banner">Development preview · ${esc(scenario)} · browser-only example, no account or AI request <label for="scenario">Example</label><select id="scenario">${scenarios.map(s=>`<option ${s===scenario?'selected':''}>${s}</option>`).join('')}</select> ${action('reset','Reset example',true)}</div>`:'')+(screens[route]||splash)();
   document.title=`${route.charAt(0).toUpperCase()+route.slice(1)} · The Tao of Leela`;
+  disposeSplash=bindSplashTerms(document);
   main.focus({preventScroll:true});
   window.scrollTo(0,0);
   document.querySelector('#scenario')?.addEventListener('change',e=>{location.href=`?demo&scenario=${encodeURIComponent(e.target.value)}#progress`;});
@@ -54,13 +65,28 @@ function render(){
   document.querySelector('#auth')?.addEventListener('submit',e=>{e.preventDefault();const username=e.target.username.value,password=e.target.password.value;run(async()=>{if(!preview)await api.authenticate(route==='signup'?'register':'login',username,password);if(preview){await load();go();}else await choosePersonas();});});
   bindPersonaFields(document);
   document.querySelector('#persona-form')?.addEventListener('submit',e=>{e.preventDefault();run(async()=>{
-    const avatar=document.querySelector('#persona-avatar').value;
-    const body={draftName:document.querySelector('#persona-name').value,draftDescription:document.querySelector('#persona-description')?.value??editingPersona?.personaDescription??'',draftContext:document.querySelector('#persona-context').value,draftAttributes:readPersonaFields(document,editingPersona),draftAvatar:avatar?{avatarDescription:avatar,avatarAsset:null}:null,draftRevision:editingPersona?.personaRevision??null};
+    const body=personaDraft();
     const saved=await api.request(editingPersona?`/personas/${editingPersona.personaId}`:'/personas',editingPersona?'PUT':'POST',body);if(editingPersona){await choosePersonas();}else{personas.push(saved);await selectPersona(saved.personaId);}
   });});
+  document.querySelector('#generate-avatar')?.addEventListener('click',()=>run(async()=>{
+    const body=personaDraft();
+    if(!body.draftName.trim()||(!body.draftDescription.trim()&&!body.draftAttributes.some(a=>a.attributeValue!==null)))throw Error('Add a name and some persona details before generating an avatar.');
+    const message=document.querySelector('#avatar-status');message.textContent='Generating your avatar…';
+    try{
+      pendingAvatar=await api.request('/personas/avatar','POST',{...body,draftAvatar:null});
+      document.querySelector('#avatar-preview').innerHTML=personaAvatar(pendingAvatar,body.draftName);
+      document.querySelector('#accept-avatar').hidden=false;
+      document.querySelector('#generate-avatar').textContent='Regenerate';
+      message.textContent='Preview ready. Accept this avatar or regenerate it.';
+    }catch(error){message.textContent='You can continue without an avatar.';throw error;}
+  }));
+  document.querySelector('#accept-avatar')?.addEventListener('click',()=>{
+    if(busy||!pendingAvatar)return;acceptedAvatar=pendingAvatar;pendingAvatar=null;
+    document.querySelector('#accept-avatar').hidden=true;document.querySelector('#avatar-status').textContent='Avatar accepted. Save the persona to keep it.';
+  });
   document.querySelectorAll('[data-persona-audit]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();run(async()=>{const history=await api.request(`/personas/${link.dataset.personaAudit}/history`);const details=document.createElement('pre');details.style.whiteSpace='pre-wrap';details.textContent=JSON.stringify(history,null,2);link.replaceWith(details);});}));
   document.querySelectorAll('[data-persona]').forEach(button=>button.addEventListener('click',()=>run(async()=>{await selectPersona(button.dataset.persona);})));
-  document.querySelectorAll('[data-edit-persona]').forEach(button=>button.addEventListener('click',()=>{editingPersona=personas.find(p=>p.personaId===Number(button.dataset.editPersona));render();}));
+  document.querySelectorAll('[data-edit-persona]').forEach(button=>button.addEventListener('click',()=>{if(busy)return;editingPersona=personas.find(p=>p.personaId===Number(button.dataset.editPersona));acceptedAvatar=editingPersona.personaAvatar;pendingAvatar=null;go('create-persona');}));
   document.querySelectorAll('[data-archive-persona]').forEach(button=>button.addEventListener('click',()=>run(async()=>{await api.request(`/personas/${button.dataset.archivePersona}`,'DELETE');data=null;journey.clear();await choosePersonas();})));
   for(const [id,kind] of [['question','draft'],['journal','journal']]){
     document.querySelector(`#${id}`)?.addEventListener('input',e=>{if(kind==='draft')draft=e.target.value;else journal=e.target.value;dirty=true;saveLabel('Unsaved changes');clearTimeout(timer);timer=setTimeout(()=>{void saveDraft().catch(showError);},900);});
@@ -131,12 +157,13 @@ document.addEventListener('click',e=>{
   const button=e.target.closest('[data-action]');if(!button)return;
   const a=button.dataset.action;
   run(async()=>{
+    if(a==='create-persona'){editingPersona=null;acceptedAvatar=null;pendingAvatar=null;go('create-persona');return;}
     if(a==='personas'){await choosePersonas();return;}
     if(a==='next'){if(ceremonyComplete){await finishCasting();}else{await ceremony.next();if(ceremonyComplete)await finishCasting();}return;}
     if(a==='pause'){await confirmPause();return;}
     if(a==='resume'){go();return;}
     if(a==='history'){await saveDraft();go('history');return;}
-    if(a==='logout'){await saveDraft();if(data&&stage()==='casting'){await confirmPause();if(location.hash!=='#paused')return;}api.logout();journey.clear();data=null;dirty=false;go('splash');return;}
+    if(a==='logout'){await saveDraft();if(data&&stage()==='casting'){await confirmPause();if(location.hash!=='#paused')return;}api.logout();journey.clear();data=null;dirty=false;personas=[];selectedPersonaId=null;editingPersona=null;acceptedAvatar=null;pendingAvatar=null;go('splash');return;}
     if(a==='reload'){if(dirty&&!confirm('Reload the saved journey and discard your unsaved edits?'))return;await load();go();return;}
     if(a==='reset'){journey.reset();return;}
     if(a==='skip'){sync(await journey.skip());go('interpretation');return;}

@@ -3,10 +3,13 @@ import {esc} from './text.js';
 // Structured narrative attributes use the existing PersonaAttribute domain
 // boundary. No attribute is inferred from a Player, a name, or another field.
 export const personaFields=[
-  {name:'sex',label:'Sex',options:['Female','Male','Intersex'],custom:true,help:'Optional. Select a term or describe it in your own words.'},
+  {name:'sex',label:'Sex / gender',options:['Woman','Man','Non-binary','Female','Male','Intersex'],custom:true,help:'Optional. Select a term or describe it in your own words.'},
   {name:'age',label:'Age (years)',type:'number',help:'Optional. Age of the Persona at the time of the journey.'},
-  {name:'raceEthnicity',label:'Race / ethnicity (self-described)',type:'text',help:'Optional. Use terms appropriate to this Persona’s cultural and historical setting.'},
-  {name:'historicalPeriod',label:'Historical period',options:['Prehistoric','Ancient world','Medieval period (c. 500–1500 CE)','Renaissance (c. 1400–1600, Europe)','Early modern period (c. 1500–1800)','Industrial era (c. 1750–1914)','Modern era (c. 1900–1945)','Contemporary / postmodern era (1945–present)','Future / speculative'],custom:true,help:'Periods overlap and vary by region. You can specify another period or an exact year.'}
+  {name:'lifeStage',label:'Life stage',type:'text',help:'For example: young adult, midlife, elder. Use age, life stage, or both.'},
+  {name:'raceEthnicity',label:'Cultural / ethnic background',type:'text',help:'Optional. Use terms appropriate to this Persona’s cultural and historical setting.'},
+  {name:'historicalPeriod',label:'Time period',options:['Prehistoric','Ancient world','Medieval period (c. 500–1500 CE)','Renaissance (c. 1400–1600, Europe)','Early modern period (c. 1500–1800)','Industrial era (c. 1750–1914)','Modern era (c. 1900–1945)','Contemporary / postmodern era (1945–present)','Future / speculative'],custom:true,help:'Periods overlap and vary by region. You can specify another period or an exact year.'},
+  {name:'place',label:'Place / cultural setting',type:'text',help:'For example: Hangzhou, Song China; a contemporary coastal village; a future settlement.'},
+  {name:'definingCharacteristic',label:'Defining characteristic',type:'text',help:'A quality, role, or tension that helps define this persona.'}
 ];
 export function currentPersonaAttributes(persona){
   const values=new Map();
@@ -15,11 +18,11 @@ export function currentPersonaAttributes(persona){
 }
 export function personaFieldsMarkup(persona){
   const attributes=currentPersonaAttributes(persona);
-  return `<fieldset class="persona-fields"><legend>The Persona’s circumstances</legend><p class="help">All attributes are optional. Leave any field unspecified. These details describe your constructed Persona, not you.</p><div class="persona-field-grid">${personaFields.map(field=>{
+  return `<fieldset class="persona-fields"><legend>The Persona’s circumstances</legend><p class="help">Describe as much as you wish; unspecified details stay open. These details describe your constructed Persona, not you.</p><div class="persona-field-grid">${personaFields.map(field=>{
     const value=attributes.find(a=>a.attributeName===field.name)?.attributeValue??'';
     const custom=field.options&&value!==''&&!field.options.includes(value);
     const id=`persona-${field.name}`;
-    const input=field.options?`<select id="${id}" aria-describedby="${id}-help"><option value="">Unspecified</option>${field.options.map(option=>`<option value="${esc(option)}" ${value===option?'selected':''}>${esc(option)}</option>`).join('')}<option value="__custom__" ${custom?'selected':''}>Self-describe / specify</option></select><div id="${id}-custom-wrap" ${custom?'':'hidden'}><label for="${id}-custom">${field.name==='sex'?'Self-described sex':'Specific period / year'}</label><input id="${id}-custom" maxlength="200" value="${esc(custom?value:'')}" ${custom?'required':''}></div>`:`<input id="${id}" type="${field.type}" ${field.type==='number'?'min="0" step="1"':'maxlength="200"'} value="${esc(value)}" aria-describedby="${id}-help">`;
+    const input=field.options?`<select id="${id}" aria-describedby="${id}-help"><option value="">Unspecified</option>${field.options.map(option=>`<option value="${esc(option)}" ${value===option?'selected':''}>${esc(option)}</option>`).join('')}<option value="__custom__" ${custom?'selected':''}>Self-describe / specify</option></select><div id="${id}-custom-wrap" ${custom?'':'hidden'}><label for="${id}-custom">${field.name==='sex'?'Self-described sex / gender':'Specific period / year'}</label><input id="${id}-custom" maxlength="200" value="${esc(custom?value:'')}" ${custom?'required':''}></div>`:`<input id="${id}" type="${field.type}" ${field.type==='number'?'min="0" step="1"':'maxlength="200"'} value="${esc(value)}" aria-describedby="${id}-help">`;
     return `<div><label for="${id}">${esc(field.label)}</label>${input}<small id="${id}-help" class="help">${esc(field.help)}</small></div>`;
   }).join('')}</div></fieldset>`;
 }

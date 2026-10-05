@@ -304,21 +304,22 @@ requests now carry constructed Persona context and an explicit privacy instructi
 state in that history. Evidence ingestion is a trusted repository operation rather
 than a client endpoint that could claim arbitrary text came from AI.
 
-Schema changes run transactionally at startup. `personas`, `persona_questions`
-and `persona_audit` are added; sessions and workflows gain Persona ownership,
-auth sessions gain selection, and legacy questions gain optional proposal and
-finalization metadata. Original IDs and saved casting/workflow JSON are preserved.
-The first implementation has one resumable journey per Persona; many Personas
-per Player are supported. Legacy `/game` clients resume the first active Persona
-on login; newly registered accounts must create one through `/journey/` or the API.
+The development schema directly models User → Persona → Journey. Startup resets
+obsolete account-owned workflow tables and their test data; it retains accounts
+but clears auth sessions. It does not migrate legacy games or create synthetic
+Personas. Current-schema startup retains saved records. Each Persona has one
+resumable journey; many Personas per User are supported. Login selects a sole
+active Persona and offers Continue Journey. Multiple Personas require selection;
+only zero active Personas automatically opens Create Persona.
 
-Validation: `cabal test tao-of-lila-test` covers Persona identity, initial-context
-preservation, revision conflicts, uncertain evidence and privacy. Run
+Validation: `cabal test` covers domain behavior. Run
 `TAO_PERSONA_TEST_DB='<connection string>' cabal test persona-persistence
---test-show-details=direct` for migration idempotence, saved-state preservation,
-independent histories, sibling edits and archive retention. This test uses and
-removes a uniquely named schema, leaving other schemas untouched. Without the
-variable it reports SKIP, not a validated database migration.
+--test-show-details=direct` for schema idempotence, development reset, independent
+histories, sibling edits and ownership. This test creates and removes a unique
+schema. Without the variable it reports SKIP. Persona field and UI event tests
+cover zero/one/many routing, explicit creation, and optional avatar generation,
+regeneration, acceptance and provider failure. The HTTP test accepts
+`--avatar-disabled` when the server has no image-provider key.
 
 Human decisions remain for evidence weighting/calibration, retention and permanent
 deletion policy, multiple historical journeys per Persona, and the future dedicated
@@ -326,15 +327,8 @@ question-generation provider. Current scores are support ratios, not calibrated
 probabilities. No Persona relationships, symbolic proximity, awareness beyond
 Independent, influence, or cross-player interaction are implemented.
 
-Persona acceptance completed against a disposable PostgreSQL 16 database: migration
-and repeat migration, original state/history retention, independent Personas,
-proposal/final-question preservation, evidence rejection with audit retention,
-ownership checks, and archive isolation passed. The separate HTTP acceptance
-script `scripts/persona-api-test.py <disposable-api-url>` passed creation, selection,
-resume, editing, privacy and cross-account rejection. Core Haskell tests and existing
-browser fixture tests passed. The pre-existing `movement-statistics` suite still
-fails its yarrow-frequency assertions; casting rules were not changed by Persona
-work. The new selection screen has syntax checks but awaits visual browser QA.
+The persona redesign passes core, movement-statistics and PostgreSQL acceptance
+suites. Visual browser QA remains separate from the UI event tests.
 
 ## Balanced Leela sampler (2026-10-05)
 

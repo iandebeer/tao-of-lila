@@ -25,3 +25,9 @@ set('sex','__custom__');set('sex-custom','');assert.throws(()=>readPersonaFields
 bindPersonaFields(document);document.querySelector('#persona-sex').handlers.change();assert.equal(document.querySelector('#persona-sex-custom').required,true);
 set('sex','');document.querySelector('#persona-sex').handlers.change();assert.equal(document.querySelector('#persona-sex-custom-wrap').hidden,true);assert.equal(document.querySelector('#persona-sex-custom').required,false);
 console.log('ok - structured Persona creation/edit, optional attributes, custom periods, immutable origin and validation');
+
+set('lifeStage','Elder');set('place','Hangzhou');set('definingCharacteristic','Patient curiosity');
+const located=readPersonaFields(document,null);
+for(const name of ['lifeStage','place','definingCharacteristic'])assert.ok(located.find(a=>a.attributeName===name).attributeValue);
+assert.match(personaAttributesSummary({personaInitialAttributes:located}),/Hangzhou/);
+assert.doesNotMatch(personaAttributesSummary({personaInitialAttributes:[attr('place','<script>')]}),/<script>/);

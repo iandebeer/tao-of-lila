@@ -243,13 +243,18 @@ system. README, this document, docs/architecture.md, docs/category-theory.md,
 docs/responsive-journey.md, ROADMAP and the Category of Tao book are the relevant
 manifests/design material; historical book notes remain historical.
 
-The migration preserves session/event IDs and JSON casting/workflow snapshots.
-Existing journeys receive a neutral Legacy persona, without treating the account
-name as a Persona description. New accounts create Personas explicitly. Auth
-sessions select a Persona; requests capture that selection during authentication.
-The old `/game` and `/journey-session` APIs operate on that selection. A Player
-may select different Personas in separate login sessions. No selection yields a
-conflict asking for selection rather than inventing or overwriting a journey.
+Development state is disposable. The obsolete account-owned workflow schema is
+reset transactionally at startup, including persona/game data and auth sessions;
+account credentials remain. No synthetic Legacy personas or legacy-data migration
+are created. The current schema directly declares per-persona sessions and
+workflows, with ownership enforced by foreign keys. Current-schema restarts are
+idempotent. Production migration/versioning is deferred until the model stabilizes.
+
+Auth sessions select a Persona. A sole active Persona is selected on login;
+multiple Personas require a choice. No active Personas opens creation. Existing
+Personas open cards with Continue Journey and explicit Create New Persona.
+Requests capture selection during authentication, and journey commands reject a
+mismatched Persona ID. The `/game` and `/journey-session` APIs use that selection.
 
 `Domain.Persona` owns constructed identity, initial and evolving attributes,
 evidence-weighted themes, avatar, and a dormant relationship boundary. Persistence
@@ -278,7 +283,12 @@ trigram, element, colour, clothing, object, posture and environment motifs from 
 journey; no simplistic emotion-to-appearance mapping is implemented. Initial
 attributes accept open-ended structured values (for example life_stage,
 material_circumstances, health_or_vitality, social_context, responsibilities,
-aspirations, tensions and worldview) alongside natural language, never diagnoses.
+aspirations, tensions and worldview) alongside natural language, never diagnoses. Explicit narrative fields include sex/gender,
+age/life stage, cultural background, time period, place and defining characteristic.
+`Runtime.Avatar` is an optional image-provider adapter in the imperative shell.
+Authenticated `POST /personas/avatar` creates a preview from the draft context;
+only an accepted preview is included in the later Persona create/update request.
+It cannot change authentication, casting or journey state.
 
 ## Read-only state catalogue
 

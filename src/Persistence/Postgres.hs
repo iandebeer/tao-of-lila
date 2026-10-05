@@ -76,13 +76,17 @@ withStore (Store connectionString) =
 migrate :: Store -> IO ()
 migrate store = withStore store $ \connection -> withTransaction connection $ do
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username TEXT NOT NULL UNIQUE, password_hash BYTEA NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now())"
-  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS auth_sessions (token TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at TIMESTAMPTZ NOT NULL DEFAULT now())"
-  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS game_sessions (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE, current_state_id INTEGER NOT NULL DEFAULT 1 CHECK (current_state_id BETWEEN 1 AND 72), previous_state_id INTEGER, casting JSONB, updated_at TIMESTAMPTZ NOT NULL DEFAULT now())"
-  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS questions (id SERIAL PRIMARY KEY, game_session_id INTEGER NOT NULL REFERENCES game_sessions(id) ON DELETE CASCADE, state_id INTEGER NOT NULL, body TEXT NOT NULL, UNIQUE(game_session_id, state_id))"
+  -- Development data is disposable. Reset the obsolete account-owned layout
+  -- once, rather than manufacturing legacy Personas or migrating saved games.
+  _ <- execute_ connection "DO $$ BEGIN IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='journey_workflows' AND column_name='user_id') THEN DROP TABLE IF EXISTS persona_questions, persona_audit, journey_workflows, contemplations, llm_requests, questions, game_events, game_sessions, auth_sessions, personas CASCADE; END IF; END $$"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS personas (id SERIAL PRIMARY KEY, player_id INTEGER NOT NULL REFERENCES users(id), document JSONB NOT NULL, archived BOOLEAN NOT NULL DEFAULT FALSE, UNIQUE(id, player_id))"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS auth_sessions (token TEXT PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, persona_id INTEGER, created_at TIMESTAMPTZ NOT NULL DEFAULT now(), FOREIGN KEY(persona_id,user_id) REFERENCES personas(id,player_id))"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS game_sessions (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, persona_id INTEGER NOT NULL UNIQUE, current_state_id INTEGER NOT NULL DEFAULT 1 CHECK (current_state_id BETWEEN 1 AND 72), previous_state_id INTEGER, casting JSONB, updated_at TIMESTAMPTZ NOT NULL DEFAULT now(), FOREIGN KEY(persona_id,user_id) REFERENCES personas(id,player_id))"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS questions (id SERIAL PRIMARY KEY, game_session_id INTEGER NOT NULL REFERENCES game_sessions(id) ON DELETE CASCADE, state_id INTEGER NOT NULL, body TEXT NOT NULL, ai_proposed_text TEXT, finalized_at TIMESTAMPTZ, UNIQUE(game_session_id, state_id))"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS game_events (id SERIAL PRIMARY KEY, game_session_id INTEGER NOT NULL REFERENCES game_sessions(id) ON DELETE CASCADE, from_state_id INTEGER NOT NULL, to_state_id INTEGER NOT NULL, question TEXT NOT NULL, journal TEXT NOT NULL DEFAULT '', casting_result JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now())"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS contemplations (game_event_id INTEGER PRIMARY KEY REFERENCES game_events(id) ON DELETE CASCADE, response JSONB NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now())"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS llm_requests (id SERIAL PRIMARY KEY, game_event_id INTEGER REFERENCES game_events(id) ON DELETE SET NULL, user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, requested_at TIMESTAMPTZ NOT NULL DEFAULT now(), provider TEXT NOT NULL, model TEXT NOT NULL, input_tokens INTEGER NOT NULL DEFAULT 0, output_tokens INTEGER NOT NULL DEFAULT 0, cached_input_tokens INTEGER NOT NULL DEFAULT 0, latency_ms INTEGER NOT NULL DEFAULT 0, estimated_cost_micros INTEGER NOT NULL DEFAULT 0, succeeded BOOLEAN NOT NULL, error_message TEXT)"
-  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS journey_workflows (user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, document JSONB NOT NULL, updated_at TIMESTAMPTZ NOT NULL DEFAULT now())"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS journey_workflows (persona_id INTEGER PRIMARY KEY REFERENCES personas(id) ON DELETE CASCADE, document JSONB NOT NULL, updated_at TIMESTAMPTZ NOT NULL DEFAULT now())"
   _ <- execute_ connection "ALTER TABLE game_events ADD COLUMN IF NOT EXISTS raw_casting JSONB"
   _ <- execute_ connection "ALTER TABLE game_events ADD COLUMN IF NOT EXISTS previous_state_id INTEGER"
   PersonaSchema.migratePersonas connection
@@ -267,7 +271,7 @@ issueToken :: Connection -> User -> IO AuthResponse
 issueToken connection user = do
   randomBytes <- getRandomBytes 32
   let token = T.pack (concatMap byteHex (BS.unpack randomBytes))
-  _ <- execute connection "INSERT INTO auth_sessions (token, user_id, persona_id) VALUES (?, ?, (SELECT id FROM personas WHERE player_id=? AND archived=FALSE ORDER BY id LIMIT 1))" (token, userId user, userId user)
+  _ <- execute connection "INSERT INTO auth_sessions (token, user_id, persona_id) VALUES (?, ?, (SELECT min(id) FROM personas WHERE player_id=? AND archived=FALSE GROUP BY player_id HAVING COUNT(*)=1))" (token, userId user, userId user)
   pure (AuthResponse token user)
 
 validateAuth :: AuthRequest -> IO ()

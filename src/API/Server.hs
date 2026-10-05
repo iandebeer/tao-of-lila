@@ -9,7 +9,8 @@ import Control.Monad.IO.Class (liftIO)
 import Data.Aeson (Value, encode, object, (.=))
 import Data.Text (Text)
 import Domain.StateView (StateCatalog)
-import Domain.Persona (Persona, PersonaDraft)
+import Domain.Persona (Persona, PersonaDraft, Avatar)
+import Runtime.Avatar (generateAvatar)
 import qualified Persistence.Persona as Persona
 import Domain.Journey (JourneyCommand)
 import qualified Persistence.Journey as Journey
@@ -54,6 +55,7 @@ type API =
     :<|> "game" :> "contemplation-costs" :> Protected :> Get '[JSON] CostSummary
     :<|> "journey-session" :> Protected :> Get '[JSON] Value
     :<|> "journey-session" :> Protected :> ReqBody '[JSON] JourneyCommand :> Post '[JSON] Value
+    :<|> "personas" :> "avatar" :> Protected :> ReqBody '[JSON] PersonaDraft :> Post '[JSON] Avatar
     :<|> "personas" :> Protected :> Get '[JSON] [Persona]
     :<|> "personas" :> Protected :> ReqBody '[JSON] PersonaDraft :> Post '[JSON] Persona
     :<|> "personas" :> Capture "personaId" Int :> Protected :> Get '[JSON] Persona
@@ -93,6 +95,7 @@ app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API)
         :<|> withUser store (contemplationCosts store)
         :<|> withUser store (Journey.getJourney store domain)
         :<|> (\authorization command -> withUser store (\user -> Journey.commandJourney store domain user command) authorization)
+        :<|> (\authorization draft -> withUser store (\_ -> generateAvatar draft) authorization)
         :<|> withUser store (Persona.listPersonas store)
         :<|> (\authorization draft -> withUser store (\user -> Persona.createPersona store user draft) authorization)
         :<|> (\ident authorization -> withUser store (\user -> Persona.getPersona store user ident) authorization)
