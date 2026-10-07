@@ -12,8 +12,8 @@ import Data.IORef (newIORef, modifyIORef', readIORef)
 import Domain.StateView (StateCatalog)
 import Domain.Types (DomainData)
 import Interpretation.ContemplationModel (disabledContemplationModel)
-import Network.HTTP.Types (status200)
-import Network.Wai (defaultRequest, pathInfo, responseToStream)
+import Network.HTTP.Types (hCacheControl, status200)
+import Network.Wai (defaultRequest, pathInfo, responseToStream, responseHeaders)
 import Network.Wai.Internal (ResponseReceived (..))
 import Persistence.Postgres (newStore)
 
@@ -41,4 +41,10 @@ checkStateViewHTTP domain catalog = do
   journey <- get ["journey", ""]
   expected <- LBS.readFile "app/public/journey/index.html"
   if journey == expected then pure () else fail "Journey directory did not serve its own index"
+  mapM_ (\path -> do
+    _ <- application defaultRequest {pathInfo = path} $ \assetResponse -> do
+      if lookup hCacheControl (responseHeaders assetResponse) == Just "no-cache"
+        then pure () else fail "Unversioned static assets must revalidate after deployment"
+      pure ResponseReceived
+    pure ()) [["journey", "app.js"], ["journey", "splash.js"], ["journey", "style.css"]]
   putStrLn "ok - public catalogue API and journey directory serve the expected data without a database"

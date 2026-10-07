@@ -24,6 +24,7 @@ import Interpretation.ContemplationModel (ContemplationModel)
 import Network.HTTP.Types (hContentType, status200)
 import Network.Wai (Application, pathInfo, responseFile)
 import Network.Wai.Application.Static (StaticSettings (..), defaultWebAppSettings)
+import WaiAppStatic.Types (MaxAge (NoCache))
 import Persistence.Postgres
 import Servant
   ( (:<|>) (..), (:>), Capture, Delete, Get, Handler, Header, JSON, Post
@@ -140,7 +141,11 @@ jsonError :: ServerError -> Text -> ServerError
 jsonError base message = base {errBody = encode (object ["error" .= message])}
 
 serveStaticClient :: FilePath -> Server Raw
-serveStaticClient staticDirectory = serveDirectoryWith ((defaultWebAppSettings staticDirectory) {ss404Handler = Just (serveIndex staticDirectory)})
+-- Public assets have stable URLs, so browsers must revalidate between releases.
+serveStaticClient staticDirectory = serveDirectoryWith ((defaultWebAppSettings staticDirectory)
+  { ss404Handler = Just (serveIndex staticDirectory)
+  , ssMaxAge = NoCache
+  })
 
 serveIndex :: FilePath -> Application
 serveIndex staticDirectory request respond =

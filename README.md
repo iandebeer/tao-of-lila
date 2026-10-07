@@ -293,6 +293,10 @@ preview without an account or AI calls. Nine scenarios cover changing-line count
 special-transition fixtures, long text, interruption and completion. Live ladder,
 snake and terminal rules remain unavailable in the current domain model.
 
+Public static files use `Cache-Control: no-cache` so browsers revalidate their
+stable URLs after deployment. If a browser cached an earlier release under the
+old one-year policy, hard-refresh once to pick up the new files and policy.
+
 See [architecture, persistence and acceptance notes](docs/responsive-journey.md).
 Build the integrated animation with `npm run build:journey --prefix
 web/yarrow-casting`; run `cabal test` and `node scripts/journey-test.mjs`.

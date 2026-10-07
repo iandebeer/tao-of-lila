@@ -149,7 +149,10 @@ improvement for very long journeys.
 
 Below 640px, progress is a vertical narrative with one possibility per row.
 At 640px there are two columns; at 1024px, three. FROM → CURRENT → POSSIBLE NEXT
-retains its reading order at every size. Desktop splash composition is two-column.
+retains its reading order at every size. At 1024px and above, the splash places
+its heading and login controls beside the approved artwork in two columns.
+Artwork is capped at 460px wide on desktop and 360px on smaller screens, where
+the heading, artwork, and controls stack in that order.
 Results reflow from one hexagram per row to side-by-side cards. Interpretation
 uses a readable, keyboard-focusable scroll region; the journal grows vertically.
 Movement reflows between a vertical sequence and a horizontal sequence.
@@ -163,8 +166,8 @@ Movement reflows between a vertical sequence and a horizontal sequence.
 Hexagram artwork IDs are canonical binary values, never King Wen numbers.
 The registry also reserves trigrams, animals, elements, families, directions,
 colours, consequences and other symbols. Missing artwork uses a replaceable
-placeholder. The splash board remains a decorative 72-cell representation;
-traditional board artwork has not been supplied.
+placeholder. The splash uses the approved PNG in `app/public/assets/splash/`,
+displayed without cropping or distortion.
 
 ## Validation
 
