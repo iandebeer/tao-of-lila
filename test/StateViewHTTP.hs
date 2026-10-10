@@ -46,5 +46,8 @@ checkStateViewHTTP domain catalog = do
       if lookup hCacheControl (responseHeaders assetResponse) == Just "no-cache"
         then pure () else fail "Unversioned static assets must revalidate after deployment"
       pure ResponseReceived
-    pure ()) [["journey", "app.js"], ["journey", "splash.js"], ["journey", "style.css"]]
+    pure ())
+      [ ["journey", "app.js"], ["journey", "splash.js"], ["journey", "style.css"]
+      , ["journey", ""], ["journey", "resume"], ["yarrow", ""], []
+      ]
   putStrLn "ok - public catalogue API and journey directory serve the expected data without a database"

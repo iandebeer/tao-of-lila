@@ -21,7 +21,7 @@ import Runtime.Casting (freshCastingState)
 import Engine.Casting (CastingState, nextCastingState)
 import Engine.Reading (ReadingError (..), generateReading)
 import Interpretation.ContemplationModel (ContemplationModel)
-import Network.HTTP.Types (hContentType, status200)
+import Network.HTTP.Types (hCacheControl, hContentType, status200)
 import Network.Wai (Application, pathInfo, responseFile)
 import Network.Wai.Application.Static (StaticSettings (..), defaultWebAppSettings)
 import WaiAppStatic.Types (MaxAge (NoCache))
@@ -149,7 +149,8 @@ serveStaticClient staticDirectory = serveDirectoryWith ((defaultWebAppSettings s
 
 serveIndex :: FilePath -> Application
 serveIndex staticDirectory request respond =
-  respond $ responseFile status200 [(hContentType, "text/html; charset=utf-8")] file Nothing
+  respond $ responseFile status200
+    [(hContentType, "text/html; charset=utf-8"), (hCacheControl, "no-cache")] file Nothing
   where
     file =
       case pathInfo request of
