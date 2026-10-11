@@ -3,7 +3,7 @@ import { generateLine, lineAction } from './line';
 import { animatePoses } from './animator';
 import { caption, statusLine } from './ceremony';
 import { layoutStalks, leatherPose } from './layout';
-import { createStalks, snapshot } from './persist';
+import { restoreJourneyVisual } from './journey-state';
 import { applyLeather, applyPoses, mountScene, renderHexagram } from './render';
 import type { CeremonyState, EngineCastingState } from './types';
 
@@ -11,13 +11,13 @@ interface Host {
   svg: SVGSVGElement;
   engine: EngineCastingState;
   saved: CeremonyState | null;
-  initial: EngineCastingState;
   advance: (previous: EngineCastingState) => Promise<EngineCastingState>;
   persist: (visual: CeremonyState) => Promise<void>;
   describe: (caption: string, status: string, action: string, complete: boolean) => void;
 }
 export function mountJourneyCeremony(host: Host) {
-  let visual = host.saved ?? snapshot(host.initial, 'bound', createStalks(host.initial.seed), host.initial.seed);
+  let engine = host.engine;
+  let visual = restoreJourneyVisual(engine, host.saved);
   const scene = mountScene(host.svg, visual.stalks);
   let poses = layoutStalks(visual.stalks, visual.phase, visual.visualSeed);
   let disposed = false;
@@ -37,7 +37,13 @@ export function mountJourneyCeremony(host: Host) {
         if (visual.phase === 'hexagram-complete') return;
         const from = visual.phase;
         host.describe('Generating a line…', statusLine(visual.engine, visual.phase), 'Generating…', false);
-        const next = await generateLine(visual, host.advance, async state => {
+        const next = await generateLine(visual, async previous => {
+          engine = await host.advance(previous);
+          return engine;
+        }, async state => {
+          // A saved visual may lag an engine step accepted before interruption.
+          // Catch up its choreography before submitting another snapshot.
+          if (state.engine.stateId < engine.stateId) return;
           await host.persist(state);
           visual = state;
         }, () => disposed);

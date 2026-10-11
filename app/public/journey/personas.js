@@ -6,7 +6,7 @@ export const personaEntryRoute=personas=>availablePersonas(personas).length?'per
 export function personaAvatar(avatar,name){
   const asset=avatar?.avatarAsset;
   return asset&&/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(asset)
-    ? `<img class="persona-avatar" src="${esc(asset)}" alt="Portrait of ${esc(name)}">`
+    ? `<img width="80" height="80" class="persona-avatar" src="${esc(asset)}" alt="Portrait of ${esc(name)}">`
     : `<div class="persona-avatar persona-avatar-placeholder" aria-label="No avatar">${esc((name||'?').trim().slice(0,1))}</div>`;
 }
 export function personaCards(personas,selected){
