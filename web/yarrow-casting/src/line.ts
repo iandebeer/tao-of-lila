@@ -1,7 +1,5 @@
-// Advance engine-owned steps automatically, stopping only at a revealed line.
-import { assignForTransition } from './assign';
-import { continueNeedsAdvance, phaseAfterContinue } from './ceremony';
-import { snapshot } from './persist';
+// Casting arithmetic stays in Haskell; the browser only reveals its result.
+import { restoreJourneyVisual } from './journey-state';
 import type { CeremonyState, EngineCastingState } from './types';
 
 export async function generateLine(
@@ -10,21 +8,16 @@ export async function generateLine(
   accept: (state: CeremonyState) => Promise<void>,
   cancelled: () => boolean = () => false,
 ): Promise<CeremonyState> {
-  let state = initial;
-  if (state.phase === 'hexagram-complete') return state;
-  // An interrupted reveal finishes the existing line before starting another.
-  const target = state.engine.completedLines.length +
-    (state.phase === 'line-complete' ? 0 : 1);
-  for (let steps = 0; steps < 100 && !cancelled(); steps++) {
-    const from = state.phase;
-    const engine = continueNeedsAdvance(from) ? await advance(state.engine) : state.engine;
-    let to = phaseAfterContinue(from, engine);
-    if (to === 'draw-line' && engine.result) to = 'hexagram-complete';
-    state = snapshot(engine, to, assignForTransition(state.stalks, from, to, engine), state.visualSeed);
-    await accept(state);
-    if (to === 'hexagram-complete' || (to === 'draw-line' && engine.completedLines.length >= target)) return state;
+  if (initial.phase === 'hexagram-complete' || cancelled()) return initial;
+  // Finish an interrupted reveal without casting another line.
+  const engine = initial.phase === 'line-complete' ? initial.engine : await advance(initial.engine);
+  if (cancelled()) return initial;
+  if (!engine.result && engine.event !== 'LineComplete') {
+    throw new Error('The casting did not complete a line. Please retry.');
   }
-  if (!cancelled()) throw new Error('The casting did not complete a line. Please retry.');
+  const state = restoreJourneyVisual(engine, null);
+  state.phase = engine.result ? 'hexagram-complete' : 'draw-line';
+  await accept(state);
   return state;
 }
 

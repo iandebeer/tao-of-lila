@@ -85,6 +85,11 @@ transition connection domain user workflow command = case commandAction command 
     if Casting.result casting /= Nothing then throwIO (Conflict "Casting is already complete") else pure ()
     let advanced = Casting.nextCastingState casting
     pure workflow {workflowCasting = Just advanced}
+  "line" -> do
+    casting <- requireCasting workflow
+    if Casting.result casting /= Nothing then throwIO (Conflict "Casting is already complete") else pure ()
+    let advanced = Casting.nextCastingLine casting
+    pure workflow {workflowCasting = Just advanced, workflowVisual = Nothing}
   "visual" -> do
     casting <- requireCasting workflow
     visual <- maybe (throwIO (InvalidInput "Visual snapshot is required")) pure (commandVisual command)

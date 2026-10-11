@@ -97,7 +97,6 @@ function render(){
   if(route==='casting'){
     ceremony=mountJourneyCeremony({svg:document.querySelector('#scene'),engine:w().workflowCasting,saved:w().workflowVisual,
       advance:async previous=>{const engine=await journey.advance(previous);sync(journey.state);return engine;},
-      persist:async visual=>{await command('visual',null,visual);},
       describe:(caption,text,label,complete)=>{document.querySelector('#caption').textContent=caption;document.querySelector('#casting-status').textContent=text;document.querySelector('[data-action="next"]').textContent=complete?'See the Hexagram':`Next · ${label}`;ceremonyComplete=complete;}
     });
   }

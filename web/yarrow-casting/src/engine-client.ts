@@ -16,8 +16,8 @@ export async function fetchInitialCasting(): Promise<EngineCastingState> {
   return response.json() as Promise<EngineCastingState>;
 }
 
-export async function fetchNextCasting(state: EngineCastingState): Promise<EngineCastingState> {
-  const response = await fetch("/casting/next", {
+export async function fetchNextLine(state: EngineCastingState): Promise<EngineCastingState> {
+  const response = await fetch("/casting/line", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(state),

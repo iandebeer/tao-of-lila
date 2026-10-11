@@ -14,6 +14,7 @@ module Engine.Casting
   , initialCastingState
   , initialCastingStateWithSeed
   , nextCastingState
+  , nextCastingLine
   )
 where
 
@@ -193,6 +194,18 @@ nextCastingState :: CastingState -> CastingState
 nextCastingState state =
   let advanced = advanceCastingState state
    in advanced { samplingRule = samplingRule state, samplingSeed = samplingSeed state }
+
+-- Complete one new line, including the remainder of an interrupted line.
+-- Bound traversal also makes unrecognised client-supplied states terminate.
+nextCastingLine :: CastingState -> CastingState
+nextCastingLine initial = go 32 initial
+  where
+    count = length (completedLines initial)
+    go :: Int -> CastingState -> CastingState
+    go remaining state
+      | result state /= Nothing || length (completedLines state) > count = state
+      | remaining <= 0 = state
+      | otherwise = go (remaining - 1) (nextCastingState state)
 
 advanceCastingState :: CastingState -> CastingState
 advanceCastingState state =

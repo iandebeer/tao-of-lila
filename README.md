@@ -219,6 +219,8 @@ network access. Live output quality is assessed separately with the command abov
 - `GET /health` returns service health.
 - `GET /casting/initial` returns the pure yarrow engine's initial state.
 - `POST /casting/next` advances a supplied `CastingState` without persistence.
+- `POST /casting/line` completes one line (or finishes a partial line) in a supplied state. Completed casts are unchanged.
+- The journey `POST /journey-session` command `line` completes and saves one line atomically using the existing revision guard. It clears obsolete visual snapshots; the browser reconstructs the reveal from the saved engine state without additional save requests.
 - `GET /states` returns loaded Leela states.
 - `GET /hexagrams` returns loaded hexagrams.
 - `POST /reading` generates a full reading.

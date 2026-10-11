@@ -8,12 +8,12 @@ export function restoreJourneyVisual(engine: EngineCastingState, saved: Ceremony
     if (saved.engine.stateId === engine.stateId && saved.engine.castingId === engine.castingId) {
       return { ...saved, engine };
     }
-    if (saved.engine.stateId < engine.stateId) return saved;
+    // Reconstruct from the authoritative state when a saved visual lags.
   }
   const phases: Record<string, CeremonyPhase> = {
     CastingNew: 'bound', LineStarted: 'working-set-49', HeapsDivided: 'divide',
     SingleStalkRemoved: 'take-one', RemaindersCounted: 'count-left',
-    RoundComplete: 'operation-complete', LineComplete: 'line-complete',
+    RoundComplete: 'operation-complete', LineComplete: 'draw-line',
     CastingComplete: 'hexagram-complete',
   };
   const stalks = createStalks(engine.seed);

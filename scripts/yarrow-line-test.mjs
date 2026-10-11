@@ -3,16 +3,19 @@ import {readFileSync} from 'node:fs';
 import {build} from '../web/yarrow-casting/node_modules/esbuild/lib/main.js';
 const bundle=await build({stdin:{contents:"export * from './web/yarrow-casting/src/line'; export * from './web/yarrow-casting/src/persist'; export * from './web/yarrow-casting/src/journey-state';",resolveDir:process.cwd()},bundle:true,format:'esm',write:false});
 const {generateLine,createStalks,snapshot,restoreJourneyVisual}=await import(`data:text/javascript;base64,${Buffer.from(bundle.outputFiles[0].text).toString('base64')}`);
+const nextLine=(trace,previous)=>trace.find(s=>s.stateId>previous.stateId && s.completedLines.length>previous.completedLines.length) ?? previous;
 const traces=JSON.parse(readFileSync('app/public/journey/castings.json'));
 for(const name of ['ordinary','zero','six','still-changing']){
   const trace=traces[name], saved=[];
-  const advance=async previous=>trace[trace.findIndex(s=>s.stateId===previous.stateId)+1];
+  let calls=0;
+  const advance=async previous=>{calls++;return nextLine(trace,previous);};
   let visual=snapshot(trace[0],'bound',createStalks(trace[0].seed),trace[0].seed);
   for(let line=1;line<=6;line++){
     visual=await generateLine(visual,advance,async s=>saved.push(s));
     assert.equal(visual.engine.completedLines.length,line,`${name}: one new line per click`);
     assert.equal(visual.phase,line===6?'hexagram-complete':'draw-line');
   }
+  assert.equal(calls,6,'exactly one advance request per line');
   assert.deepEqual(visual.engine.result,trace.at(-1).result);
   // Every persisted intermediate phase can resume to a visible line or completion.
   for(const interrupted of saved){
@@ -26,8 +29,8 @@ for(const name of ['ordinary','zero','six','still-changing']){
 // Failed persistence must allow retry against an already accepted engine step.
 const trace=traces.ordinary;
 let visual=snapshot(trace[0],'bound',createStalks(trace[0].seed),trace[0].seed), current=trace[0], fail=true;
-const advance=async previous=>{if(current.stateId>previous.stateId)return current;current=trace[trace.findIndex(s=>s.stateId===previous.stateId)+1];return current;};
-await assert.rejects(generateLine(visual,advance,async s=>{if(s.engine.stateId===4&&fail){fail=false;throw Error('connection lost');}visual=s;}),/connection lost/);
+const advance=async previous=>{if(current.stateId>previous.stateId)return current;current=nextLine(trace,previous);return current;};
+await assert.rejects(generateLine(visual,advance,async s=>{if(fail){fail=false;throw Error('connection lost');}visual=s;}),/connection lost/);
 visual=await generateLine(visual,advance,async s=>{visual=s;});
 assert.equal(visual.engine.completedLines.length,1);
 assert.deepEqual(visual.engine.completedLines,trace.find(s=>s.event==='LineComplete').completedLines);
@@ -45,7 +48,7 @@ for(const engine of trace){
   let current=engine;
   const resumed=await generateLine(recovered,async previous=>{
     assert.deepEqual(previous,current);
-    current=trace[trace.findIndex(s=>s.stateId===previous.stateId)+1];
+    current=nextLine(trace,previous);
     return current;
   },async visual=>assert.deepEqual(visual.engine,current,'every submitted visual matches the authoritative casting'));
   assert.ok(['draw-line','hexagram-complete'].includes(resumed.phase));
@@ -63,22 +66,21 @@ const mountedBundle=await build({entryPoints:['web/yarrow-casting/src/journey.ts
 const {mountJourneyCeremony}=await import(`data:text/javascript;base64,${Buffer.from(mountedBundle.outputFiles[0].text).toString('base64')}`);
 for(const recovery of ['old-metadata','stale-visual','missing-visual']){
   const states=trace.map(s=>({...s,samplingRule:'LeelaBalanced',samplingSeed:42}));
-  let current=states[recovery==='old-metadata'?0:1],lastSaved;
+  let current=states[recovery==='old-metadata'?0:1], requests=0;
   const controller=mountJourneyCeremony({svg:{},engine:current,
     saved:recovery==='missing-visual'?null:legacyVisual,
     advance:async previous=>{
+      requests++;
       if(current.stateId>previous.stateId)return current;
-      current=states[states.findIndex(s=>s.stateId===previous.stateId)+1];return current;
-    },persist:async visual=>{
-      assert.deepEqual(visual.engine,current,`${recovery}: visual snapshot must match saved casting`);
-      lastSaved=visual;
+      current=nextLine(states,previous);return current;
     },describe(){}
   });
   for(let line=1;line<=6;line++){
     await controller.next();
-    assert.equal(lastSaved.engine.completedLines.length,line,`${recovery}: line ${line}`);
+    assert.equal(current.completedLines.length,line,`${recovery}: line ${line}`);
   }
-  assert.deepEqual(lastSaved.engine.result,states.at(-1).result);
+  assert.equal(requests,6,'mounted journey uses one request per click');
+  assert.deepEqual(current.result,states.at(-1).result);
   controller.dispose();
 }
 console.log('ok - mounted journey accepts all six lines with old metadata, stale visuals or missing visuals');

@@ -16,7 +16,7 @@ export function createDemo(seed, traces, scenario = 'ordinary') {
     primary_hexagram:('Notice the relationship between seeking and listening. Allow the question to remain open long enough for a different response to emerge.\n\n').repeat(name==='long-reading'?45:2),
     changing_lines:['Change can be approached with care rather than urgency.'],transformation:'Carry one small observation into your next step.',possible_readings:['Practice patience.','Observe what asks for attention.'],questions_for_contemplation:['What feels different now?']
   };
-  const allowed = {question:['progress','question'],draft:['question'],begin:['question'],next:['casting'],visual:['casting'],result:['casting'],interpretation:['result'],reflection:['interpretation'],journal:['reflection'],movement:['reflection'],acknowledge:['movement']};
+  const allowed = {question:['progress','question'],draft:['question'],begin:['question'],next:['casting'],line:['casting'],visual:['casting'],result:['casting'],interpretation:['result'],reflection:['interpretation'],journal:['reflection'],movement:['reflection'],acknowledge:['movement']};
   return {
     initial:copy(trace[0]),
     get:()=>copy(data),
@@ -35,6 +35,12 @@ export function createDemo(seed, traces, scenario = 'ordinary') {
           const index=trace.findIndex(s=>s.stateId===w.workflowCasting.stateId);
           if(index===trace.length-1)throw new Error('Casting is already complete');
           w.workflowCasting=copy(trace[index+1]);break;
+        }
+        case 'line': {
+          const current=w.workflowCasting;
+          if(current.result)throw new Error('Casting is already complete');
+          w.workflowCasting=copy(trace.find(s=>s.stateId>current.stateId && s.completedLines.length>current.completedLines.length));
+          w.workflowVisual=null;break;
         }
         case 'visual':
           if(JSON.stringify(visual.engine)!==JSON.stringify(w.workflowCasting))throw new Error('Visual snapshot does not match the saved casting');

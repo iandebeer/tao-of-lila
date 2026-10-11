@@ -1,7 +1,7 @@
 import { generateLine, lineAction } from './line';
 import { animatePoses } from "./animator";
 import { caption, statusLine } from "./ceremony";
-import { fetchInitialCasting, fetchNextCasting } from "./engine-client";
+import { fetchInitialCasting, fetchNextLine } from "./engine-client";
 import { layoutStalks, leatherPose } from "./layout";
 import { clearCeremony, createStalks, loadCeremony, saveCeremony, snapshot } from "./persist";
 import { applyLeather, applyPoses, mountScene, renderHexagram } from "./render";
@@ -66,7 +66,7 @@ async function onContinue(): Promise<void> {
   try {
     const from = ceremony.phase;
     captionNode.textContent = 'Generating a line…';
-    const next = await generateLine(ceremony, fetchNextCasting, async state => {
+    const next = await generateLine(ceremony, fetchNextLine, async state => {
       saveCeremony(state);
       ceremony = state;
     });

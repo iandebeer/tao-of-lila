@@ -43,6 +43,7 @@ allowedStage action stage = case action of
   "suggest" -> stage == "question"
   "begin" -> stage == "question"
   "next" -> stage == "casting"
+  "line" -> stage == "casting"
   "visual" -> stage == "casting"
   "result" -> stage == "casting"
   "interpretation" -> stage == "result"

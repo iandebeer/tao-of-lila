@@ -18,7 +18,7 @@ import Domain.Game
 import Domain.Contemplation (ContemplationContext, ContemplationView, CostSummary)
 import Domain.Types (DomainData (..), Health (..), Hexagram, Interpretation, LeelaState, Reading (..), ReadingRequest)
 import Runtime.Casting (freshCastingState)
-import Engine.Casting (CastingState, nextCastingState)
+import Engine.Casting (CastingState, nextCastingState, nextCastingLine)
 import Engine.Reading (ReadingError (..), generateReading)
 import Interpretation.ContemplationModel (ContemplationModel)
 import Network.HTTP.Types (hCacheControl, hContentType, status200)
@@ -70,6 +70,7 @@ type API =
     :<|> "health" :> Get '[JSON] Health
     :<|> "casting" :> "initial" :> Get '[JSON] CastingState
     :<|> "casting" :> "next" :> ReqBody '[JSON] CastingState :> Post '[JSON] CastingState
+    :<|> "casting" :> "line" :> ReqBody '[JSON] CastingState :> Post '[JSON] CastingState
     :<|> Raw
 
 app :: FilePath -> DomainData -> StateCatalog -> Store -> ContemplationModel -> Application
@@ -112,6 +113,7 @@ app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API)
         :<|> pure (Health "ok" "tao-of-lila")
         :<|> liftIO freshCastingState
         :<|> (pure . nextCastingState)
+        :<|> (pure . nextCastingLine)
         :<|> serveStaticClient staticDirectory
 
 withUser :: Store -> (User -> IO a) -> Maybe Text -> Handler a

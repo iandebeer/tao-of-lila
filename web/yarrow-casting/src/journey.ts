@@ -12,7 +12,6 @@ interface Host {
   engine: EngineCastingState;
   saved: CeremonyState | null;
   advance: (previous: EngineCastingState) => Promise<EngineCastingState>;
-  persist: (visual: CeremonyState) => Promise<void>;
   describe: (caption: string, status: string, action: string, complete: boolean) => void;
 }
 export function mountJourneyCeremony(host: Host) {
@@ -41,10 +40,6 @@ export function mountJourneyCeremony(host: Host) {
           engine = await host.advance(previous);
           return engine;
         }, async state => {
-          // A saved visual may lag an engine step accepted before interruption.
-          // Catch up its choreography before submitting another snapshot.
-          if (state.engine.stateId < engine.stateId) return;
-          await host.persist(state);
           visual = state;
         }, () => disposed);
         if (disposed) return;

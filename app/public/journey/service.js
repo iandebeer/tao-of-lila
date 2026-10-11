@@ -37,7 +37,7 @@ export const journey={
     const current=state.workflow.workflowCasting;
     // The server may already have accepted Next before a connection was lost.
     if(current.stateId>previous.stateId)return current;
-    await journey.command('next');return state.workflow.workflowCasting;
+    await journey.command('line');return state.workflow.workflowCasting;
   },
   skip(){state=fixture.skip();return journey.command('result');},
   reset(){sessionStorage.removeItem(cacheKey);location.reload();},

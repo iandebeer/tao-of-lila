@@ -44,6 +44,12 @@ main = do
   let complete = until ((/= Nothing) . Casting.result) Casting.nextCastingState
       seeded = Casting.initialCastingStateWithSeed 123456
       partial = iterate Casting.nextCastingState seeded !! 37
+  let lineComplete state = until (\s -> Casting.result s /= Nothing || length (Casting.completedLines s) > length (Casting.completedLines state)) Casting.nextCastingState state
+      starts = [Casting.initialCastingStateWithSeed n | n <- [1..64]] <> [Casting.initialCastingState]
+      steps = concatMap (take 97 . iterate Casting.nextCastingState) starts
+  assert "whole-line advancement matches every intermediate step" (all (\s -> Casting.nextCastingLine s == lineComplete s) steps)
+  assert "six line requests preserve complete casting" (all (\s -> iterate Casting.nextCastingLine s !! 6 == complete s) starts)
+  assert "line command restricted to casting" (allowedStage "line" "casting" && not (allowedStage "line" "result"))
   assert "saved casting resumes identically" (complete partial == complete seeded)
   let contexts = [buildContemplationContext (LeelaState 1 "Innocence" "" "") "What can I learn?" result | casting <- fresh, Just result <- [Casting.result (complete casting)]]
   assert "fresh casting results can all be interpreted" (all (either (const False) (const True)) contexts)
