@@ -1,14 +1,14 @@
-import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js';
-import {splashMarkup,bindSplashTerms} from './splash.js';
-import {bindPersonaFields,readPersonaFields} from './persona-fields.js';
-import {localStateField} from './local-field.js';
-import {installStateViewer,stateControl,hexControl} from './state-viewer.js';
-import {api} from './api.js';
-import {createInterpretationFlow} from './interpretation-flow.js';
-import {journey,preview,scenario} from './service.js';
-import {scenarios} from './demo.js';
-import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js';
-import {mountJourneyCeremony} from './ceremony.js';
+import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=b1b3b155d83aab9d';
+import {splashMarkup,bindSplashTerms} from './splash.js?v=b1b3b155d83aab9d';
+import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=b1b3b155d83aab9d';
+import {localStateField} from './local-field.js?v=b1b3b155d83aab9d';
+import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=b1b3b155d83aab9d';
+import {api} from './api.js?v=b1b3b155d83aab9d';
+import {createInterpretationFlow} from './interpretation-flow.js?v=b1b3b155d83aab9d';
+import {journey,preview,scenario} from './service.js?v=b1b3b155d83aab9d';
+import {scenarios} from './demo.js?v=b1b3b155d83aab9d';
+import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=b1b3b155d83aab9d';
+import {mountJourneyCeremony} from './ceremony.js?v=b1b3b155d83aab9d';
 const main=document.querySelector('main'), nav=document.querySelector('#navigation'), status=document.querySelector('#status');
 const interpretationFlow=createInterpretationFlow(journey);
 let personas=[], editingPersona=null, selectedPersonaId=null, acceptedAvatar=null, pendingAvatar=null, disposeSplash=()=>{};
@@ -102,7 +102,7 @@ function render(){
   }
 }
 function go(route=stage()){location.hash=route;render();}
-async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json').then(r=>r.json()):api.request('/hexagrams')]);catalog=hexagrams;sync(projection,true);}
+async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=b1b3b155d83aab9d').then(r=>r.json()):api.request('/hexagrams')]);catalog=hexagrams;sync(projection,true);}
 async function command(action,text=null,visual=null){sync(await journey.command(action,text,visual));}
 function saveLabel(text){const node=document.querySelector('#save-state');if(node)node.textContent=text;}
 function showError(error){if(error.staleSession)return;const node=document.querySelector('#form-error')||status;node.textContent=error.message;node.classList.add('error');saveLabel('Not saved yet. Your writing is still here; retry before leaving.');}
@@ -175,10 +175,15 @@ document.addEventListener('click',e=>{
 addEventListener('hashchange',()=>{if(!busy)render();});
 document.querySelector('.brand').addEventListener('click',e=>{if(busy)e.preventDefault();});
 addEventListener('beforeunload',e=>{if(dirty||busy){e.preventDefault();e.returnValue='';}});
+// Safari can restore a running page without revalidating any HTTP resources.
+// Preserve edits and in-flight work; refresh only an idle page without a form.
+addEventListener('pageshow',e=>{
+  if(e.persisted&&!dirty&&!busy&&!document.querySelector('form'))location.reload();
+});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)void saveDraft().catch(showError);});
 installStateViewer({preview});
 await loadAssets();
-try{labels=await fetch('./hexagram-labels.json').then(r=>r.json());}catch{}
+try{labels=await fetch('./hexagram-labels.json?v=b1b3b155d83aab9d').then(r=>r.json());}catch{}
 render();
 if(!preview&&api.authenticated){try{await choosePersonas();}catch(error){if(!error.staleSession&&!api.authenticated){personas=[];data=null;if(!['#login','#signup'].includes(location.hash))go('login');}showError(error);}}
 if(preview){status.textContent='Loading your saved journey…';try{await load();status.textContent='';if(location.hash && location.hash!=='#splash')go();else render();}catch(error){showError(error);}}

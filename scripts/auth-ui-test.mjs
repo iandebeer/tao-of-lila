@@ -11,6 +11,7 @@ globalThis.fetch=async(path,options)=>{
 const {api}=await import('../app/public/journey/api.js');
 const oldRequest=api.request('/personas').catch(error=>error);
 await api.authenticate('login','  Existing_User  ',' unchanged password ');
+assert.ok(calls.every(call=>call.options.cache==='no-store'),'API requests bypass stale browser responses');
 assert.deepEqual(JSON.parse(calls[1].options.body),{authUsername:'Existing_User',authPassword:' unchanged password '});
 assert.equal(calls[1].options.headers.Authorization,undefined,'login must not send an expired bearer');
 resolveExpired({ok:false,status:401,json:async()=>({error:'Invalid username, password, or session'})});

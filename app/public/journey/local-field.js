@@ -1,6 +1,6 @@
-import {paragraphs} from './text.js';
-import {esc,label,artwork} from './components.js';
-import {stateControl} from './state-viewer.js';
+import {paragraphs} from './text.js?v=b1b3b155d83aab9d';
+import {esc,label,artwork} from './components.js?v=b1b3b155d83aab9d';
+import {stateControl} from './state-viewer.js?v=b1b3b155d83aab9d';
 
 // Only the engine's reachable states belong here. The 72-state catalogue is
 // for lookup, never a source from which the client invents possible moves.

@@ -1,4 +1,5 @@
 FROM docker.io/library/node:22-bookworm-slim AS web
+COPY app/public /opt/tao-of-lila/app/public
 WORKDIR /opt/tao-of-lila/web/yarrow-casting
 COPY web/yarrow-casting/package*.json ./
 RUN npm ci
@@ -11,6 +12,8 @@ COPY scripts/build-state-catalog.mjs ./scripts/build-state-catalog.mjs
 COPY data/leela.json data/state-view-metadata.json ./data/
 COPY app/public/journey/hexagram-labels.json ./app/public/journey/hexagram-labels.json
 RUN node scripts/build-state-catalog.mjs
+COPY scripts/version-web-assets.mjs ./scripts/version-web-assets.mjs
+RUN node scripts/version-web-assets.mjs
 
 FROM docker.io/library/haskell:9.10.3-slim-bookworm AS build
 
@@ -37,11 +40,8 @@ RUN apt-get update \
 
 COPY --from=build /opt/dist/tao-of-lila-api /usr/local/bin/tao-of-lila-api
 COPY data ./data
-COPY app/public ./app/public
+COPY --from=web /opt/tao-of-lila/app/public ./app/public
 COPY --from=web /opt/tao-of-lila/data/state-views.json ./data/state-views.json
-COPY --from=web /opt/tao-of-lila/app/public/journey/state-views.json ./app/public/journey/state-views.json
-COPY --from=web /opt/tao-of-lila/app/public/yarrow/casting.js ./app/public/yarrow/casting.js
-COPY --from=web /opt/tao-of-lila/app/public/journey/ceremony.js ./app/public/journey/ceremony.js
 
 ENV PORT=8080
 EXPOSE 8080

@@ -1,4 +1,4 @@
-import {esc} from './text.js';
+import {esc} from './text.js?v=b1b3b155d83aab9d';
 
 // Structured narrative attributes use the existing PersonaAttribute domain
 // boundary. No attribute is inferred from a Player, a name, or another field.

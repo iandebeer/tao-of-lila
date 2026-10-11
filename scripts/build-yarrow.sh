@@ -16,4 +16,5 @@ fi
 
 npm run build
 npm run build:journey
+node "$PROJECT_DIR/scripts/version-web-assets.mjs"
 echo "Wrote app/public/yarrow/casting.js and app/public/journey/ceremony.js"

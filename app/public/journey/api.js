@@ -13,7 +13,7 @@ export const api = {
     const requestToken=authenticating?null:token;
     let response;
     try {
-      response = await fetch(path, {method, headers: {
+      response = await fetch(path, {method, cache: 'no-store', headers: {
         ...(body ? {'Content-Type': 'application/json'} : {}),
         ...(requestToken ? {Authorization: `Bearer ${requestToken}`} : {})
       }, ...(body ? {body: JSON.stringify(body)} : {})});
