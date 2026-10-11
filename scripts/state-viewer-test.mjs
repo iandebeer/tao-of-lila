@@ -38,7 +38,13 @@ assert.equal(imageMarkup(null,'optional'),'');
 assert.equal(safeAsset('javascript:alert(1)'),null);assert.equal(safeAsset('/assets/../private.png'),null);
 assert.match(imageMarkup('/assets/iching/animals/horse.png','Horse'),/horse.png/);
 assert.doesNotMatch(leelaMarkup(catalog,72),/<img/);
-assert.match(leelaMarkup(catalog,72),/not yet been curated/);
+for(const view of catalog.stateViews.filter(v=>!v.traditionalReference)){
+  const markup=leelaMarkup(catalog,view.identity.stateId);
+  assert.doesNotMatch(markup,/No traditional transition has been curated/);
+  assert.doesNotMatch(markup,/Traditional reference · separate board edition/);
+  assert.match(markup,/Canonical meaning/);
+  assert.match(markup,/A space for reflection/);
+}
 assert.match(hexControl(7,'<script>'),/&lt;script&gt;/);
 
 // Exercise real delegated handlers: network failure, retry, image failure,
