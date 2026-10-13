@@ -10,6 +10,7 @@ RUN npm run build && npm run build:journey
 WORKDIR /opt/tao-of-lila
 COPY scripts/build-state-catalog.mjs ./scripts/build-state-catalog.mjs
 COPY data/leela.json data/state-view-metadata.json ./data/
+COPY data/references/library.json ./data/references/library.json
 COPY app/public/journey/hexagram-labels.json ./app/public/journey/hexagram-labels.json
 RUN node scripts/build-state-catalog.mjs
 COPY scripts/version-web-assets.mjs ./scripts/version-web-assets.mjs

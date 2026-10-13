@@ -1,5 +1,5 @@
-import {esc} from './text.js?v=b1b3b155d83aab9d';
-import {personaAttributesSummary,personaFieldsMarkup} from './persona-fields.js?v=b1b3b155d83aab9d';
+import {esc} from './text.js?v=3f29bf77409d71fc';
+import {personaAttributesSummary,personaFieldsMarkup} from './persona-fields.js?v=3f29bf77409d71fc';
 
 export const availablePersonas=personas=>personas.filter(p=>!p.personaArchived);
 export const personaEntryRoute=personas=>availablePersonas(personas).length?'personas':'create-persona';

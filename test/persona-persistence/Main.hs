@@ -13,7 +13,10 @@ import qualified Data.Aeson.KeyMap as KM
 import Domain.Contemplation (ContemplationResponse (..))
 import Domain.Game
 import Domain.Journey
+import Domain.Reference
+import qualified Persistence.Reference as R
 import Domain.Persona
+import Domain.Types (LeelaState (..))
 import Domain.Loading (loadDomainData)
 import qualified Engine.Casting as Casting
 import Persistence.Postgres
@@ -42,6 +45,15 @@ acceptance store = do
   domain <- loadDomainData "data" >>= either (fail . show) pure
   migrate store
   migrate store
+  library <- loadReferenceLibrary "data/references/library.json" >>= either fail pure
+  withStore store $ \connection -> do
+    R.installReferenceLibrary connection library
+    R.installReferenceLibrary connection library
+    [Only hexCount] <- query_ connection "SELECT count(*) FROM reference_hexagrams" :: IO [Only Int]
+    assert "reference installation is idempotent and contains all 64 hexagrams" (hexCount == 64)
+    (version, state, hexes, background) <- R.loadCastingReferences connection 72 0 63
+    assert "stored reference selection is bounded and source backed" (version == referenceVersion library && stateId state == 72 && length hexes == 2 && length background == 1)
+
   -- Registration must round-trip through the same stored hash on later login.
   let credentials = AuthRequest "  Returning_Player  " "known-test-password"
   registered <- register store credentials

@@ -16,6 +16,8 @@ common warnings
 library
   import:           warnings
   exposed-modules:  API.Server
+                  , Domain.Reference
+                  , Persistence.Reference
                   , Domain.StateView
                   , Domain.Contemplation
                   , Domain.Persona

@@ -9,6 +9,7 @@ import Data.List (find)
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import Domain.Contemplation
+import Domain.Reference
 import Domain.Loading (loadDomainData)
 import Domain.Types (DomainData (..), LeelaState (..))
 import Interpretation.ContemplationModel (ContemplationModel (..), ModelError (..), disabledContemplationModel)
@@ -27,7 +28,8 @@ main = do
       loaded <- loadDomainData "data"
       domain <- either (die . show) pure loaded
       provider <- resolveProvider
-      runWeb domain provider
+      library <- loadReferenceLibrary "data/references/library.json" >>= either die pure
+      runWeb library domain provider
     _ -> do
       let dryRun = "--dry-run" `elem` args
           positional = filter (/= "--dry-run") args
@@ -40,7 +42,7 @@ usage :: String
 usage = unlines
   [ "Usage: cabal run tao-of-lila-interpretation-test -- [--dry-run] PRIMARY RESULTING QUESTION [LEELA_STATE_ID]"
   , "Web interface: cabal run tao-of-lila-interpretation-test -- --web"
-  , "King Wen numbers: 1..64. Current source-text corpus: 11 and 36."
+  , "King Wen numbers: 1..64. Source-text corpus: all 64 hexagrams (Chinese and James Legge)."
   , "Leela state defaults to 1. Run from the repository root."
   , "--dry-run prints context JSON without an API key or network request."
   , "Live mode uses OPENAI_API_KEY and OPENAI_MODEL (default: gpt-5-mini)."
@@ -58,8 +60,9 @@ run dryRun primaryArg resultingArg questionArg stateArg = do
   domain <- either (die . show) pure loaded
   leela <- maybe (die "Leela state ID was not found") pure
     (find ((== selectedState) . stateId) (leelaStates domain))
+  library <- loadReferenceLibrary "data/references/library.json" >>= either die pure
   context <- either (die . T.unpack) pure
-    (buildPairContemplationContext leela question primary resulting)
+    (fmap (withReferenceBackground library) (buildPairContemplationContextWith (lookupReferenceHexagram library) leela question primary resulting))
   if dryRun then LBS.putStrLn (encode context) else do
     provider <- resolveProvider
     TIO.putStrLn ("Hexagram " <> T.pack (show primary) <> " → " <> T.pack (show resulting))

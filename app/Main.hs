@@ -4,6 +4,8 @@ module Main
 where
 
 import API.Server (app)
+import Domain.Reference (loadReferenceLibrary)
+import Persistence.Reference (installReferenceLibrary)
 import Domain.StateView (loadStateCatalog)
 import qualified Data.ByteString.Char8 as B8
 import qualified Data.Text as T
@@ -11,7 +13,7 @@ import Domain.Loading (DataLoadError (..), loadDomainData)
 import Network.Wai.Handler.Warp (run)
 import Interpretation.ContemplationModel (ContemplationModel, disabledContemplationModel)
 import Interpretation.OpenAI (OpenAIConfig (..), openAIContemplationModel)
-import Persistence.Postgres (migrate, newStore)
+import Persistence.Postgres (migrate, newStore, withStore)
 import System.Environment (lookupEnv)
 import Text.Read (readMaybe)
 
@@ -25,7 +27,9 @@ main = do
       stateCatalog <- loadStateCatalog "data/state-views.json" >>= either fail pure
       databaseUrl <- resolveDatabaseUrl
       let store = newStore (B8.pack databaseUrl)
+      library <- loadReferenceLibrary "data/references/library.json" >>= either fail pure
       migrate store
+      withStore store (\connection -> installReferenceLibrary connection library)
       model <- resolveContemplationModel
       putStrLn ("The Tao of Lila API listening on port " <> show port)
       run port (app "app/public" domain stateCatalog store model)

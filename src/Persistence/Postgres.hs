@@ -41,11 +41,12 @@ import Database.PostgreSQL.Simple.FromRow (FromRow (..), field)
 import qualified Database.PostgreSQL.Simple.Newtypes as PG
 import Domain.Persona (Persona, personaPrompt)
 import Domain.Game
+import qualified Persistence.Reference as Reference
 import qualified Persistence.PersonaSchema as PersonaSchema
 import Domain.Contemplation
 import Domain.Types (DomainData (..), LeelaState (..))
 import Runtime.Casting (freshCastingState)
-import Engine.Casting (CastingResult, CastingState, nextCastingState, result)
+import Engine.Casting (CastingResult (..), CastingState, nextCastingState, result)
 import Engine.Game (accessibleStateIds, applyCastingMovement)
 import Interpretation.ContemplationModel (ContemplationModel (..), ModelError (..))
 import Numeric (showHex)
@@ -90,6 +91,9 @@ migrate store = withStore store $ \connection -> withTransaction connection $ do
   _ <- execute_ connection "ALTER TABLE game_events ADD COLUMN IF NOT EXISTS raw_casting JSONB"
   _ <- execute_ connection "ALTER TABLE game_events ADD COLUMN IF NOT EXISTS previous_state_id INTEGER"
   PersonaSchema.migratePersonas connection
+  Reference.migrateReferences connection
+  _ <- execute_ connection "ALTER TABLE contemplations ADD COLUMN IF NOT EXISTS source_context JSONB"
+  pure ()
 
 register :: Store -> AuthRequest -> IO AuthResponse
 register store request = do
@@ -183,9 +187,9 @@ saveJournal store domain user eventId request = withStore store $ \connection ->
 contemplateEvent :: Store -> DomainData -> ContemplationModel -> User -> Int -> IO ContemplationView
 contemplateEvent store domain model user requestedEventId = do
   context <- contemplationContext store domain user requestedEventId
-  cached <- withStore store $ \connection -> query connection "SELECT response FROM contemplations WHERE game_event_id = ?" (Only requestedEventId) :: IO [Only (PG.Aeson ContemplationResponse)]
+  cached <- withStore store $ \connection -> query connection "SELECT response,source_context FROM contemplations WHERE game_event_id = ?" (Only requestedEventId) :: IO [(PG.Aeson ContemplationResponse, Maybe (PG.Aeson ContemplationContext))]
   case cached of
-    [Only (PG.Aeson response)] -> pure (ContemplationView requestedEventId context response)
+    [(PG.Aeson response, savedContext)] -> pure (ContemplationView requestedEventId (maybe context (\(PG.Aeson value) -> value) savedContext) response)
     _ -> generateContemplation store domain model user requestedEventId
 
 generateContemplation :: Store -> DomainData -> ContemplationModel -> User -> Int -> IO ContemplationView
@@ -199,7 +203,7 @@ generateContemplation store domain model user requestedEventId = do
         pure ()
       throwIO (ExternalService (renderModelError modelError))
     Right modelResult -> withStore store $ \connection -> withTransaction connection $ do
-      _ <- execute connection "INSERT INTO contemplations (game_event_id, response) VALUES (?, ?) ON CONFLICT (game_event_id) DO UPDATE SET response = EXCLUDED.response, created_at = now()" (requestedEventId, PG.Aeson (modelContemplation modelResult))
+      _ <- execute connection "INSERT INTO contemplations (game_event_id, response, source_context) VALUES (?, ?, ?) ON CONFLICT (game_event_id) DO UPDATE SET response = EXCLUDED.response, source_context = EXCLUDED.source_context, created_at = now()" (requestedEventId, PG.Aeson (modelContemplation modelResult), PG.Aeson context)
       _ <- execute connection "INSERT INTO llm_requests (game_event_id, user_id, provider, model, input_tokens, output_tokens, cached_input_tokens, latency_ms, estimated_cost_micros, succeeded) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TRUE)" (requestedEventId, userId user, modelProvider modelResult, modelName modelResult, modelInputTokens modelResult, modelOutputTokens modelResult, modelCachedInputTokens modelResult, modelLatencyMilliseconds modelResult, modelEstimatedCostMicros modelResult)
       pure (ContemplationView requestedEventId context (modelContemplation modelResult))
 
@@ -211,9 +215,13 @@ contemplationContext store domain user requestedEventId = do
       [row] -> let found = eventFromRow row in pure (found, resolveState domain (gameEventFromStateId found))
       _ -> throwIO (NotFound "Game event")
   previous <- withStore store $ \connection -> query connection "SELECT previous_state_id FROM game_events WHERE id = ?" (Only requestedEventId) :: IO [Only (Maybe Int)]
-  context <- either (throwIO . CorruptData) pure (buildContemplationContext fromState (gameEventQuestion event) (gameEventCastingResult event))
+  let casting = gameEventCastingResult event
+  (version, referencedState, hexes, background) <- withStore store $ \connection ->
+    Reference.loadCastingReferences connection (stateId fromState) (primaryBinaryValue casting) (transformedBinaryValue casting)
+  context <- either (throwIO . CorruptData) pure (buildContemplationContextWith (`lookup` hexes) referencedState (gameEventQuestion event) casting)
   personaRows <- withStore store $ \connection -> query connection "SELECT document FROM personas WHERE id=? AND player_id=?" (selectedPersonaId user, userId user) :: IO [Only (PG.Aeson Persona)]
-  pure context {contemplationPersonaContext = case personaRows of [Only (PG.Aeson persona)] -> Just (personaPrompt persona); _ -> Nothing
+  pure context {contemplationBackgroundSources = Just background, contemplationCorpusVersion = Just version
+    , contemplationPersonaContext = case personaRows of [Only (PG.Aeson persona)] -> Just (personaPrompt persona); _ -> Nothing
     , contemplationPreviousLeelaState = case previous of [Only value] -> resolveState domain <$> value; _ -> Nothing}
 
 contemplationCosts :: Store -> User -> IO CostSummary

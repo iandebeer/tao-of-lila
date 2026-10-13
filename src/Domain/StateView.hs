@@ -14,6 +14,7 @@ import Data.Aeson (FromJSON (..), ToJSON (..), Value (String), withText, eitherD
 import Data.List (find, sort)
 import Data.Text (Text)
 import qualified Data.Text as T
+import Domain.Contemplation (HexagramText)
 import Domain.Types (LeelaState (..))
 import Domain.HexagramIndex (binaryToKingWen)
 import GHC.Generics (Generic)
@@ -67,7 +68,7 @@ instance ToJSON TrigramView
 data HexagramView = HexagramView
   { binaryValue :: Int, kingWenNumber :: Int, translatedName :: Text
   , chineseName :: Maybe Text, glyph :: Text, upperBinary :: Int, lowerBinary :: Int
-  , traditionalSummary :: Maybe Text }
+  , traditionalSummary :: Maybe Text, sourceText :: Maybe HexagramText }
   deriving (Eq, Show, Generic)
 instance FromJSON HexagramView
 instance ToJSON HexagramView

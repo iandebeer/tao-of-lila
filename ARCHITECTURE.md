@@ -311,3 +311,17 @@ Changing-line positions remain the sole input to movement. `samplingRule` and
 `samplingSeed` are durable casting metadata; missing rule fields select legacy
 sampling for backward-compatible replay. No browser component samples lines or
 adjusts movement probabilities.
+
+## Stored reference corpus
+
+`Domain.Reference` validates the versioned public-domain corpus and provides pure
+lookups. `Persistence.Reference` installs documents, 64 binary-keyed hexagrams,
+72 tile entries and 18 background chapters in one transaction. Runtime reference
+retrieval selects the two hexagrams and current tile's background from PostgreSQL;
+no external text retrieval or vector service is used. `Domain.Contemplation` accepts
+an explicit lookup function, preserving the functional core. The context and
+corpus version used for a generated interpretation are saved alongside it.
+
+The database-free interpretation tool loads the same bundled reference edition.
+The old two-hexagram pure helpers remain compatibility fixtures; the production
+journey and diagnostic tool use the full explicit corpus.

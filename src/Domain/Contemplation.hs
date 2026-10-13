@@ -12,6 +12,8 @@ module Domain.Contemplation
   , ModelResult (..)
   , SourceTranslation (..)
   , buildContemplationContext
+  , buildContemplationContextWith
+  , buildPairContemplationContextWith
   , buildPairContemplationContext
   , lookupHexagramText
   )
@@ -23,7 +25,7 @@ import Data.List (find)
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
-import Domain.HexagramIndex (kingWenToBinary)
+import Domain.HexagramIndex (kingWenToBinary, binaryToKingWen)
 import Domain.Types (LeelaState)
 import Engine.Casting (CastingResult (..))
 import GHC.Generics (Generic)
@@ -66,6 +68,9 @@ data HexagramText = HexagramText
   , textLineWorkingTranslations :: [Text]
   , textLeggeJudgment :: SourceTranslation
   , textLeggeLines :: [SourceTranslation]
+  , textLeggeImage :: Maybe SourceTranslation
+  , textAdditionalChinese :: Maybe Text
+  , textAdditionalLegge :: Maybe SourceTranslation
   }
   deriving (Eq, Show, Generic)
 
@@ -94,6 +99,8 @@ data ContemplationContext = ContemplationContext
   , contemplationPrimaryHexagram :: HexagramText
   , contemplationChangingLines :: [ChangingLineContext]
   , contemplationResultingHexagram :: HexagramText
+  , contemplationBackgroundSources :: Maybe [SourceTranslation]
+  , contemplationCorpusVersion :: Maybe Text
   }
   deriving (Eq, Show, Generic)
 
@@ -167,13 +174,17 @@ instance FromJSON CostSummary
 instance ToJSON CostSummary
 
 buildContemplationContext :: LeelaState -> Text -> CastingResult -> Either Text ContemplationContext
-buildContemplationContext leela question casting = do
+buildContemplationContext = buildContemplationContextWith (\binary -> binaryToKingWen binary >>= lookupHexagramText)
+
+-- Lookup is keyed by the canonical six-bit value; IO stays outside the builder.
+buildContemplationContextWith :: (Int -> Maybe HexagramText) -> LeelaState -> Text -> CastingResult -> Either Text ContemplationContext
+buildContemplationContextWith lookupText leela question casting = do
   primaryNumber <- maybe (Left "The primary King Wen number is unavailable") Right (primaryKingWenNumber casting)
   resultingNumber <- maybe (Left "The resulting King Wen number is unavailable") Right (transformedKingWenNumber casting)
-  let primary = fromMaybe (unavailableHexagramText primaryNumber) (lookupHexagramText primaryNumber)
-      resulting = fromMaybe (unavailableHexagramText resultingNumber) (lookupHexagramText resultingNumber)
+  let primary = fromMaybe (unavailableHexagramText primaryNumber) (lookupText (primaryBinaryValue casting))
+      resulting = fromMaybe (unavailableHexagramText resultingNumber) (lookupText (transformedBinaryValue casting))
   activeLines <- traverse (lineContext primary (primaryBinaryValue casting)) (changingLines casting)
-  pure (ContemplationContext leela Nothing (Just casting) Nothing question primary activeLines resulting)
+  pure (ContemplationContext leela Nothing (Just casting) Nothing question primary activeLines resulting Nothing Nothing)
 
 -- Live castings can be contemplated from their recorded structural facts even
 -- outside the curated corpus. Empty source fields are deliberate: no fabricated
@@ -193,28 +204,34 @@ unavailableHexagramText number = HexagramText
   , textWorkingTranslation = "Curated source text and translations are unavailable for this hexagram. Offer a contemporary reflection on the supplied casting facts; do not supply quotations or translations."
   , textLineWorkingTranslations = replicate 6 ""
   , textLeggeJudgment = unavailableSource
+  , textLeggeImage = Nothing
+  , textAdditionalChinese = Nothing
+  , textAdditionalLegge = Nothing
   , textLeggeLines = replicate 6 unavailableSource
   }
   where unavailableSource = SourceTranslation "" "" 0 "unavailable" "" ""
 
 -- Supply the observed pair directly, without simulating a casting or movement.
 buildPairContemplationContext :: LeelaState -> Text -> Int -> Int -> Either Text ContemplationContext
-buildPairContemplationContext leela question primaryNumber resultingNumber = do
+buildPairContemplationContext = buildPairContemplationContextWith (\binary -> binaryToKingWen binary >>= lookupHexagramText)
+
+buildPairContemplationContextWith :: (Int -> Maybe HexagramText) -> LeelaState -> Text -> Int -> Int -> Either Text ContemplationContext
+buildPairContemplationContextWith lookupText leela question primaryNumber resultingNumber = do
   primaryBinary <- resolveNumber "Primary" primaryNumber
   resultingBinary <- resolveNumber "Resulting" resultingNumber
   primary <- resolveText primaryNumber
   resulting <- resolveText resultingNumber
   let changed = [line | line <- [1 .. 6], testBit (primaryBinary `xor` resultingBinary) (line - 1)]
   activeLines <- traverse (lineContext primary primaryBinary) changed
-  pure (ContemplationContext leela Nothing Nothing Nothing question primary activeLines resulting)
+  pure (ContemplationContext leela Nothing Nothing Nothing question primary activeLines resulting Nothing Nothing)
   where
     resolveNumber label number = maybe
       (Left (label <> " King Wen number must be between 1 and 64")) Right
       (kingWenToBinary number)
     resolveText number = maybe
       (Left ("Canonical text for Hexagram " <> T.pack (show number)
-        <> " is not seeded. The current interpretation corpus contains 11 and 36.")) Right
-      (lookupHexagramText number)
+        <> " is not available in the supplied reference corpus.")) Right
+      (kingWenToBinary number >>= lookupText)
 
 lineContext :: HexagramText -> Int -> Int -> Either Text ChangingLineContext
 lineContext hexagram binary line = do
@@ -279,6 +296,7 @@ hexagram11 =
     , legge "One who can bear with the uncultivated, cross the Ho without a boat, not forget the distant, and have no selfish friendships—thus acting in accordance with the due Mean."
     , emptyLegge, emptyLegge, emptyLegge, emptyLegge
     ]
+    Nothing Nothing Nothing
 
 hexagram36 :: HexagramText
 hexagram36 =
@@ -306,3 +324,4 @@ hexagram36 =
     ]
     (legge "It will be advantageous to realise the difficulty of the position, and maintain firm correctness.")
     [emptyLegge, emptyLegge, emptyLegge, emptyLegge, emptyLegge, emptyLegge]
+    Nothing Nothing Nothing

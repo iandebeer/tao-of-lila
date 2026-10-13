@@ -5,6 +5,7 @@ module Main
   )
 where
 
+import qualified Domain.Reference as Ref
 import qualified Domain.Persona as P
 import qualified Domain.StateView as SV
 import StateViewHTTP (checkStateViewHTTP)
@@ -38,6 +39,21 @@ import Engine.Game (accessibleStateIds, applyCastingMovement)
 
 main :: IO ()
 main = do
+  library <- Ref.loadReferenceLibrary "data/references/library.json" >>= either fail pure
+  let lookupText = Ref.lookupReferenceHexagram library
+      sourcePresent h = not (T.null (textJudgmentChinese h)) && not (T.null (translationText (textLeggeJudgment h)))
+        && length (textLineChinese h) == 6 && all (not . T.null . translationText) (textLeggeLines h)
+  assert "complete bilingual source text for all binary hexagrams" (all (maybe False sourcePresent . lookupText) [0..63])
+  assert "all King Wen pairs have exact source-backed line changes" (all (\(a,b) -> case buildPairContemplationContextWith lookupText (LeelaState 1 "Birth" "" "") "Question" a b of
+    Right context -> sourcePresent (contemplationPrimaryHexagram context) && sourcePresent (contemplationResultingHexagram context)
+      && all (not . T.null . translationText . changingLineLegge) (contemplationChangingLines context)
+    Left _ -> False) [(a,b) | a <- [1..64], b <- [1..64]])
+  assert "all 72 tiles have attributed background" (all ((==1) . length . Ref.referenceBackground library) [1..72])
+  assert "missing binary source is rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
+  let firstSource=head (Ref.referenceHexagrams library)
+      mismatched=firstSource {Ref.referenceBinary=63}
+  assert "duplicate and mismatched binary keys rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=mismatched:tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
+
   fresh <- replicateM 32 freshCastingState
   assert "new castings draw varied seeds" (length (nub (map Casting.seed fresh)) > 1)
   assert "initial debug seed matches engine seed" (all (\s -> Casting.debugSeed (Casting.debug s) == Casting.seed s) fresh)
@@ -65,6 +81,11 @@ main = do
   assert "all eight trigrams are retrievable" (all (\n -> maybe False ((== n) . SV.trigramBinary) (SV.lookupTrigramView catalog n)) [0..7])
   assert "all binary-keyed hexagrams match King Wen lookup" (all (\n -> fmap SV.kingWenNumber (SV.lookupHexagramView catalog n) == binaryToKingWen n) [0..63])
   let relation n = SV.lookupStateView catalog n >>= SV.traditionalReference >>= SV.transition
+  let expectedLadders = [(10,23),(17,69),(20,32),(22,60),(27,41),(28,50),(37,66),(45,67),(46,62),(54,68)]
+      expectedSnakes = [(12,8),(16,4),(24,7),(29,6),(44,9),(52,35),(55,3),(61,13),(63,2),(72,51)]
+      actual kind = [(n, SV.destination r) | n <- [1..72], Just r <- [relation n], SV.transitionType r == kind]
+  assert "all ten reference ladders use the published endpoints" (actual SV.Ladder == expectedLadders)
+  assert "all ten reference snakes use the published endpoints" (actual SV.Snake == expectedSnakes)
   assert "snake reference is 55 to 3" (fmap SV.destination (relation 55) == Just 3)
   assert "arrow reference is 37 to 66" (fmap SV.destination (relation 37) == Just 66)
   assert "snake destination uses reference identity, not prototype Discipline" (fmap SV.englishName (SV.lookupStateView catalog 55 >>= SV.transitionDestination catalog) == Just "Anger")

@@ -6,14 +6,16 @@ const catalog=buildCatalog();
 const read=path=>JSON.parse(readFileSync(path,'utf8'));
 for(const path of ['data/state-views.json','app/public/journey/state-views.json'])assert.deepEqual(read(path),catalog,'regenerate viewer snapshots after changing canonical metadata');
 assert.deepEqual(catalog.stateViews.map(s=>s.identity.stateId),Array.from({length:72},(_,i)=>i+1));
-for(const seed of read('data/leela.json'))assert.deepEqual(catalog.stateViews[seed.stateId-1].identity,seed,'live seed identities must not be replaced');
-for(const [origin,destination,kind] of [[55,3,'snake'],[37,66,'ladder']]){
+for(const seed of read('data/leela.json'))assert.deepEqual(catalog.stateViews[seed.stateId-1].identity,seed,'viewer identities match the complete domain catalogue');
+for(const [origin,destination,kind] of [[10,23,'ladder'],[17,69,'ladder'],[20,32,'ladder'],[22,60,'ladder'],[27,41,'ladder'],[28,50,'ladder'],[37,66,'ladder'],[45,67,'ladder'],[46,62,'ladder'],[54,68,'ladder'],[12,8,'snake'],[16,4,'snake'],[24,7,'snake'],[29,6,'snake'],[44,9,'snake'],[52,35,'snake'],[55,3,'snake'],[61,13,'snake'],[63,2,'snake'],[72,51,'snake']]){
   const view=catalog.stateViews[origin-1];
   assert.equal(view.traditionalReference.transition.destination,destination);
   assert.equal(view.traditionalReference.transition.transitionType,kind);
   assert.ok(catalog.stateViews[destination-1].traditionalReference);
   assert.match(leelaMarkup(catalog,origin),new RegExp(`data-view-state="${destination}"`));
   assert.match(leelaMarkup(catalog,origin),/do not move your Persona/);
+  assert.match(leelaMarkup(catalog,destination),new RegExp(`data-view-state="${origin}"`));
+  assert.match(leelaMarkup(catalog,destination),/· destination/);
 }
 for(const t of read('assets/bagua.json').trigrams){
   const view=catalog.trigramViews.find(v=>v.trigramBinary===t.binaryValue);
@@ -42,7 +44,7 @@ for(const view of catalog.stateViews.filter(v=>!v.traditionalReference)){
   const markup=leelaMarkup(catalog,view.identity.stateId);
   assert.doesNotMatch(markup,/No traditional transition has been curated/);
   assert.doesNotMatch(markup,/Traditional reference · separate board edition/);
-  assert.match(markup,/Canonical meaning/);
+  assert.match(markup,/Meaning and reflection/);
   assert.match(markup,/A space for reflection/);
 }
 assert.match(hexControl(7,'<script>'),/&lt;script&gt;/);
@@ -65,7 +67,7 @@ installStateViewer({preview:true});
 const click=async(dataset)=>{const button={dataset,isConnected:true,hasAttribute:name=>name==='data-view-state'&&dataset.viewState!==undefined,focus(){restoreCount++;}};await listener({target:{closest:()=>button},preventDefault(){}});};
 await click({viewState:'55'});assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/unavailable/);
 fetchMode='ok';await click({viewState:'55'});assert.equal(loadCount,2);assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/Ahamkara/);
-await click({viewState:'3'});assert.equal(loadCount,2);assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/Discipline/);
+await click({viewState:'3'});assert.equal(loadCount,2);assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/Anger/);
 const img={tagName:'IMG',hidden:false};activeDialog.handlers.error({target:img});assert.equal(img.hidden,true);
 await click({viewHex:'5',primary:'7',resulting:'5',changing:'2',role:'resulting'});assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/36 ·/);
 activeDialog.close();assert.equal(activeDialog,null);assert.equal(restoreCount,1);
@@ -74,10 +76,23 @@ const cardButton={dataset:{viewState:'3'},isConnected:true,hasAttribute:()=>true
 const card={querySelector:()=>cardButton};
 const cardTarget={closest:selector=>selector==='.local-state'?card:null};
 await listener({target:cardTarget,preventDefault(){}});
-assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/Discipline/);
+assert.match(activeDialog.querySelector('.state-view-content').innerHTML,/Anger/);
 activeDialog.close();assert.equal(restoreCount,2);
 cardButton.disabled=true;
 await listener({target:cardTarget,preventDefault(){}});
 assert.equal(activeDialog,null,'disabled cards do not open during a pending action');
 installStateViewer({preview:true});fetchMode='pending';const pending=click({viewState:'1'});activeDialog.close();resolveFetch({ok:true,json:async()=>catalog});await pending;assert.equal(activeDialog,null);
 console.log('ok - canonical retrieval, transitions, eight trigrams, both hexagrams, artwork fallback, retry, close and focus');
+
+for (const view of catalog.stateViews) {
+  assert.ok(view.canonicalInterpretation.length > 50);
+  assert.doesNotMatch(leelaMarkup(catalog,view.identity.stateId),/not yet been curated|not yet seeded|Unseeded|Lila State \d/);
+}
+for (const hex of catalog.hexagramViews) {
+  assert.equal(hex.sourceText.textHexagramNumber,hex.kingWenNumber);
+  const markup=hexagramMarkup(catalog,pairSelection(hex.binaryValue,hex.binaryValue,[1,6]));
+  assert.match(markup,/Judgment/);assert.match(markup,/Image/);assert.match(markup,/James Legge/);
+  assert.match(markup,/lang="zh"/);assert.match(markup,/Changing lines/);assert.match(markup,/Read all six lines/);
+  assert.ok(markup.includes(hex.sourceText.textJudgmentChinese));
+}
+console.log('ok - all 72 tile descriptions and all 64 bilingual source panels are complete');

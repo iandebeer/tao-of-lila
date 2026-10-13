@@ -11,6 +11,7 @@ import Data.Aeson (FromJSON, encode, object, (.=))
 import Data.List (find)
 import Data.Text (Text)
 import qualified Data.Text as T
+import Domain.Reference
 import Domain.Contemplation
 import Domain.Types (DomainData (..), LeelaState (..))
 import GHC.Generics (Generic)
@@ -33,8 +34,8 @@ type TestAPI =
   :<|> "api" :> "interpret" :> ReqBody '[JSON] PairRequest :> Post '[JSON] ModelResult
   :<|> Raw
 
-runWeb :: DomainData -> ContemplationModel -> IO ()
-runWeb domain model = do
+runWeb :: ReferenceLibrary -> DomainData -> ContemplationModel -> IO ()
+runWeb library domain model = do
   putStrLn "Interpretation test: http://127.0.0.1:8081/"
   runSettings (setHost "127.0.0.1" (setPort 8081 defaultSettings))
     (serve (Proxy :: Proxy TestAPI) server)
@@ -48,7 +49,7 @@ runWeb domain model = do
       state <- maybe (throwError (failure err400 "Leela state was not found")) pure
         (find ((== leelaState request) . stateId) (leelaStates domain))
       either (throwError . failure err400) pure
-        (buildPairContemplationContext state inquiry (primary request) (resulting request))
+        (fmap (withReferenceBackground library) (buildPairContemplationContextWith (lookupReferenceHexagram library) state inquiry (primary request) (resulting request)))
     interpret :: PairRequest -> Handler ModelResult
     interpret request = do
       context <- preview request

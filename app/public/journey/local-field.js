@@ -1,10 +1,10 @@
-import {paragraphs} from './text.js?v=b1b3b155d83aab9d';
-import {esc,label,artwork} from './components.js?v=b1b3b155d83aab9d';
-import {stateControl} from './state-viewer.js?v=b1b3b155d83aab9d';
+import {paragraphs} from './text.js?v=3f29bf77409d71fc';
+import {esc,label,artwork} from './components.js?v=3f29bf77409d71fc';
+import {stateControl,referenceLinks} from './state-viewer.js?v=3f29bf77409d71fc';
 
 // Only the engine's reachable states belong here. The 72-state catalogue is
 // for lookup, never a source from which the client invents possible moves.
-export function localStateField(game){
+export function localStateField(game,catalog=null){
   const current=game.gameCurrentState;
   const possibilities=(game.gameAccessibleStates||[]).filter(Boolean);
   const transitionPreview=s=>{
@@ -13,5 +13,5 @@ export function localStateField(game){
     if(!['snake','ladder'].includes(s.consequence)||!Number.isInteger(s.finalStateId))return '';
     return `<p class="transition-preview">${s.consequence==='snake'?'↓ Snake':'↑ Arrow / ladder'} → State ${esc(s.finalStateId)}<small>Preview only · applies if this destination is reached.</small></p>`;
   };
-  return `<div class="local-field" aria-label="Present state and reachable possibilities"><article class="current local-state">${artwork('states',current.stateId,'Current consciousness state')}<span class="eyebrow">Current · State ${esc(current.stateId)}</span><h2>${esc(current.stateName)}</h2><div class="prose">${paragraphs(current.stateDescription)}</div><p class="muted serif">${esc(current.stateSeed)}</p>${stateControl(current.stateId,`Explore current state ${current.stateId}`)}</article><div class="arrow" aria-hidden="true">↓</div><p class="eyebrow">Field of possibility</p><p class="help">Explore a possible state without entering it. Your Persona stays here until movement is determined and acknowledged.</p>${possibilities.length?`<ol class="possibilities">${possibilities.map(s=>`<li class="possibility local-state"><span class="step">+${s.stateId-current.stateId}</span><div><small>Possible movement +${s.stateId-current.stateId}</small><h3>${label(s)}</h3>${artwork('states',s.stateId,s.stateName)}<div class="prose">${paragraphs(s.stateDescription)}</div>${transitionPreview(s)}${stateControl(s.stateId,`Explore possible state ${s.stateId}`,{type:s.consequence,destination:s.finalStateId})}</div></li>`).join('')}</ol>`:'<p class="no-destinations">There are no forward destinations from this state.</p>'}</div>`;
+  return `<div class="local-field" aria-label="Present state and reachable possibilities"><article class="current local-state">${artwork('states',current.stateId,'Current consciousness state')}<span class="eyebrow">Current · State ${esc(current.stateId)}</span><h2>${esc(current.stateName)}</h2><div class="prose">${paragraphs(current.stateDescription)}</div><p class="muted serif">${esc(current.stateSeed)}</p>${referenceLinks(catalog,current.stateId)}${stateControl(current.stateId,`Explore current state ${current.stateId}`)}</article><div class="arrow" aria-hidden="true">↓</div><p class="eyebrow">Field of possibility</p><p class="help">Explore a possible state without entering it. Your Persona stays here until movement is determined and acknowledged.</p>${possibilities.length?`<ol class="possibilities">${possibilities.map(s=>`<li class="possibility local-state"><span class="step">+${s.stateId-current.stateId}</span><div><small>Possible movement +${s.stateId-current.stateId}</small><h3>${label(s)}</h3>${artwork('states',s.stateId,s.stateName)}<div class="prose">${paragraphs(s.stateDescription)}</div>${transitionPreview(s)}${referenceLinks(catalog,s.stateId)}${stateControl(s.stateId,`Explore possible state ${s.stateId}`,{type:s.consequence,destination:s.finalStateId})}</div></li>`).join('')}</ol>`:'<p class="no-destinations">There are no forward destinations from this state.</p>'}</div>`;
 }

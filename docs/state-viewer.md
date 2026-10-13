@@ -8,24 +8,16 @@ larger screens place the two trigram fields beside the hexagram.
 
 ## Canonical records and provenance
 
-`data/leela.json` remains authoritative for the ten existing game identities.
-The other 62 tile identities retain the engine's explicit unseeded wording.
-`data/state-view-metadata.json` supplements them with optional interpretation,
-visual identity, traditional reference records, eight trigram records and
-64 binary-keyed hexagram records. Empty content is explicitly uncurated, never
-invented by the browser or LLM. Ten game states and four traditional reference
-states have original, concise editorial descriptions; four hexagrams have
-original editorial summaries. No Johari commentary is reproduced.
+`data/references/leela-editorial.json` contains a consistent 72-square naming
+scheme and original project commentary. The obsolete ten-state prototype has
+been replaced with the user's approval. `data/leela.json` is its domain projection.
+The complete source library in `data/references/library.json` supplies the same
+identities to the viewer and the interpretation database.
 
-The traditional examples supplied in the implementation brief conflict with
-prototype identities: tile 3 is currently Discipline, not Krodha / Anger.
-Consequently `traditionalReference` is a **separate partial board edition**,
-not an overwrite. It contains the brief's 55 → 3 snake and 37 → 66 arrow,
-including semantic descriptions and destination identities from the same
-reference edition. The viewer explicitly explains that those immediate
-transitions apply to the reference board, and are not active game rules.
-No probabilities, positions, persistence, or movement mechanics are changed.
-A full traditional-board migration needs an explicit edition/content decision.
+No modern Johari commentary is reproduced. Bhagavad Gita excerpts are clearly
+labelled thematic background, not a historical commentary on numbered squares.
+The existing 55 → 3 and 37 → 66 reference transitions remain informational;
+this content change does not alter casting, movement or board topology.
 
 Trigram names, Chinese, natural images, lines, and both directional arrangements
 are migrated from `assets/bagua.json`. Animal and family associations follow
@@ -36,11 +28,11 @@ Tao of Lila editorial palette, not asserted universal traditional colours.
 Element and artwork fields are nullable pending curation; natural image is
 not silently relabelled as a Five Phases element.
 
-All 64 English hexagram names are migrated from the existing binary-keyed
-`hexagram-labels.json`. Chinese names and editorial summaries are initially
-curated for 1, 2, 11 and 36. No unpaired translated classical quotations were
-added. Glyphs follow Unicode's King Wen order; the canonical binary-to-King-Wen
-mapping is validated against the existing Haskell lookup table.
+All 64 hexagrams include Chinese names and paired Chinese/Legge Judgments,
+Images and all six line texts. Primary changing lines are also shown separately.
+Readers can expand all six lines and the special all-changing passages for
+hexagrams 1 and 2. Text is escaped before rendering. The Haskell lookup table
+validates the binary-to-King-Wen mapping; bit zero is the bottom line.
 
 ## Build and API
 
@@ -110,3 +102,9 @@ from the separate traditional-reference edition. The existing live engine has
 no active topology; demo fixtures exercise preview markers and expanded views.
 `node scripts/local-field-test.mjs` covers visibility at ordinary and final
 positions, selectable current/future states, and non-mutating transition previews.
+
+The local progress field and tile dialog now show both endpoints of all ten snakes
+and ten ladders in the reference board. An in-scope destination links back to its
+origin; an in-scope origin links forward to its destination. Endpoint links can
+open out-of-scope tile details without adding reachable cards or moving the Persona.
+The screen and dialog share one catalogue request per page.

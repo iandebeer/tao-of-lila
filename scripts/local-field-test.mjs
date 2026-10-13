@@ -23,5 +23,24 @@ assert.deepEqual([...localStateField({gameCurrentState:state(70),gameAccessibleS
 assert.match(localStateField({gameCurrentState:state(70),gameAccessibleStates:[state(72)]}),/Possible movement \+2/);
 const app=readFileSync('app/public/journey/app.js','utf8');
 assert.doesNotMatch(app,/length:\s*72|function board\(/,'the journey UI must not construct a complete board');
-assert.match(app,/localStateField\(data.game\)/);
+assert.match(app,/localStateField\(data.game,stateCatalog\)/);
 console.log('ok - local-only states, end-of-board counts, selectable cards, transition previews and unchanged position');
+
+const catalog=JSON.parse(readFileSync('data/state-views.json','utf8'));
+for(const [current,destination,kind] of [[37,66,'Ladder'],[55,3,'Snake'],[72,51,'Snake']]){
+  const scoped={gameCurrentState:state(current),gameAccessibleStates:[]};
+  const rendered=localStateField(scoped,catalog);
+  assert.match(rendered,new RegExp(`data-view-state="${destination}"`));
+  assert.match(rendered,new RegExp(`Reference .*${kind} · origin`));
+  assert.equal((rendered.match(/class="current local-state"/g)||[]).length,1);
+  assert.doesNotMatch(rendered,/class="possibility local-state"/);
+  assert.equal(scoped.gameCurrentState.stateId,current);
+  const incoming=localStateField({gameCurrentState:state(destination),gameAccessibleStates:[]},catalog);
+  assert.match(incoming,new RegExp(`data-view-state="${current}"`));
+  assert.match(incoming,new RegExp(`Reference .*${kind} · destination`));
+}
+const scoped=localStateField({gameCurrentState:state(34),gameAccessibleStates:[state(37)]},catalog);
+assert.match(scoped,/data-view-state="66"/);
+assert.equal((scoped.match(/class="possibility local-state"/g)||[]).length,1,'endpoint links never add possible moves');
+assert.doesNotMatch(scoped,/data-view-state="55"/,'unrelated references stay outside the local field');
+console.log('ok - scoped tiles link both reference endpoints without adding moves');

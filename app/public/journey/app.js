@@ -1,17 +1,18 @@
-import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=b1b3b155d83aab9d';
-import {splashMarkup,bindSplashTerms} from './splash.js?v=b1b3b155d83aab9d';
-import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=b1b3b155d83aab9d';
-import {localStateField} from './local-field.js?v=b1b3b155d83aab9d';
-import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=b1b3b155d83aab9d';
-import {api} from './api.js?v=b1b3b155d83aab9d';
-import {createInterpretationFlow} from './interpretation-flow.js?v=b1b3b155d83aab9d';
-import {journey,preview,scenario} from './service.js?v=b1b3b155d83aab9d';
-import {scenarios} from './demo.js?v=b1b3b155d83aab9d';
-import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=b1b3b155d83aab9d';
-import {mountJourneyCeremony} from './ceremony.js?v=b1b3b155d83aab9d';
+import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=3f29bf77409d71fc';
+import {splashMarkup,bindSplashTerms} from './splash.js?v=3f29bf77409d71fc';
+import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=3f29bf77409d71fc';
+import {localStateField} from './local-field.js?v=3f29bf77409d71fc';
+import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=3f29bf77409d71fc';
+import {api} from './api.js?v=3f29bf77409d71fc';
+import {createInterpretationFlow} from './interpretation-flow.js?v=3f29bf77409d71fc';
+import {journey,preview,scenario} from './service.js?v=3f29bf77409d71fc';
+import {scenarios} from './demo.js?v=3f29bf77409d71fc';
+import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=3f29bf77409d71fc';
+import {mountJourneyCeremony} from './ceremony.js?v=3f29bf77409d71fc';
 const main=document.querySelector('main'), nav=document.querySelector('#navigation'), status=document.querySelector('#status');
 const interpretationFlow=createInterpretationFlow(journey);
 let personas=[], editingPersona=null, selectedPersonaId=null, acceptedAvatar=null, pendingAvatar=null, disposeSplash=()=>{};
+let stateCatalog=null, stateCatalogPromise;
 let data=null, catalog=[], labels={}, draft='', journal='', dirty=false, timer, ceremony, ceremonyComplete=false, busy=false, queue=Promise.resolve();
 const link=(route,text,secondary=false)=>`<a class="button ${secondary?'secondary':''}" href="#${route}">${text}</a>`;
 const w=()=>data.workflow;
@@ -35,7 +36,7 @@ function name(number){return catalog.find(h=>h.hexagramNumber===number)?.hexagra
 
 function splash(){return splashMarkup();}
 function auth(signup) { return `<section class="narrow"><p class="eyebrow">${signup ? 'Begin your journey' : 'Return to your journey'}</p><h1>${signup ? 'Make a little space.' : 'Welcome back.'}</h1><p class="muted">${signup ? 'Create an account to keep your questions and your journey together.' : 'Your journey will be waiting where you left it.'}</p><form id="auth" class="panel"><label for="username">User ID</label><input id="username" name="username" autocomplete="username" minlength="3" required><small class="help">Use your registered user ID (at least 3 characters).</small><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="${signup ? 'new-password' : 'current-password'}" ${signup ? 'minlength="10"' : ''} required>${signup ? '<small class="help">Choose at least 10 characters.</small>' : ''}<button type="button" id="password-visibility" class="secondary" aria-controls="password" aria-pressed="false">Show password</button><p id="form-error" class="error" role="alert"></p><div class="actions"><button>${signup ? 'Sign Up' : 'Log In'}</button></div></form><p><a href="#${signup ? 'login' : 'signup'}">${signup ? 'Already have an account? Log In' : 'New here? Sign Up'}</a></p></section>`; }function progress(){
-  return `<section class="journey">${heading(esc(personas.find(p=>p.personaId===data.game.gameJourney.journeyPersonaId)?.personaName||'Your Leela progress'),'Here, in this moment.')}${localStateField(data.game)}<p><small>Movement is the sum of changing-line positions modulo 7. A zero result means remain here, even when lines change.${data.topologyAvailable?'':' Active ladder and snake rules are not yet available in this game edition.'}</small></p>${buttons(action('question',w().workflowQuestion?'Refine your question':'Bring a question'))}</section>`;
+  return `<section class="journey">${heading(esc(personas.find(p=>p.personaId===data.game.gameJourney.journeyPersonaId)?.personaName||'Your Leela progress'),'Here, in this moment.')}${localStateField(data.game,stateCatalog)}<p><small>Movement is the sum of changing-line positions modulo 7. A zero result means remain here, even when lines change.${data.topologyAvailable?'':' Active ladder and snake rules are not yet available in this game edition.'}</small></p>${buttons(action('question',w().workflowQuestion?'Refine your question':'Bring a question'))}</section>`;
 }
 function question(){return `<section class="narrow">${heading('An intention for this encounter','What is asking<br>for your attention?')}${context()}<form id="question-form">${preview?'':buttons(action('suggest','Use a question from the last interpretation',true))}<label for="question">The Persona’s question · edit or replace freely</label><textarea id="question" required placeholder="What might I understand more clearly?">${esc(draft)}</textarea><small id="save-state" class="help">${dirty?'Unsaved changes':'Changes are saved as you write.'}</small>${fieldError}${buttons('<button type="submit">Begin Casting</button>')}</form></section>`;}
 function casting(){return `<section>${heading('The yarrow stalks','Let the change unfold.')}${questionDisplay(w().workflowQuestion)}<div class="ceremony-stage"><svg id="scene" viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Yarrow stalk casting ceremony"></svg><div class="ceremony-dock"><p id="casting-status"></p><p id="caption" aria-live="polite"></p>${fieldError}${buttons(action('next','Next')+action('pause','Pause / Exit',true)+(preview?action('skip','Preview: complete casting',true):''))}</div></div></section>`;}
@@ -102,7 +103,13 @@ function render(){
   }
 }
 function go(route=stage()){location.hash=route;render();}
-async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=b1b3b155d83aab9d').then(r=>r.json()):api.request('/hexagrams')]);catalog=hexagrams;sync(projection,true);}
+function loadStateInfo(){
+  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=3f29bf77409d71fc':'/state-views')
+    .then(response=>{if(response.ok===false)throw Error('Tile references could not be loaded. Please reload to retry.');return response.json();})
+    .then(catalog=>{stateCatalog=catalog;return catalog;})
+    .catch(error=>{stateCatalogPromise=null;throw error;}));
+}
+async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=3f29bf77409d71fc').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
 async function command(action,text=null,visual=null){sync(await journey.command(action,text,visual));}
 function saveLabel(text){const node=document.querySelector('#save-state');if(node)node.textContent=text;}
 function showError(error){if(error.staleSession)return;const node=document.querySelector('#form-error')||status;node.textContent=error.message;node.classList.add('error');saveLabel('Not saved yet. Your writing is still here; retry before leaving.');}
@@ -181,9 +188,9 @@ addEventListener('pageshow',e=>{
   if(e.persisted&&!dirty&&!busy&&!document.querySelector('form'))location.reload();
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)void saveDraft().catch(showError);});
-installStateViewer({preview});
+installStateViewer({preview,loadCatalog:loadStateInfo});
 await loadAssets();
-try{labels=await fetch('./hexagram-labels.json?v=b1b3b155d83aab9d').then(r=>r.json());}catch{}
+try{labels=await fetch('./hexagram-labels.json?v=3f29bf77409d71fc').then(r=>r.json());}catch{}
 render();
 if(!preview&&api.authenticated){try{await choosePersonas();}catch(error){if(!error.staleSession&&!api.authenticated){personas=[];data=null;if(!['#login','#signup'].includes(location.hash))go('login');}showError(error);}}
 if(preview){status.textContent='Loading your saved journey…';try{await load();status.textContent='';if(location.hash && location.hash!=='#splash')go();else render();}catch(error){showError(error);}}

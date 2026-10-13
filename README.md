@@ -123,9 +123,12 @@ Yarrow casting generates one complete line per click, displaying each line
 before the next is requested. Six clicks complete a new hexagram; intermediate
 stalk operations run automatically using the Haskell engine.
 
-Completed journey events can progressively reveal canonical Chinese, lexical
-possibilities, the Tao of Lila working translation, and the separately labelled
-James Legge (1882) comparison for the initial Hexagram 11 → 36 corpus slice.
+All 72 tiles have traditional names and original project commentary. All 64
+hexagrams expose Chinese and James Legge (1882) Judgments, Images and six line
+texts. A versioned public-domain reference library is installed into PostgreSQL
+at startup; each AI request selects its tile, primary/resulting hexagrams and a
+bounded Bhagavad Gita background excerpt. No reference website is contacted
+at runtime. See [reference corpus](docs/reference-corpus.md).
 The **Contemplate this casting** action is deliberately separate and requires
 `OPENAI_API_KEY`; `OPENAI_MODEL` defaults to `gpt-5-mini`. The Responses API is
 called with provider storage disabled, and never calculates casting mechanics.
@@ -171,7 +174,7 @@ and mobile layouts and displays validation/provider errors alongside the form.
 The server binds only to `127.0.0.1`, uses `OPENAI_API_KEY` on the server, and
 requires no database, login, or casting ceremony. Without a key, preview still
 works and live interpretation reports the missing configuration. Stop the
-server with Ctrl+C. Source-text coverage remains limited to hexagrams 11 and 36.
+server with Ctrl+C. Source-text coverage includes all 64 hexagrams and 384 lines.
 The OpenAI client allows up to 120 seconds for a response and reports response
 timeouts separately from connection failures. Restart the test server after
 changing or rebuilding the client.
@@ -204,11 +207,12 @@ looked up from the King Wen table, bottom line first. `11 36` changes line 2
 pair has no changing lines. The optional final argument selects a Leela state
 ID from `data/leela.json`; the default is state 1. Run from the repository root.
 
-The current source-text corpus contains **11 and 36 only**, so supported pairs
-are `11 36`, `36 11`, `11 11`, and `36 36`. Other valid numbers report missing
-source text before any LLM request. Legge line comparisons remain incomplete
-and are labelled as such in the context. This test uses the existing
-interpretation guide; it does not add a new tradition of line-selection rules.
+The bundled source corpus supports every pair of King Wen numbers 1–64.
+Chinese text is paired with the attributed public-domain Legge translation.
+The standalone test loads the same edition from disk; the deployed journey
+selects the needed passages from PostgreSQL. Existing saved interpretations
+are retained; new encounters use the complete corpus.
+
 
 `cabal test` covers number lookup, pair-derived context, and Responses API
 parsing (including reasoning items, refusals, and incomplete responses) without
@@ -336,7 +340,7 @@ from contextual AI interpretation. PNG artwork is optional. `GET /state-views`
 provides the versioned catalogue; existing game APIs and movement are unchanged.
 
 The current prototype's state names are preserved. Traditional snake/arrow
-examples are explicitly labelled as a separate reference edition and do not
+examples are explicitly labelled as reference transitions and do not
 move the Persona. Uncurated entries remain clearly labelled.
 See [State Viewer architecture, content and artwork](docs/state-viewer.md).
 

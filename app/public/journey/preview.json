@@ -2,63 +2,435 @@
   "states": [
     {
       "stateId": 1,
-      "stateName": "Innocence",
-      "stateDescription": "The mind returns to direct experience before strategy, blame, or self-protection.",
-      "stateSeed": "Beginner's mind"
+      "stateName": "Birth",
+      "stateDescription": "Entering the field of experience begins a life of relationship, limitation and possibility.",
+      "stateSeed": "Janma · beginning"
     },
     {
       "stateId": 2,
-      "stateName": "Seeking",
-      "stateDescription": "Longing becomes movement, and movement reveals the shape of the question.",
-      "stateSeed": "The pilgrim steps onto the path"
+      "stateName": "Illusion",
+      "stateDescription": "An appearance is taken to be the whole reality rather than one way it is being encountered.",
+      "stateSeed": "Maya · appearances"
     },
     {
       "stateId": 3,
-      "stateName": "Discipline",
-      "stateDescription": "Freedom is tested by rhythm, repetition, and fidelity to practice.",
-      "stateSeed": "The vessel is formed"
+      "stateName": "Anger",
+      "stateDescription": "A frustrated desire or threatened boundary gathers energy into opposition.",
+      "stateSeed": "Krodha · heat"
     },
     {
       "stateId": 4,
-      "stateName": "Compassion",
-      "stateDescription": "The boundary between self and other softens without collapsing discernment.",
-      "stateSeed": "The heart recognizes itself elsewhere"
+      "stateName": "Greed",
+      "stateDescription": "The wish to acquire continues after a practical need has been met.",
+      "stateSeed": "Lobha · grasping"
     },
     {
       "stateId": 5,
-      "stateName": "Pride",
-      "stateDescription": "Identity gathers around achievement and asks to be seen without being obeyed.",
-      "stateSeed": "The crown becomes a mirror"
+      "stateName": "Physical Plane",
+      "stateDescription": "Life is encountered through a body, a place and the material conditions that sustain them.",
+      "stateSeed": "Bhu-loka · embodiment"
     },
     {
       "stateId": 6,
-      "stateName": "Acceptance",
-      "stateDescription": "What is present is no longer treated as an interruption to the path.",
-      "stateSeed": "Yes to the given moment"
+      "stateName": "Delusion",
+      "stateDescription": "Attachment to a desired view of events interferes with recognising what is happening.",
+      "stateSeed": "Moha · attachment"
     },
     {
       "stateId": 7,
-      "stateName": "Discernment",
-      "stateDescription": "Attention separates signal from noise and chooses the next true action.",
-      "stateSeed": "The sword of clarity"
+      "stateName": "Vanity",
+      "stateDescription": "An image of personal importance becomes something that must continually be defended.",
+      "stateSeed": "Mada · self-importance"
     },
     {
       "stateId": 8,
-      "stateName": "Surrender",
-      "stateDescription": "Control relaxes enough for a deeper intelligence to participate.",
-      "stateSeed": "The river carries the raft"
+      "stateName": "Avarice",
+      "stateDescription": "Fear of having less makes sharing or another person’s gain feel threatening.",
+      "stateSeed": "Matsarya · possessiveness"
     },
     {
       "stateId": 9,
-      "stateName": "Integration",
-      "stateDescription": "Insight descends into habit, relationship, body, and speech.",
-      "stateSeed": "Wisdom takes form"
+      "stateName": "Sensual Plane",
+      "stateDescription": "Desire draws attention toward experiences that promise pleasure or relief.",
+      "stateSeed": "Kama-loka · desire"
     },
     {
       "stateId": 10,
-      "stateName": "Liberation",
-      "stateDescription": "The player recognizes the board, the dice, and the witness of the game.",
-      "stateSeed": "The play is seen as play"
+      "stateName": "Purification",
+      "stateDescription": "A chosen discipline reduces what obscures attention and conduct.",
+      "stateSeed": "Tapa · disciplined simplification"
+    },
+    {
+      "stateId": 11,
+      "stateName": "Entertainment",
+      "stateDescription": "Music, play and sensory pleasure can restore a mind narrowed by effort.",
+      "stateSeed": "Gandharva-loka · appreciation"
+    },
+    {
+      "stateId": 12,
+      "stateName": "Envy",
+      "stateDescription": "Another person's good fortune brings an unacknowledged wish into view.",
+      "stateSeed": "Irshya · comparison"
+    },
+    {
+      "stateId": 13,
+      "stateName": "Nullity",
+      "stateDescription": "A familiar role falls quiet before a new direction has become clear.",
+      "stateSeed": "Antariksha · the interval"
+    },
+    {
+      "stateId": 14,
+      "stateName": "Astral Plane",
+      "stateDescription": "The mind gives shape to possibilities that are not yet present.",
+      "stateSeed": "Bhuvar-loka · possibility"
+    },
+    {
+      "stateId": 15,
+      "stateName": "Fantasy",
+      "stateDescription": "An imagined outcome becomes more compelling than the circumstances in front of you.",
+      "stateSeed": "Naga-loka · imagined fulfilment"
+    },
+    {
+      "stateId": 16,
+      "stateName": "Jealousy",
+      "stateDescription": "Dislike hardens into a demand that a person or experience disappear.",
+      "stateSeed": "Dvesha · resistance"
+    },
+    {
+      "stateId": 17,
+      "stateName": "Mercy",
+      "stateDescription": "Another being's vulnerability interrupts the habit of judging solely by performance.",
+      "stateSeed": "Daya · care"
+    },
+    {
+      "stateId": 18,
+      "stateName": "Joy",
+      "stateDescription": "Gladness arises when attention is available to what is already sustaining life.",
+      "stateSeed": "Harsha-loka · gladness"
+    },
+    {
+      "stateId": 19,
+      "stateName": "Plane of Action",
+      "stateDescription": "Intentions enter the world through actions and acquire consequences beyond your control.",
+      "stateSeed": "Karma-loka · consequence"
+    },
+    {
+      "stateId": 20,
+      "stateName": "Generosity",
+      "stateDescription": "Something held as exclusively yours becomes available to another.",
+      "stateSeed": "Dana · giving"
+    },
+    {
+      "stateId": 21,
+      "stateName": "Atonement",
+      "stateDescription": "Acknowledging harm opens the possibility of changing what happens next.",
+      "stateSeed": "Samana-papa · responsibility"
+    },
+    {
+      "stateId": 22,
+      "stateName": "Right Conduct",
+      "stateDescription": "A decision is considered in relation to commitments, circumstances and the wellbeing of others.",
+      "stateSeed": "Dharma-loka · responsibility"
+    },
+    {
+      "stateId": 23,
+      "stateName": "Celestial Plane",
+      "stateDescription": "Conditions briefly support a sense of harmony and sufficiency.",
+      "stateSeed": "Svarga-loka · ease"
+    },
+    {
+      "stateId": 24,
+      "stateName": "Unhelpful Company",
+      "stateDescription": "A surrounding group makes an unhelpful habit easier to repeat.",
+      "stateSeed": "Kusanga-loka · influence"
+    },
+    {
+      "stateId": 25,
+      "stateName": "Supportive Company",
+      "stateDescription": "Good company strengthens the capacity to act with care and honesty.",
+      "stateSeed": "Susanga-loka · companionship"
+    },
+    {
+      "stateId": 26,
+      "stateName": "Sorrow",
+      "stateDescription": "A loss or disappointment asks to be acknowledged rather than argued away.",
+      "stateSeed": "Duhkha · loss"
+    },
+    {
+      "stateId": 27,
+      "stateName": "Selfless Service",
+      "stateDescription": "Action is offered for a purpose larger than personal credit.",
+      "stateSeed": "Paramartha · contribution"
+    },
+    {
+      "stateId": 28,
+      "stateName": "Right Dharma",
+      "stateDescription": "A responsibility begins to fit your capacities and circumstances.",
+      "stateSeed": "Sudharma · fitting work"
+    },
+    {
+      "stateId": 29,
+      "stateName": "Unrighteousness",
+      "stateDescription": "Convenience or allegiance draws conduct away from a responsibility you recognise.",
+      "stateSeed": "Adharma · neglected responsibility"
+    },
+    {
+      "stateId": 30,
+      "stateName": "Beneficial Tendencies",
+      "stateDescription": "Repeated small choices make a constructive response easier to reach.",
+      "stateSeed": "Uttama-gati · repeated choices"
+    },
+    {
+      "stateId": 31,
+      "stateName": "Sanctity",
+      "stateDescription": "Something is encountered as worthy of attention beyond its usefulness to you.",
+      "stateSeed": "Yaksha-loka · regard"
+    },
+    {
+      "stateId": 32,
+      "stateName": "Plane of Balance",
+      "stateDescription": "Competing demands are brought into a workable relationship.",
+      "stateSeed": "Mahar-loka · proportion"
+    },
+    {
+      "stateId": 33,
+      "stateName": "Fragrance",
+      "stateDescription": "A small sensory impression carries a memory or changes the atmosphere of experience.",
+      "stateSeed": "Gandha-loka · subtle perception"
+    },
+    {
+      "stateId": 34,
+      "stateName": "Taste",
+      "stateDescription": "Experience is received with its particular flavour instead of being reduced to a judgment of success or failure.",
+      "stateSeed": "Rasa-loka · appreciation"
+    },
+    {
+      "stateId": 35,
+      "stateName": "Purgatory",
+      "stateDescription": "An avoided consequence becomes difficult to ignore.",
+      "stateSeed": "Naraka-loka · painful reckoning"
+    },
+    {
+      "stateId": 36,
+      "stateName": "Clarity",
+      "stateDescription": "Attention becomes less clouded by the need to defend a preferred story.",
+      "stateSeed": "Svaccha · seeing plainly"
+    },
+    {
+      "stateId": 37,
+      "stateName": "True Knowledge",
+      "stateDescription": "Information becomes understanding when it changes how you meet experience.",
+      "stateSeed": "Jnana · understanding"
+    },
+    {
+      "stateId": 38,
+      "stateName": "Prana",
+      "stateDescription": "The felt capacity to participate returns through attention to ordinary sources of energy.",
+      "stateSeed": "Prana-loka · animation"
+    },
+    {
+      "stateId": 39,
+      "stateName": "Apana",
+      "stateDescription": "What has completed its purpose is allowed to leave.",
+      "stateSeed": "Apana-loka · letting go"
+    },
+    {
+      "stateId": 40,
+      "stateName": "Vyana",
+      "stateDescription": "Resources and attention move through a larger network of relationships.",
+      "stateSeed": "Vyana-loka · distribution"
+    },
+    {
+      "stateId": 41,
+      "stateName": "Human Plane",
+      "stateDescription": "Your concern is recognised as one expression of a wider human condition.",
+      "stateSeed": "Jana-loka · participation"
+    },
+    {
+      "stateId": 42,
+      "stateName": "Plane of Fire",
+      "stateDescription": "Intensity can illuminate a commitment or consume the conditions needed to sustain it.",
+      "stateSeed": "Agni-loka · transformation"
+    },
+    {
+      "stateId": 43,
+      "stateName": "Human Birth",
+      "stateDescription": "The capacity to reflect gives you a choice within circumstances you did not choose.",
+      "stateSeed": "Manushya-janma · agency"
+    },
+    {
+      "stateId": 44,
+      "stateName": "Ignorance",
+      "stateDescription": "A partial account of experience is mistaken for the whole.",
+      "stateSeed": "Avidya · mistaken identification"
+    },
+    {
+      "stateId": 45,
+      "stateName": "Right Knowledge",
+      "stateDescription": "Careful inquiry replaces the comfort of an untested answer.",
+      "stateSeed": "Suvidya · cultivated understanding"
+    },
+    {
+      "stateId": 46,
+      "stateName": "Discrimination",
+      "stateDescription": "A lasting commitment is distinguished from a passing impulse.",
+      "stateSeed": "Viveka · distinguishing"
+    },
+    {
+      "stateId": 47,
+      "stateName": "Sarasvati",
+      "stateDescription": "Attention listens without immediately converting experience into action or argument.",
+      "stateSeed": "Sarasvati · listening"
+    },
+    {
+      "stateId": 48,
+      "stateName": "Solar Plane",
+      "stateDescription": "The active side of experience seeks a clear direction and an appropriate limit.",
+      "stateSeed": "Yamuna · solar symbolism"
+    },
+    {
+      "stateId": 49,
+      "stateName": "Lunar Plane",
+      "stateDescription": "The receptive side of experience allows impressions to arrive before deciding what to do.",
+      "stateSeed": "Ganga · lunar symbolism"
+    },
+    {
+      "stateId": 50,
+      "stateName": "Plane of Austerity",
+      "stateDescription": "Attention gathers around a chosen practice instead of following every competing demand.",
+      "stateSeed": "Tapa-loka · sustained attention"
+    },
+    {
+      "stateId": 51,
+      "stateName": "Earth",
+      "stateDescription": "The question returns to material conditions: body, place, time and resources.",
+      "stateSeed": "Prithivi · support"
+    },
+    {
+      "stateId": 52,
+      "stateName": "Violence",
+      "stateDescription": "Force seeks to overcome resistance without adequate regard for what is injured.",
+      "stateSeed": "Himsa-loka · harm"
+    },
+    {
+      "stateId": 53,
+      "stateName": "Water",
+      "stateDescription": "A response finds a workable form without losing contact with its purpose.",
+      "stateSeed": "Jala-loka · responsiveness"
+    },
+    {
+      "stateId": 54,
+      "stateName": "Devotion",
+      "stateDescription": "Care becomes a sustained orientation rather than a passing mood.",
+      "stateSeed": "Bhakti-loka · dedication"
+    },
+    {
+      "stateId": 55,
+      "stateName": "Egotism",
+      "stateDescription": "A useful sense of self contracts into the requirement that every event affirm it.",
+      "stateSeed": "Ahamkara · I and mine"
+    },
+    {
+      "stateId": 56,
+      "stateName": "Omkara",
+      "stateDescription": "A sound or repeated phrase gathers scattered attention into a shared rhythm.",
+      "stateSeed": "Omkara · attentive sound"
+    },
+    {
+      "stateId": 57,
+      "stateName": "Air",
+      "stateDescription": "Change becomes noticeable through movement, contact and the exchange of ideas.",
+      "stateSeed": "Vayu-loka · movement"
+    },
+    {
+      "stateId": 58,
+      "stateName": "Radiance",
+      "stateDescription": "Understanding makes a situation more visible and can help others find their bearings.",
+      "stateSeed": "Teja-loka · illumination"
+    },
+    {
+      "stateId": 59,
+      "stateName": "Plane of Truth",
+      "stateDescription": "Speech and conduct are brought closer to what you actually know and intend.",
+      "stateSeed": "Satya-loka · fidelity"
+    },
+    {
+      "stateId": 60,
+      "stateName": "Sound Judgment",
+      "stateDescription": "Intelligence considers both immediate effects and the larger purpose of an action.",
+      "stateSeed": "Subuddhi · wise deliberation"
+    },
+    {
+      "stateId": 61,
+      "stateName": "Distorted Judgment",
+      "stateDescription": "Reasoning is used to defend an impulse after the decision has effectively been made.",
+      "stateSeed": "Durbuddhi · rationalisation"
+    },
+    {
+      "stateId": 62,
+      "stateName": "Happiness",
+      "stateDescription": "Wellbeing is experienced as something more stable than the satisfaction of a single demand.",
+      "stateSeed": "Sukha · ease"
+    },
+    {
+      "stateId": 63,
+      "stateName": "Obscuration",
+      "stateDescription": "Confusion, avoidance or exhaustion reduces the capacity to see and respond.",
+      "stateSeed": "Tamas · dullness"
+    },
+    {
+      "stateId": 64,
+      "stateName": "Phenomenal Plane",
+      "stateDescription": "Experience is seen within the changing conditions that make it possible.",
+      "stateSeed": "Prakriti-loka · conditioned life"
+    },
+    {
+      "stateId": 65,
+      "stateName": "Inner Space",
+      "stateDescription": "Awareness can hold a thought or feeling without immediately following it.",
+      "stateSeed": "Uranta-loka · inward openness"
+    },
+    {
+      "stateId": 66,
+      "stateName": "Bliss",
+      "stateDescription": "Contentment is approached without making possession or achievement its condition.",
+      "stateSeed": "Ananda-loka · unforced contentment"
+    },
+    {
+      "stateId": 67,
+      "stateName": "Plane of Rudra",
+      "stateDescription": "An established form loses its usefulness and makes room for a different arrangement.",
+      "stateSeed": "Rudra-loka · dissolution"
+    },
+    {
+      "stateId": 68,
+      "stateName": "Cosmic Consciousness",
+      "stateDescription": "The self is contemplated as participating in a reality larger than its private concerns.",
+      "stateSeed": "Vaikuntha-loka · belonging"
+    },
+    {
+      "stateId": 69,
+      "stateName": "Plane of Brahma",
+      "stateDescription": "A new arrangement begins to take form from conditions already present.",
+      "stateSeed": "Brahma-loka · becoming"
+    },
+    {
+      "stateId": 70,
+      "stateName": "Sattva",
+      "stateDescription": "Clarity, steadiness and care support a less reactive response.",
+      "stateSeed": "Sattva-guna · clarity and balance"
+    },
+    {
+      "stateId": 71,
+      "stateName": "Rajas",
+      "stateDescription": "Desire and effort set experience in motion and seek a result.",
+      "stateSeed": "Rajo-guna · drive"
+    },
+    {
+      "stateId": 72,
+      "stateName": "Tamas",
+      "stateDescription": "Habit continues because changing it seems harder than enduring its cost.",
+      "stateSeed": "Tamo-guna · heaviness"
     }
   ],
   "game": {
@@ -73,46 +445,46 @@
     },
     "gameCurrentState": {
       "stateId": 2,
-      "stateName": "Seeking",
-      "stateDescription": "Longing becomes movement, and movement reveals the shape of the question.",
-      "stateSeed": "The pilgrim steps onto the path"
+      "stateName": "Illusion",
+      "stateDescription": "An appearance is taken to be the whole reality rather than one way it is being encountered.",
+      "stateSeed": "Maya · appearances"
     },
     "gameAccessibleStates": [
       {
         "stateId": 3,
-        "stateName": "Discipline",
-        "stateDescription": "Freedom is tested by rhythm, repetition, and fidelity to practice.",
-        "stateSeed": "The vessel is formed"
+        "stateName": "Anger",
+        "stateDescription": "A frustrated desire or threatened boundary gathers energy into opposition.",
+        "stateSeed": "Krodha · heat"
       },
       {
         "stateId": 4,
-        "stateName": "Compassion",
-        "stateDescription": "The boundary between self and other softens without collapsing discernment.",
-        "stateSeed": "The heart recognizes itself elsewhere"
+        "stateName": "Greed",
+        "stateDescription": "The wish to acquire continues after a practical need has been met.",
+        "stateSeed": "Lobha · grasping"
       },
       {
         "stateId": 5,
-        "stateName": "Pride",
-        "stateDescription": "Identity gathers around achievement and asks to be seen without being obeyed.",
-        "stateSeed": "The crown becomes a mirror"
+        "stateName": "Physical Plane",
+        "stateDescription": "Life is encountered through a body, a place and the material conditions that sustain them.",
+        "stateSeed": "Bhu-loka · embodiment"
       },
       {
         "stateId": 6,
-        "stateName": "Acceptance",
-        "stateDescription": "What is present is no longer treated as an interruption to the path.",
-        "stateSeed": "Yes to the given moment"
+        "stateName": "Delusion",
+        "stateDescription": "Attachment to a desired view of events interferes with recognising what is happening.",
+        "stateSeed": "Moha · attachment"
       },
       {
         "stateId": 7,
-        "stateName": "Discernment",
-        "stateDescription": "Attention separates signal from noise and chooses the next true action.",
-        "stateSeed": "The sword of clarity"
+        "stateName": "Vanity",
+        "stateDescription": "An image of personal importance becomes something that must continually be defended.",
+        "stateSeed": "Mada · self-importance"
       },
       {
         "stateId": 8,
-        "stateName": "Surrender",
-        "stateDescription": "Control relaxes enough for a deeper intelligence to participate.",
-        "stateSeed": "The river carries the raft"
+        "stateName": "Avarice",
+        "stateDescription": "Fear of having less makes sharing or another person’s gain feel threatening.",
+        "stateSeed": "Matsarya · possessiveness"
       }
     ],
     "gameQuestion": null,
