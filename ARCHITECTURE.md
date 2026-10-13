@@ -296,8 +296,7 @@ It cannot change authentication, casting or journey state.
 reference relationships, and trigram/hexagram information. `GET /state-views`
 serves this catalogue independently of game mutation routes. The journey client
 uses one native dialog to explore it without advancing or recomputing engine
-state. Traditional reference identities remain separate from the existing game
-edition; see [State Viewer](docs/state-viewer.md) for content provenance, PNG
+state. The catalogue and engine share the same board endpoints, checked in tests; see [State Viewer](docs/state-viewer.md) for content provenance, PNG
 assets, catalogue packaging and future contextual-interpretation boundaries.
 
 Fresh casting entropy is supplied by `Runtime.Casting` in the IO shell using
@@ -325,3 +324,10 @@ corpus version used for a generated interpretation are saved alongside it.
 The database-free interpretation tool loads the same bundled reference edition.
 The old two-hexagram pure helpers remain compatibility fixtures; the production
 journey and diagnostic tool use the full explicit corpus.
+
+## Live snake and ladder movement
+
+The engine now follows all ten snakes and ten ladders after a nonzero move lands
+on an origin. The movement screen distinguishes landing from final destination;
+acknowledgment saves the endpoint. Zero movement remains still. See
+[movement behavior](docs/responsive-journey.md#live-snake-and-ladder-movement-2026-10-13).

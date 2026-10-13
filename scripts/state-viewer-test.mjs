@@ -13,7 +13,7 @@ for(const [origin,destination,kind] of [[10,23,'ladder'],[17,69,'ladder'],[20,32
   assert.equal(view.traditionalReference.transition.transitionType,kind);
   assert.ok(catalog.stateViews[destination-1].traditionalReference);
   assert.match(leelaMarkup(catalog,origin),new RegExp(`data-view-state="${destination}"`));
-  assert.match(leelaMarkup(catalog,origin),/do not move your Persona/);
+  assert.match(leelaMarkup(catalog,origin),/does not move your Persona/);
   assert.match(leelaMarkup(catalog,destination),new RegExp(`data-view-state="${origin}"`));
   assert.match(leelaMarkup(catalog,destination),/· destination/);
 }

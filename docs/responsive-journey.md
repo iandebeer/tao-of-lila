@@ -360,3 +360,23 @@ board. It loads once per page and is shared by the progress screen and informati
 dialog. These are labelled reference relationships; live game movement still comes
 from the engine. Tests cover all twenty endpoint pairs, reverse links, local-field
 scope and unchanged Persona position.
+
+## Live snake and ladder movement (2026-10-13)
+
+The engine now applies the board's ten snakes and ten ladders after a nonzero
+move lands on an origin. For example, landing on 37 finishes at 66; landing on
+55 finishes at 3. Zero movement stays in place. The existing board-edge cap is
+applied first, so a move reaching or overshooting 72 follows its snake to 51.
+There is no additional terminal rule in this change.
+
+`Engine.Game` owns the transition table and final destination. Tests compare all
+20 endpoints with the tile catalogue. The journey projection exposes distinct
+`movement.landing` and `movement.final` states, a `snake`/`ladder` consequence,
+`topologyAvailable: true`, and engine-provided transition previews on accessible
+tiles. Both prototype completion and journey acknowledgment save the final state.
+Pending encounters from an earlier deployment use the corrected destination on
+acknowledgment, updating their event in the same transaction. Completed historical
+encounters are not replayed. Reloading retains the committed position.
+
+This supersedes earlier statements that snakes and ladders are informational only.
+Opening tile details remains a read-only action.

@@ -72,7 +72,7 @@ and never to present Gita chapters as rules for numbered Leela tiles. Casting,
 movement and dice probabilities are unchanged by the text update. The information
 catalogue now includes all ten snake and ten ladder pairs from the referenced
 board, with original commentary and links in both directions. These references
-do not introduce live movement rules.
+are now applied by the engine on landing; opening their information links is read-only.
 
 ## Updating the edition
 
@@ -94,3 +94,10 @@ Docker copies the corpus and regenerates the public catalogue and cache versions
 The next deployment installs the new edition automatically. PostgreSQL acceptance
 tests use `TAO_PERSONA_TEST_DB` and an isolated schema, testing repeat installation
 and passage retrieval alongside the existing journey acceptance tests.
+
+## Live snake and ladder movement
+
+The engine now follows all ten snakes and ten ladders after a nonzero move lands
+on an origin. The movement screen distinguishes landing from final destination;
+acknowledgment saves the endpoint. Zero movement remains still. See
+[movement behavior](responsive-journey.md#live-snake-and-ladder-movement-2026-10-13).

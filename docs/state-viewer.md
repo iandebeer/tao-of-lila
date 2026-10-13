@@ -108,3 +108,10 @@ and ten ladders in the reference board. An in-scope destination links back to it
 origin; an in-scope origin links forward to its destination. Endpoint links can
 open out-of-scope tile details without adding reachable cards or moving the Persona.
 The screen and dialog share one catalogue request per page.
+
+## Live snake and ladder movement
+
+The engine now follows all ten snakes and ten ladders after a nonzero move lands
+on an origin. The movement screen distinguishes landing from final destination;
+acknowledgment saves the endpoint. Zero movement remains still. See
+[movement behavior](responsive-journey.md#live-snake-and-ladder-movement-2026-10-13).

@@ -337,11 +337,10 @@ Select the current tile, a reachable destination in the local gameplay view, or 
 primary/resulting hexagram to open the responsive State Viewer. It shows stable
 identities, curated descriptions and reusable trigram associations separately
 from contextual AI interpretation. PNG artwork is optional. `GET /state-views`
-provides the versioned catalogue; existing game APIs and movement are unchanged.
+provides the versioned catalogue; movement is resolved by the Haskell engine.
 
-The current prototype's state names are preserved. Traditional snake/arrow
-examples are explicitly labelled as reference transitions and do not
-move the Persona. Uncurated entries remain clearly labelled.
+All 72 tile identities use the same board edition. Snake and ladder links open
+read-only tile details; landing on an origin follows the transition in the engine.
 See [State Viewer architecture, content and artwork](docs/state-viewer.md).
 
 After editing canonical viewer metadata or seed identities, run
@@ -439,3 +438,10 @@ Validation: `cabal test`, `node scripts/persona-fields-test.mjs`, and
 PostgreSQL connection string to run the database acceptance suite (it creates
 and removes an isolated schema); `python3 scripts/persona-api-test.py BASE_URL`
 checks a disposable running API.
+
+## Live snake and ladder movement
+
+The engine now follows all ten snakes and ten ladders after a nonzero move lands
+on an origin. The movement screen distinguishes landing from final destination;
+acknowledgment saves the endpoint. Zero movement remains still. See
+[movement behavior](docs/responsive-journey.md#live-snake-and-ladder-movement-2026-10-13).

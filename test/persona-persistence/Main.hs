@@ -132,6 +132,35 @@ acceptance store = do
   assert "archive preserves sibling journey and Player" (gameUser retained==ub && gameJourney retained==gameJourney untouched)
   rows <- withStore store $ \c -> query_ c "SELECT COUNT(*) FROM game_events" :: IO [Only Int]
   assert "archive retains historical events" (rows==[Only 1])
+  -- Exercise pending encounters at deployment: acknowledgment, history and
+  -- reload must agree on the endpoint, even if the event recorded the origin.
+  mapM_ (\(origin,target) -> do
+    persona <- P.createPersona store owner draft
+    let player = owner {userPersonaId=Just (personaId persona)}
+    game <- getGameView store domain player
+    baseResult <- maybe (fail "Incomplete transition fixture") pure (Casting.result complete)
+    let result = baseResult {Casting.lilaMoveSquares=1}
+        casting = complete {Casting.result=Just result}
+        from = origin - 1
+    event <- withStore store $ \c -> do
+      [Only eventId] <- query c "INSERT INTO game_events(game_session_id,from_state_id,to_state_id,question,journal,casting_result) VALUES(?,?,?,'transition test','',?) RETURNING id" (journeySessionId (gameJourney game),from,origin,PG.Aeson result)
+      let workflow = (initialWorkflow from Nothing) {workflowStage="movement",workflowCasting=Just casting,workflowEventId=Just eventId}
+      _ <- execute c "UPDATE game_sessions SET current_state_id=? WHERE persona_id=?" (from,personaId persona)
+      _ <- execute c "INSERT INTO journey_workflows(persona_id,document) VALUES(?,?)" (personaId persona,PG.Aeson workflow)
+      pure eventId
+    pending <- J.getJourney store domain player
+    let field key (Object fields) = maybe Null id (KM.lookup key fields)
+        field _ _ = Null
+    assert "movement projection distinguishes landing and final" (field "stateId" (field "landing" (field "movement" pending)) == Number (fromIntegral origin) && field "stateId" (field "final" (field "movement" pending)) == Number (fromIntegral target))
+    acknowledged <- J.commandJourney store domain player (JourneyCommand (revision pending) (userPersonaId player) "acknowledge" Nothing Nothing)
+    reloaded <- J.getJourney store domain player
+    assert "transition acknowledgment survives reload" (acknowledged==reloaded)
+    final <- getGameView store domain player
+    assert "Persona rests at the snake or ladder endpoint" (journeyCurrentStateId (gameJourney final)==target)
+    assert "pending history agrees with acknowledged destination" (any (\entry -> gameEventId entry==event && gameEventToStateId entry==target) (gameHistory final))
+    repeated <- try (J.commandJourney store domain player (JourneyCommand (revision pending) (userPersonaId player) "acknowledge" Nothing Nothing)) :: IO (Either StoreError Value)
+    assert "retry cannot apply the transition twice" (case repeated of Left (Conflict _) -> True; _ -> False)
+    ) [(37,66),(55,3)]
   _ <- J.getJourney store domain ub
   -- Exercise the disposable development reset, not a legacy data migration.
   withStore store $ \c -> do

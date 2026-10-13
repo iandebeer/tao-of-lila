@@ -2,7 +2,7 @@
 module Persistence.Journey (getJourney, commandJourney) where
 
 import Control.Exception (throwIO)
-import Data.Aeson (Result (..), fromJSON, object, (.=))
+import Data.Aeson (Result (..), fromJSON, toJSON, object, (.=))
 import qualified Data.Aeson.KeyMap as KM
 import Data.Aeson (Value (..))
 import Data.Maybe (fromMaybe)
@@ -12,10 +12,10 @@ import qualified Database.PostgreSQL.Simple.Newtypes as PG
 import Domain.Contemplation (ContemplationResponse (..))
 import Domain.Game
 import Domain.Journey
-import Domain.Types (DomainData)
+import Domain.Types (DomainData, LeelaState (stateId))
 import Runtime.Casting (freshCastingState)
 import qualified Engine.Casting as Casting
-import Engine.Game (applyCastingMovement)
+import Engine.Game (applyCastingMovement, castingLanding, castingTransition, transitionAt, BoardTransition (..))
 import Persistence.Postgres (Store, guardPersona, selectedPersonaId, StoreError (..), withStore, loadGameView, resolveState)
 
 getJourney :: Store -> DomainData -> User -> IO Value
@@ -123,6 +123,9 @@ transition connection domain user workflow command = case commandAction command 
     result <- maybe (throwIO (Conflict "No completed casting")) pure (Casting.result casting)
     let destination = applyCastingMovement (workflowFrom workflow) result
     _ <- execute connection "UPDATE game_sessions SET previous_state_id = ?, current_state_id = ?, casting = ?, updated_at = now() WHERE persona_id = ?" (workflowFrom workflow, destination, PG.Aeson casting, selectedPersonaId user)
+    -- Pending encounters created before topology was enabled must record the
+    -- same destination that is now committed to the Persona's session.
+    _ <- execute connection "UPDATE game_events SET to_state_id = ? WHERE id = ? AND game_session_id = (SELECT id FROM game_sessions WHERE persona_id = ?)" (destination, workflowEventId workflow, selectedPersonaId user)
     pure (initialWorkflow destination (Just (workflowFrom workflow)))
   _ -> throwIO (InvalidInput "Unknown journey command")
 
@@ -142,9 +145,9 @@ projection connection domain user workflow = do
   history <- query connection "SELECT jsonb_build_object('eventId', e.id, 'from', e.from_state_id, 'to', e.to_state_id, 'question', e.question, 'journal', e.journal, 'casting', e.casting_result, 'rawCasting', e.raw_casting, 'createdAt', e.created_at, 'interpretation', c.response) FROM game_events e LEFT JOIN contemplations c ON c.game_event_id = e.id WHERE e.game_session_id = ? ORDER BY e.id DESC" (Only (journeySessionId (gameJourney game))) :: IO [Only (PG.Aeson Value)]
   questions <- query connection "SELECT to_jsonb(q) FROM persona_questions q WHERE persona_id=? ORDER BY id DESC" (Only (selectedPersonaId user)) :: IO [Only (PG.Aeson Value)]
   let result = workflowCasting workflow >>= Casting.result
-      movement = fmap (\casting -> object ["amount" .= Casting.lilaMoveSquares casting, "from" .= resolveState domain (workflowFrom workflow), "landing" .= resolveState domain (applyCastingMovement (workflowFrom workflow) casting), "final" .= resolveState domain (applyCastingMovement (workflowFrom workflow) casting), "consequence" .= (Nothing :: Maybe T.Text)]) result
+      movement = fmap (\casting -> object ["amount" .= Casting.lilaMoveSquares casting, "from" .= resolveState domain (workflowFrom workflow), "landing" .= resolveState domain (castingLanding (workflowFrom workflow) casting), "final" .= resolveState domain (applyCastingMovement (workflowFrom workflow) casting), "consequence" .= fmap (transitionName . fst) (castingTransition (workflowFrom workflow) casting)]) result
   pure $ object
-    [ "workflow" .= workflow, "game" .= game
+    [ "workflow" .= workflow, "game" .= gameProjection game
     , "fromState" .= resolveState domain (workflowFrom workflow)
     , "previousState" .= fmap (resolveState domain) (if workflowStage workflow == "progress" then journeyPreviousStateId (gameJourney game) else workflowPrevious workflow)
     , "interpretation" .= case advice of [Only (PG.Aeson value)] -> Just value; _ -> Nothing
@@ -152,5 +155,20 @@ projection connection domain user workflow = do
     , "questions" .= [value | Only (PG.Aeson value) <- questions]
     , "history" .= [value | Only (PG.Aeson value) <- history]
     , "terminal" .= False
-    , "topologyAvailable" .= False
+    , "topologyAvailable" .= True
     ]
+
+transitionName :: BoardTransition -> T.Text
+transitionName Snake = "snake"
+transitionName Ladder = "ladder"
+
+-- Add engine-owned previews without changing the shared Leela identity type.
+gameProjection :: GameView -> Value
+gameProjection game = case toJSON game of
+  Object fields -> Object (KM.insert "gameAccessibleStates" (toJSON (map preview (gameAccessibleStates game))) fields)
+  value -> value
+  where
+    preview state = case (toJSON state, transitionAt (stateId state)) of
+      (Object fields, Just (kind, target)) -> Object
+        (KM.insert "consequence" (toJSON (transitionName kind)) (KM.insert "finalStateId" (toJSON target) fields))
+      (value, _) -> value

@@ -1,11 +1,11 @@
-import {esc,paragraphs} from './text.js?v=3f29bf77409d71fc';
-export {esc} from './text.js?v=3f29bf77409d71fc';
-import {hexControl,stateControl} from './state-viewer.js?v=3f29bf77409d71fc';
+import {esc,paragraphs} from './text.js?v=c8b263843bcbd56b';
+export {esc} from './text.js?v=c8b263843bcbd56b';
+import {hexControl,stateControl} from './state-viewer.js?v=c8b263843bcbd56b';
 export const label=s=>s?`${esc(s.stateId)} · ${esc(s.stateName)}`:'The beginning of your journey';
 export const action=(id,text,secondary=false)=>`<button type="button" data-action="${id}" class="${secondary?'secondary':''}">${text}</button>`;
 export const questionDisplay=text=>`<blockquote class="question-display"><span class="eyebrow">Your question</span><p>${esc(text)}</p></blockquote>`;
 let assets={};
-export async function loadAssets(){try{assets=await fetch('./assets.json?v=3f29bf77409d71fc').then(r=>r.json());}catch{assets={};}}
+export async function loadAssets(){try{assets=await fetch('./assets.json?v=c8b263843bcbd56b').then(r=>r.json());}catch{assets={};}}
 export function artwork(kind,id,title){
   const path=assets[kind]?.[id];
   return typeof path==='string' && /^\.?\.?\//.test(path)?`<img class="symbol-art" src="${esc(path)}" alt="${esc(title)}">`:`<span class="art-slot" role="img" aria-label="${esc(title)} artwork placeholder"></span>`;

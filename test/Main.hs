@@ -35,7 +35,7 @@ import Runtime.Casting (freshCastingState)
 import Control.Monad (replicateM)
 import Data.List (nub)
 import Engine.Reading (generateReading)
-import Engine.Game (accessibleStateIds, applyCastingMovement)
+import Engine.Game (accessibleStateIds, applyCastingMovement, castingLanding, castingTransition, boardTransitions)
 
 main :: IO ()
 main = do
@@ -86,6 +86,15 @@ main = do
       actual kind = [(n, SV.destination r) | n <- [1..72], Just r <- [relation n], SV.transitionType r == kind]
   assert "all ten reference ladders use the published endpoints" (actual SV.Ladder == expectedLadders)
   assert "all ten reference snakes use the published endpoints" (actual SV.Snake == expectedSnakes)
+  mapM_ (\(origin, _, target) -> do
+    let cast = baseline {Casting.lilaMoveSquares = 1}
+    assert ("live transition matches catalogue at " <> show origin) (fmap SV.destination (relation origin) == Just target)
+    assert ("landing is preserved at " <> show origin) (castingLanding (origin - 1) cast == origin)
+    assert ("movement reaches endpoint from " <> show origin) (applyCastingMovement (origin - 1) cast == target)
+    assert ("zero movement does not trigger " <> show origin) (applyCastingMovement origin (cast {Casting.lilaMoveSquares = 0}) == origin && castingTransition origin (cast {Casting.lilaMoveSquares = 0}) == Nothing)
+    ) boardTransitions
+  assert "ordinary movement stays on its landing" (applyCastingMovement 1 (baseline {Casting.lilaMoveSquares = 2}) == 3)
+  assert "overshoot lands on 72 then follows its snake" (castingLanding 71 (baseline {Casting.lilaMoveSquares = 6}) == 72 && applyCastingMovement 71 (baseline {Casting.lilaMoveSquares = 6}) == 51)
   assert "snake reference is 55 to 3" (fmap SV.destination (relation 55) == Just 3)
   assert "arrow reference is 37 to 66" (fmap SV.destination (relation 37) == Just 66)
   assert "snake destination uses reference identity, not prototype Discipline" (fmap SV.englishName (SV.lookupStateView catalog 55 >>= SV.transitionDestination catalog) == Just "Anger")
@@ -296,7 +305,7 @@ castingAdvancesLilaState :: Bool
 castingAdvancesLilaState =
   case Casting.result completedCasting of
     Just castingResult ->
-      applyCastingMovement 10 castingResult
+      castingLanding 10 castingResult
         == min 72 (10 + Casting.lilaMoveSquares castingResult)
         && applyCastingMovement 71 castingResult <= 72
     Nothing -> False
