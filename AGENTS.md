@@ -53,6 +53,10 @@ Use this file as persistent guidance when working in this repository.
 
 ## Editing Guidelines
 
+- Always spell the product and game name Leela in user-facing text and documentation.
+- Legacy package, database, and serialized API identifiers retain their existing spelling
+  until an explicit compatibility migration is requested.
+
 - When quoting the Dao De Jing (Tao Te Ching) or the I Ching, always include
   both the original Chinese text and its translation.
 - Keep changes scoped to the requested behavior.

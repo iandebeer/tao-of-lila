@@ -1,9 +1,9 @@
 {
   "catalogVersion": "public-domain-cfcfa4095762f8a2",
-  "catalogNote": "Traditional 72-square names with original Tao of Lila commentary. Bhagavad Gita chapters provide thematic background, not historical explanations of numbered squares. I Ching passages pair the received Chinese text with James Legge’s public-domain translation. Reference snakes and arrows remain separate from movement rules.",
+  "catalogNote": "Traditional 72-square names with original Tao of Leela commentary. Bhagavad Gita chapters provide thematic background, not historical explanations of numbered squares. I Ching passages pair the received Chinese text with James Legge’s public-domain translation. Reference snakes and arrows remain separate from movement rules.",
   "sources": [
     "Reference snake and ladder endpoints: https://en.quantumgame.love/guide/leela-board-72-squares.html (board relationships only; commentary is original)",
-    "Tao of Lila original tile commentary (MIT); data/references/leela-editorial.json",
+    "Tao of Leela original tile commentary (MIT); data/references/leela-editorial.json",
     "Anonymous · 易經 · ancient text · https://www.gutenberg.org/ebooks/25501",
     "James Legge · The Yî King: judgments and line texts · 1882 · https://scarletbeast.com/lab/oracle/codex/iching.json",
     "James Legge · The Yî King: Appendix II, Great Images · 1882 · https://archive.sacred-texts.com/ich/icap2-1.htm",

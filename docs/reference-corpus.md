@@ -9,7 +9,7 @@ excerpt. It does not receive the entire document library.
 ## Coverage and provenance
 
 - **72 Leela tiles:** a consistent traditional 72-square naming scheme with
-  original Tao of Lila commentary. This replaces the initial ten custom states.
+  original Tao of Leela commentary. This replaces the initial ten custom states.
   Tile/Sanskrit label associations were cross-checked against the published board
   map at https://en.quantumgame.love/guide/leela-board-72-squares.html. Its modern
   prose is not copied. English naming varies between editions; this application's

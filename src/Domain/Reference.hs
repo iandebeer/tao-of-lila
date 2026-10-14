@@ -61,7 +61,7 @@ validateReferenceLibrary library
   | T.null (referenceVersion library) = Left "Reference corpus needs a version"
   | sort (map referenceBinary hexes) /= [0..63] = Left "Reference corpus requires every binary hexagram exactly once"
   | not (all validHex hexes) = Left "Reference hexagram has a mismatched key, missing bilingual passage or attribution"
-  | sort (map (stateId . referenceState) states) /= [1..72] = Left "Reference corpus requires all 72 Lila tiles"
+  | sort (map (stateId . referenceState) states) /= [1..72] = Left "Reference corpus requires all 72 Leela tiles"
   | not (all validState states) = Left "Reference tile is missing its description, commentary or background link"
   | sort (map chapterNumber chapters) /= [1..18] = Left "Reference corpus requires all 18 Gita chapters"
   | not (all (\c -> validSource (chapterSource c) && not (T.null (chapterBody c))) chapters) = Left "Reference chapter is empty or unattributed"

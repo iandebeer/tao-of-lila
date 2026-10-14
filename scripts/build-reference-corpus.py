@@ -69,7 +69,7 @@ def build():
     extra={e['stateId']:e for e in extension}
     for s in metadata['stateMetadata']:
         n=s['stateId']; e=extra.get(n)
-        entries.append(dict(referenceState=combined[n], referenceCommentary=e['commentary'], referenceCommentarySource='Tao of Lila original editorial commentary (MIT), not a quotation from Harish Johari',
+        entries.append(dict(referenceState=combined[n], referenceCommentary=e['commentary'], referenceCommentarySource='Tao of Leela original editorial commentary (MIT), not a quotation from Harish Johari',
                             referenceChapter=e['chapter'] if e else {1:2,2:4,3:6,4:12,5:16,6:2,7:18,8:18,9:3,10:15}[n]))
     documents=[]
     for ident,file,title,author,year,url,rights in [
@@ -105,4 +105,4 @@ def build():
     write('app/public/journey/preview.json', preview)
     return library
 if __name__ == '__main__':
-    lib=build(); print('Packaged 72 Lila entries, 64 bilingual hexagrams, 384 lines and 18 Gita chapters.')
+    lib=build(); print('Packaged 72 Leela entries, 64 bilingual hexagrams, 384 lines and 18 Gita chapters.')

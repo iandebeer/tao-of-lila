@@ -1,4 +1,4 @@
-# The Tao of Lila
+# The Tao of Leela
 
 The Player does not enter the Leela board directly. The Player creates and guides
 one or more Personas. It is the Persona that enters the symbolic field of Leela,
@@ -26,7 +26,7 @@ lines, trigrams, Taoist ideas, Personas, questions, symbols, history and reflect
 rather than competition or optimisation. This introduces no new gameplay rule.
 
 
-The Tao of Lila is an interactive contemplative system combining the traditional
+The Tao of Leela is an interactive contemplative system combining the traditional
 Leela game with the cosmology and divination framework of the I Ching. The
 project aims to produce a historically respectful yet original digital
 instrument rather than simply a board game.
@@ -457,3 +457,10 @@ The game uses `play.leela.day`; the manual and introductory pamphlet are publish
 at `read.leela.day` as an independent Cloudflare Pages site. Build it with
 `npm ci --prefix web/reading-site && npm run build --prefix web/reading-site`.
 See [domain setup and publication instructions](docs/custom-domains.md).
+
+The root domain `leela.day` has a standalone Play/Read menu in
+`web/landing-site/`, using the same artwork as the game splash. Build with
+`npm run build --prefix web/landing-site`; publish `web/landing-site/dist`
+separately from the reading site. See [domain deployment](docs/custom-domains.md#root-domain-menu).
+User-facing names consistently use **Leela**. Existing package, database and
+serialized API identifiers retain their legacy spelling for compatibility.

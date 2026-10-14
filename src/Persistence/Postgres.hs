@@ -273,7 +273,7 @@ resolveState :: DomainData -> Int -> LeelaState
 resolveState domain requestedId =
   case filter ((== requestedId) . stateId) (leelaStates domain) of
     state : _ -> state
-    [] -> LeelaState requestedId ("Lila State " <> T.pack (show requestedId)) "Consciousness-state commentary is not yet seeded for this prototype." "Unseeded state"
+    [] -> LeelaState requestedId ("Leela State " <> T.pack (show requestedId)) "Consciousness-state commentary is not yet seeded for this prototype." "Unseeded state"
 
 issueToken :: Connection -> User -> IO AuthResponse
 issueToken connection user = do

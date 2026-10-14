@@ -2,9 +2,9 @@ cabal-version:      3.0
 name:               tao-of-lila
 version:            0.1.0.0
 synopsis:           A contemplative Leela and I Ching self-inquiry engine
-description:        Pure Haskell domain model and Servant API for The Tao of Lila.
+description:        Pure Haskell domain model and Servant API for The Tao of Leela.
 license:            MIT
-author:             Tao of Lila contributors
+author:             Tao of Leela contributors
 maintainer:         maintainers@example.com
 build-type:         Simple
 

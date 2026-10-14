@@ -208,7 +208,7 @@ main = do
   assert "casting removes the ritual stalk from the right heap" castingRemovesRitualStalkFromRightHeap
   assert "casting completes six yarrow lines" castingCompletesSixYarrowLines
   assert "game exposes the next six reachable states" gameExposesSixReachableStates
-  assert "casting result advances and bounds the Lila state" castingAdvancesLilaState
+  assert "casting result advances and bounds the Leela state" castingAdvancesLilaState
   assert "Innocence 11 changing line 2 becomes 36 contemplation context" contemplationContextMatchesFirstCase
 
 assert :: String -> Bool -> IO ()

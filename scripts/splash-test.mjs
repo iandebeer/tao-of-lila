@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 import {splashMarkup,bindSplashTerms} from '../app/public/journey/splash.js';
 const markup=splashMarkup();
-const positions=['Tao of Lila</h1>','A contemplative meeting','class="splash-artwork"','href="#login"','href="#signup"','Every question opens a path.'].map(text=>markup.indexOf(text));
+const positions=['Tao of Leela</h1>','A contemplative meeting','class="splash-artwork"','href="#login"','href="#signup"','Every question opens a path.'].map(text=>markup.indexOf(text));
 assert.ok(positions.every((n,i)=>n>=0&&(i===0||n>positions[i-1])),'requested visual hierarchy');
 assert.match(markup,/src="\/assets\/splash\/a_richly_detailed_ornate_fantasy_chinese_taoist_i.png"/);
-assert.match(markup,/aria-describedby="lila-explanation"/);
+assert.match(markup,/aria-describedby="leela-explanation"/);
 assert.match(markup,/aria-describedby="iching-explanation"/);
 assert.match(markup,/An ancient Indian game of self-knowledge/);
 assert.match(markup,/The ancient Chinese Book of Changes/);

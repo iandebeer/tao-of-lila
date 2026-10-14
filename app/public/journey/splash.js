@@ -1,10 +1,10 @@
 const terms={
-  lila:{name:'Lila',description:'An ancient Indian game of self-knowledge in which movement across the board represents changing states of human experience.'},
+  leela:{name:'Leela',description:'An ancient Indian game of self-knowledge in which movement across the board represents changing states of human experience.'},
   iching:{name:'I Ching',description:'The ancient Chinese Book of Changes, using hexagrams to reflect patterns of change and transformation.'}
 };
 const term=id=>`<span class="splash-term"><button type="button" class="splash-term-button" aria-describedby="${id}-explanation" aria-controls="${id}-explanation" aria-expanded="false">${terms[id].name}</button><span class="splash-explanation" id="${id}-explanation" role="tooltip" hidden><strong>${terms[id].name}</strong><span>${terms[id].description}</span></span></span>`;
 export function splashMarkup(){
-  return `<section class="splash" aria-labelledby="splash-title"><header class="splash-heading"><h1 id="splash-title">Tao of Lila</h1><p class="splash-subtitle">A contemplative meeting of ${term('lila')} and the ${term('iching')}</p></header><img class="splash-artwork" width="1254" height="1254" src="/assets/splash/a_richly_detailed_ornate_fantasy_chinese_taoist_i.png" alt="Tao of Lila artwork: a stylised board with snakes and ladders, a central Yin-Yang and Bagua, I Ching symbols, mountains, water and clouds" decoding="async" fetchpriority="high" hidden><div class="splash-entry"><div class="actions"><a class="button" href="#login">Log in</a><a class="button secondary" href="#signup">Sign up</a></div><p class="splash-invitation">Every question opens a path.</p></div></section>`;
+  return `<section class="splash" aria-labelledby="splash-title"><header class="splash-heading"><h1 id="splash-title">Tao of Leela</h1><p class="splash-subtitle">A contemplative meeting of ${term('leela')} and the ${term('iching')}</p></header><img class="splash-artwork" width="1254" height="1254" src="/assets/splash/a_richly_detailed_ornate_fantasy_chinese_taoist_i.png" alt="Tao of Leela artwork: a stylised board with snakes and ladders, a central Yin-Yang and Bagua, I Ching symbols, mountains, water and clouds" decoding="async" fetchpriority="high" hidden><div class="splash-entry"><div class="actions"><a class="button" href="#login">Log in</a><a class="button secondary" href="#signup">Sign up</a></div><p class="splash-invitation">Every question opens a path.</p></div></section>`;
 }
 
 export function bindSplashTerms(root=document){

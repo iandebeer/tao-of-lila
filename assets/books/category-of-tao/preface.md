@@ -2,7 +2,7 @@
 
 The Category of Tao began as an unexpected companion to another project.
 
-My original intention was to create a new interpretation of Lila, the ancient Indian game that represents the stages of spiritual development. Traditionally attributed to the Hindu tradition and often compared to the game of Snakes and Ladders, Lila is far more than a board game. It is a symbolic map of human consciousness and the journey of the soul. As this project developed, it became increasingly clear that it required a companion volume—one that explained the ideas that lay behind the board itself. This book is the result.
+My original intention was to create a new interpretation of Leela, the ancient Indian game that represents the stages of spiritual development. Traditionally attributed to the Hindu tradition and often compared to the game of Snakes and Ladders, Leela is far more than a board game. It is a symbolic map of human consciousness and the journey of the soul. As this project developed, it became increasingly clear that it required a companion volume—one that explained the ideas that lay behind the board itself. This book is the result.
 
 The journey that led to it, however, began much earlier.
 
@@ -26,7 +26,7 @@ Yet I began to suspect that they were describing similar patterns.
 
 Category theory had taught me to look less at individual objects than at the relationships between them. It asks not merely what things are, but how they transform into one another while preserving deeper structure. I began to wonder whether this way of thinking might also illuminate spiritual development—not by reducing ancient traditions to mathematics, but by offering a common language in which relationships, movement and transformation could be understood.
 
-Around this time I discovered the game of Lila while simultaneously immersing myself in the Tao Te Ching and the I Ching. Quite unexpectedly, these streams of thought began to converge. The symbolic movement of Lila, the transformations embodied in the I Ching, the paradoxes of Taoism, and the structural insights of category theory all seemed to resonate with one another.
+Around this time I discovered the game of Leela while simultaneously immersing myself in the Tao Te Ching and the I Ching. Quite unexpectedly, these streams of thought began to converge. The symbolic movement of Leela, the transformations embodied in the I Ching, the paradoxes of Taoism, and the structural insights of category theory all seemed to resonate with one another.
 
 The result is neither a mathematical treatise nor a religious text. It is an exploration.
 

@@ -13,3 +13,5 @@ node_modules/
 output/
 
 web/reading-site/dist/
+
+web/landing-site/dist/

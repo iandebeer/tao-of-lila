@@ -72,7 +72,7 @@ SVG = what is seen
 ```
 
 `GET /casting/initial` and `POST /casting/next` expose the pure state machine
-without a user session or the Lila board. Both casting interfaces advance all
+without a user session or the Leela board. Both casting interfaces advance all
 intermediate phases automatically on each click, stopping at a completed line.
 The next click generates the following line, bottom-to-top, until all six are
 visible. The browser still requests every numerical transition from Haskell;

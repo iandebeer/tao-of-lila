@@ -86,7 +86,7 @@ console.log('ok - canonical retrieval, transitions, eight trigrams, both hexagra
 
 for (const view of catalog.stateViews) {
   assert.ok(view.canonicalInterpretation.length > 50);
-  assert.doesNotMatch(leelaMarkup(catalog,view.identity.stateId),/not yet been curated|not yet seeded|Unseeded|Lila State \d/);
+  assert.doesNotMatch(leelaMarkup(catalog,view.identity.stateId),/not yet been curated|not yet seeded|Unseeded|Leela State \d/);
 }
 for (const hex of catalog.hexagramViews) {
   assert.equal(hex.sourceText.textHexagramNumber,hex.kingWenNumber);

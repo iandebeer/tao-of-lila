@@ -1,0 +1,13 @@
+import {mkdir, copyFile, writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import {resolve, dirname} from 'node:path';
+const here=dirname(fileURLToPath(import.meta.url));
+const root=resolve(here,'../..'), out=resolve(here,'dist');
+const artwork='assets/splash/a_richly_detailed_ornate_fantasy_chinese_taoist_i.png';
+await mkdir(resolve(out,'assets/splash'),{recursive:true});
+await copyFile(resolve(root,'app/public',artwork),resolve(out,artwork));
+await copyFile(resolve(here,'index.html'),resolve(out,'index.html'));
+await writeFile(resolve(out,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: public, max-age=0, must-revalidate\n');
+await writeFile(resolve(out,'robots.txt'),'User-agent: *\nAllow: /\nSitemap: https://leela.day/sitemap.xml\n');
+await writeFile(resolve(out,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://leela.day/</loc></url></urlset>');
+console.log(`Built Leela landing page: ${out}`);

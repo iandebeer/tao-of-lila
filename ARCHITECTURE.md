@@ -24,7 +24,7 @@ I Ching/Leela facts   Persona history     Visual projection
 ```
 
 The state and rules layer determines casting, hexagram change, movement, and
-Lila topology. The journey engine records a Persona's journey as events.
+Leela topology. The journey engine records a Persona's journey as events.
 The renderer receives a resolved snapshot and must not calculate movement or
 mutate the journey. Advice is a separate interpretation over recorded facts,
 not part of state transition logic.
@@ -80,8 +80,8 @@ record of how it changed. Events are append-only so the journey can be replayed
 instead of merely overwriting a current position.
 
 A question belongs to a Persona's encounter recorded by a game event. It
-does not belong to the shared Lila state definition. Journal entries and advice
-have the same event context, while canonical Lila and I Ching source material
+does not belong to the shared Leela state definition. Journal entries and advice
+have the same event context, while canonical Leela and I Ching source material
 remain shared domain data.
 
 The pure turn contract is conceptually:
@@ -99,12 +99,12 @@ repository boundary. It does not enter the rule functions.
 
 ## Rendering Boundary
 
-The renderer consumes a projection containing the current and previous Lila
+The renderer consumes a projection containing the current and previous Leela
 positions, accessible positions, special transitions, hexagram and trigram
 results, changing lines, and resolved movement. It renders the relevant local
 neighbourhood rather than requiring the full 72-state topology.
 
-The Lila field answers where the Persona is and can move. The I Ching view
+The Leela field answers where the Persona is and can move. The I Ching view
 describes the pattern of change through lines, trigrams, and symbols. These are
 two visual coordinate systems for one event; neither owns or computes the other.
 
@@ -162,7 +162,7 @@ The architecture should grow toward binary-keyed domain tables:
 - King Wen number to binary value
 - binary value to upper and lower trigrams
 - binary value to changing hexagrams
-- binary value to Tao of Lila transitions
+- binary value to Tao of Leela transitions
 - binary value to commentary from multiple translations
 
 The binary value should remain the primary internal identifier even when public

@@ -12,7 +12,7 @@ cd "$PROJECT_DIR"
 if [[ -f "$PID_FILE" ]]; then
   API_PID="$(tr -cd '0-9' < "$PID_FILE")"
   if [[ -n "$API_PID" ]] && kill -0 "$API_PID" 2>/dev/null; then
-    echo "Stopping Tao of Lila API (PID $API_PID)..."
+    echo "Stopping Tao of Leela API (PID $API_PID)..."
     kill -TERM "$API_PID"
     for _ in {1..15}; do
       if ! kill -0 "$API_PID" 2>/dev/null; then
@@ -29,7 +29,7 @@ if [[ -f "$PID_FILE" ]]; then
   fi
   rm -f "$PID_FILE"
 else
-  echo "No Tao of Lila API PID file was found."
+  echo "No Tao of Leela API PID file was found."
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -44,4 +44,4 @@ else
   exit 1
 fi
 
-echo "Tao of Lila is stopped. PostgreSQL data has been preserved."
+echo "Tao of Leela is stopped. PostgreSQL data has been preserved."

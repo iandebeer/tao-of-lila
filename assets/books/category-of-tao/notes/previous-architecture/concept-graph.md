@@ -73,7 +73,7 @@ Tao
 │   ├── Return
 │   └── Embodiment
 │
-└── The Tao of Lila
+└── The Tao of Leela
     ├── Leela states
     ├── Player journey
     ├── Oracle
@@ -95,7 +95,7 @@ Tao
 - The I Ching gives images and procedures for consulting transformation.
 - Category theory gives a precise language for relationships and composition.
 - Neigong grounds transformation in embodied practice.
-- The Tao of Lila turns these relationships into an interactive instrument.
+- The Tao of Leela turns these relationships into an interactive instrument.
 
 ## Open Questions
 

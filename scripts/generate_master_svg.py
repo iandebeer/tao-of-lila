@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the initial Master SVG board for The Tao of Lila."""
+"""Generate the initial Master SVG board for The Tao of Leela."""
 
 from __future__ import annotations
 
@@ -542,7 +542,7 @@ def centre_layer() -> str:
         empty_tag("circle", {"id": "centre_circle", "cx": cx, "cy": cy, "r": 235, "fill": "none", "stroke": PALETTE["umber"], "stroke-width": 5}),
         tag("g", {"id": "lotus"}, "\n".join(lotus_petals)),
         tag("g", {"id": "empty_hexagram_frame"}, "\n".join(frame_lines)),
-        tag("text", {"id": "centre_title", "x": cx, "y": cy + 150, "font-size": 46, "text-anchor": "middle"}, "The Tao of Lila"),
+        tag("text", {"id": "centre_title", "x": cx, "y": cy + 150, "font-size": 46, "text-anchor": "middle"}, "The Tao of Leela"),
     ]
     return tag("g", {"id": "centre"}, "\n".join(parts))
 
@@ -581,7 +581,7 @@ def labels_layer() -> str:
         {"id": "labels"},
         "\n".join(
             [
-                tag("text", {"id": "label_master_title", "x": 2000, "y": 260, "font-size": 82, "text-anchor": "middle"}, "The Tao of Lila"),
+                tag("text", {"id": "label_master_title", "x": 2000, "y": 260, "font-size": 82, "text-anchor": "middle"}, "The Tao of Leela"),
                 tag("text", {"id": "label_master_subtitle", "x": 2000, "y": 340, "font-size": 32, "text-anchor": "middle"}, "Master SVG 1.0 - Interactive Contemplative Instrument"),
             ]
         ),
@@ -633,11 +633,11 @@ def svg_document() -> str:
         metadata_layer(),
         animation_layer(),
     ]
-    title = tag("title", {"id": "svg_title"}, "The Tao of Lila Master Board")
+    title = tag("title", {"id": "svg_title"}, "The Tao of Leela Master Board")
     desc = tag(
         "desc",
         {"id": "svg_description"},
-        "Initial vector-only, layered, addressable Master SVG board for The Tao of Lila.",
+        "Initial vector-only, layered, addressable Master SVG board for The Tao of Leela.",
     )
     return "\n".join(
         [

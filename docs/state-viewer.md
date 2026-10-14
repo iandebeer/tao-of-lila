@@ -1,4 +1,4 @@
-# Tao of Lila State Viewer
+# Tao of Leela State Viewer
 
 The journey's current/reachable states, movement cards, result figures
 and historical casting links open one reusable, read-only native dialog. It
@@ -24,7 +24,7 @@ are migrated from `assets/bagua.json`. Animal and family associations follow
 Shuo Gua (Discussion of the Trigrams), sections 8 and 10:
 https://www.themathesontrust.org/papers/fareasternreligions/Yijing-Shuo_Gua-Wilhelm-Lynn.pdf
 These are symbolic associations, not attributes of the Player. Hues are a
-Tao of Lila editorial palette, not asserted universal traditional colours.
+Tao of Leela editorial palette, not asserted universal traditional colours.
 Element and artwork fields are nullable pending curation; natural image is
 not silently relabelled as a Five Phases element.
 

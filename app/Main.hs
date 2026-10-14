@@ -31,7 +31,7 @@ main = do
       migrate store
       withStore store (\connection -> installReferenceLibrary connection library)
       model <- resolveContemplationModel
-      putStrLn ("The Tao of Lila API listening on port " <> show port)
+      putStrLn ("The Tao of Leela API listening on port " <> show port)
       run port (app "app/public" domain stateCatalog store model)
 
 resolvePort :: IO Int

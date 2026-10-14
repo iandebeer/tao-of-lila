@@ -60,18 +60,18 @@ fi
 if [[ -f "$PID_FILE" ]]; then
   existing_pid="$(tr -cd '0-9' < "$PID_FILE")"
   if [[ -n "$existing_pid" ]] && kill -0 "$existing_pid" 2>/dev/null; then
-    echo "Tao of Lila is already running with PID $existing_pid."
+    echo "Tao of Leela is already running with PID $existing_pid."
     echo "Open http://localhost:$PORT_VALUE"
     exit 0
   fi
   rm -f "$PID_FILE"
 fi
 
-echo "Building Tao of Lila..."
+echo "Building Tao of Leela..."
 cabal build exe:tao-of-lila-api
 API_BINARY="$(cabal list-bin exe:tao-of-lila-api)"
 
-echo "Starting Tao of Lila..."
+echo "Starting Tao of Leela..."
 DATABASE_URL="$DATABASE_URL_VALUE" PORT="$PORT_VALUE" \
   nohup "$API_BINARY" > "$LOG_FILE" 2>&1 &
 API_PID=$!
@@ -97,6 +97,6 @@ if [[ "$api_ready" != true ]]; then
   exit 1
 fi
 
-echo "Tao of Lila is ready."
+echo "Tao of Leela is ready."
 echo "Open http://localhost:$PORT_VALUE"
 echo "Application log: $LOG_FILE"

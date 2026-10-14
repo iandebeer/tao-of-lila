@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg id="tao_of_lila_master_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="2.0" viewBox="0 0 4000 4000" role="img" aria-labelledby="svg_title svg_description">
-<title id="svg_title">The Tao of Lila Master Board</title>
-<desc id="svg_description">Initial vector-only, layered, addressable Master SVG board for The Tao of Lila.</desc>
+<title id="svg_title">The Tao of Leela Master Board</title>
+<desc id="svg_description">Initial vector-only, layered, addressable Master SVG board for The Tao of Leela.</desc>
 <defs id="defs"><style id="style_master_svg_1">
       :root {
         --parchment: #f4ead4;
@@ -306,7 +306,7 @@
 <rect id="centre_hexagram_line_4" x="1908" y="2284" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
 <rect id="centre_hexagram_line_5" x="1908" y="2306" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/>
 <rect id="centre_hexagram_line_6" x="1908" y="2328" width="184" height="10" rx="3" fill="none" stroke="#4b2f1b" stroke-width="2" opacity="0.55"/></g>
-<text id="centre_title" x="2000" y="2410" font-size="46" text-anchor="middle">The Tao of Lila</text></g>
+<text id="centre_title" x="2000" y="2410" font-size="46" text-anchor="middle">The Tao of Leela</text></g>
 <g id="fu_xi_octagon"><polygon id="fu_xi_octagon_outline" points="610.0,3535.0 790.31,3460.31 865.0,3280.0 790.31,3099.69 610.0,3025.0 429.69,3099.69 355.0,3280.0 429.69,3460.31" fill="none" stroke="#4b2f1b" stroke-width="4"/>
 <text id="fu_xi_octagon_title" x="610" y="2973" font-size="32" text-anchor="middle">Fu Xi - Earlier Heaven</text>
 <g id="fu_xi_octagon_south_qian" data-trigram="qian" data-position="south"><use id="fu_xi_octagon_qian_use" href="#trigram_qian" xlink:href="#trigram_qian" x="520.0" y="3486.0" width="180" height="98" class="trigram-use"/>
@@ -375,7 +375,7 @@
 <text id="king_wen_octagon_qian_label_chinese" x="3209.69" y="3175.69" font-size="26" text-anchor="middle">乾</text>
 <text id="king_wen_octagon_qian_label_pinyin" x="3209.69" y="3203.69" font-size="18" text-anchor="middle">Qian</text>
 <text id="king_wen_octagon_qian_label_english" x="3209.69" y="3227.69" font-size="16" text-anchor="middle">Heaven</text></g></g>
-<g id="labels"><text id="label_master_title" x="2000" y="260" font-size="82" text-anchor="middle">The Tao of Lila</text>
+<g id="labels"><text id="label_master_title" x="2000" y="260" font-size="82" text-anchor="middle">The Tao of Leela</text>
 <text id="label_master_subtitle" x="2000" y="340" font-size="32" text-anchor="middle">Master SVG 1.0 - Interactive Contemplative Instrument</text></g>
 <g id="metadata"><metadata id="metadata_master_svg">Master SVG 1.0 initial generated vector board.</metadata>
 <rect id="metadata_anchor" x="0" y="0" width="0" height="0" fill="none"/></g>

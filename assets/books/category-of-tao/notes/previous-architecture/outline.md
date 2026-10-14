@@ -5,7 +5,7 @@ matures.
 
 ## Preface
 
-Why this book exists, why it belongs beside The Tao of Lila, why Markdown is the
+Why this book exists, why it belongs beside The Tao of Leela, why Markdown is the
 right medium for developing it, and why Afrikaans may remain where an insight
 originated.
 

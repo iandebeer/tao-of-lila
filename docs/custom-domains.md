@@ -56,3 +56,31 @@ Safari appearance inspected. HTTPS checks returned 200 for `play.leela.day/healt
 on 14 October 2026. The deployed homepage, manual, pamphlet, diagram and stylesheet
 were byte-compared against the final local build and matched. These changes do
 not modify the Haskell engine.
+
+## Root domain menu
+
+`https://leela.day/` is the public entry point, with **Play** linking to
+`https://play.leela.day/journey/` and **Read** linking to `https://read.leela.day/`.
+Source: `web/landing-site/`. It copies the exact approved game splash artwork
+from `app/public/assets/splash/`; no separate image needs to be maintained.
+
+```sh
+npm run build --prefix web/landing-site
+python3 -m http.server 8767 --bind 127.0.0.1 --directory web/landing-site/dist
+```
+
+Deploy `web/landing-site/dist` as a separate Cloudflare Pages project named
+`leela-landing`. For Git integration use repository root `.`, build command
+`npm run build --prefix web/landing-site`, output `web/landing-site/dist`, and
+Node 22 or later. No dependency installation is required. For Direct Upload,
+rebuild and upload the contents of this directory on each release.
+
+Attach the apex `leela.day` through that project's Custom domains tab and let
+Cloudflare configure the DNS record. Keep `play` and `read` attached to their
+existing services. Do not redirect the apex to either subdomain: it serves the
+menu itself. The root page needs no JavaScript, login, API or database.
+
+Release checks: `https://leela.day/` must return the Play/Read menu, both links
+must reach their respective subdomains, and the splash image must load on mobile
+and desktop. This source change prepares the build; it does not itself create
+the Pages project or change live DNS.

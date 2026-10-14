@@ -2,11 +2,11 @@
   "catalogVersion": "state-view-v1",
   "catalogNote": "Traditional 72-square names with original project commentary; source-backed hexagram texts are merged by scripts/build-state-catalog.mjs. Reference transitions do not change movement rules.",
   "sources": [
-    "data/leela.json — existing Tao of Lila game identities",
+    "data/leela.json — existing Tao of Leela game identities",
     "assets/bagua.json — existing trigram identities, lines and arrangements",
     "app/public/journey/hexagram-labels.json — existing binary-keyed names",
     "User-supplied Expanded State Views brief — traditional examples 55 → 3 and 37 → 66",
-    "https://www.themathesontrust.org/papers/fareasternreligions/Yijing-Shuo_Gua-Wilhelm-Lynn.pdf — Shuo Gua animal and family associations; summaries are original Tao of Lila editorial text",
+    "https://www.themathesontrust.org/papers/fareasternreligions/Yijing-Shuo_Gua-Wilhelm-Lynn.pdf — Shuo Gua animal and family associations; summaries are original Tao of Leela editorial text",
     "https://en.quantumgame.love/guide/leela-board-72-squares.html — square/Sanskrit label cross-check only; no modern commentary imported"
   ],
   "stateMetadata": [

@@ -1,13 +1,13 @@
 # Category Theory Model
 
 This document describes the conceptual model of transformation for The Tao of
-Lila. It is not an implementation mandate for every Haskell type today. It is a
+Leela. It is not an implementation mandate for every Haskell type today. It is a
 mathematical north star: use it to preserve clear composition, avoid duplicated
 logic, and keep game mechanics distinct from interpretation.
 
 ## Purpose
 
-The Tao of Lila is not only a board with tokens. It is a system of
+The Tao of Leela is not only a board with tokens. It is a system of
 transformations:
 
 ```text
@@ -211,7 +211,7 @@ The intended conceptual stack is:
 Tao
   -> Bagua category
   -> Hexagram category
-  -> Tao of Lila functor
+  -> Tao of Leela functor
   -> Consciousness category
   -> Persona context
   -> Reflection monad

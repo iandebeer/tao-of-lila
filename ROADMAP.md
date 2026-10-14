@@ -1,7 +1,7 @@
 # Roadmap
 
 This roadmap keeps the project moving from a small deterministic prototype
-toward a richer Tao of Lila and I Ching engine.
+toward a richer Tao of Leela and I Ching engine.
 
 ## Milestones
 
@@ -14,10 +14,10 @@ toward a richer Tao of Lila and I Ching engine.
 ### Milestone 2: State And Rules Engine
 
 - [x] Implement deterministic yarrow-stalk casting as a self-contained subsystem.
-- Define stable identities for Lila states, hexagrams, and transitions.
+- Define stable identities for Leela states, hexagrams, and transitions.
 - Wrap the existing casting engine behind a stable result contract; do not make
   it aware of participants, sessions, persistence, or rendering.
-- Model Lila movement and I Ching change as small pure transformations.
+- Model Leela movement and I Ching change as small pure transformations.
 - Use the category theory model in `docs/category-theory.md` as the conceptual
   guide without over-abstracting early code.
 
@@ -32,7 +32,7 @@ toward a richer Tao of Lila and I Ching engine.
 
 - [x] Define a prototype user, game session, current state, and `GameEvent`
   as explicit domain concepts with stable identities.
-- [x] Record questions on encounters and events, never on shared Lila state definitions.
+- [x] Record questions on encounters and events, never on shared Leela state definitions.
 - [x] Preserve append-only event history so a session can be reconstructed instead
   of retaining only its latest position.
 - [x] Store the complete current casting and completed casting result.
@@ -49,12 +49,12 @@ toward a richer Tao of Lila and I Ching engine.
   game movement or changes session history.
 - Render the relevant local neighbourhood rather than requiring the complete
   72-state board on every screen.
-- Treat the Lila field and I Ching symbolism as equal visual systems describing
+- Treat the Leela field and I Ching symbolism as equal visual systems describing
   the same moment.
 
 ### Milestone 6: Mobile Rendering And Animation
 
-- Make the local Lila topology legible on small screens.
+- Make the local Leela topology legible on small screens.
 - Visualize current, previous, and accessible states plus ladders, snakes, and
   special transitions.
 - Visualize six lines, changing lines, primary and nuclear trigrams, and their
@@ -62,11 +62,11 @@ toward a richer Tao of Lila and I Ching engine.
 - Animate resolved transitions without placing rule logic in the animation
   layer.
 - [x] Isolated yarrow ceremony: TypeScript/SVG client bound to the Haskell
-  casting engine, user-paced, not yet integrated with the Lila board.
+  casting engine, user-paced, not yet integrated with the Leela board.
 
 ### Milestone 7: Advice And Commentary
 
-- Compose advice from the participant's question, Lila state, casting result,
+- Compose advice from the participant's question, Leela state, casting result,
   trigram and line symbolism, and optionally prior journey context.
 - Keep generated advice separate from canonical source material and persistent
   game-state transitions.
@@ -99,13 +99,13 @@ toward a richer Tao of Lila and I Ching engine.
 ## Leela Model
 
 - Expand the Leela state corpus toward the intended 72 states.
-- Model Tao of Lila transitions as data rather than hard-coded behavior.
+- Model Tao of Leela transitions as data rather than hard-coded behavior.
 - Connect Leela state movement with I Ching change patterns.
 - Add game metadata needed by the board visualization.
 
 ## Journey Ownership
 
-- A Lila state owns only shared meaning and topology.
+- A Leela state owns only shared meaning and topology.
 - A game session owns the participant's current state and event history.
 - A journey event owns its question, raw casting, resolved movement, and any
   journal entry or generated advice.

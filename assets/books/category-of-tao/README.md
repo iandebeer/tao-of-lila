@@ -2,7 +2,7 @@
 
 A philosophical and mathematical exploration of the Tao Te Ching and category
 theory, in conversation with Buddhist and Vedantic traditions. The I Ching and
-The Tao of Lila remain part of the project’s background and supporting material.
+The Tao of Leela remain part of the project’s background and supporting material.
 
 The purpose of this work is not to prove that ancient Chinese philosophy
 anticipated modern mathematics.
