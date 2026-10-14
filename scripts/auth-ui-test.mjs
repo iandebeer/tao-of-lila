@@ -9,6 +9,7 @@ globalThis.fetch=async(path,options)=>{
   return {ok:true,status:200,json:async()=>({authToken:'new-valid-token'})};
 };
 const {api}=await import('../app/public/journey/api.js');
+const {api:restoredApi}=await import('../app/public/journey/api.js?restored-release');
 const oldRequest=api.request('/personas').catch(error=>error);
 await api.authenticate('login','  Existing_User  ',' unchanged password ');
 assert.ok(calls.every(call=>call.options.cache==='no-store'),'API requests bypass stale browser responses');
@@ -19,6 +20,8 @@ const oldError=await oldRequest;
 assert.equal(oldError.staleSession,true);assert.equal(api.authenticated,true);
 assert.equal(sessionStorage.getItem('tao-journey-token'),'new-valid-token');
 assert.equal(localStorage.getItem('tao-token'),null);
+await restoredApi.request('/journey-session');
+assert.equal(calls.at(-1).options.headers.Authorization,'Bearer new-valid-token','restored module reads the new login rather than a stale module token');
 globalThis.fetch=async()=>({ok:false,status:401,json:async()=>({error:'legacy generic error'})});
 await assert.rejects(api.authenticate('login','Existing_User','wrong'),/User ID or password is incorrect/);
 assert.equal(api.authenticated,true,'failed credentials cannot revoke a separate valid session');

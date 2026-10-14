@@ -162,6 +162,24 @@ acceptance store = do
     assert "retry cannot apply the transition twice" (case repeated of Left (Conflict _) -> True; _ -> False)
     ) [(37,66),(55,3)]
   _ <- J.getJourney store domain ub
+  -- Invalid board data is repaired independently of the login session.
+  withStore store $ \c -> do
+    _ <- execute c "UPDATE journey_workflows SET document=? WHERE persona_id=?" (PG.Aeson (String "obsolete workflow"),personaId b)
+    _ <- execute c "UPDATE game_sessions SET current_state_id=37 WHERE persona_id=?" (Only (personaId b))
+    pure ()
+  recovered <- J.getJourney store domain ub
+  recoveredGame <- getGameView store domain ub
+  assert "incompatible board restarts at tile one" (journeyCurrentStateId (gameJourney recoveredGame)==1)
+  recoveredAgain <- J.getJourney store domain ub
+  assert "restart is durable and idempotent" (recovered==recoveredAgain)
+  authenticatedAfterRecovery <- authenticate store (authToken loggedIn)
+  assert "board recovery does not invalidate login" (userId authenticatedAfterRecovery==userId owner)
+  withStore store $ \c -> do
+    _ <- execute c "UPDATE game_sessions SET casting=? WHERE persona_id=?" (PG.Aeson (String "obsolete casting"),personaId b)
+    pure ()
+  _ <- J.getJourney store domain ub
+  repairedCasting <- getGameView store domain ub
+  assert "incompatible casting is cleared on recovery" (gameCasting repairedCasting==Nothing)
   -- Exercise the disposable development reset, not a legacy data migration.
   withStore store $ \c -> do
     _ <- execute_ c "ALTER TABLE journey_workflows ADD COLUMN user_id INTEGER"

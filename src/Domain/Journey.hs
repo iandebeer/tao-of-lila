@@ -2,11 +2,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- Durable orchestration state; casting and movement remain in their engines.
-module Domain.Journey (Workflow (..), JourneyCommand (..), initialWorkflow, allowedStage) where
+module Domain.Journey (Workflow (..), JourneyCommand (..), initialWorkflow, allowedStage, validWorkflow) where
 
 import Data.Aeson (FromJSON, ToJSON, Value)
 import Data.Text (Text)
 import Engine.Casting (CastingState)
+import qualified Engine.Casting as Casting
 import GHC.Generics (Generic)
 
 data Workflow = Workflow
@@ -52,3 +53,17 @@ allowedStage action stage = case action of
   "movement" -> stage == "reflection"
   "acknowledge" -> stage == "movement"
   _ -> False
+
+-- A saved encounter must still be usable by the current workflow before resume.
+validWorkflow :: Int -> Workflow -> Bool
+validWorkflow current workflow =
+  current >= 1 && current <= 72 && workflowFrom workflow == current
+  && workflowRevision workflow >= 0
+  && maybe True (\n -> n >= 1 && n <= 72) (workflowPrevious workflow)
+  && case workflowStage workflow of
+    "progress" -> True
+    "question" -> True
+    "casting" -> workflowCasting workflow /= Nothing
+    stage | stage `elem` ["result", "interpretation", "reflection", "movement"] ->
+      (workflowCasting workflow >>= Casting.result) /= Nothing && workflowEventId workflow /= Nothing
+    _ -> False

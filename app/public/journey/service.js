@@ -1,5 +1,5 @@
-import {api} from './api.js?v=c8b263843bcbd56b';
-import {createDemo} from './demo.js?v=c8b263843bcbd56b';
+import {api} from './api.js?v=9cb5e7fde83b4270';
+import {createDemo} from './demo.js?v=9cb5e7fde83b4270';
 const params=new URLSearchParams(location.search);
 export const preview=params.has('demo');
 export const scenario=params.get('scenario')||'ordinary';
@@ -11,7 +11,7 @@ export const journey={
   async load(){
     if(preview){
       if(!fixture){
-        const [seed,traces]=await Promise.all([fetch('./preview.json?v=c8b263843bcbd56b').then(r=>r.json()),fetch('./castings.json?v=c8b263843bcbd56b').then(r=>r.json())]);
+        const [seed,traces]=await Promise.all([fetch('./preview.json?v=9cb5e7fde83b4270').then(r=>r.json()),fetch('./castings.json?v=9cb5e7fde83b4270').then(r=>r.json())]);
         fixture=createDemo(seed,traces,scenario);initial=fixture.initial;
         try{const saved=sessionStorage.getItem(cacheKey);if(saved)fixture.restore(JSON.parse(saved));}catch{}
       }

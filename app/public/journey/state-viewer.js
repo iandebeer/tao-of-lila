@@ -1,4 +1,4 @@
-import {esc,paragraphs} from './text.js?v=c8b263843bcbd56b';
+import {esc,paragraphs} from './text.js?v=9cb5e7fde83b4270';
 
 export function safeAsset(path){return typeof path==='string' && /^\/assets\/[a-zA-Z0-9_./-]+$/.test(path) && !path.includes('..')?path:null;}
 export function imageMarkup(path,alt){const safe=safeAsset(path);return safe?`<img class="state-art" src="${esc(safe)}" alt="${esc(alt)}" loading="lazy">`:'';}
@@ -61,7 +61,7 @@ export function hexagramMarkup(catalog,selection){
 // closing it never changes hashes, saves a draft, or advances the ceremony.
 export function installStateViewer({preview=false,loadCatalog}={}){
   let catalogPromise,dialog,opener,request=0;
-  const load=loadCatalog||(()=>catalogPromise??=(fetch(preview?'./state-views.json?v=c8b263843bcbd56b':'/state-views').then(r=>{if(!r.ok)throw Error('State information could not be loaded. Please try again.');return r.json();}).catch(error=>{catalogPromise=null;throw error;})));
+  const load=loadCatalog||(()=>catalogPromise??=(fetch(preview?'./state-views.json?v=9cb5e7fde83b4270':'/state-views').then(r=>{if(!r.ok)throw Error('State information could not be loaded. Please try again.');return r.json();}).catch(error=>{catalogPromise=null;throw error;})));
   const close=()=>dialog?.close();
   document.addEventListener('click',async event=>{
     // Resolve the card's real button so text, artwork and padding all open

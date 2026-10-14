@@ -380,3 +380,16 @@ encounters are not replayed. Reloading retains the committed position.
 
 This supersedes earlier statements that snakes and ladders are informational only.
 Opening tile details remains a read-only action.
+
+## Continue Journey recovery
+
+Requests read the current token from session storage, so a restored module cannot
+keep using a token from before the latest login. A genuinely invalid login still
+requires authentication; board recovery never bypasses it.
+
+For an authenticated Persona, loading the journey recreates a missing game session.
+Unreadable workflow/casting data, obsolete stages or mismatched board positions
+restart the active journey at tile 1. The reset clears the active casting and
+prototype questions, while retaining the account, Persona and completed history.
+Valid journeys resume normally. Recovery runs under the existing transaction and
+Persona/session locks.

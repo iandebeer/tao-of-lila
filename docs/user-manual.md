@@ -1,9 +1,9 @@
 # The Tao of Leela - User Manual
 
-*Prototype edition | Checked against the repository on 23 September 2026.*
+*Prototype edition | Updated for the current journey on 14 October 2026.*
 
-This manual describes the guided interface at `/journey/`. You need a running
-installation supplied by its operator. If you are running the project yourself,
+Play at [play.leela.day](https://play.leela.day/journey/). This manual describes
+the guided journey interface. If you are running the project yourself,
 use the setup instructions in the [Developer Manual](developer-manual.md#3-run-the-project).
 
 ## Contents
@@ -49,12 +49,11 @@ a proposed interpretation is useful.
 
 ## The journey at a glance
 
-![Illustrated user interface flow with a Leela board on the splash screen, yarrow stalks, primary and relating hexagrams, and a reflection journal: sign in, choose or create a Persona, resume its saved stage, then progress through question, casting, result, optional interpretation, reflection and acknowledged movement.](diagrams/user-interface-flow.svg)
+![Illustrated user interface flow with a Leela board on the splash screen, yarrow stalks, primary and relating hexagrams, and a reflection journal: sign in, choose or create a Persona, resume its saved stage, then progress through question, casting, result, interpretation, reflection and acknowledged movement.](diagrams/user-interface-flow.svg)
 
 The diagram shows the live `/journey/` interface, with schematic board, yarrow,
 hexagram and journal illustrations. Resume restores the selected
-Persona's saved stage; it does not restart an unfinished encounter. AI assistance
-is optional. The board position updates only when movement is acknowledged.
+Persona's saved stage; it does not restart an unfinished encounter. The guided flow requests an AI reading before personal reflection. The board position updates only when movement is acknowledged.
 Pause, History and switching Personas preserve the accepted journey state.
 
 ## 2. Choose the right entrance
@@ -71,7 +70,8 @@ below. For a default local installation the base address is `http://localhost:80
 | `/?prototype` | Earlier diagnostic controls for unfinished prototype casts. | Uses the selected Persona's server journey with the older encounter flow. |
 
 The preview's **Reset example** resets preview data only. Demonstrations containing
-snakes, ladders or completion are examples of presentation, not available live rules.
+snakes, ladders or completion are presentation fixtures. Live snakes and ladders
+now follow the board endpoints; the completion fixture is not a live terminal rule.
 Use the guided interface consistently during an encounter. An unfinished casting
 started in the earlier prototype may need to be finished there first.
 
@@ -97,7 +97,7 @@ creation form. Fill in:
 | Name | A name you will recognise when choosing among Personas. Required. |
 | Description | Who this constructed character is. |
 | Narrative context | Circumstances, responsibilities, aspirations or tensions relevant to its story. |
-| Avatar description | Optional words describing its appearance or symbolic representation. This does not generate an image. |
+| Avatar description | Optional words describing its appearance or symbolic representation. You can optionally generate and accept an avatar image. |
 
 For example:
 
@@ -109,19 +109,19 @@ For example:
 
 Choose **Create Persona and begin** to save the Persona, select it and open its
 journey immediately. A new journey starts at state 1. For an existing Persona,
-choose **Resume** on its card. The **Personas** control is also available before
+choose **Continue Journey** on its card. The **Personas** control is also available before
 you enter a journey, so you can always return to creation or selection.
 
-If an older saved game was migrated, it appears as **Legacy persona**. Resume it
-to continue its existing history; you can edit its name and current description.
+If saved board data is incompatible with the current application, the journey
+restarts at tile 1. Your account, Persona and completed history are retained.
 
 ## 4. Complete your first encounter
 
 ### A. Notice the current state
 
 The progress screen shows where the Persona came from, its current state and
-possible next positions. Read the available state description. Some states have
-placeholder descriptions because the commentary collection is incomplete.
+possible next positions. Read the available state description. All 72 states have
+descriptions; open a tile to explore its meaning and transitions.
 
 Choose **Bring a question**, or **Refine your question** if a draft already exists.
 
@@ -214,8 +214,10 @@ movement amount.
 | All six | 21 divided by 7 leaves 0 | Stay, with a transformed hexagram |
 
 Stillness on the board can therefore accompany substantial change. The current
-engine caps movement at state 72 and has no implemented live snake, ladder or
-completion rule. Older saved castings retain the movement recorded under their
+engine caps the numbered landing at state 72, then follows a snake or ladder
+when that landing is an origin. For example, 37 leads to 66 and 55 leads to 3.
+Landing on 72 follows its snake to 51. Zero movement remains still. No terminal
+completion rule is currently implemented. Older saved castings retain the movement recorded under their
 earlier rule; the application does not recalculate their history.
 
 ## 6. Pause, save and resume
@@ -225,7 +227,7 @@ message: text still marked **Unsaved changes** has not yet been confirmed saved.
 
 Use **Pause** or **Pause / Exit** to pause. During a casting, a confirmation dialog
 lets you keep casting or pause and exit. On your next visit, log in if necessary,
-choose the same Persona, and use **Resume**. The server restores the accepted
+choose the same Persona, and use **Continue Journey**. The server restores the accepted
 workflow, including casting progress and saved visual state.
 
 A reload does not intentionally advance the casting again. However, text typed
@@ -264,7 +266,9 @@ journey** when finished. An event may appear before its movement is acknowledged
 
 ## 8. Understand AI and your information
 
-AI interpretation is optional. When you request it, the server supplies the
+The guided journey requests an AI interpretation after casting. Read it before
+continuing to your own reflection. If generation fails, retry without recasting.
+The server supplies the
 question, available canonical source material, casting facts and constructed
 Persona context. The instructions explicitly distinguish Persona attributes from
 facts about the Player. Editing a suggestion is treated as your intervention in
@@ -286,7 +290,7 @@ not automatically invoked by the current UI.
 
 | What you see | What to do |
 | --- | --- |
-| A request to select a Persona | Open `/journey/`, log in and choose **Create Persona and begin**, or **Resume** an active Persona. Creating an account alone does not start a journey. |
+| A request to select a Persona | Open `/journey/`, log in and choose **Create Persona and begin**, or choose **Continue Journey** for an active Persona. Creating an account alone does not start a journey. |
 | An unfinished prototype-casting message | Finish the casting in `/?prototype`, then return to `/journey/`. |
 | No suggested question available | Write your own. The button depends on a previous saved interpretation. |
 | AI-service error or incomplete response | Choose Retry AI interpretation. The casting remains recorded. If failures persist, contact the service administrator. |
@@ -296,8 +300,8 @@ not automatically invoked by the current UI.
 | No movement after a result | Finish reflection and acknowledge movement; a zero-movement result also legitimately stays in place. |
 | No more possible destinations near 72 | The current engine only lists higher states up to 72; blank destination slots are expected. |
 | Very small stalks on a phone | Try landscape orientation or a larger screen. Detailed mobile ceremony layout is still being refined. |
-| An archived Persona has no Resume button | Archiving disables play; no restore interface is currently supplied. |
-| Repeated identical castings | This prototype begins from a fixed reproducible seed. Fresh entropy per encounter is not yet wired into the live flow. |
+| An archived Persona has no Continue Journey button | Archiving disables play; no restore interface is currently supplied. |
+| Repeated hexagrams | New live castings use fresh random seeds; repeated results remain possible. |
 
 ## 10. Know the current limits
 
@@ -305,12 +309,10 @@ This is a working prototype. Its live Personas remain independent: no encounters
 mutual influence, relationship scoring or cross-player interaction is implemented.
 Avatar descriptions do not yet grow into generated visual histories.
 
-The canonical interpretation corpus currently covers hexagrams 11 and 36, not
-all 64. Board commentary is also partial. The casting sampler has a known
-statistical discrepancy against its traditional-frequency acceptance targets;
-its initialization is reproducible, so do not assume each new encounter is an
-independently randomized casting. These are implementation limits under review,
-not symbolic messages to interpret.
+Reference content covers all 72 tiles and all 64 hexagrams, including bilingual
+Judgments, Images and all six lines. New castings use the balanced Leela sampler
+described below. These probabilities differ from traditional yarrow probabilities.
+AI readings are interpretive suggestions, not predictions or instructions.
 
 For the technical boundaries and recorded validation status, see the
 [Developer Manual](developer-manual.md). For the purpose and invitation behind
@@ -321,9 +323,9 @@ the game, see the [introductory pamphlet](introduction-pamphlet.md).
 Select your current state or one of the reachable possibilities immediately
 ahead. The game shows this local field rather than the complete board. A panel shows its stable identity and any
 curated meaning, visual associations and traditional reference information.
-Uncurated entries say so explicitly. Traditional reference names and transitions
-are labelled separately from the current prototype board and do not move your
-Persona.
+Snake and ladder links identify both endpoints, even when one lies outside the
+nearby tiles. Opening information does not move the Persona; landing on an origin
+follows its transition when movement is acknowledged.
 
 Select a hexagram figure or linked hexagram name to explore its upper and lower
 trigrams, animal and family associations. **Primary** and **Resulting** let you

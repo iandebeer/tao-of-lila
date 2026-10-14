@@ -210,10 +210,10 @@
 			<text x="28.701999999999998" y="577.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1154) scale(1,-1)">current stage.</text>
 			<text x="23.655" y="557.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,1114) scale(1,-1)">New: Progress.</text>
 			<rect x="520" y="251" width="148" height="78" rx="7" ry="7" style="stroke: rgb(9%,23%,21%); stroke-linecap: butt; stroke-width: 1; fill: rgb(100%,100%,100%); fill-rule: evenodd;"/>
-			<text x="543.768" y="315.0" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,630) scale(1,-1)">AI is optional</text>
-			<text x="539.533" y="295.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,590) scale(1,-1)">Reflect without AI</text>
-			<text x="543.418" y="275.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,550) scale(1,-1)">or continue after</text>
-			<text x="568.709" y="255.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,510) scale(1,-1)">reading.</text>
+			<text x="543.768" y="315.0" style="font-family: Helvetica-Bold; font-size: 16px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,630) scale(1,-1)">AI reading</text>
+			<text x="539.533" y="295.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,590) scale(1,-1)">Read before your</text>
+			<text x="543.418" y="275.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,550) scale(1,-1)">own reflection.</text>
+			<text x="568.709" y="255.0" style="font-family: Helvetica; font-size: 14px;fill: rgb(9%,23%,21%); stroke:none;" transform="translate(0,510) scale(1,-1)">Retry if needed.</text>
 			<path d="M 492,295 L 520,295 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6; stroke-dasharray: 5, 4;"/>
 			<polygon points="520 295, 512.017 290.844, 512.017 299.156" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1; fill: rgb(65%,48%,22%); fill-rule: evenodd;"/>
 			<path d="M 520,265 L 507,265 Z" style="stroke: rgb(65%,48%,22%); stroke-linecap: butt; stroke-width: 1.6; stroke-dasharray: 5, 4;"/>

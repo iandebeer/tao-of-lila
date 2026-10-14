@@ -26,7 +26,7 @@ import Domain.Types
   , ReadingRequest (..)
   )
 import Engine.Movement (movementFromChangingLines)
-import Domain.Journey (allowedStage)
+import Domain.Journey (allowedStage, validWorkflow, initialWorkflow, Workflow (..))
 import Domain.HexagramIndex (binaryToKingWen, kingWenToBinary)
 import Domain.Contemplation
 import qualified Engine.Casting as Casting
@@ -174,6 +174,10 @@ main = do
       assert "legacy casting keeps its recorded count-based movement" legacy
   mapM_ (\(positions, expected) -> assert ("position movement " <> show positions) (movementFromChangingLines positions == expected))
     [([],0),([1],1),([4],4),([6],6),([1,4],5),([2,5],0),([2,4,6],5),([1..6],0)]
+  assert "valid progress can resume" (validWorkflow 1 (initialWorkflow 1 Nothing))
+  assert "incompatible workflow stage requires restart" (not (validWorkflow 1 ((initialWorkflow 1 Nothing) {workflowStage="obsolete"})))
+  assert "mismatched board position requires restart" (not (validWorkflow 2 (initialWorkflow 1 Nothing)))
+  assert "missing completed casting requires restart" (not (validWorkflow 1 ((initialWorkflow 1 Nothing) {workflowStage="movement"})))
   assert "finalized questions cannot be edited" (all (not . allowedStage "draft") ["casting", "result", "interpretation", "reflection", "movement"])
   assert "movement cannot be acknowledged before reflection" (all (not . allowedStage "acknowledge") ["progress", "question", "casting", "result", "interpretation", "reflection"])
   assert "a completed movement cannot be acknowledged twice" (allowedStage "acknowledge" "movement" && not (allowedStage "acknowledge" "progress"))

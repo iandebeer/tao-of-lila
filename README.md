@@ -445,3 +445,15 @@ The engine now follows all ten snakes and ten ladders after a nonzero move lands
 on an origin. The movement screen distinguishes landing from final destination;
 acknowledgment saves the endpoint. Zero movement remains still. See
 [movement behavior](docs/responsive-journey.md#live-snake-and-ladder-movement-2026-10-13).
+
+Continue Journey now reads the latest session token across restored browser modules.
+An authenticated Persona's incompatible saved board automatically restarts at tile
+1, retaining the account, Persona and completed history. See
+[recovery behavior](docs/responsive-journey.md#continue-journey-recovery).
+
+## Public domains and reading site
+
+The game uses `play.leela.day`; the manual and introductory pamphlet are published
+at `read.leela.day` as an independent Cloudflare Pages site. Build it with
+`npm ci --prefix web/reading-site && npm run build --prefix web/reading-site`.
+See [domain setup and publication instructions](docs/custom-domains.md).

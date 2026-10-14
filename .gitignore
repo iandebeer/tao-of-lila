@@ -11,3 +11,5 @@ node_modules/
 # Local OS metadata and generated publications
 .DS_Store
 output/
+
+web/reading-site/dist/

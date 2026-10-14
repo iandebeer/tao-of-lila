@@ -1,14 +1,14 @@
-import {esc,paragraphs} from './text.js?v=c8b263843bcbd56b';
-export {esc} from './text.js?v=c8b263843bcbd56b';
-import {hexControl,stateControl} from './state-viewer.js?v=c8b263843bcbd56b';
+import {esc,paragraphs} from './text.js?v=9cb5e7fde83b4270';
+export {esc} from './text.js?v=9cb5e7fde83b4270';
+import {hexControl,stateControl} from './state-viewer.js?v=9cb5e7fde83b4270';
 export const label=s=>s?`${esc(s.stateId)} · ${esc(s.stateName)}`:'The beginning of your journey';
 export const action=(id,text,secondary=false)=>`<button type="button" data-action="${id}" class="${secondary?'secondary':''}">${text}</button>`;
 export const questionDisplay=text=>`<blockquote class="question-display"><span class="eyebrow">Your question</span><p>${esc(text)}</p></blockquote>`;
 let assets={};
-export async function loadAssets(){try{assets=await fetch('./assets.json?v=c8b263843bcbd56b').then(r=>r.json());}catch{assets={};}}
+export async function loadAssets(){try{assets=await fetch('./assets.json?v=9cb5e7fde83b4270').then(r=>r.json());}catch{assets={};}}
 export function artwork(kind,id,title){
   const path=assets[kind]?.[id];
-  return typeof path==='string' && /^\.?\.?\//.test(path)?`<img class="symbol-art" src="${esc(path)}" alt="${esc(title)}">`:`<span class="art-slot" role="img" aria-label="${esc(title)} artwork placeholder"></span>`;
+  return typeof path==='string' && /^\.?\.?\//.test(path)?`<img class="symbol-art" src="${esc(path)}" alt="${esc(title)}">`:`<img class="art-slot" src="./yin-yang.svg" alt="Yin–Yang">`;
 }
 export function hexagram(binary,number,name,changing=[],values=[],selection={}){
   const lines=Array.from({length:6},(_,i)=>5-i).map(bit=>`<div class="hex-line ${changing.includes(bit+1)?'changing':''}"><span class="line-number">${bit+1}</span><span class="${(binary>>bit)&1?'yang':'yin'}" aria-hidden="true"></span><span class="line-value">${values.find(v=>v.lineNumber===bit+1)?.lineValue??''}${changing.includes(bit+1)?' •':''}</span></div>`).join('');

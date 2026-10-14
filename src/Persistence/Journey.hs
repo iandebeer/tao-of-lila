@@ -37,21 +37,33 @@ commandJourney store domain user command = withStore store $ \connection -> with
 loadLocked :: Connection -> DomainData -> User -> IO Workflow
 loadLocked connection domain user = do
   guardPersona connection user
-  _ <- query connection "SELECT id FROM game_sessions WHERE persona_id = ? FOR UPDATE" (Only (selectedPersonaId user)) :: IO [Only Int]
-  rows <- query connection "SELECT document FROM journey_workflows WHERE persona_id = ? FOR UPDATE" (Only (selectedPersonaId user)) :: IO [Only (PG.Aeson Workflow)]
-  case rows of
-    [Only (PG.Aeson workflow)] -> pure workflow
-    _ -> do
+  -- A missing or incompatible board is recoverable; it is not an auth failure.
+  _ <- execute connection "INSERT INTO game_sessions(user_id,persona_id) VALUES (?,?) ON CONFLICT(persona_id) DO NOTHING" (userId user,selectedPersonaId user)
+  positions <- query connection "SELECT current_state_id,previous_state_id,casting FROM game_sessions WHERE persona_id = ? FOR UPDATE" (Only (selectedPersonaId user)) :: IO [(Int,Maybe Int,Maybe (PG.Aeson Value))]
+  (current,previous,rawCasting) <- case positions of
+    [position] -> pure position
+    _ -> throwIO (CorruptData "Could not restore journey position")
+  rows <- query connection "SELECT document FROM journey_workflows WHERE persona_id = ? FOR UPDATE" (Only (selectedPersonaId user)) :: IO [Only (PG.Aeson Value)]
+  let save workflow = do
+        _ <- execute connection "INSERT INTO journey_workflows(persona_id,document) VALUES (?,?) ON CONFLICT(persona_id) DO UPDATE SET document=EXCLUDED.document,updated_at=now()" (selectedPersonaId user,PG.Aeson workflow)
+        pure workflow
+      restart = do
+        _ <- execute connection "UPDATE game_sessions SET current_state_id=1,previous_state_id=NULL,casting=NULL,updated_at=now() WHERE persona_id=?" (Only (selectedPersonaId user))
+        _ <- execute connection "DELETE FROM questions WHERE game_session_id=(SELECT id FROM game_sessions WHERE persona_id=?)" (Only (selectedPersonaId user))
+        save (initialWorkflow 1 Nothing)
+      castingValid = case rawCasting of
+        Nothing -> True
+        Just (PG.Aeson value) -> case fromJSON value :: Result Casting.CastingState of Success _ -> True; _ -> False
+  if not castingValid then restart else case rows of
+    [Only (PG.Aeson value)] -> case fromJSON value of
+      Success workflow | validWorkflow current workflow -> pure workflow
+      _ -> restart
+    [] -> do
       game <- loadGameView connection domain user
-      let journey = gameJourney game
-          base = initialWorkflow (journeyCurrentStateId journey) (journeyPreviousStateId journey)
-          question = maybe "" questionText (gameQuestion game)
-          adopted = base {workflowQuestion = question}
       case gameCasting game of
         Just casting | Casting.result casting == Nothing && Casting.stateId casting > 0 -> throwIO (Conflict "Finish the existing prototype casting at /?prototype before starting this journey interface")
-        _ -> pure ()
-      _ <- execute connection "INSERT INTO journey_workflows (persona_id, document) VALUES (?, ?)" (selectedPersonaId user, PG.Aeson adopted)
-      pure adopted
+        _ -> save ((initialWorkflow current previous) {workflowQuestion = maybe "" questionText (gameQuestion game)})
+    _ -> restart
 
 transition :: Connection -> DomainData -> User -> Workflow -> JourneyCommand -> IO Workflow
 transition connection domain user workflow command = case commandAction command of

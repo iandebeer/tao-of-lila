@@ -1,16 +1,18 @@
 // The adapter owns authentication and transport; views receive server projections.
 const key = 'tao-journey-token';
-let token = sessionStorage.getItem(key) || localStorage.getItem('tao-token');
-if (token) sessionStorage.setItem(key, token);
+const legacyToken = localStorage.getItem('tao-token');
+if (!sessionStorage.getItem(key) && legacyToken) sessionStorage.setItem(key, legacyToken);
+// Storage is shared even if Safari restores modules from different releases.
+const currentToken = () => sessionStorage.getItem(key);
 export class ApiError extends Error {
   constructor(message,status,code,staleSession=false){super(message);this.status=status;this.code=code;this.staleSession=staleSession;}
 }
 export const api = {
-  get authenticated() { return Boolean(token); },
-  logout() { token = null; sessionStorage.removeItem(key); localStorage.removeItem('tao-token'); },
+  get authenticated() { return Boolean(currentToken()); },
+  logout() { sessionStorage.removeItem(key); localStorage.removeItem('tao-token'); },
   async request(path, method = 'GET', body) {
     const authenticating=path==='/auth/login'||path==='/auth/register';
-    const requestToken=authenticating?null:token;
+    const requestToken=authenticating?null:currentToken();
     let response;
     try {
       response = await fetch(path, {method, cache: 'no-store', headers: {
@@ -21,7 +23,7 @@ export const api = {
     let result;
     try {result=await response.json();}catch{throw new Error('The server returned an unexpected response. Please try again.');}
     if (!response.ok) {
-      const staleSession=response.status===401&&!authenticating&&requestToken!==token;
+      const staleSession=response.status===401&&!authenticating&&requestToken!==currentToken();
       // A delayed failure from an earlier session must never revoke a new login.
       if (response.status===401&&!authenticating&&!staleSession) api.logout();
       const message=response.status===401
@@ -33,8 +35,7 @@ export const api = {
   },
   async authenticate(mode, username, password) {
     const result = await api.request(`/auth/${mode}`, 'POST', {authUsername: username.trim(), authPassword: password});
-    token = result.authToken;
-    sessionStorage.setItem(key, token);
+    sessionStorage.setItem(key, result.authToken);
     localStorage.removeItem('tao-token');
   },
   game: () => api.request('/game'),

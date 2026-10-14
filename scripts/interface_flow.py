@@ -105,8 +105,8 @@ def interface_flow():
     text(592,158,'Opens new journey',13)
     # A continuing encounter resumes at its accepted stage, not necessarily Progress.
     box(5,149,133,98,['Saved encounter','returns to its','current stage.','New: Progress.'],WHITE)
-    # Optional assistance never gates reflection.
-    box(520,461,148,78,['AI is optional','Reflect without AI','or continue after','reading.'],WHITE)
+    # The guided flow reads the interpretation before personal reflection.
+    box(520,461,148,78,['AI reading','Read before your','own reflection.','Retry if needed.'],WHITE)
     arrow([(492,495),(520,495)],dashed=True)
     arrow([(520,525),(507,525),(507,557),(492,557)],dashed=True)
     # The live game has an ongoing cycle, not an implemented terminal screen.

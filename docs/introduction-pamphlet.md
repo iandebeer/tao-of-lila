@@ -83,19 +83,18 @@ For the scholar, you might ask:
 
 ## The journey at a glance
 
-![Illustrated user interface flow with a Leela board on the splash screen, yarrow stalks, primary and relating hexagrams, and a reflection journal: sign in, choose or create a Persona, resume its saved stage, then progress through question, casting, result, optional interpretation, reflection and acknowledged movement.](diagrams/user-interface-flow.svg)
+![Illustrated user interface flow with a Leela board on the splash screen, yarrow stalks, primary and relating hexagrams, and a reflection journal: sign in, choose or create a Persona, resume its saved stage, then progress through question, casting, result, interpretation, reflection and acknowledged movement.](diagrams/user-interface-flow.svg)
 
 The diagram shows the live `/journey/` interface, with schematic board, yarrow,
 hexagram and journal illustrations. Resume restores the selected
-Persona's saved stage; it does not restart an unfinished encounter. AI assistance
-is optional. The board position updates only when movement is acknowledged.
+Persona's saved stage; it does not restart an unfinished encounter. The guided flow requests an AI reading before personal reflection. The board position updates only when movement is acknowledged.
 Pause, History and switching Personas preserve the accepted journey state.
 
 ## AI proposes; the Player chooses
 
-Optional AI assistance offers possible readings and questions where source
-material is available. You can use a suggested question, edit it or replace it
-before casting. You can also reflect without AI.
+AI assistance offers possible readings grounded in the supplied reference
+material. You can use a suggested question, edit it or replace it
+before casting. Your own reflection follows the reading; you decide what to make of it.
 
 The system is an interpretive companion, not an authority on the Way. It does
 not seek to diagnose its Player or equate a Persona's characteristics with the
@@ -103,19 +102,19 @@ person guiding it.
 
 ## Begin a journey
 
-On a running installation, open **`/journey/`**, sign up or log in, and choose
+Open [play.leela.day](https://play.leela.day/journey/), sign up or log in, and choose
 **Create Persona and begin**. A name, a situation and a little curiosity are enough to begin.
 
 For a browser-only introduction, open
-**`/journey/?demo&scenario=ordinary#splash`**. The labelled development preview
+[the preview journey](https://play.leela.day/journey/?demo&scenario=ordinary#splash). The labelled development preview
 uses example data and does not create an account or save a live journey.
 
-**About this edition.** Tao of Leela is a working prototype. Interpretation texts
-cover only a small part of the I Ching; Personas currently journey independently.
-The casting implementation is reproducible and still undergoing statistical
-validation. Evolving avatars, Persona encounters and live snake-and-ladder
-transitions remain future work. The historical board description explains the
-inspiration, not a claim that all traditional rules are already implemented.
+**About this edition.** Tao of Leela is a working prototype. Reference texts cover
+all 64 hexagrams and all 72 tiles. Live castings use fresh random seeds and the
+balanced Leela probabilities rather than traditional yarrow frequencies. Snakes
+and ladders carry a Persona to their destinations after landing. Personas still
+journey independently; evolving visual histories and Persona encounters remain
+future work.
 
 Read the [User Manual](user-manual.md) for a first encounter, saving and resuming,
 and the current prototype limits. The [Developer Manual](developer-manual.md)
