@@ -40,12 +40,10 @@ python3 -m http.server 8766 --bind 127.0.0.1 --directory web/reading-site/dist
 The live Pages project is `leela-reading` (`leela-reading.pages.dev`), configured
 with `read.leela.day`. It uses Direct Upload.
 
-Deploy the **contents** of `web/reading-site/dist` to Cloudflare Pages using
-Direct Upload. To update, rebuild and upload a new production deployment to the
-same Pages project. Pushing the game repository alone does not update a Direct
-Upload project. Alternatively create a Git-integrated Pages project with repository
-root `.`, build command `npm ci --prefix web/reading-site && npm run build --prefix
-web/reading-site`, output `web/reading-site/dist`, and Node 22 or later.
+The GitHub Actions workflow `.github/workflows/static-sites.yml` builds and
+uploads both static sites on every push to `main`. Direct Upload projects support
+these automated uploads; no migration to a Git-integrated Pages project is needed.
+See the one-time setup below. Manual uploads remain available as a fallback.
 
 Attach `read.leela.day` through the Pages project's **Custom domains** tab. Let
 Cloudflare create its DNS record. A DNS record alone does not register the host
@@ -84,3 +82,48 @@ Release checks: `https://leela.day/` must return the Play/Read menu, both links
 must reach their respective subdomains, and the splash image must load on mobile
 and desktop. This source change prepares the build; it does not itself create
 the Pages project or change live DNS.
+
+## Automatic deployment on push
+
+`.github/workflows/static-sites.yml` builds and checks both static sites on pull
+requests to `main`. On pushes to `main`, it uploads the checked build artifacts
+to `leela-reading` and `leela-landing`. A change to documentation, artwork or site
+code therefore goes live without a manual upload. There are no path filters:
+every production push rebuilds both sites. Workflow dispatch on `main` can retry
+a release without creating a commit; dispatch on other branches only builds.
+
+One-time setup in GitHub → repository Settings → Secrets and variables → Actions:
+
+| Repository secret | Value |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | An API token with Account → Cloudflare Pages → Edit, limited to the hosting account. |
+| `CLOUDFLARE_ACCOUNT_ID` | The Cloudflare account ID containing both Pages projects. |
+
+Ensure both Pages projects exist, have `main` as their production branch, and
+have the custom domains described above attached. Create `leela-landing` if it
+has not yet been provisioned. The workflow deliberately does not create projects
+or change DNS. Missing credentials fail the deployment job with a setup message.
+
+Keep Railway's native GitHub autodeploy enabled for the `web` service, connected
+to this repository's `main` branch and the root Dockerfile. That deployment builds
+the app, yarrow ceremony, journey assets and shared catalogue. This workflow
+handles the two independent static sites alongside Railway; it does not trigger
+a second app deployment or require a Railway token. Confirm the Railway source
+branch in its service settings when enabling this workflow.
+
+The three deployments are independent, not an atomic release. Check both the
+GitHub Actions run and Railway deployment before considering a release complete.
+If a Pages upload fails, rerun its failed job after correcting the cause. Uploads
+are serialized across production workflow runs; failures for one static site do
+not cancel the other. No credentials are passed to pull-request builds.
+
+Local validation:
+
+```sh
+npm ci --prefix web/reading-site
+npm run build --prefix web/reading-site
+npm run build --prefix web/landing-site
+node scripts/check-static-sites.mjs
+```
+
+Provider reference: [Cloudflare Direct Upload with CI](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/).

@@ -464,3 +464,8 @@ The root domain `leela.day` has a standalone Play/Read menu in
 separately from the reading site. See [domain deployment](docs/custom-domains.md#root-domain-menu).
 User-facing names consistently use **Leela**. Existing package, database and
 serialized API identifiers retain their legacy spelling for compatibility.
+
+GitHub Actions builds both static sites on pull requests and deploys them on
+pushes to `main`, alongside Railway's native app autodeploy. Configure the two
+Cloudflare repository secrets and Pages projects once as described in
+[automatic deployment setup](docs/custom-domains.md#automatic-deployment-on-push).
