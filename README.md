@@ -469,3 +469,10 @@ GitHub Actions builds both static sites on pull requests and deploys them on
 pushes to `main`, alongside Railway's native app autodeploy. Configure the two
 Cloudflare repository secrets and Pages projects once as described in
 [automatic deployment setup](docs/custom-domains.md#automatic-deployment-on-push).
+
+AI contemplation interprets the finalized question, the encounter's Leela state,
+and the primary/changing/resulting hexagrams through the selected Persona's
+current attributes, description and circumstances. Initial attributes provide
+historical context; cleared or superseded attributes are not restored. Inferred
+themes remain tentative. Live interpretation requires the owned Persona context;
+saved interpretations retain the context captured when they were generated.

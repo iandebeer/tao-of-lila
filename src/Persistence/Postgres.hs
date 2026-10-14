@@ -220,8 +220,11 @@ contemplationContext store domain user requestedEventId = do
     Reference.loadCastingReferences connection (stateId fromState) (primaryBinaryValue casting) (transformedBinaryValue casting)
   context <- either (throwIO . CorruptData) pure (buildContemplationContextWith (`lookup` hexes) referencedState (gameEventQuestion event) casting)
   personaRows <- withStore store $ \connection -> query connection "SELECT document FROM personas WHERE id=? AND player_id=?" (selectedPersonaId user, userId user) :: IO [Only (PG.Aeson Persona)]
+  persona <- case personaRows of
+    [Only (PG.Aeson value)] -> pure value
+    _ -> throwIO (NotFound "Persona context for interpretation")
   pure context {contemplationBackgroundSources = Just background, contemplationCorpusVersion = Just version
-    , contemplationPersonaContext = case personaRows of [Only (PG.Aeson persona)] -> Just (personaPrompt persona); _ -> Nothing
+    , contemplationPersonaContext = Just (personaPrompt persona)
     , contemplationPreviousLeelaState = case previous of [Only value] -> resolveState domain <$> value; _ -> Nothing}
 
 contemplationCosts :: Store -> User -> IO CostSummary

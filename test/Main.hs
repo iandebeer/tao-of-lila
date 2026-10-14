@@ -16,7 +16,7 @@ import qualified Data.Aeson.KeyMap as KM
 import Data.Bits (testBit, xor)
 import qualified Data.Text.Encoding as TE
 import qualified Data.ByteString.Lazy as LBS
-import Interpretation.OpenAI (decodeContemplationResponse)
+import Interpretation.OpenAI (decodeContemplationResponse, requestValue, OpenAIConfig (..))
 import Domain.Types
   ( DomainData (..)
   , Hexagram (..)
@@ -123,6 +123,13 @@ main = do
   let locatedDraft = structured {P.draftAttributes=profile ++ [P.PersonaAttribute "lifeStage" (String "Elder") P.PlayerSpecified [],P.PersonaAttribute "place" (String "Hangzhou") P.PlayerSpecified [],P.PersonaAttribute "definingCharacteristic" (String "Patient curiosity") P.PlayerSpecified []]}
   located <- either (fail . T.unpack) pure (P.newPersona 4 (P.Player 7) "now" locatedDraft)
   assert "AI context includes place, period, life stage and defining characteristic" (all (`T.isInfixOf` P.personaPrompt located) ["Hangzhou","Renaissance","Elder","Patient curiosity"])
+  encounter <- either (fail . T.unpack) pure (buildPairContemplationContextWith lookupText (LeelaState 11 "Innocence" "An open encounter" "") "How can I teach patiently?" 11 36)
+  let personaEncounter = encounter {contemplationPersonaContext=Just (P.personaPrompt located)}
+      wire = requestValue (OpenAIConfig "unused-test-key" "test-model" 1000 0 0 0) personaEncounter
+      wireText = TE.decodeUtf8 (LBS.toStrict (encode wire))
+  assert "AI request carries Persona attributes with question, state and casting" (all (`T.isInfixOf` wireText) ["Hangzhou", "Renaissance", "Elder", "Patient curiosity", "How can I teach patiently?", "Innocence", "contemplationPrimaryHexagram", "contemplationChangingLines", "contemplationResultingHexagram"])
+  assert "AI request requires Persona-grounded interpretation and respects current attributes" (all (`T.isInfixOf` wireText) ["Persona context is essential", "Do not restore cleared or superseded attributes", "Carry those connections through", "AIInferred"])
+  assert "AI request does not leak provider credential" (not ("unused-test-key" `T.isInfixOf` wireText))
   prompt <- either (fail . T.unpack) pure (avatarPrompt locatedDraft)
   assert "avatar prompt combines attributes and description" (all (`T.isInfixOf` prompt) ["Hangzhou","Renaissance","elderly fictional scholar"])
   assert "avatar generation needs more than a name" (isLeft (avatarPrompt draft {P.draftDescription="",P.draftContext="",P.draftAttributes=[P.PersonaAttribute "place" Null P.PlayerSpecified []]}))

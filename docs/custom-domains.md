@@ -80,8 +80,12 @@ menu itself. The root page needs no JavaScript, login, API or database.
 
 Release checks: `https://leela.day/` must return the Play/Read menu, both links
 must reach their respective subdomains, and the splash image must load on mobile
-and desktop. This source change prepares the build; it does not itself create
-the Pages project or change live DNS.
+and desktop. On 14 October 2026, `leela-landing` was created and the landing build was
+published by Direct Upload. The Pages hostname was verified in Safari with both
+menu links and the splash artwork. The custom domain `leela.day` was attached
+through Pages, which added the apex CNAME to `leela-landing.pages.dev`.
+Cloudflare initially reported the domain as Initializing; DNS propagation is
+required before the apex is available everywhere.
 
 ## Automatic deployment on push
 
