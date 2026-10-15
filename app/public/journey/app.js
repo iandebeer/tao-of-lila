@@ -1,14 +1,14 @@
-import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=persona-labels-20261015';
-import {splashMarkup,bindSplashTerms} from './splash.js?v=persona-labels-20261015';
-import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=persona-labels-20261015';
-import {localStateField} from './local-field.js?v=persona-labels-20261015';
-import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=persona-labels-20261015';
-import {api} from './api.js?v=persona-labels-20261015';
-import {createInterpretationFlow} from './interpretation-flow.js?v=persona-labels-20261015';
-import {journey,preview,scenario} from './service.js?v=persona-labels-20261015';
-import {scenarios} from './demo.js?v=persona-labels-20261015';
-import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=persona-labels-20261015';
-import {mountJourneyCeremony} from './ceremony.js?v=persona-labels-20261015';
+import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=readable-reflections-20261015';
+import {splashMarkup,bindSplashTerms} from './splash.js?v=readable-reflections-20261015';
+import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=readable-reflections-20261015';
+import {localStateField} from './local-field.js?v=readable-reflections-20261015';
+import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=readable-reflections-20261015';
+import {api} from './api.js?v=readable-reflections-20261015';
+import {createInterpretationFlow} from './interpretation-flow.js?v=readable-reflections-20261015';
+import {journey,preview,scenario} from './service.js?v=readable-reflections-20261015';
+import {scenarios} from './demo.js?v=readable-reflections-20261015';
+import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=readable-reflections-20261015';
+import {mountJourneyCeremony} from './ceremony.js?v=readable-reflections-20261015';
 const main=document.querySelector('main'), nav=document.querySelector('#navigation'), status=document.querySelector('#status');
 const interpretationFlow=createInterpretationFlow(journey);
 let personas=[], editingPersona=null, selectedPersonaId=null, acceptedAvatar=null, pendingAvatar=null, disposeSplash=()=>{};
@@ -41,7 +41,7 @@ function auth(signup) { return `<section class="narrow"><p class="eyebrow">${sig
 function selectedPersonaName(){return personas.find(p=>p.personaId===(data?.game?.gameJourney?.journeyPersonaId??selectedPersonaId))?.personaName||'';}
 function question(){return `<section class="narrow">${heading('An intention for this encounter','What is asking<br>for your attention?')}${context()}<form id="question-form">${preview?'':buttons(action('suggest','Use a question from the last interpretation',true))}<label for="question">${esc(selectedPersonaName()?`${selectedPersonaName()}’s question`:'Your question')} · edit or replace freely</label><textarea id="question" required placeholder="What might I understand more clearly?">${esc(draft)}</textarea><small id="save-state" class="help">${dirty?'Unsaved changes':'Changes are saved as you write.'}</small>${fieldError}${buttons('<button type="submit">Begin Casting</button>')}</form></section>`;}
 function casting(){return `<section>${heading('The yarrow stalks','Let the change unfold.')}${questionDisplay(w().workflowQuestion)}<div class="ceremony-stage"><svg id="scene" viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Yarrow stalk casting ceremony"></svg><div class="ceremony-dock"><p id="casting-status"></p><p id="caption" aria-live="polite"></p>${fieldError}${buttons(action('next','Next')+action('pause','Pause / Exit',true)+(preview?action('skip','Preview: complete casting',true):''))}</div></div></section>`;}
-function interpretation(){const r=w().workflowCasting.result;return `<section>${heading('AI interpretation','Another way of seeing.')}${questionDisplay(w().workflowQuestion)}<div class="hexagrams">${hexagram(r.primaryBinaryValue,r.primaryKingWenNumber,name(r.primaryKingWenNumber),r.changingLines,w().workflowCasting.completedLines,{primary:r.primaryBinaryValue,resulting:r.transformedBinaryValue,changing:r.changingLines})}${r.numberChanging?hexagram(r.transformedBinaryValue,r.transformedKingWenNumber,name(r.transformedKingWenNumber),[],[],{primary:r.primaryBinaryValue,resulting:r.transformedBinaryValue,changing:r.changingLines,role:'resulting'}):''}</div>${data.interpretation?`<div class="reading-panel" tabindex="0" role="region" aria-label="AI interpretation">${reading(data.interpretation)}</div>${buttons(action('reflection','Continue to your reflection'))}`:interpretationFlow.error&&!interpretationFlow.pending?`<p class="error" role="alert">${esc(interpretationFlow.error)}</p><p>Your casting is saved. Retry the AI interpretation to continue to your own reflection.</p>${buttons(action('generate','Retry AI interpretation'))}`:'<p role="status" aria-live="polite">Preparing the AI interpretation of your casting…</p>'}${fieldError}<details><summary>Movement from this casting</summary>${movementDerivation(r)}</details><details><summary>Trigrams and symbolic context</summary><div class="symbol-context">${['lowerTrigramResult','upperTrigramResult','nuclearLowerTrigramResult','nuclearUpperTrigramResult'].map(key=>`<p>${artwork('trigrams',r[key].trigramBinaryValue,r[key].trigramName)}${esc(key.replace('TrigramResult','').replace('nuclear','Nuclear '))}: ${esc(r[key].trigramSymbol)} ${esc(r[key].trigramName)}</p>`).join('')}</div></details></section>`;}
+function interpretation(){const r=w().workflowCasting.result;return `<section>${heading('AI interpretation','Another way of seeing.')}${questionDisplay(w().workflowQuestion)}<div class="hexagrams">${hexagram(r.primaryBinaryValue,r.primaryKingWenNumber,name(r.primaryKingWenNumber),r.changingLines,w().workflowCasting.completedLines,{primary:r.primaryBinaryValue,resulting:r.transformedBinaryValue,changing:r.changingLines})}${r.numberChanging?hexagram(r.transformedBinaryValue,r.transformedKingWenNumber,name(r.transformedKingWenNumber),[],[],{primary:r.primaryBinaryValue,resulting:r.transformedBinaryValue,changing:r.changingLines,role:'resulting'}):''}</div>${data.interpretation?`<div class="reading-panel" tabindex="0" role="region" aria-label="AI interpretation">${reading(data.interpretation)}</div>${buttons(action('reflection','Continue to your reflection'))}`:interpretationFlow.error&&!interpretationFlow.pending?`<p class="error" role="alert">${esc(interpretationFlow.error)}</p><p>Your casting is saved. Retry the AI interpretation to continue to your own reflection.</p>${buttons(action('generate','Retry AI interpretation'))}`:'<div class="interpretation-wait" role="status" aria-live="polite"><svg class="waiting-hourglass" viewBox="0 0 32 40" aria-hidden="true" focusable="false"><path d="M5 3h22M5 37h22M8 4v7c0 5 8 9 8 9s8-4 8-9V4M8 36v-7c0-5 8-9 8-9s8 4 8 9v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M11 10h10c0 4-5 7-5 7s-5-3-5-7m0 24 5-9 5 9z" fill="currentColor"/></svg><p>Preparing the AI interpretation of your casting…<br><small>A moment to pause while your reading takes shape.</small></p></div>'}${fieldError}<details><summary>Movement from this casting</summary>${movementDerivation(r)}</details><details><summary>Trigrams and symbolic context</summary><div class="symbol-context">${['lowerTrigramResult','upperTrigramResult','nuclearLowerTrigramResult','nuclearUpperTrigramResult'].map(key=>`<p>${artwork('trigrams',r[key].trigramBinaryValue,r[key].trigramName)}${esc(key.replace('TrigramResult','').replace('nuclear','Nuclear '))}: ${esc(r[key].trigramSymbol)} ${esc(r[key].trigramName)}</p>`).join('')}</div></details></section>`;}
 
 function reflection(){return `<section class="narrow">${heading('Your reflection','What stays with you?')}<p>Having read the AI interpretation, write your own understanding, feelings, or questions below.</p>${questionDisplay(w().workflowQuestion)}<p class="serif">${identity()}</p><small>Changing lines: ${w().workflowCasting.result.changingLines.join(', ')||'none'}</small><p class="gist">${esc(data.interpretation?.context||'No AI interpretation. This space is for your own reflection.')}</p><form id="journal-form"><label for="journal">Your journal</label><textarea id="journal" placeholder="Begin wherever you are…">${esc(journal)}</textarea><small id="save-state" class="help">${dirty?'Unsaved changes':'Your writing is saved as you pause.'}</small>${fieldError}${buttons('<button type="submit">Save / Continue</button>')}</form></section>`;}
 function consequence(){return `<section>${heading('Movement and consequence','Carry the insight forward.')}${questionDisplay(w().workflowQuestion)}${movementDerivation(w().workflowCasting.result)}${movement(data.movement)}<p>Your reflection is saved. Continue to acknowledge this movement and update your journey.</p>${fieldError}${buttons(action('acknowledge','Continue the Journey'))}</section>`;}
@@ -105,12 +105,12 @@ function render(){
 }
 function go(route=stage()){location.hash=route;render();}
 function loadStateInfo(){
-  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=persona-labels-20261015':'/state-views')
+  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=readable-reflections-20261015':'/state-views')
     .then(response=>{if(response.ok===false)throw Error('Tile references could not be loaded. Please reload to retry.');return response.json();})
     .then(catalog=>{stateCatalog=catalog;return catalog;})
     .catch(error=>{stateCatalogPromise=null;throw error;}));
 }
-async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=persona-labels-20261015').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
+async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=readable-reflections-20261015').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
 async function command(action,text=null,visual=null){sync(await journey.command(action,text,visual));}
 function saveLabel(text){const node=document.querySelector('#save-state');if(node)node.textContent=text;}
 function showError(error){if(error.staleSession)return;const node=document.querySelector('#form-error')||status;node.textContent=error.message;node.classList.add('error');saveLabel('Not saved yet. Your writing is still here; retry before leaving.');}
@@ -191,7 +191,7 @@ addEventListener('pageshow',e=>{
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)void saveDraft().catch(showError);});
 installStateViewer({preview,loadCatalog:loadStateInfo,getPersonaName:selectedPersonaName});
 await loadAssets();
-try{labels=await fetch('./hexagram-labels.json?v=persona-labels-20261015').then(r=>r.json());}catch{}
+try{labels=await fetch('./hexagram-labels.json?v=readable-reflections-20261015').then(r=>r.json());}catch{}
 render();
 if(!preview&&api.authenticated){try{await choosePersonas();}catch(error){if(!error.staleSession&&!api.authenticated){personas=[];data=null;if(!['#login','#signup'].includes(location.hash))go('login');}showError(error);}}
 if(preview){status.textContent='Loading your saved journey…';try{await load();status.textContent='';if(location.hash && location.hash!=='#splash')go();else render();}catch(error){showError(error);}}

@@ -1,11 +1,11 @@
-import {esc,paragraphs} from './text.js?v=persona-labels-20261015';
-export {esc} from './text.js?v=persona-labels-20261015';
-import {hexControl,stateControl} from './state-viewer.js?v=persona-labels-20261015';
+import {esc,paragraphs} from './text.js?v=readable-reflections-20261015';
+export {esc} from './text.js?v=readable-reflections-20261015';
+import {hexControl,stateControl} from './state-viewer.js?v=readable-reflections-20261015';
 export const label=s=>s?`${esc(s.stateId)} · ${esc(s.stateName)}`:'The beginning of your journey';
 export const action=(id,text,secondary=false)=>`<button type="button" data-action="${id}" class="${secondary?'secondary':''}">${text}</button>`;
 export const questionDisplay=text=>`<blockquote class="question-display"><span class="eyebrow">Your question</span><p>${esc(text)}</p></blockquote>`;
 let assets={};
-export async function loadAssets(){try{assets=await fetch('./assets.json?v=persona-labels-20261015').then(r=>r.json());}catch{assets={};}}
+export async function loadAssets(){try{assets=await fetch('./assets.json?v=readable-reflections-20261015').then(r=>r.json());}catch{assets={};}}
 export function artwork(kind,id,title){
   const path=assets[kind]?.[id];
   return typeof path==='string' && /^\.?\.?\//.test(path)?`<img class="symbol-art" src="${esc(path)}" alt="${esc(title)}">`:`<img class="art-slot" src="./yin-yang.svg" alt="Yin–Yang">`;
@@ -16,8 +16,8 @@ export function hexagram(binary,number,name,changing=[],values=[],selection={}){
 }
 export function reading(response){
   if(!response)return '<p class="muted">No AI interpretation has been saved for this move.</p>';
-  const section=(title,value)=>`<section class="reading-section"><h3>${title}</h3><div class="prose">${(Array.isArray(value)?value:[value]).map(paragraphs).join('')}</div></section>`;
-  return section('Context',response.context)+section('Primary hexagram',response.primary_hexagram)+section('Changing lines',response.changing_lines)+section('Transformation',response.transformation)+section('Possible readings',response.possible_readings)+section('Questions to sit with',response.questions_for_contemplation);
+  const section=(title,value)=>`<section class="reading-section"><h3>${title}</h3><div class="prose">${Array.isArray(value)?`<ul class="reading-list">${value.map(item=>`<li>${paragraphs(item)}</li>`).join('')}</ul>`:paragraphs(value)}</div></section>`;
+  return section('This encounter',response.context)+section('Primary hexagram',response.primary_hexagram)+section('Changing lines',response.changing_lines)+section('Transformation',response.transformation)+section('Possible readings',response.possible_readings)+section('Questions to sit with',response.questions_for_contemplation);
 }
 export function movement(view){
   if(!view)return '<p>No movement has been recorded.</p>';
