@@ -128,6 +128,7 @@ main = do
       wire = requestValue (OpenAIConfig "unused-test-key" "test-model" 1000 0 0 0) personaEncounter
       wireText = TE.decodeUtf8 (LBS.toStrict (encode wire))
   assert "AI request carries Persona attributes with question, state and casting" (all (`T.isInfixOf` wireText) ["Hangzhou", "Renaissance", "Elder", "Patient curiosity", "How can I teach patiently?", "Innocence", "contemplationPrimaryHexagram", "contemplationChangingLines", "contemplationResultingHexagram"])
+  assert "AI reflections use the supplied Persona name without inventing identity" (all (`T.isInfixOf` wireText) ["Scholar", "introduce the character by that exact name", "In later references, including contemplative questions, use natural subject, object and possessive pronouns", "Follow supplied pronouns", "Never infer gender from a name", "Repeat the name only when needed for clarity", "conversational, warm and natural", "If a name is absent or blank, do not invent one"])
   assert "AI request requires Persona-grounded interpretation and respects current attributes" (all (`T.isInfixOf` wireText) ["Persona context is essential", "Do not restore cleared or superseded attributes", "Carry those connections through", "AIInferred"])
   assert "AI request does not leak provider credential" (not ("unused-test-key" `T.isInfixOf` wireText))
   prompt <- either (fail . T.unpack) pure (avatarPrompt locatedDraft)
