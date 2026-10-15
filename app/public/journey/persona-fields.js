@@ -1,4 +1,4 @@
-import {esc} from './text.js?v=9cb5e7fde83b4270';
+import {esc} from './text.js?v=persona-labels-20261015';
 
 // Structured narrative attributes use the existing PersonaAttribute domain
 // boundary. No attribute is inferred from a Player, a name, or another field.
@@ -18,7 +18,7 @@ export function currentPersonaAttributes(persona){
 }
 export function personaFieldsMarkup(persona){
   const attributes=currentPersonaAttributes(persona);
-  return `<fieldset class="persona-fields"><legend>The Persona’s circumstances</legend><p class="help">Describe as much as you wish; unspecified details stay open. These details describe your constructed Persona, not you.</p><div class="persona-field-grid">${personaFields.map(field=>{
+  return `<fieldset class="persona-fields"><legend>${esc(persona?.personaName?`${persona.personaName}’s circumstances`:'The Persona’s circumstances')}</legend><p class="help">Describe as much as you wish; unspecified details stay open. These details describe your constructed Persona, not you.</p><div class="persona-field-grid">${personaFields.map(field=>{
     const value=attributes.find(a=>a.attributeName===field.name)?.attributeValue??'';
     const custom=field.options&&value!==''&&!field.options.includes(value);
     const id=`persona-${field.name}`;

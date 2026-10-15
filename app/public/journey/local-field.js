@@ -1,6 +1,6 @@
-import {paragraphs} from './text.js?v=9cb5e7fde83b4270';
-import {esc,label,artwork} from './components.js?v=9cb5e7fde83b4270';
-import {stateControl,referenceLinks} from './state-viewer.js?v=9cb5e7fde83b4270';
+import {paragraphs} from './text.js?v=persona-labels-20261015';
+import {esc,label,artwork} from './components.js?v=persona-labels-20261015';
+import {stateControl,referenceLinks} from './state-viewer.js?v=persona-labels-20261015';
 
 // Only the engine's reachable states belong here. The 72-state catalogue is
 // for lookup, never a source from which the client invents possible moves.

@@ -1,5 +1,5 @@
-import {api} from './api.js?v=9cb5e7fde83b4270';
-import {createDemo} from './demo.js?v=9cb5e7fde83b4270';
+import {api} from './api.js?v=persona-labels-20261015';
+import {createDemo} from './demo.js?v=persona-labels-20261015';
 const params=new URLSearchParams(location.search);
 export const preview=params.has('demo');
 export const scenario=params.get('scenario')||'ordinary';
@@ -11,7 +11,7 @@ export const journey={
   async load(){
     if(preview){
       if(!fixture){
-        const [seed,traces]=await Promise.all([fetch('./preview.json?v=9cb5e7fde83b4270').then(r=>r.json()),fetch('./castings.json?v=9cb5e7fde83b4270').then(r=>r.json())]);
+        const [seed,traces]=await Promise.all([fetch('./preview.json?v=persona-labels-20261015').then(r=>r.json()),fetch('./castings.json?v=persona-labels-20261015').then(r=>r.json())]);
         fixture=createDemo(seed,traces,scenario);initial=fixture.initial;
         try{const saved=sessionStorage.getItem(cacheKey);if(saved)fixture.restore(JSON.parse(saved));}catch{}
       }

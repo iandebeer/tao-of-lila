@@ -1,4 +1,4 @@
-import {esc,paragraphs} from './text.js?v=9cb5e7fde83b4270';
+import {esc,paragraphs} from './text.js?v=persona-labels-20261015';
 
 export function safeAsset(path){return typeof path==='string' && /^\/assets\/[a-zA-Z0-9_./-]+$/.test(path) && !path.includes('..')?path:null;}
 export function imageMarkup(path,alt){const safe=safeAsset(path);return safe?`<img class="state-art" src="${esc(safe)}" alt="${esc(alt)}" loading="lazy">`:'';}
@@ -26,23 +26,23 @@ export function referenceTransitions(catalog,id){
     return destination?[{...transition,origin:origin.identity,destination:destination.identity}]:[];
   });
 }
-export function referenceLinks(catalog,id){
+export function referenceLinks(catalog,id,personaName=''){
   const relations=referenceTransitions(catalog,id);
   if(!relations.length)return '';
-  return `<section class="reference-links" aria-label="Snake and ladder references">${relations.map(r=>`<p><small>Reference ${r.transitionType==='snake'?'↓ Snake':'↑ Ladder'} · ${r.origin.stateId===Number(id)?'origin':'destination'}</small><br>${stateControl(r.origin.stateId,`${r.origin.stateId} · ${r.origin.stateName}`)} → ${stateControl(r.destination.stateId,`${r.destination.stateId} · ${r.destination.stateName}`)}</p>`).join('')}<small>Opening these references does not move your Persona. Landing on an origin follows its snake or ladder when movement is acknowledged.</small></section>`;
+  return `<section class="reference-links" aria-label="Snake and ladder references">${relations.map(r=>`<p><small>Reference ${r.transitionType==='snake'?'↓ Snake':'↑ Ladder'} · ${r.origin.stateId===Number(id)?'origin':'destination'}</small><br>${stateControl(r.origin.stateId,`${r.origin.stateId} · ${r.origin.stateName}`)} → ${stateControl(r.destination.stateId,`${r.destination.stateId} · ${r.destination.stateName}`)}</p>`).join('')}<small>Opening these references does not move ${esc(personaName||'your Persona')}. Landing on an origin follows its snake or ladder when movement is acknowledged.</small></section>`;
 }
 export function lineFigure(binary,count,changing=[]){return `<div class="state-lines" role="img" aria-label="Lines from bottom to top: ${Array.from({length:count},(_,i)=>binary>>i&1?'Yang':'Yin').join(', ')}">${Array.from({length:count},(_,i)=>count-1-i).map(bit=>`<div class="state-line ${binary>>bit&1?'yang':'yin'} ${changing.includes(bit+1)?'is-changing':''}"><span></span><span></span><small>${bit+1}${changing.includes(bit+1)?' •':''}</small></div>`).join('')}</div>`;}
 export function trigramMarkup(t,position){
   if(!t)return '<p>Trigram details are not yet available.</p>';
   return `<section class="trigram-field" style="--state-hue:${colour(t.trigramVisual)}"><p class="eyebrow">${esc(position)}</p><div class="trigram-mark"><span lang="zh">${esc(t.trigramChinese)}</span>${lineFigure(t.trigramBinary,3)}</div><h3>${esc(t.trigramPinyin)} · ${esc(t.naturalImage)}</h3>${artwork(t.trigramVisual)}${imageMarkup(t.animalImageAsset,t.animal)}<dl class="association-labels"><div><dt>Family</dt><dd>${esc(t.family)}</dd></div><div><dt>Animal</dt><dd>${esc(t.animal)}</dd></div>${t.trigramVisual.element?`<div><dt>Element</dt><dd>${esc(t.trigramVisual.element)}</dd></div>`:''}<div><dt>Earlier Heaven</dt><dd>${esc(t.earlierHeavenDirection)}</dd></div><div><dt>Later Heaven</dt><dd>${esc(t.laterHeavenDirection)}</dd></div></dl></section>`;
 }
-export function leelaMarkup(catalog,id,activeTransition={}){
+export function leelaMarkup(catalog,id,activeTransition={},personaName=''){
   const view=stateById(catalog,id);if(!view)throw Error('This tile is not in the state catalogue.');
   const s=view.identity,v=view.visualIdentity,ref=view.traditionalReference,t=ref?.transition;
   const target=t?stateById(catalog,t.destination)?.traditionalReference:null;
   const activeTarget=['snake','ladder'].includes(activeTransition.type)?stateById(catalog,activeTransition.destination):null;
   const activePreview=activeTarget?`<section class="state-transition"><p class="eyebrow">Game transition preview · ${activeTransition.type==='snake'?'↓ Snake':'↑ Arrow / ladder'}</p><p>Landing on ${s.stateId} leads to ${activeTarget.identity.stateId} · ${esc(activeTarget.identity.stateName)} in this game. That destination becomes the resting state when the movement is applied.</p><p>Exploring this information does not enter either state.</p>${stateControl(activeTarget.identity.stateId,'Explore the transition destination')}</section>`:'';
-  return `<div class="state-atmosphere" style="--state-hue:${colour(v)}"><p class="eyebrow">Leela · Tile ${s.stateId}</p><h2 id="state-view-title">${esc(s.stateName)}</h2>${activePreview}${referenceLinks(catalog,id)}${artwork(v)}${v.symbol?`<p class="state-symbol">${esc(v.symbol)}</p>`:''}<div class="state-lead prose">${paragraphs(s.stateDescription)}</div>${v.element?`<p>Element · ${esc(v.element)}</p>`:''}<section><h3>Meaning and reflection</h3><small>Original Tao of Leela commentary on traditional square names.</small><div class="prose">${paragraphs(view.canonicalInterpretation||'An expanded description has not yet been curated for this tile.')}</div></section>${ref?`<section class="reference-state"><p class="eyebrow">Traditional square reference</p><h3>${esc(ref.sanskritName)} · ${esc(ref.englishName)}</h3><div class="prose">${paragraphs(ref.coreMeaning)}</div><div class="prose">${paragraphs(ref.traditionalInterpretation)}</div>${t?`<div class="state-transition"><p class="eyebrow">${t.transitionType==='snake'?'↓ Snake · descent':'↑ Arrow / ladder · ascent'}</p><p>In this reference board, landing on ${s.stateId} leads immediately to ${t.destination}. The destination is the resting state.</p><h3>${esc(target?.sanskritName)} · ${esc(target?.englishName)}</h3><div class="prose">${paragraphs(t.transitionInterpretation)}</div>${stateControl(t.destination,`Explore destination ${t.destination}`)}</div>`:''}<small>Opening these references does not move your Persona. Landing on an origin follows its snake or ladder when movement is acknowledged.</small></section>`:''}<section class="viewer-reflection"><h3>A space for reflection</h3><p>How does this state meet the Persona’s situation? Reference descriptions stay stable; a contextual interpretation can offer another perspective.</p></section></div>`;
+  return `<div class="state-atmosphere" style="--state-hue:${colour(v)}"><p class="eyebrow">Leela · Tile ${s.stateId}</p><h2 id="state-view-title">${esc(s.stateName)}</h2>${activePreview}${referenceLinks(catalog,id,personaName)}${artwork(v)}${v.symbol?`<p class="state-symbol">${esc(v.symbol)}</p>`:''}<div class="state-lead prose">${paragraphs(s.stateDescription)}</div>${v.element?`<p>Element · ${esc(v.element)}</p>`:''}<section><h3>Meaning and reflection</h3><small>Original Tao of Leela commentary on traditional square names.</small><div class="prose">${paragraphs(view.canonicalInterpretation||'An expanded description has not yet been curated for this tile.')}</div></section>${ref?`<section class="reference-state"><p class="eyebrow">Traditional square reference</p><h3>${esc(ref.sanskritName)} · ${esc(ref.englishName)}</h3><div class="prose">${paragraphs(ref.coreMeaning)}</div><div class="prose">${paragraphs(ref.traditionalInterpretation)}</div>${t?`<div class="state-transition"><p class="eyebrow">${t.transitionType==='snake'?'↓ Snake · descent':'↑ Arrow / ladder · ascent'}</p><p>In this reference board, landing on ${s.stateId} leads immediately to ${t.destination}. The destination is the resting state.</p><h3>${esc(target?.sanskritName)} · ${esc(target?.englishName)}</h3><div class="prose">${paragraphs(personaName?t.transitionInterpretation.replace(/the Persona’s/g,()=>`${personaName}’s`):t.transitionInterpretation)}</div>${stateControl(t.destination,`Explore destination ${t.destination}`)}</div>`:''}<small>Opening these references does not move ${esc(personaName||'your Persona')}. Landing on an origin follows its snake or ladder when movement is acknowledged.</small></section>`:''}<section class="viewer-reflection"><h3>A space for reflection</h3><p>How does this state meet ${esc(personaName?`${personaName}’s`:'the Persona’s')} situation? Reference descriptions stay stable; a contextual interpretation can offer another perspective.</p></section></div>`;
 }
 export function hexagramSources(text, selection){
   if(!text)return '';
@@ -59,9 +59,9 @@ export function hexagramMarkup(catalog,selection){
 
 // Native dialog keeps keyboard focus inside the information layer. Opening or
 // closing it never changes hashes, saves a draft, or advances the ceremony.
-export function installStateViewer({preview=false,loadCatalog}={}){
+export function installStateViewer({preview=false,loadCatalog,getPersonaName=()=>''}={}){
   let catalogPromise,dialog,opener,request=0;
-  const load=loadCatalog||(()=>catalogPromise??=(fetch(preview?'./state-views.json?v=9cb5e7fde83b4270':'/state-views').then(r=>{if(!r.ok)throw Error('State information could not be loaded. Please try again.');return r.json();}).catch(error=>{catalogPromise=null;throw error;})));
+  const load=loadCatalog||(()=>catalogPromise??=(fetch(preview?'./state-views.json?v=persona-labels-20261015':'/state-views').then(r=>{if(!r.ok)throw Error('State information could not be loaded. Please try again.');return r.json();}).catch(error=>{catalogPromise=null;throw error;})));
   const close=()=>dialog?.close();
   document.addEventListener('click',async event=>{
     // Resolve the card's real button so text, artwork and padding all open
@@ -85,7 +85,7 @@ export function installStateViewer({preview=false,loadCatalog}={}){
     content.innerHTML='<h2 id="state-view-title">Loading state…</h2>';
     try{
       const catalog=await load();if(token!==request||!dialog)return;
-      content.innerHTML=button.hasAttribute('data-view-state')?leelaMarkup(catalog,button.dataset.viewState,{type:button.dataset.transition,destination:Number(button.dataset.destination)}):hexagramMarkup(catalog,pairSelection(Number(button.dataset.primary),Number(button.dataset.resulting),button.dataset.changing.split(',').filter(Boolean).map(Number),button.dataset.role));
+      content.innerHTML=button.hasAttribute('data-view-state')?leelaMarkup(catalog,button.dataset.viewState,{type:button.dataset.transition,destination:Number(button.dataset.destination)},getPersonaName()):hexagramMarkup(catalog,pairSelection(Number(button.dataset.primary),Number(button.dataset.resulting),button.dataset.changing.split(',').filter(Boolean).map(Number),button.dataset.role));
       dialog.scrollTop=0;
       dialog.querySelector('[data-close-view]').focus({preventScroll:true});
     }catch(error){if(token===request&&dialog)content.innerHTML=`<h2 id="state-view-title">State information unavailable</h2><p role="alert">${esc(error.message)}</p><p>Close this view and select the state again to retry. Your journey has not changed.</p>`;}
