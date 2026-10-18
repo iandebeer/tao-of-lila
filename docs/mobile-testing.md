@@ -25,7 +25,7 @@ Podman and the Docker Compose provider are already installed on this Mac.
 From Terminal:
 
 ```bash
-cd /Users/ian/dev/iandebeer.github.io/tao-of-lila
+cd /Users/ian/creative/tao-of-lila
 ./scripts/mobile.sh start
 ```
 

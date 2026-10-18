@@ -487,3 +487,16 @@ tracked logins, gameplay participation, casts and acknowledged moves. See
 Set `ADMIN_ORIGIN` and a private one-time `ADMIN_SETUP_TOKEN` in Railway; no default
 password is included. Infrastructure and first-time password setup are separate
 from deploying the code.
+
+## Railway startup
+
+The API executable must be linked with GHC's `-threaded` option, as configured
+in `tao-of-lila.cabal`. Warp's timer manager requires the threaded runtime;
+without it, the image can build successfully but crash at startup with
+`the TimerManager requires linking against the threaded runtime`.
+Rebuild and redeploy the image after changing this option. The app reads `PORT`
+from its environment, defaulting to `8080`; the public domain's target port must
+match that listening port.
+
+The public homepage is `/`, which serves `app/public/index.html` explicitly.
+`/index.html` also works, and `/health` returns the API health response.
