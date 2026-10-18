@@ -1,7 +1,7 @@
 # Private administration
 
 The read-only dashboard uses the existing Railway application and PostgreSQL
-instance. It is enabled only on the exact hostname in `ADMIN_ORIGIN`. There are
+instance. It is mounted at `/admin` only on the exact hostname in `ADMIN_ORIGIN`. There are
 no links to it in the public game. Its assets live in `app/admin`, outside the
 public static directory. No player-management, deletion, or game-editing API is
 provided. The administrator is separate from all player accounts, even a player
@@ -11,15 +11,12 @@ whose username happens to be `admin`.
 
 1. Deploy the application changes with the existing Dockerfile. Startup adds
    analytics and administrator tables in the existing database transactionally.
-2. Set `ADMIN_ORIGIN=https://admin.leela.day` in Railway service variables.
+2. Set `ADMIN_ORIGIN=https://play.leela.day` in Railway service variables.
 3. Generate a random setup secret with `openssl rand -hex 32`. Put it in Railway's
    private `ADMIN_SETUP_TOKEN` variable. Do not commit it or put it in a URL.
-4. Add `admin.leela.day` as a custom domain on the **existing game service**,
-   targeting the same port. Copy the exact CNAME and verification TXT records
-   Railway supplies into Cloudflare DNS. Initially use DNS-only for the CNAME
-   and wait for Railway's certificate to be issued. Keep the existing game,
-   root and reading domains unchanged.
-5. Visit `https://admin.leela.day/`. Supply the setup secret and your chosen
+4. Keep the existing `play.leela.day` Railway domain and HTTPS configuration.
+   No additional custom domain, DNS record, service, or plan upgrade is needed.
+5. Visit `https://play.leela.day/admin`. Supply the setup secret and your chosen
    administrator password. Username is fixed to `admin`. Passwords must have
    at least 12 characters and at most 72 UTF-8 bytes; spaces are supported.
 6. After successful setup, remove `ADMIN_SETUP_TOKEN` from Railway variables.
@@ -37,8 +34,11 @@ Railway terminates TLS. The application accepts its `X-Forwarded-Proto: https`
 header as the secure-transport signal. Do not expose the backend directly through
 an untrusted proxy which lets callers forge this header. The admin origin must be
 a lowercase HTTPS hostname with no path or port. Omitting it disables admin
-routing. Prefer DNS-only until the certificate is working; if enabling Cloudflare
-proxying later, use Full (strict) TLS and no caching rules on the admin host.
+routing. Keep the existing TLS configuration and exclude `/admin` and its
+subpaths from any Cloudflare caching rules. Assets and API calls use
+`/admin/admin.js`, `/admin/admin.css`, and `/admin/api/*`; game routes remain public.
+The dashboard shares the game origin, so trusted game scripts share its browser
+security boundary. Administrator sessions remain separate from player sessions.
 
 Official references: [Railway custom domains](https://docs.railway.com/networking/domains/working-with-domains),
 [Cloudflare subdomain records](https://developers.cloudflare.com/dns/manage-dns-records/how-to/create-subdomain/),
@@ -125,8 +125,8 @@ migration, one-time setup, session cookies, unauthenticated access, expiry, logo
 rate limiting, reporting periods, deduplication and Persona totals. It prints
 SKIP when its database variable is absent; a skipped test is not database acceptance.
 
-Deployment DNS, TLS and live administrator setup require access to Railway and
-Cloudflare and are not performed by building or testing the application.
+Deployment variables and live administrator setup require Railway access and
+are not performed by building or testing the application.
 
 ### Implementation verification on 16 October 2026
 
@@ -147,3 +147,11 @@ The temporary server was stopped and its database removed after testing. No
 production database was used. PostgreSQL 16 is installed locally; no persistent
 background service was enabled. This supersedes the database-testing blocker
 reported above. Live deployment and first-time administrator setup are separate.
+
+### Administration path verification on 18 October 2026
+
+The dashboard, assets and API now use `https://play.leela.day/admin`.
+The Haskell suite and admin UI checks pass, including public-route isolation,
+HTTPS and CSRF checks. Administrator and Persona persistence acceptance tests
+also pass against a disposable PostgreSQL 16 database. Railway must use
+`ADMIN_ORIGIN=https://play.leela.day`; the origin contains no path.

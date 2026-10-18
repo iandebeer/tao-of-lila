@@ -2,7 +2,7 @@ const $=id=>document.getElementById(id);
 let needsSetup=false,page=0,busy=false;
 const count=new Intl.NumberFormat();
 async function api(path,body){
-  const response=await fetch(`/api/${path}`,{method:body===undefined?'GET':'POST',credentials:'same-origin',cache:'no-store',headers:body===undefined?{}:{'Content-Type':'application/json','X-Admin-Request':'1'},body:body===undefined?undefined:JSON.stringify(body)});
+  const response=await fetch(`/admin/api/${path}`,{method:body===undefined?'GET':'POST',credentials:'same-origin',cache:'no-store',headers:body===undefined?{}:{'Content-Type':'application/json','X-Admin-Request':'1'},body:body===undefined?undefined:JSON.stringify(body)});
   const data=await response.json();
   if(!response.ok){if(response.status===401&&path.startsWith('stats')){showAuth();}throw Error(data.error||'Request failed. Please try again.');}return data;
 }

@@ -11,10 +11,10 @@ const requests=[];
 const stats={trackingSince:'2026-10-16T00:00:00Z',summary:{players:1,personas:2,activePersonas:1,archivedPersonas:1,newPersonas:2,logins:3,casts:2,moves:1,dailyActive:1,weeklyActive:1,monthlyActive:1,newPlayers:1,returningPlayers:0},players:[{id:1,username:'<script>attack()</script>',personas:2,last_login:null,today_logins:1,week_logins:2,month_logins:3,total_logins:3,active_days_30:1}],trends:[{period:'2026-10-16',logins:1,active_players:1,casts:2,moves:1}]};
 const context=vm.createContext({Intl,Date,Error,JSON,Object,encodeURIComponent,document:{getElementById:get,createElement:element},FormData:class{constructor(form){this.form=form;}*[Symbol.iterator](){for(const [key,field] of Object.entries(this.form.elements))yield [key,field.value];}},fetch:async(url,options)=>{
  requests.push({url,options});let status=200,data;
- if(url==='/api/status')data={needsSetup:!configured,setupEnabled:true};
- else if(url==='/api/setup'||url==='/api/login'){configured=true;signedIn=true;data={ok:true};}
- else if(url==='/api/logout'){signedIn=false;data={ok:true};}
- else if(url.startsWith('/api/stats')){status=signedIn?200:401;data=signedIn?stats:{error:'Please sign in. Your session may have expired.'};}
+ if(url==='/admin/api/status')data={needsSetup:!configured,setupEnabled:true};
+ else if(url==='/admin/api/setup'||url==='/admin/api/login'){configured=true;signedIn=true;data={ok:true};}
+ else if(url==='/admin/api/logout'){signedIn=false;data={ok:true};}
+ else if(url.startsWith('/admin/api/stats')){status=signedIn?200:401;data=signedIn?stats:{error:'Please sign in. Your session may have expired.'};}
  else throw Error('Unexpected request');
  return {ok:status===200,status,json:async()=>data};
 }});

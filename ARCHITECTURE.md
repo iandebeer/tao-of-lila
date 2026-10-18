@@ -334,7 +334,7 @@ acknowledgment saves the endpoint. Zero movement remains still. See
 
 ## Private administration and analytics
 
-`API.Admin` dispatches the configured administrator hostname before the public
+`API.Admin` dispatches the configured origin’s /admin routes before the public
 Servant application. Its separate `app/admin` assets and cookie authentication
 never enter player routes. The dashboard is read-only with respect to game data;
 its only writes manage administrator authentication and session expiry.
@@ -346,3 +346,7 @@ use separate idempotent event kinds. The pure domain engine is unchanged. Person
 counts use existing records and creation audits, including archived Personas.
 No historical login or movement totals are fabricated. See
 [administration](docs/administration.md) for definitions, security and deployment.
+
+The private administration shell mounts its assets and API beneath `/admin` on
+the configured `ADMIN_ORIGIN` (production: `https://play.leela.day`). All other
+paths continue to the public application. No separate domain is required.

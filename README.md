@@ -479,7 +479,7 @@ saved interpretations retain the context captured when they were generated.
 
 ## Private administration
 
-An optional read-only dashboard at `admin.leela.day` shares the existing database
+An optional read-only dashboard at `https://play.leela.day/admin` shares the existing database
 and application, with separate administrator authentication and no public links.
 It reports players, Personas (including archived totals and per-player counts),
 tracked logins, gameplay participation, casts and acknowledged moves. See

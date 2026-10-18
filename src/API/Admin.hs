@@ -28,7 +28,7 @@ import Text.Read (readMaybe)
 
 data AdminConfig = AdminConfig { adminOrigin :: Text, adminSetupToken :: Text }
 
--- An explicit origin prevents accidentally exposing administration on game hosts.
+-- Administration is mounted only under /admin on the configured HTTPS origin.
 validOrigin :: Text -> Bool
 validOrigin origin = case T.stripPrefix "https://" origin of
   Just host -> not (T.null host) && T.any (=='.') host && T.all (\c -> isAsciiLower c || isDigit c || c=='.' || c=='-') host
@@ -47,11 +47,11 @@ sameSecret a b = BA.constEq (TE.encodeUtf8 (digest (TE.encodeUtf8 a))) (TE.encod
 adminRouter :: Maybe AdminConfig -> Store -> FilePath -> Application -> Application
 adminRouter Nothing _ _ public = public
 adminRouter (Just config) store directory public = \request respond ->
-  if requestHeaderHost request /= Just (TE.encodeUtf8 (T.drop 8 (adminOrigin config))) then public request respond
+  if requestHeaderHost request /= Just (TE.encodeUtf8 (T.drop 8 (adminOrigin config))) || take 1 (pathInfo request) /= ["admin"] then public request respond
   else if not (isSecure request || lookup "X-Forwarded-Proto" (requestHeaders request)==Just "https")
     then respond (json status403 [] (object ["error" .= ("HTTPS is required" :: Text)]))
     else do
-      result <- try (route config store directory request) :: IO (Either SomeException Response)
+      result <- try (route config store directory (request {pathInfo=drop 1 (pathInfo request)})) :: IO (Either SomeException Response)
       respond $ either (const (json status500 [] (object ["error" .= ("Administration is temporarily unavailable" :: Text)]))) id result
 
 headers :: ResponseHeaders
@@ -70,7 +70,7 @@ sessionHash request = digest $ fromMaybe "" $ lookup "__Host-leela_admin" pairs
 
 route :: AdminConfig -> Store -> FilePath -> Request -> IO Response
 route config store directory request
-  | requestMethod request==methodGet, pathInfo request==[] = pure (asset "index.html" "text/html; charset=utf-8")
+  | requestMethod request==methodGet, pathInfo request `elem` [[],[""]] = pure (asset "index.html" "text/html; charset=utf-8")
   | requestMethod request==methodGet, pathInfo request==["admin.js"] = pure (asset "admin.js" "text/javascript; charset=utf-8")
   | requestMethod request==methodGet, pathInfo request==["admin.css"] = pure (asset "admin.css" "text/css; charset=utf-8")
   | requestMethod request==methodGet, pathInfo request==["api","status"] = withStore store $ \c -> do

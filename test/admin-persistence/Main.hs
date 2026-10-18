@@ -38,13 +38,13 @@ acceptance :: Store -> IO ()
 acceptance store = do
   migrate store
   migrate store
-  let config=AdminConfig "https://admin.leela.day" "test-only-setup-secret-at-least-32-characters"
+  let config=AdminConfig "https://play.leela.day" "test-only-setup-secret-at-least-32-characters"
       application=adminRouter (Just config) store "app/admin" (\_ respond -> respond (responseLBS status404 [] ""))
       credentials=object ["username" .= ("admin"::T.Text),"password" .= ("test-only-admin-password"::T.Text),"setupToken" .= adminSetupToken config]
       call method path body session=do
         chunks <- newIORef [L.toStrict (encode body)]
         responseRef <- newIORef (status500,[],L.empty)
-        let request=defaultRequest {requestHeaderHost=Just "admin.leela.day",isSecure=True,requestMethod=method,pathInfo=["api",path],requestHeaders=[(hOrigin,"https://admin.leela.day"),("X-Admin-Request","1"),(hCookie,session)],requestBody=atomicModifyIORef' chunks (\xs -> case xs of [] -> ([],B.empty); x:rest -> (rest,x))}
+        let request=defaultRequest {requestHeaderHost=Just "play.leela.day",isSecure=True,requestMethod=method,pathInfo=["admin","api",path],requestHeaders=[(hOrigin,"https://play.leela.day"),("X-Admin-Request","1"),(hCookie,session)],requestBody=atomicModifyIORef' chunks (\xs -> case xs of [] -> ([],B.empty); x:rest -> (rest,x))}
         _ <- application request $ \response -> do
           let (status,hs,withBody)=responseToStream response
           bytes <- newIORef L.empty
