@@ -8,6 +8,7 @@ where
 import qualified Domain.Reference as Ref
 import qualified Domain.Persona as P
 import qualified Domain.StateView as SV
+import AdminHTTP (checkAdminHTTP)
 import StateViewHTTP (checkStateViewHTTP)
 import qualified Data.Text as T
 import Data.Text (Text)
@@ -39,6 +40,7 @@ import Engine.Game (accessibleStateIds, applyCastingMovement, castingLanding, ca
 
 main :: IO ()
 main = do
+  checkAdminHTTP
   library <- Ref.loadReferenceLibrary "data/references/library.json" >>= either fail pure
   let lookupText = Ref.lookupReferenceHexagram library
       sourcePresent h = not (T.null (textJudgmentChinese h)) && not (T.null (translationText (textLeggeJudgment h)))

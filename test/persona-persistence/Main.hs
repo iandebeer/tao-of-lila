@@ -154,6 +154,9 @@ acceptance store = do
     assert "movement projection distinguishes landing and final" (field "stateId" (field "landing" (field "movement" pending)) == Number (fromIntegral origin) && field "stateId" (field "final" (field "movement" pending)) == Number (fromIntegral target))
     acknowledged <- J.commandJourney store domain player (JourneyCommand (revision pending) (userPersonaId player) "acknowledge" Nothing Nothing)
     reloaded <- J.getJourney store domain player
+    withStore store $ \c -> do
+      counts <- query c "SELECT count(*) FROM usage_events WHERE kind='move' AND event_id=?" (Only event) :: IO [Only Int]
+      assert "acknowledgment records exactly one completed move" (counts==[Only 1])
     assert "transition acknowledgment survives reload" (acknowledged==reloaded)
     final <- getGameView store domain player
     assert "Persona rests at the snake or ladder endpoint" (journeyCurrentStateId (gameJourney final)==target)

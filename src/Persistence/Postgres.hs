@@ -43,6 +43,7 @@ import Domain.Persona (Persona, personaPrompt)
 import Domain.Game
 import qualified Persistence.Reference as Reference
 import qualified Persistence.PersonaSchema as PersonaSchema
+import qualified Persistence.Analytics as Analytics
 import Domain.Contemplation
 import Domain.Types (DomainData (..), LeelaState (..))
 import Runtime.Casting (freshCastingState)
@@ -91,6 +92,7 @@ migrate store = withStore store $ \connection -> withTransaction connection $ do
   _ <- execute_ connection "ALTER TABLE game_events ADD COLUMN IF NOT EXISTS raw_casting JSONB"
   _ <- execute_ connection "ALTER TABLE game_events ADD COLUMN IF NOT EXISTS previous_state_id INTEGER"
   PersonaSchema.migratePersonas connection
+  Analytics.migrateAnalytics connection
   Reference.migrateReferences connection
   _ <- execute_ connection "ALTER TABLE contemplations ADD COLUMN IF NOT EXISTS source_context JSONB"
   pure ()
@@ -108,12 +110,14 @@ register store request = do
       _ -> throwIO UsernameTaken
 
 login :: Store -> AuthRequest -> IO AuthResponse
-login store request = withStore store $ \connection -> do
+login store request = withStore store $ \connection -> withTransaction connection $ do
   matches <- query connection "SELECT id, username, password_hash FROM users WHERE username = ?" (Only (normalizedUsername request)) :: IO [(Int, Text, BS.ByteString)]
   case matches of
     [(matchedId, matchedName, passwordHash)]
       | validatePassword passwordHash (TE.encodeUtf8 (authPassword request)) ->
-          issueToken connection (User matchedId matchedName Nothing)
+          do
+            Analytics.recordEvent connection matchedId "login" Nothing
+            issueToken connection (User matchedId matchedName Nothing)
     _ -> throwIO InvalidCredentials
 
 authenticate :: Store -> Text -> IO User
@@ -174,7 +178,13 @@ completeCasting :: Connection -> JourneyState -> Question -> CastingState -> Cas
 completeCasting connection journey question castingState castingResult = do
   _ <- execute connection "UPDATE questions SET finalized_at=now() WHERE id=?" (Only (questionId question))
   let destination = applyCastingMovement (journeyCurrentStateId journey) castingResult
-  _ <- execute connection "INSERT INTO game_events (game_session_id, from_state_id, to_state_id, question, casting_result) VALUES (?, ?, ?, ?, ?)" (journeySessionId journey, journeyCurrentStateId journey, destination, questionText question, PG.Aeson castingResult)
+  eventRows <- query connection "INSERT INTO game_events (game_session_id, from_state_id, to_state_id, question, casting_result) VALUES (?, ?, ?, ?, ?) RETURNING id" (journeySessionId journey, journeyCurrentStateId journey, destination, questionText question, PG.Aeson castingResult) :: IO [Only Int]
+  owners <- query connection "SELECT user_id FROM game_sessions WHERE id=?" (Only (journeySessionId journey)) :: IO [Only Int]
+  case (eventRows,owners) of
+    ([Only eventId],[Only uid]) -> do
+      Analytics.recordEvent connection uid "cast" (Just eventId)
+      Analytics.recordEvent connection uid "move" (Just eventId)
+    _ -> throwIO (CorruptData "Could not record casting activity")
   _ <- execute connection "UPDATE game_sessions SET previous_state_id = current_state_id, current_state_id = ?, casting = ?, updated_at = now() WHERE id = ?" (destination, PG.Aeson castingState, journeySessionId journey)
   pure ()
 
@@ -335,6 +345,7 @@ instance FromRow EventRow where
 guardWorkflow :: Connection -> User -> IO ()
 guardWorkflow connection user = do
   guardPersona connection user
+  Analytics.recordActivity connection (userId user)
   _ <- query connection "SELECT id FROM game_sessions WHERE persona_id = ? FOR UPDATE" (Only (selectedPersonaId user)) :: IO [Only Int]
   active <- query connection "SELECT persona_id FROM journey_workflows WHERE persona_id = ? AND document->>'workflowStage' <> 'progress'" (Only (selectedPersonaId user)) :: IO [Only Int]
   if null active then pure () else throwIO (Conflict "Resume the active encounter in /journey/ before using prototype controls")

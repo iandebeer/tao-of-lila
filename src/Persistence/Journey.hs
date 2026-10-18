@@ -16,6 +16,7 @@ import Domain.Types (DomainData, LeelaState (stateId))
 import Runtime.Casting (freshCastingState)
 import qualified Engine.Casting as Casting
 import Engine.Game (applyCastingMovement, castingLanding, castingTransition, transitionAt, BoardTransition (..))
+import qualified Persistence.Analytics as Analytics
 import Persistence.Postgres (Store, guardPersona, selectedPersonaId, StoreError (..), withStore, loadGameView, resolveState)
 
 getJourney :: Store -> DomainData -> User -> IO Value
@@ -30,6 +31,7 @@ commandJourney store domain user command = withStore store $ \connection -> with
   if expectedRevision command /= workflowRevision current then throwIO (Conflict "Journey changed. Reload the saved encounter before continuing.") else pure ()
   if allowedStage (commandAction command) (workflowStage current) then pure () else throwIO (Conflict "This action is not available at the current journey stage")
   next <- transition connection domain user current command
+  if commandAction command == "visual" then pure () else Analytics.recordActivity connection (userId user)
   let saved = next {workflowRevision = workflowRevision current + 1}
   _ <- execute connection "UPDATE journey_workflows SET document = ?, updated_at = now() WHERE persona_id = ?" (PG.Aeson saved, selectedPersonaId user)
   projection connection domain user saved
@@ -117,6 +119,7 @@ transition connection domain user workflow command = case commandAction command 
     rows <- query connection "INSERT INTO game_events (game_session_id, from_state_id, to_state_id, question, journal, casting_result, raw_casting, previous_state_id) VALUES (?, ?, ?, ?, '', ?, ?, ?) RETURNING id" (journeySessionId (gameJourney game), workflowFrom workflow, destination, workflowQuestion workflow, PG.Aeson result, PG.Aeson casting, workflowPrevious workflow) :: IO [Only Int]
     case rows of
       [Only eventId] -> do
+        Analytics.recordEvent connection (userId user) "cast" (Just eventId)
         _ <- execute connection "UPDATE persona_questions SET event_id=? WHERE id=(SELECT id FROM persona_questions WHERE persona_id=? AND finalized_at IS NOT NULL AND event_id IS NULL ORDER BY id DESC LIMIT 1)" (eventId,selectedPersonaId user)
         pure workflow {workflowStage = "result", workflowEventId = Just eventId}
       _ -> throwIO (CorruptData "Could not record casting")
@@ -131,6 +134,7 @@ transition connection domain user workflow command = case commandAction command 
     saved <- saveReflection connection workflow (fromMaybe (workflowJournal workflow) (commandText command))
     pure saved {workflowStage = "movement"}
   "acknowledge" -> do
+    Analytics.recordEvent connection (userId user) "move" (workflowEventId workflow)
     casting <- requireCasting workflow
     result <- maybe (throwIO (Conflict "No completed casting")) pure (Casting.result casting)
     let destination = applyCastingMovement (workflowFrom workflow) result

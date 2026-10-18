@@ -476,3 +476,14 @@ current attributes, description and circumstances. Initial attributes provide
 historical context; cleared or superseded attributes are not restored. Inferred
 themes remain tentative. Live interpretation requires the owned Persona context;
 saved interpretations retain the context captured when they were generated.
+
+## Private administration
+
+An optional read-only dashboard at `admin.leela.day` shares the existing database
+and application, with separate administrator authentication and no public links.
+It reports players, Personas (including archived totals and per-player counts),
+tracked logins, gameplay participation, casts and acknowledged moves. See
+[administrator setup, metric definitions and verification](docs/administration.md).
+Set `ADMIN_ORIGIN` and a private one-time `ADMIN_SETUP_TOKEN` in Railway; no default
+password is included. Infrastructure and first-time password setup are separate
+from deploying the code.

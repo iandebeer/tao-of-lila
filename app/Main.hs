@@ -4,6 +4,7 @@ module Main
 where
 
 import API.Server (app)
+import API.Admin (AdminConfig(..), adminRouter, validOrigin)
 import Domain.Reference (loadReferenceLibrary)
 import Persistence.Reference (installReferenceLibrary)
 import Domain.StateView (loadStateCatalog)
@@ -32,7 +33,13 @@ main = do
       withStore store (\connection -> installReferenceLibrary connection library)
       model <- resolveContemplationModel
       putStrLn ("The Tao of Leela API listening on port " <> show port)
-      run port (app "app/public" domain stateCatalog store model)
+      origin <- lookupEnv "ADMIN_ORIGIN"
+      setupToken <- lookupEnv "ADMIN_SETUP_TOKEN"
+      admin <- case origin of
+        Nothing -> pure Nothing
+        Just value | validOrigin (T.pack value) -> pure (Just (AdminConfig (T.pack value) (T.pack (maybe "" id setupToken))))
+        _ -> fail "ADMIN_ORIGIN must be a lowercase HTTPS origin without a path or port"
+      run port (adminRouter admin store "app/admin" (app "app/public" domain stateCatalog store model))
 
 resolvePort :: IO Int
 resolvePort = do

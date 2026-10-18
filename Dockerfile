@@ -41,6 +41,7 @@ RUN apt-get update \
 
 COPY --from=build /opt/dist/tao-of-lila-api /usr/local/bin/tao-of-lila-api
 COPY data ./data
+COPY app/admin ./app/admin
 COPY --from=web /opt/tao-of-lila/app/public ./app/public
 COPY --from=web /opt/tao-of-lila/data/state-views.json ./data/state-views.json
 

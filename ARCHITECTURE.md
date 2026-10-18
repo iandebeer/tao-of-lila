@@ -331,3 +331,18 @@ The engine now follows all ten snakes and ten ladders after a nonzero move lands
 on an origin. The movement screen distinguishes landing from final destination;
 acknowledgment saves the endpoint. Zero movement remains still. See
 [movement behavior](docs/responsive-journey.md#live-snake-and-ladder-movement-2026-10-13).
+
+## Private administration and analytics
+
+`API.Admin` dispatches the configured administrator hostname before the public
+Servant application. Its separate `app/admin` assets and cookie authentication
+never enter player routes. The dashboard is read-only with respect to game data;
+its only writes manage administrator authentication and session expiry.
+
+`Persistence.Analytics` installs additive tables and assembles aggregate reports.
+Successful login and journey/prototype participation records are written at the
+persistence boundary within action transactions. Casting and acknowledged movement
+use separate idempotent event kinds. The pure domain engine is unchanged. Persona
+counts use existing records and creation audits, including archived Personas.
+No historical login or movement totals are fabricated. See
+[administration](docs/administration.md) for definitions, security and deployment.
