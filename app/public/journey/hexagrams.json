@@ -1,0 +1,514 @@
+[
+  {
+    "hexagramNumber": 1,
+    "hexagramName": "The Creative Heaven",
+    "judgment": "乾：元，亨，利，貞。\nKhien (represents) what is great and originating, penetrating, advantageous, correct and firm.",
+    "image": "象曰：天行健，君子以自強不息。\nHeaven, in its motion, (gives the idea of) strength. The superior man, in accordance with this, nerves himself to ceaseless activity.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 2,
+    "hexagramName": "The Receptive Earth",
+    "judgment": "坤：元，亨，利牝馬之貞。君子有攸往，先迷後得主，利西南得朋，東北喪朋。安貞，吉。\nKhwăn (represents) what is great and originating, penetrating, advantageous, correct and having the firmness of a mare. When the superior man (here intended) has to make any movement, if he take the initiative, he will go astray; if he follow, he will find his (proper) lord. The advantageousness will be seen in his getting friends in the south-west, and losing friends in the north-east. If he rest in correctness and firmness, there will be good fortune.",
+    "image": "象曰：地勢坤，君子以厚德載物。\nThe (capacity and sustaining) power of the earth is what is denoted by Khwăn. The superior man, in accordance with this, with his large virtue supports (men and) things.",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 3,
+    "hexagramName": "Difficulty At The Beginning",
+    "judgment": "屯：元，亨，利，貞，勿用，有攸往，利建侯。\nKun (indicates that in the case which it presupposes) there will be great progress and success, and the advantage will come from being correct and firm. (But) any movement in advance should not be (lightly) undertaken. There will be advantage in appointing feudal princes.",
+    "image": "象曰：雲，雷，屯；君子以經綸。\n(The trigram representing) clouds and (that representing) thunder form Kun. The superior man, in accordance with this, (adjusts his measures of government) as in sorting the threads of the warp and woof.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 4,
+    "hexagramName": "Youthful Folly",
+    "judgment": "蒙：亨。匪我求童蒙，童蒙求我。初噬告，再三瀆，瀆則不告。利貞。\nMăng (indicates that in the case which it presupposes) there will be progress and success. I do not (go and) seek the youthful and inexperienced, but he comes and seeks me. When he shows (the sincerity that marks) the first recourse to divination, I instruct him. If he apply a second and third time, that is troublesome; and I do not instruct the troublesome. There will be advantage in being firm and correct.",
+    "image": "象曰：山下出泉，蒙；君子以果行育德。\n(The trigram representing) a mountain, and beneath it that for a spring issuing forth form Măng. The superior man, in accordance with this, strives to be resolute in his conduct and nourishes his virtue.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 5,
+    "hexagramName": "Waiting",
+    "judgment": "需：有孚，光亨，貞吉。利涉大川。\nHsü intimates that, with the sincerity which is declared in it, there will be brilliant success. With firmness there will be good fortune; and it will be advantageous to cross the great stream.",
+    "image": "象曰：雲上於天，需；君子以飲食宴樂。\n(The trigram for) clouds ascending over that for the sky forms Hsü. The superior man, in accordance with this, eats and drinks, feasts and enjoys himself (as if there were nothing else to employ him).",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 6,
+    "hexagramName": "Conflict",
+    "judgment": "訟：有孚，窒。惕中吉。終凶。利見大人，不利涉大川。\nSung intimates how, though there is sincerity in one's contention, he will yet meet with opposition and obstruction; but if he cherish an apprehensive caution, there will be good fortune, while, if he must prosecute the contention to the (bitter) end, there will be evil. It will be advantageous to see the great man; it will not be advantageous to cross the great stream.",
+    "image": "象曰：天與水違行，訟；君子以作事謀始。\n(The trigram representing) heaven and (that representing) water, moving away from each other, form Sung. The superior man, in accordance with this, in the transaction of affairs takes good counsel about his first steps.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 7,
+    "hexagramName": "The Army",
+    "judgment": "師：貞，丈人，吉無咎。\nSze indicates how, in the case which it supposes, with firmness and correctness, and (a leader of) age and experience, there will be good fortune and no error.",
+    "image": "象曰：地中有水，師；君子以容民畜眾。\n(The trigram representing) the earth and in the midst of it that representing water, form Sze. The superior man, in accordance with this, nourishes and educates the people, and collects (from among them) the multitudes (of the hosts).",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 8,
+    "hexagramName": "Holding Together",
+    "judgment": "比：吉。原筮元永貞，無咎。不寧方來，後夫凶。\nPî indicates that (under the conditions which it supposes) there is good fortune. But let (the principal party intended in it) re-examine himself, (as if) by divination, whether his virtue be great, unintermitting, and firm. If it be so, there will be no error. Those who have not rest will then come to him; and with those who are (too) late in coming it will be ill.",
+    "image": "象曰：地上有水，比；先王以建萬國，親諸侯。\n(The trigram representing) the earth, and over it (that representing) water, form Pî. The ancient kings, in accordance with this, established the various states and maintained an affectionate relation to their princes.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 9,
+    "hexagramName": "Small Taming",
+    "judgment": "小畜：亨。密雲不雨，自我西郊。\nHsiâo Khû indicates that (under its conditions) there will be progress and success. (We see) dense clouds, but no rain coming from our borders in the west.",
+    "image": "象曰：風行天上，小畜；君子以懿文德。\n(The trigram representing) the sky, and that representing wind moving above it, form Hsiâo Khû The superior man, in accordance with this, adorns the outward manifestation of his virtue.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 10,
+    "hexagramName": "Treading",
+    "judgment": "履：履虎尾，不咥人，亨。\n(Lî suggests the idea of) one treading on the tail of a tiger, which does not bite him. There will be progress and success.",
+    "image": "象曰：上天下澤，履；君子以辯上下，定民志。\n(The trigram representing) the sky above, and below it (that representing the waters of) a marsh, form Lî. The superior man, in accordance with this, discriminates between high and low, and gives settlement to the aims of the people.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 11,
+    "hexagramName": "Peace",
+    "judgment": "泰：小往大來，吉亨。\nIn Thâi (we see) the little gone and the great come. (It indicates that) there will be good fortune, with progress and success.",
+    "image": "象曰：天地交泰，后以財成天地之道，輔相天地之宜，以左右民。\n(The trigrams for) heaven and earth in communication together form Thâi. The (sage) sovereign, in harmony with this, fashions and completes (his regulations) after the courses of heaven and earth, and assists the application of the adaptations furnished by them,--in order to benefit the people.",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 12,
+    "hexagramName": "Standstill",
+    "judgment": "否：否之匪人，不利君子貞，大往小來。\nIn Phî there is the want of good understanding between the (different classes of) men, and its indication is unfavourable to the firm and correct course of the superior man. We see in it the great gone and the little come.",
+    "image": "象曰：天地不交，否；君子以儉德辟難，不可榮以祿。\n(The trigrams of) heaven and earth, not in intercommunication, form Phî. The superior man, in accordance with this, restrains (the manifestation) of) his virtue, and avoids the calamities (that threaten him). There is no opportunity of conferring on him the glory of emolument.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 13,
+    "hexagramName": "Fellowship",
+    "judgment": "同人：同人于野，亨。利涉大川，利君子貞。\nThung Zăn (or 'Union of men') appears here (as we find it) in the (remote districts of the) country, indicating progress and success. It will be advantageous to cross the great stream. It will be advantageous to maintain the firm correctness of the superior man.",
+    "image": "象曰：天與火，同人；君子以類族辨物。\n(The trigrams for) heaven and fire form Thung Zăn. The superior man, in accordance with this), distinguishes things according to their kinds and classes.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 14,
+    "hexagramName": "Great Possession",
+    "judgment": "大有：元亨。\nTâ Yû indicates that, (under the circumstances which it implies), there will be great progress and success.",
+    "image": "象曰：火在天上，大有；君子以遏惡揚善，順天休命。\n(The trigram for) heaven and (that of) fire above it form Tâ Yû The superior man, in accordance with this, represses what is evil and gives distinction to what is good, in sympathy with the excellent Heaven-conferred (nature).",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 15,
+    "hexagramName": "Modesty",
+    "judgment": "謙：亨，君子有終。\nKhien indicates progress and success. The superior man, (being humble as it implies), will have a (good) issue (to his undertakings).",
+    "image": "象曰：地中有山，謙；君子以裒多益寡，稱物平施。\n(The trigram for) the earth and (that of) a mountain in the midst of it form Khien. The superior man, in accordance with this, diminishes what is excessive (in himself), and increases where there is any defect, bringing about an equality, according to the nature of the case, in his treatment (of himself and others).",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 16,
+    "hexagramName": "Enthusiasm",
+    "judgment": "豫：利建侯行師。\nYü indicates that, (in the state which it implies), feudal princes may be set up, and the hosts put in motion, with advantage.",
+    "image": "象曰：雷出地奮，豫。\n(The trigrams for) the earth and thunder issuing from it with its crashing noise form Yü. The ancient kings, in accordance with this, composed their music and did honour to virtue, presenting it especially and most grandly to God, when they associated with Him (at the service) their highest ancestor and their father.",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 17,
+    "hexagramName": "Following",
+    "judgment": "隨：元亨利貞，無咎。\nSui indicates that (under its conditions) there will be great progress and success. But it will be advantageous to be firm and correct. There will (then) be no error.",
+    "image": "象曰：澤中有雷，隨；君子以嚮晦入宴息。\n(The trigram for the waters of) a marsh and (that for) thunder (hidden) in the midst of it form Sui. The superior man in accordance with this, when it is getting towards dark, enters (his house) and rests.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 18,
+    "hexagramName": "Work On The Decayed",
+    "judgment": "蠱：元亨，利涉大川。先甲三日，後甲三日。\nKû indicates great progress and success (to him who deals properly with the condition represented by it). There will be advantage in (efforts like that of) crossing the great stream. (He should weigh well, however, the events of) three days before the turning point, and those (to be done) three days after it.",
+    "image": "象曰：山下有風，蠱；君子以振民育德。\n(The trigram for) a mountain, and below it that for wind, form Kû. The superior man, in accordance with this, (addresses himself to) help the people and nourish his own virtue.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 19,
+    "hexagramName": "Approach",
+    "judgment": "臨：元，亨，利，貞。至于八月有凶。\nLin (indicates that under the conditions supposed in it) there will be great progress and success, while it will be advantageous to be firmly correct. In the eighth month there will be evil.",
+    "image": "象曰：澤上有地，臨；君子以教思無窮，容保民無疆。\n(The trigram for) the waters of a marsh and that for the earth above it form Lin. The superior man, in accordance with this, has his purposes of instruction that are inexhaustible, and nourishes and supports the people without limit.",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 20,
+    "hexagramName": "Contemplation",
+    "judgment": "觀：盥而不薦，有孚顒若。\nKwân shows (how he whom it represents should be like) the worshipper who has washed his hands, but not (yet) presented his offerings;--with sincerity and an appearance of dignity (commanding reverent regard).",
+    "image": "象曰：風行地上，觀；先王以省方，觀民設教。\n(The trigram representing) the earth, and that for wind moving above it, form Kwan. The ancient kings, in accordance with this, examined the (different) regions (of the kingdom), to see the (ways of the) people, and set forth their instructions.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 21,
+    "hexagramName": "Biting Through",
+    "judgment": "噬嗑：亨。利用獄。\nShih Ho indicates successful progress (in the condition of things which it supposes). It will be advantageous to use legal constraints.",
+    "image": "象曰：雷電噬嗑；先王以明罰敕法。\n(The trigrams representing) thunder and lightning form Shih Ho. The ancient kings, in accordance with this, framed their penalties with intelligence, and promulgated their laws.",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 22,
+    "hexagramName": "Grace",
+    "judgment": "賁：亨。小利有所往。\nPî indicates that there should be free course (in what it denotes). There will be little advantage (however) if it be allowed to advance (and take the lead).",
+    "image": "象曰：山下有火，賁；君子以明庶政，無敢折獄。\n(The trigram representing) a mountain and that for fire under it form Pî. The superior man, in accordance with this, throws a brilliancy around his various processes of government, but does not dare (in a similar way) to decide cases of criminal litigation.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 23,
+    "hexagramName": "Splitting Apart",
+    "judgment": "剝：不利有攸往。\nPo indicates that (in the state which it symbolises) it will not be advantageous to make a movement in any direction whatever.",
+    "image": "象曰：山附于地，剝；上以厚下，安宅。\n(The trigrams representing) the earth, and (above it) that for a mountain, which adheres to the earth, form Po. Superiors, in accordance with this, seek to strengthen those below them, to secure the peace and stability of their own position.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 24,
+    "hexagramName": "Return",
+    "judgment": "復：亨。出入無疾，朋來無咎。反復其道，七日來復，利有攸往。\nFû indicates that there will be free course and progress (in what it denotes). (The subject of it) finds no one to distress him in his exits and entrances; friends come to him, and no error is committed. He will return and repeat his (proper) course. In seven days comes his return. There will be advantage in whatever direction movement is made.",
+    "image": "象曰：雷在地中，復；先王以至日閉關，商旅不行，后不省方。\n(The trigram representing) the earth and that for thunder in the midst of it form Fû. The ancient kings, in accordance with this, on the day. of the (winter) solstice, shut the gates of the passes (from one state to another), so that the travelling merchants could not (then) pursue their journeys, nor the princes go on with the inspection of their states.",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 25,
+    "hexagramName": "Innocence",
+    "judgment": "無妄：元，亨，利，貞。其匪正有眚，不利有攸往。\nWû Wang indicates great progress and success, while there will be advantage in being firm and correct. If (its subject and his action) be not correct, he will fall into errors, and it will not be advantageous for him to move in any direction.",
+    "image": "象曰：天下雷行，物與無妄；先王以茂對時，育萬物。\nThe thunder rolls all under the sky, and to (every)thing there is given (its nature), free from all insincerity. The ancient kings, in accordance with this, (made their regulations) in complete accordance with the seasons, thereby nourishing all things.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 26,
+    "hexagramName": "Great Taming",
+    "judgment": "大畜：利貞，不家食吉，利涉大川。\nUnder the conditions of Tâ Khû it will be advantageous to be firm and correct. (If its subject do not seek to) enjoy his revenues in his own family (without taking service at court), there will be good fortune. It will be advantageous for him to cross the great stream.",
+    "image": "象曰：天在山中，大畜；君子以多識前言往行，以畜其德。\n(The trigram representing) a mountain, and in the midst of it that (representing) heaven, form Tâ Khû. The superior man, in accordance with this, stores largely in his memory the words and deeds of former men, to subserve the accumulation of his virtue.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 27,
+    "hexagramName": "Mouth Corners",
+    "judgment": "頤：貞吉。觀頤，自求口實。\nÎ indicates that with firm correctness there will be good fortune (in what is denoted by it). We must look at what we are seeking to nourish, and by the exercise of our thoughts seek for the proper aliment.",
+    "image": "象曰：山下有雷，頤；君子以慎言語，節飲食。\n(The trigram representing) a mountain and under it that for thunder form Î. The superior man, in accordance with this, (enjoins) watchfulness over our words, and the temperate regulation of our eating and drinking.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 28,
+    "hexagramName": "Great Preponderance",
+    "judgment": "大過：棟橈，利有攸往，亨。\nTâ Kwo suggests to us a beam that is weak. There will be advantage in moving (under its conditions) in any direction whatever; there will be success.",
+    "image": "象曰：澤滅木，大過；君子以獨立不懼，遯世無悶。\n(The trigram representing) trees hidden beneath that for the waters of a marsh forms Tâ Kwo. The superior man, in accordance with this, stands up alone and has no fear, and keeps retired from the world without regret.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 29,
+    "hexagramName": "The Abysmal Water",
+    "judgment": "坎：習坎，有孚，維心亨，行有尚。\nKhan, here repeated, shows the possession of sincerity, through which the mind is penetrating. Action (in accordance with this) will be of high value.",
+    "image": "象曰：水洊至，習坎；君子以常德行，習教事。\n(The representation of) water flowing on continuously forms the repeated Khan. The superior man, in accordance with this, maintains constantly the virtue (of his heart) and (the integrity of) his conduct, and practises the business of instruction.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 30,
+    "hexagramName": "The Clinging Fire",
+    "judgment": "離：利貞，亨。畜牝牛，吉。\nLî indicates that, (in regard to what it denotes), it will be advantageous to be firm and correct, and that thus there will be free course and success. Let (its subject) also nourish (a docility like that of) the cow, and there will be good fortune.",
+    "image": "象曰：明兩作離，大人以繼明照于四方。\n(The trigram for) brightness, repeated, forms Lî. The great man, in accordance with this, cultivates more and more his brilliant (virtue), and diffuses its brightness over the four quarters (of the land).",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 31,
+    "hexagramName": "Influence",
+    "judgment": "咸：亨，利貞，取女吉。\nHsien indicates that, (on the fulfilment of the conditions implied in it), there will be free course and success. Its advantageousness will depend on the being firm and correct, (as) in marrying a young lady. There will be good fortune.",
+    "image": "象曰：山上有澤，咸；君子以虛受人。\n(The trigram representing) a mountain and above it that for (the waters of) a marsh form Hsien. The superior man, in accordance with this, keeps his mind free from pre-occupation, and open to receive (the influences of) others.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 32,
+    "hexagramName": "Duration",
+    "judgment": "恆：亨，無咎，利貞，利有攸往。\nHăng indicates successful progress and no error (in what it denotes). But the advantage will come from being firm and correct; and movement in any direction whatever will be advantageous.",
+    "image": "象曰：雷風，恆；君子以立不易方。\n(The trigram representing) thunder and that for wind form Hăng. The superior man, in accordance with this, stands firm, and does not change his method (of operation).",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 33,
+    "hexagramName": "Retreat",
+    "judgment": "遯：亨，小利貞。\nThun indicates successful progress (in its circumstances). To a small extent it will (still) be advantageous to be firm and correct.",
+    "image": "象曰：天下有山，遯；君子以遠小人，不惡而嚴。\n(The trigram representing) the sky and below it that for a mountain form Thun. The superior man, in accordance with this, keeps small men at a distance, not by showing that he hates them, but by his own. dignified gravity.",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 34,
+    "hexagramName": "Great Power",
+    "judgment": "大壯：利貞。\nTâ Kwang indicates that (under the conditions which it symbolises) it will be advantageous to be firm and correct.",
+    "image": "象曰：雷在天上，大壯；君子以非禮弗履。\n(The trigram representing) heaven and above it that for thunder form Tâ Kwang. The superior man, in accordance with this, does not take a step which is not according to propriety.",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 35,
+    "hexagramName": "Progress",
+    "judgment": "晉：康侯用錫馬蕃庶，晝日三接。\nIn Žin we see a prince who secures the tranquillity (of the people) presented on that account with numerous horses (by the king), and three times in a day received at interviews.",
+    "image": "象曰：明出地上，晉；君子以自昭明德。\n(The trigram representing) the earth and that for the bright (sun) coming forth above it form Žin. The superior man, according to this, gives himself to make more brilliant his bright virtue.",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 36,
+    "hexagramName": "Darkening Of The Light",
+    "judgment": "明夷：利艱貞。\nMing Î indicates that (in the circumstances which it denotes) it will be advantageous to realise the difficulty (of the position), and maintain firm correctness.",
+    "image": "象曰：明入地中，明夷；君子以蒞眾，用晦而明。\n(The trigram representing) the earth and that for the bright (sun) entering within it form Ming Î. The superior man, in accordance with this, conducts his management of men;--he shows his intelligence by keeping it obscured.",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 37,
+    "hexagramName": "The Family",
+    "judgment": "家人：利女貞。\nFor (the realisation of what is taught in) Kiâ Zăn, (or for the regulation of the family), what is most advantageous is that the wife be firm and correct.",
+    "image": "象曰：風自火出，家人；君子以言有物，而行有恆。\n(The trigram representing) fire, and that for wind coming forth from it, form Kiâ Zăn. The superior man, in accordance with this, orders his words according to (the truth of) things, and his conduct so that it is uniformly consistent.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 38,
+    "hexagramName": "Opposition",
+    "judgment": "睽：小事吉。\nKhwei indicates that, (notwithstanding the condition of things which it denotes), in small matters there will (still) be good success.",
+    "image": "象曰：上火下澤，睽；君子以同而異。\n(The trigram representing) fire above, and that for (the waters of) a marsh below, form Khwei. The superior man, in accordance with this, where there is a general agreement, yet admits diversity.",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 39,
+    "hexagramName": "Obstruction",
+    "judgment": "蹇：利西南，不利東北；利見大人，貞吉。\nIn (the state indicated by) Kien advantage will be found in the south-west, and the contrary in the north-east. It will be advantageous (also) to meet with the great man. (In these circumstances), with firmness and correctness, there will be good fortune.",
+    "image": "象曰：山上有水，蹇；君子以反身修德。\n(The trigram representing) a mountain, and above it that for water, form Kien. The superior man, in accordance with this, turns round (and examines) himself, and cultivates his virtue.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 40,
+    "hexagramName": "Deliverance",
+    "judgment": "解：利西南，無所往，其來復吉。有攸往，夙吉。\nIn (the state indicated by) Kieh advantage will be found in the south-west. If no (further) operations be called for, there will be good fortune in coming back (to the old conditions). If some operations be called for, there will be good fortune in the early conducting of them.",
+    "image": "象曰：雷雨作，解；君子以赦過宥罪。\n(The trigram representing) thunder and that for rain, with these phenomena in a state of manifestation, form Kieh. The superior man, in accordance with this, forgives errors, and deals gently with crimes.",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 41,
+    "hexagramName": "Decrease",
+    "judgment": "損：有孚，元吉，無咎，可貞，利有攸往？曷之用，二簋可用享。\nIn (what is denoted by) Sun, if there be sincerity (in him who employs it), there will be great good fortune:--freedom from error; firmness and correctness that can be maintained; and advantage in every movement that shall be made. In what shall this (sincerity in the exercise of Sun) be employed? (Even) in sacrifice two baskets of grain, (though there be nothing else), may be presented.",
+    "image": "象曰：山下有澤，損；君子以懲忿窒欲。\n(The trigram representing) a mountain and beneath it that for the waters of a marsh form Sun. The superior man, in accordance with this, restrains his wrath and represses his desires.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 42,
+    "hexagramName": "Increase",
+    "judgment": "益：利有攸往，利涉大川。\nYî indicates that (in the state which it denotes) there will be advantage in every movement which shall be undertaken, that it will be advantageous (even) to cross the great stream.",
+    "image": "象曰：風雷，益；君子以見善則遷，有過則改。\n(The trigram representing) wind and that for thunder form Yî. The superior man, in accordance with this, when he sees what is good, moves towards it; and when he sees his errors, he turns from them.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 43,
+    "hexagramName": "Breakthrough",
+    "judgment": "夬：揚于王庭，孚號，有厲，告自邑，不利即戎，利有攸往。\nKwâi requires (in him who would fulfil its meaning) the exhibition (of the culprit's guilt) in the royal court, and a sincere and earnest appeal (for sympathy and support), with a consciousness of the peril (involved in cutting off the criminal). He should (also) make announcement in his own city, and show that it will not be well to have recourse at once to arms. (In this way) there will be advantage in whatever he shall go forward to.",
+    "image": "象曰：澤上于天，夬；君子以施祿及下，居德則忌。\n(The trigram representing) heaven and that for the waters of a marsh mounting above it form Kwâi. The superior man, in accordance with this, bestows emolument on those below him, and dislikes allowing his gifts to accumulate (undispensed).",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Heaven"
+  },
+  {
+    "hexagramNumber": 44,
+    "hexagramName": "Coming To Meet",
+    "judgment": "姤：女壯，勿用取女。\nKâu shows a female who is bold and strong. It will not be good to marry (such) a female.",
+    "image": "象曰：天下有風，姤；后以施命誥四方。\n(The trigram representing) wind and that for the sky above it form Kâu. The sovereign, in accordance with this, delivers his charges, and promulgates his announcements throughout the four quarters (of the kingdom).",
+    "upperTrigram": "Heaven",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 45,
+    "hexagramName": "Gathering Together",
+    "judgment": "萃：亨。王假有廟，利見大人，亨，利貞。用大牲吉，利有攸往。\nIn (the state denoted by) Žhui, the king will repair to his ancestral temple. It will be advantageous (also) to meet with the great man; and then there will be progress and success, though the advantage must come through firm correctness. The use of great victims will conduce to good fortune; and in whatever direction movement is made, it will be advantageous.",
+    "image": "象曰：澤上於地，萃；君子以除戎器，戒不虞。\n(The trigram representing the) earth and that for the waters of a marsh raised above it form Žhui. The superior man, in accordance with this, has his weapons of war put in good repair, to be prepared against unforeseen contingencies.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Earth"
+  },
+  {
+    "hexagramNumber": 46,
+    "hexagramName": "Pushing Upward",
+    "judgment": "升：元亨，用見大人，勿恤，南征吉。\nShăng indicates that (under its conditions) there will be great progress and success. Seeking by (the qualities implied in it) to meet with the great man, its subject need have no anxiety. Advance to the south will be fortunate.",
+    "image": "象曰：地中生木，升；君子以順德，積小以高大。\n(The trigram representing) wood and that for the earth with the wood growing in the midst of it form Shăng. The superior man, in accordance with this, pays careful attention to his virtue, and accumulates the small developments of it till it is high and great.",
+    "upperTrigram": "Earth",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 47,
+    "hexagramName": "Oppression",
+    "judgment": "困：亨，貞，大人吉，無咎，有言不信。\nIn (the condition denoted by) Khwăn there may (yet be) progress and success. For the firm and correct, the (really) great man, there will be good fortune. He will fall into no error. If he make speeches, his words cannot be made good.",
+    "image": "象曰：澤無水，困；君子以致命遂志。\n(The trigram representing) a marsh, and (below it that for a defile, which has drained the other dry so that there is) no water in it, form Khwăn. The superior man, in accordance with this, will sacrifice his life in order to carry out his purpose.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 48,
+    "hexagramName": "The Well",
+    "judgment": "井：改邑不改井，無喪無得，往來井井。汔至，亦未繘井，羸其瓶，凶。\n(Looking at) Žing, (we think of) how (the site of) a town may be changed, while (the fashion of) its wells undergoes no change. (The water of a well) never disappears and never receives (any great) increase, and those who come and those who go can draw and enjoy the benefit. If (the drawing) have nearly been accomplished, but, before the rope has quite reached the water, the bucket is broken, this is evil.",
+    "image": "象曰：木上有水，井；君子以勞民勸相。\n(The trigram representing) wood and above it that for water form Žing. The superior man, in accordance with this, comforts the people, and. stimulates them to mutual helpfulness.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 49,
+    "hexagramName": "Revolution",
+    "judgment": "革：己日乃孚，元亨利貞，悔亡。\n(What takes place as indicated by) Ko is believed in only after it has been accomplished. There will be great progress and success. Advantage will come from being firm and correct. (In that case) occasion for repentance will disappear.",
+    "image": "象曰：澤中有火，革；君子以治歷明時。\n(The trigram representing the waters of) a marsh and that for fire in the midst of them form Ko. The superior man, in accordance with this, regulates his (astronomical) calculations, and makes clear the seasons and times.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 50,
+    "hexagramName": "The Cauldron",
+    "judgment": "鼎：元吉，亨。\nTing gives the intimation of great progress and success.",
+    "image": "象曰：木上有火，鼎；君子以正位凝命。\n(The trigram representing) wood and above it that for fire form Ting. The superior man, in accordance with this, keeps his every position correct, and maintains secure the appointment (of Heaven).",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 51,
+    "hexagramName": "The Arousing Thunder",
+    "judgment": "震：亨。震來虩虩，笑言啞啞。震驚百里，不喪匕鬯。\nKăn gives the intimation of ease and development. When (the time of) movement (which it indicates) comes, (the subject of the hexagram) will be found looking out with apprehension, and yet smiling and talking cheerfully. When the movement (like a crash of thunder) terrifies all within a hundred lî, he will be (like the sincere worshipper) who is not (startled into) letting go his ladle and (cup of) sacrificial spirits.",
+    "image": "象曰：洊雷，震；君子以恐懼修身。\n(The trigram representing) thunder, being repeated, forms Kăn. The superior man, in accordance with this, is fearful and apprehensive, cultivates (his virtue), and examines (his faults).",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Thunder"
+  },
+  {
+    "hexagramNumber": 52,
+    "hexagramName": "The Keeping Still Mountain",
+    "judgment": "艮：艮其背，不獲其身，行其庭，不見其人，無咎。\nWhen one's resting is like that of the back, and he loses all consciousness of self; when he walks in his courtyard, and does not see any (of the persons) in it,--there will be no error.",
+    "image": "象曰：兼山，艮；君子以思不出其位。\n(Two trigrams representing) a mountain, one over the other, form Kăn. The superior man, in 0 accordance with this, does not go in his thoughts beyond the (duties of the) position in which he is.",
+    "upperTrigram": "Mountain",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 53,
+    "hexagramName": "Development",
+    "judgment": "漸：女歸吉，利貞。\nKien suggests to us the marriage of a young lady, and the good fortune (attending it). There will be advantage in being firm and correct.",
+    "image": "象曰：山上有木，漸；君子以居賢德，善俗。\n(The trigram representing) a mountain and above it that for a tree form Kien. The superior man, in accordance with this, attains to and maintains his extraordinary virtue, and makes the manners of the people good.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 54,
+    "hexagramName": "The Marrying Maiden",
+    "judgment": "歸妹：征凶，無攸利。\nKwei Mei indicates that (under the conditions which it denotes) action will be evil, and in no wise advantageous.",
+    "image": "象曰：澤上有雷，歸妹；君子以永終知敝。\n(The trigram representing the waters of) a marsh and over it that for thunder form Kwei Mei. The superior man, in accordance with this, having regard to the far-distant end, knows the mischief (that may be done at the beginning).",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 55,
+    "hexagramName": "Abundance",
+    "judgment": "豐：亨，王假之，勿憂，宜日中。\nFăng intimates progress and development. When a king has reached the point (which the name denotes) there is no occasion to be anxious (through fear of a change). Let him be as the sun at noon.",
+    "image": "象曰：雷電皆至，豐；君子以折獄致刑。\n(The trigrams representing) thunder and lightning combine to form Făng. The superior man, in accordance with this, decides cases of litigation, and apportions punishments with exactness.",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 56,
+    "hexagramName": "The Wanderer",
+    "judgment": "旅：小亨，旅貞吉。\nLü intimates that (in the condition which it denotes) there may be some little attainment and progress. If the stranger or traveller be firm and correct as he ought to be, there will be good fortune.",
+    "image": "象曰：山上有火，旅；君子以明慎用刑，而不留獄。\n(The trigram representing) a mountain and above it that for fire form Lü. The superior man, in accordance with this, exerts his wisdom and caution in the use of punishments and not allowing litigations to continue.",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 57,
+    "hexagramName": "The Gentle Wind",
+    "judgment": "巽：小亨，利攸往，利見大人。\nSun intimates that (under the conditions which it denotes) there will be some little attainment and progress. There will be advantage in movement onward in whatever direction. It will be advantageous (also) to see the great man.",
+    "image": "象曰：隨風，巽；君子以申命行事。\n(Two trigrams representing) wind, following each other, form Sun. The superior man, in accordance with this, reiterates his orders, and secures the practice of his affairs.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Wind/Wood"
+  },
+  {
+    "hexagramNumber": 58,
+    "hexagramName": "The Joyous Lake",
+    "judgment": "兌：亨，利貞。\nTui intimates that (under its conditions) there will be progress and attainment. (But) it will be advantageous to be firm and correct.",
+    "image": "象曰：麗澤，兌；君子以朋友講習。\n(Two symbols representing) the waters of a marsh, one over the other, form Tui. The superior man, in accordance with this, (encourages) the conversation of friends and (the stimulus of) their (common) practice.",
+    "upperTrigram": "Lake",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 59,
+    "hexagramName": "Dispersion",
+    "judgment": "渙：亨。王假有廟，利涉大川，利貞。\nHwân intimates that (under its conditions) there will be progress and success. The king goes to his ancestral temple; and it will be advantageous to cross the great stream. It will be advantageous to be firm and correct.",
+    "image": "象曰：風行水上，渙；先王以享于帝立廟。\n(The trigram representing) water and that for wind moving above the water form Hwân. The ancient kings, in accordance with this, presented offerings to God and established the ancestral temple.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Water"
+  },
+  {
+    "hexagramNumber": 60,
+    "hexagramName": "Limitation",
+    "judgment": "節：亨。苦節不可貞。\nKieh intimates that (under its conditions) there will be progress and attainment. (But) if the regulations (which it prescribes) be severe and difficult, they cannot be permanent.",
+    "image": "象曰：澤上有水，節；君子以制數度，議德行。\n(The trigram representing) a lake, and above it that for water, form Kieh. The superior man, in accordance with this, constructs his (methods of) numbering and measurement, and discusses (points of) virtue and conduct.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 61,
+    "hexagramName": "Inner Truth",
+    "judgment": "中孚：豚魚，吉，利涉大川，利貞。\nKung Fû (moves even) pigs and fish, and leads to good fortune. There will be advantage in crossing the great stream. There will be advantage in being firm and correct.",
+    "image": "象曰：澤上有風，中孚；君子以議獄緩死。\n(The trigram representing the waters of) a marsh and that for wind above it form Kung Fû. The superior man, in accordance with this, deliberates about cases of litigation and delays (the infliction of) death.",
+    "upperTrigram": "Wind/Wood",
+    "lowerTrigram": "Lake"
+  },
+  {
+    "hexagramNumber": 62,
+    "hexagramName": "Small Preponderance",
+    "judgment": "小過：亨，利貞，可小事，不可大事。飛鳥遺之音，不宜上宜下，大吉。\nHsiâo Kwo indicates that (in the circumstances which it implies) there will be progress and attainment. But it will be advantageous to be firm and correct. (What the name denotes) may be done in small affairs, but not in great affairs. (It is like) the notes that come down from a bird on the wing;--to descend is better than to ascend. There will (in this way) be great good fortune.",
+    "image": "象曰：山上有雷，小過；君子以行過乎恭，喪過乎哀，用過乎儉。\n(The trigram representing) a hill and that for thunder above it form Hsiâo Kwo. The superior man, in accordance with this, in his conduct exceeds in humility, in mourning exceeds in sorrow, and in his expenditure exceeds in economy.",
+    "upperTrigram": "Thunder",
+    "lowerTrigram": "Mountain"
+  },
+  {
+    "hexagramNumber": 63,
+    "hexagramName": "After Completion",
+    "judgment": "既濟：亨，小利貞，初吉終亂。\nKî Žî intimates progress and success in small matters. There will be advantage in being firm and correct. There has been good fortune in the beginning; there may be disorder in the end.",
+    "image": "象曰：水在火上，既濟；君子以思患而預防之。\n(The trigram representing) fire and that for water above it form Kî Žî. The superior man, in accordance with this, thinks of evil (that may come), and beforehand guards against it.",
+    "upperTrigram": "Water",
+    "lowerTrigram": "Fire"
+  },
+  {
+    "hexagramNumber": 64,
+    "hexagramName": "Before Completion",
+    "judgment": "未濟：亨，小狐汔濟，濡其尾，無攸利。\nWei Žî intimates progress and success (in the circumstances which it implies). (We see) a young fox that has nearly crossed (the stream), when its tail gets immersed. There will be no advantage in any way.",
+    "image": "象曰：火在水上，未濟；君子以慎辨物居方。\n(The trigram representing) water and that for fire above it form Wei Žî. The superior man, in accordance with this, carefully discriminates among (the qualities of) things, and the (different) positions they (naturally) occupy.",
+    "upperTrigram": "Fire",
+    "lowerTrigram": "Water"
+  }
+]

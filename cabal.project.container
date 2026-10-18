@@ -1,0 +1,5 @@
+packages: .
+
+-- crypton 2.1.2's ARM SHA-3 C/assembly fails with Bookworm's GCC 12.
+-- Keep the portable 1.x implementation for this container toolchain.
+constraints: crypton < 2

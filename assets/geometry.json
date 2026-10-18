@@ -1,0 +1,88 @@
+{
+  "version": "1.0-initial",
+  "svg": "master.svg",
+  "viewBox": [
+    0,
+    0,
+    4000,
+    4000
+  ],
+  "palette": {
+    "parchment": "#f4ead4",
+    "parchment_dark": "#ead8b5",
+    "umber": "#4b2f1b",
+    "charcoal": "#25211c",
+    "gold": "#b79a55",
+    "ink_light": "#6c5a42"
+  },
+  "layers": [
+    "defs",
+    "background",
+    "border",
+    "guides",
+    "taijitu",
+    "earlier_heaven_ring",
+    "arrow_casting_left",
+    "arrow_casting_right",
+    "spiral_board",
+    "snakes",
+    "ladders",
+    "centre",
+    "fu_xi_octagon",
+    "king_wen_octagon",
+    "labels",
+    "metadata",
+    "animation"
+  ],
+  "anchors": {
+    "animation": [
+      "player_marker",
+      "arrow_animation",
+      "hexagram_animation",
+      "changing_lines",
+      "dice",
+      "highlight"
+    ],
+    "casting": [
+      "arrow_casting_left",
+      "arrow_casting_right"
+    ]
+  },
+  "regions": {
+    "taijitu": {
+      "center": {
+        "x": 2000,
+        "y": 560
+      },
+      "radius": 160
+    },
+    "earlierHeavenRing": {
+      "center": {
+        "x": 2000,
+        "y": 560
+      },
+      "radius": 300
+    },
+    "centre": {
+      "center": {
+        "x": 2000,
+        "y": 2260
+      },
+      "radius": 235
+    },
+    "fuXiOctagon": {
+      "center": {
+        "x": 610,
+        "y": 3280
+      },
+      "radius": 255
+    },
+    "kingWenOctagon": {
+      "center": {
+        "x": 3390,
+        "y": 3280
+      },
+      "radius": 255
+    }
+  }
+}

@@ -2,9 +2,9 @@ cabal-version:      3.0
 name:               tao-of-lila
 version:            0.1.0.0
 synopsis:           A contemplative Leela and I Ching self-inquiry engine
-description:        Pure Haskell domain model and Servant API for The Tao of Lila.
+description:        Pure Haskell domain model and Servant API for The Tao of Leela.
 license:            MIT
-author:             Tao of Lila contributors
+author:             Tao of Leela contributors
 maintainer:         maintainers@example.com
 build-type:         Simple
 
@@ -16,21 +16,49 @@ common warnings
 library
   import:           warnings
   exposed-modules:  API.Server
+                  , API.Admin
+                  , Persistence.Analytics
+                  , Domain.Reference
+                  , Persistence.Reference
+                  , Domain.StateView
+                  , Domain.Contemplation
+                  , Domain.Persona
+                  , Domain.Journey
+                  , Domain.Game
                   , Domain.HexagramIndex
                   , Domain.Loading
                   , Domain.Types
+                  , Engine.Casting
+                  , Runtime.Casting
+                  , Runtime.Avatar
+                  , Engine.Movement
+                  , Engine.Game
                   , Engine.Reading
                   , Interpretation.Engine
+                  , Interpretation.ContemplationModel
+                  , Interpretation.OpenAI
+                  , Persistence.PersonaSchema
+                  , Persistence.Persona
+                  , Persistence.Journey
+                  , Persistence.Postgres
   hs-source-dirs:   src
   build-depends:    base >=4.17 && <5
                   , aeson >=2.0
                   , array
                   , bytestring
+                  , bcrypt
+                  , cryptonite
+                  , memory
                   , filepath
+                  , http-types
+                  , http-client
+                  , http-client-tls
+                  , postgresql-simple
                   , scientific
                   , servant
                   , servant-server
                   , text
+                  , time
                   , wai
                   , wai-app-static
   default-language: Haskell2010
@@ -39,9 +67,11 @@ executable tao-of-lila-api
   import:           warnings
   main-is:          Main.hs
   hs-source-dirs:   app
-  ghc-options:      -threaded -rtsopts
+  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
   build-depends:    base >=4.17 && <5
+                  , bytestring
                   , tao-of-lila
+                  , text
                   , warp
   default-language: Haskell2010
 
@@ -49,8 +79,70 @@ test-suite tao-of-lila-test
   import:           warnings
   type:             exitcode-stdio-1.0
   main-is:          Main.hs
+  other-modules:    StateViewHTTP
+                  , AdminHTTP
   hs-source-dirs:   test
   build-depends:    base >=4.17 && <5
+                  , aeson >=2.0
+                  , bytestring
                   , tao-of-lila
                   , text
+                  , wai
+                  , http-types
+  default-language: Haskell2010
+
+executable tao-of-lila-interpretation-test
+  import:           warnings
+  main-is:          Main.hs
+  other-modules:    Web
+  ghc-options:      -threaded -rtsopts
+  hs-source-dirs:   app/interpretation-test
+  build-depends:    base >=4.17 && <5
+                  , aeson >=2.0
+                  , bytestring
+                  , tao-of-lila
+                  , text
+                  , servant
+                  , servant-server
+                  , warp
+  default-language: Haskell2010
+
+test-suite movement-statistics
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test/movement-statistics
+  build-depends:    base >=4.17 && <5
+                  , tao-of-lila
+  default-language: Haskell2010
+
+test-suite persona-persistence
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test/persona-persistence
+  build-depends:    base >=4.17 && <5
+                  , tao-of-lila
+                  , postgresql-simple
+                  , aeson
+                  , bcrypt
+                  , bytestring
+                  , text
+                  , time
+  default-language: Haskell2010
+
+test-suite admin-persistence
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  hs-source-dirs:   test/admin-persistence
+  build-depends:    base >=4.17 && <5
+                  , tao-of-lila
+                  , postgresql-simple
+                  , aeson
+                  , bytestring
+                  , text
+                  , time
+                  , wai
+                  , http-types
   default-language: Haskell2010

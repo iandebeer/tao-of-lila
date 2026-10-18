@@ -1,0 +1,2138 @@
+{
+  "catalogVersion": "state-view-v1",
+  "catalogNote": "Traditional 72-square names with original project commentary; source-backed hexagram texts are merged by scripts/build-state-catalog.mjs. Reference transitions do not change movement rules.",
+  "sources": [
+    "data/leela.json — existing Tao of Leela game identities",
+    "assets/bagua.json — existing trigram identities, lines and arrangements",
+    "app/public/journey/hexagram-labels.json — existing binary-keyed names",
+    "User-supplied Expanded State Views brief — traditional examples 55 → 3 and 37 → 66",
+    "https://www.themathesontrust.org/papers/fareasternreligions/Yijing-Shuo_Gua-Wilhelm-Lynn.pdf — Shuo Gua animal and family associations; summaries are original Tao of Leela editorial text",
+    "https://en.quantumgame.love/guide/leela-board-72-squares.html — square/Sanskrit label cross-check only; no modern commentary imported"
+  ],
+  "stateMetadata": [
+    {
+      "stateId": 1,
+      "canonicalInterpretation": "Birth invites attention to the conditions from which this encounter begins. What has been given, what is being learned and what can be chosen now?",
+      "visualIdentity": {
+        "hue": "#b6c2ae",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Janma",
+        "englishName": "Birth",
+        "coreMeaning": "Entering the field of experience begins a life of relationship, limitation and possibility.",
+        "traditionalInterpretation": "Birth invites attention to the conditions from which this encounter begins. What has been given, what is being learned and what can be chosen now?",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 2,
+      "canonicalInterpretation": "Illusion need not mean that experience is unreal. Distinguish the event itself from the story, expectation or fear through which it is being understood.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Maya",
+        "englishName": "Illusion",
+        "coreMeaning": "An appearance is taken to be the whole reality rather than one way it is being encountered.",
+        "traditionalInterpretation": "Illusion need not mean that experience is unreal. Distinguish the event itself from the story, expectation or fear through which it is being understood.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 3,
+      "canonicalInterpretation": "Anger may reveal an important limit while narrowing the range of responses you can see. Recognise what needs protection before deciding how to act.",
+      "visualIdentity": {
+        "hue": "#b8b1a0",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Krodha",
+        "englishName": "Anger",
+        "coreMeaning": "A frustrated desire or threatened boundary gathers energy into opposition.",
+        "traditionalInterpretation": "Anger may reveal an important limit while narrowing the range of responses you can see. Recognise what needs protection before deciding how to act.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 4,
+      "canonicalInterpretation": "Ask what the next acquisition is expected to secure. A clearer account of enough may reveal the insecurity that possession has not resolved.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Lobha",
+        "englishName": "Greed",
+        "coreMeaning": "The wish to acquire continues after a practical need has been met.",
+        "traditionalInterpretation": "Ask what the next acquisition is expected to secure. A clearer account of enough may reveal the insecurity that possession has not resolved.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 5,
+      "canonicalInterpretation": "The physical plane asks for attention to actual resources and limits. Ground a desired change in the ordinary conditions that will make it possible.",
+      "visualIdentity": {
+        "hue": "#c0a98e",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Bhu-loka",
+        "englishName": "Physical Plane",
+        "coreMeaning": "Life is encountered through a body, a place and the material conditions that sustain them.",
+        "traditionalInterpretation": "The physical plane asks for attention to actual resources and limits. Ground a desired change in the ordinary conditions that will make it possible.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 6,
+      "canonicalInterpretation": "Delusion is examined through a specific assumption rather than used as a judgment of the person. What evidence would change your understanding, and are you willing to consider it?",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Moha",
+        "englishName": "Delusion",
+        "coreMeaning": "Attachment to a desired view of events interferes with recognising what is happening.",
+        "traditionalInterpretation": "Delusion is examined through a specific assumption rather than used as a judgment of the person. What evidence would change your understanding, and are you willing to consider it?",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 7,
+      "canonicalInterpretation": "Notice where being seen to be right or admirable is displacing the purpose of the encounter. Let one useful action matter without making it evidence of your status.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Mada",
+        "englishName": "Vanity",
+        "coreMeaning": "An image of personal importance becomes something that must continually be defended.",
+        "traditionalInterpretation": "Notice where being seen to be right or admirable is displacing the purpose of the encounter. Let one useful action matter without making it evidence of your status.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 8,
+      "canonicalInterpretation": "Avarice asks how security has become tied to withholding. Consider a proportionate act of sharing that respects real limits while testing the expectation of deprivation.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Matsarya",
+        "englishName": "Avarice",
+        "coreMeaning": "Fear of having less makes sharing or another person’s gain feel threatening.",
+        "traditionalInterpretation": "Avarice asks how security has become tied to withholding. Consider a proportionate act of sharing that respects real limits while testing the expectation of deprivation.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 9,
+      "canonicalInterpretation": "The sensual plane invites recognition of appetite without either condemning or obeying it automatically. Which desire is present, and what follows from acting on it?",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Kama-loka",
+        "englishName": "Sensual Plane",
+        "coreMeaning": "Desire draws attention toward experiences that promise pleasure or relief.",
+        "traditionalInterpretation": "The sensual plane invites recognition of appetite without either condemning or obeying it automatically. Which desire is present, and what follows from acting on it?",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 10,
+      "canonicalInterpretation": "Purification here means clarifying habits, not declaring the body or other people impure. Choose a sustainable practice that makes room for care rather than an ordeal that proves worth.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Tapa",
+        "englishName": "Purification",
+        "coreMeaning": "A chosen discipline reduces what obscures attention and conduct.",
+        "traditionalInterpretation": "Purification here means clarifying habits, not declaring the body or other people impure. Choose a sustainable practice that makes room for care rather than an ordeal that proves worth.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 23,
+          "transitionInterpretation": "The reference ladder connects Purification with Celestial Plane. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 11,
+      "canonicalInterpretation": "Delight becomes nourishing when it is received without demanding that it last. Notice whether enjoyment brings you back to your relationships or helps you avoid them.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Gandharva-loka",
+        "englishName": "Entertainment",
+        "coreMeaning": "Music, play and sensory pleasure can restore a mind narrowed by effort.",
+        "traditionalInterpretation": "Delight becomes nourishing when it is received without demanding that it last. Notice whether enjoyment brings you back to your relationships or helps you avoid them.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 12,
+      "canonicalInterpretation": "Comparison can reveal what you value, but it cannot tell you what your life should become. Identify the wish beneath envy and one way to pursue it without diminishing another person.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Irshya",
+        "englishName": "Envy",
+        "coreMeaning": "Another person's good fortune brings an unacknowledged wish into view.",
+        "traditionalInterpretation": "Comparison can reveal what you value, but it cannot tell you what your life should become. Identify the wish beneath envy and one way to pursue it without diminishing another person.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 8,
+          "transitionInterpretation": "The reference snake connects Envy with Avarice. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 13,
+      "canonicalInterpretation": "An interval can feel like insignificance when worth depends on constant achievement. Leave some room around the unanswered question and distinguish uncertainty from absence of possibility.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Antariksha",
+        "englishName": "Nullity",
+        "coreMeaning": "A familiar role falls quiet before a new direction has become clear.",
+        "traditionalInterpretation": "An interval can feel like insignificance when worth depends on constant achievement. Leave some room around the unanswered question and distinguish uncertainty from absence of possibility.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 14,
+      "canonicalInterpretation": "Imagination helps rehearse a different response. Keep a distinction between what has been observed, what has been inferred and what is hoped for.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Bhuvar-loka",
+        "englishName": "Astral Plane",
+        "coreMeaning": "The mind gives shape to possibilities that are not yet present.",
+        "traditionalInterpretation": "Imagination helps rehearse a different response. Keep a distinction between what has been observed, what has been inferred and what is hoped for.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 15,
+      "canonicalInterpretation": "Fantasy may express a real need while offering an unreliable plan for meeting it. Bring one detail of the dream into contact with practical evidence.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Naga-loka",
+        "englishName": "Fantasy",
+        "coreMeaning": "An imagined outcome becomes more compelling than the circumstances in front of you.",
+        "traditionalInterpretation": "Fantasy may express a real need while offering an unreliable plan for meeting it. Bring one detail of the dream into contact with practical evidence.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 16,
+      "canonicalInterpretation": "A boundary can be necessary without feeding hostility. Ask what needs protection, what can be changed and what reaction is adding further difficulty.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Dvesha",
+        "englishName": "Jealousy",
+        "coreMeaning": "Dislike hardens into a demand that a person or experience disappear.",
+        "traditionalInterpretation": "A boundary can be necessary without feeding hostility. Ask what needs protection, what can be changed and what reaction is adding further difficulty.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 4,
+          "transitionInterpretation": "The reference snake connects Jealousy with Greed. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 17,
+      "canonicalInterpretation": "Mercy considers the conditions that shaped a mistake while retaining responsibility for its consequences. Offer help that respects both the receiver's agency and your own limits.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Daya",
+        "englishName": "Mercy",
+        "coreMeaning": "Another being's vulnerability interrupts the habit of judging solely by performance.",
+        "traditionalInterpretation": "Mercy considers the conditions that shaped a mistake while retaining responsibility for its consequences. Offer help that respects both the receiver's agency and your own limits.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 69,
+          "transitionInterpretation": "The reference ladder connects Mercy with Plane of Brahma. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 18,
+      "canonicalInterpretation": "Joy need not wait for the removal of every difficulty. Let an ordinary source of gratitude become specific without using it to dismiss grief.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Harsha-loka",
+        "englishName": "Joy",
+        "coreMeaning": "Gladness arises when attention is available to what is already sustaining life.",
+        "traditionalInterpretation": "Joy need not wait for the removal of every difficulty. Let an ordinary source of gratitude become specific without using it to dismiss grief.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 19,
+      "canonicalInterpretation": "Separate the quality of the action from your attachment to its reward. Choose a step that you can stand behind even if recognition is delayed.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Karma-loka",
+        "englishName": "Plane of Action",
+        "coreMeaning": "Intentions enter the world through actions and acquire consequences beyond your control.",
+        "traditionalInterpretation": "Separate the quality of the action from your attachment to its reward. Choose a step that you can stand behind even if recognition is delayed.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 20,
+      "canonicalInterpretation": "Giving can share resources, attention or opportunity. Examine whether the gift is freely offered or carries an unspoken demand for approval or obedience.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Dana",
+        "englishName": "Generosity",
+        "coreMeaning": "Something held as exclusively yours becomes available to another.",
+        "traditionalInterpretation": "Giving can share resources, attention or opportunity. Examine whether the gift is freely offered or carries an unspoken demand for approval or obedience.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 32,
+          "transitionInterpretation": "The reference ladder connects Generosity with Plane of Balance. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 21,
+      "canonicalInterpretation": "Regret becomes useful when it leads to a proportionate repair. Name your part accurately, make amends where possible and avoid turning remorse into a permanent identity.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Samana-papa",
+        "englishName": "Atonement",
+        "coreMeaning": "Acknowledging harm opens the possibility of changing what happens next.",
+        "traditionalInterpretation": "Regret becomes useful when it leads to a proportionate repair. Name your part accurately, make amends where possible and avoid turning remorse into a permanent identity.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 22,
+      "canonicalInterpretation": "Right conduct is more demanding than following a rule mechanically. Consider which responsibilities belong to you here and whether your chosen action can bear honest explanation.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Dharma-loka",
+        "englishName": "Right Conduct",
+        "coreMeaning": "A decision is considered in relation to commitments, circumstances and the wellbeing of others.",
+        "traditionalInterpretation": "Right conduct is more demanding than following a rule mechanically. Consider which responsibilities belong to you here and whether your chosen action can bear honest explanation.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 60,
+          "transitionInterpretation": "The reference ladder connects Right Conduct with Sound Judgment. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 23,
+      "canonicalInterpretation": "Receive ease without treating it as proof of superiority or a guarantee about tomorrow. What becomes possible when you no longer need to improve this moment immediately?",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Svarga-loka",
+        "englishName": "Celestial Plane",
+        "coreMeaning": "Conditions briefly support a sense of harmony and sufficiency.",
+        "traditionalInterpretation": "Receive ease without treating it as proof of superiority or a guarantee about tomorrow. What becomes possible when you no longer need to improve this moment immediately?",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 24,
+      "canonicalInterpretation": "Belonging has a cost when it requires abandoning your judgment. Notice which conversations encourage contempt, evasion or excess, and make a concrete boundary around that influence.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Kusanga-loka",
+        "englishName": "Unhelpful Company",
+        "coreMeaning": "A surrounding group makes an unhelpful habit easier to repeat.",
+        "traditionalInterpretation": "Belonging has a cost when it requires abandoning your judgment. Notice which conversations encourage contempt, evasion or excess, and make a concrete boundary around that influence.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 7,
+          "transitionInterpretation": "The reference snake connects Unhelpful Company with Vanity. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 25,
+      "canonicalInterpretation": "Support includes people who can disagree without humiliating you. Seek a relationship or practice that helps you remember your commitments when motivation is weak.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Susanga-loka",
+        "englishName": "Supportive Company",
+        "coreMeaning": "Good company strengthens the capacity to act with care and honesty.",
+        "traditionalInterpretation": "Support includes people who can disagree without humiliating you. Seek a relationship or practice that helps you remember your commitments when motivation is weak.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 26,
+      "canonicalInterpretation": "Sorrow can reveal the depth of an attachment without making that attachment a mistake. Attend to what needs mourning and what ordinary support would make today more bearable.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Duhkha",
+        "englishName": "Sorrow",
+        "coreMeaning": "A loss or disappointment asks to be acknowledged rather than argued away.",
+        "traditionalInterpretation": "Sorrow can reveal the depth of an attachment without making that attachment a mistake. Attend to what needs mourning and what ordinary support would make today more bearable.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 27,
+      "canonicalInterpretation": "Service becomes clearer when the actual need takes priority over the wish to be indispensable. Ask the people affected what would help, and include sustainability in your understanding of generosity.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Paramartha",
+        "englishName": "Selfless Service",
+        "coreMeaning": "Action is offered for a purpose larger than personal credit.",
+        "traditionalInterpretation": "Service becomes clearer when the actual need takes priority over the wish to be indispensable. Ask the people affected what would help, and include sustainability in your understanding of generosity.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 41,
+          "transitionInterpretation": "The reference ladder connects Selfless Service with Human Plane. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 28,
+      "canonicalInterpretation": "Vocation need not be a single grand calling. Explore where your abilities meet a real need and what disciplined preparation that meeting requires.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Sudharma",
+        "englishName": "Right Dharma",
+        "coreMeaning": "A responsibility begins to fit your capacities and circumstances.",
+        "traditionalInterpretation": "Vocation need not be a single grand calling. Explore where your abilities meet a real need and what disciplined preparation that meeting requires.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 50,
+          "transitionInterpretation": "The reference ladder connects Right Dharma with Plane of Austerity. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 29,
+      "canonicalInterpretation": "Misalignment often begins with a small exception that becomes normal. Identify the value being compromised and an achievable way to restore consistency.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Adharma",
+        "englishName": "Unrighteousness",
+        "coreMeaning": "Convenience or allegiance draws conduct away from a responsibility you recognise.",
+        "traditionalInterpretation": "Misalignment often begins with a small exception that becomes normal. Identify the value being compromised and an achievable way to restore consistency.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 6,
+          "transitionInterpretation": "The reference snake connects Unrighteousness with Delusion. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 30,
+      "canonicalInterpretation": "A tendency is cultivated through practice rather than claimed as a permanent virtue. Arrange one condition that supports the habit you want to strengthen.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Uttama-gati",
+        "englishName": "Beneficial Tendencies",
+        "coreMeaning": "Repeated small choices make a constructive response easier to reach.",
+        "traditionalInterpretation": "A tendency is cultivated through practice rather than claimed as a permanent virtue. Arrange one condition that supports the habit you want to strengthen.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 31,
+      "canonicalInterpretation": "Reverence can change how you handle a place, object or relationship. Let respect appear in a specific act of care rather than in a claim to possess the sacred.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Yaksha-loka",
+        "englishName": "Sanctity",
+        "coreMeaning": "Something is encountered as worthy of attention beyond its usefulness to you.",
+        "traditionalInterpretation": "Reverence can change how you handle a place, object or relationship. Let respect appear in a specific act of care rather than in a claim to possess the sacred.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 32,
+      "canonicalInterpretation": "Equilibrium is responsive adjustment, not permanent stillness. Look for the neglected need or excessive demand that is making the current arrangement unstable.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Mahar-loka",
+        "englishName": "Plane of Balance",
+        "coreMeaning": "Competing demands are brought into a workable relationship.",
+        "traditionalInterpretation": "Equilibrium is responsive adjustment, not permanent stillness. Look for the neglected need or excessive demand that is making the current arrangement unstable.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 33,
+      "canonicalInterpretation": "Fragrance invites attention to influences that are felt before they are explained. Notice the association, then check whether it belongs to the present situation or to an earlier one.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Gandha-loka",
+        "englishName": "Fragrance",
+        "coreMeaning": "A small sensory impression carries a memory or changes the atmosphere of experience.",
+        "traditionalInterpretation": "Fragrance invites attention to influences that are felt before they are explained. Notice the association, then check whether it belongs to the present situation or to an earlier one.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 34,
+      "canonicalInterpretation": "Taste includes the capacity to notice differences. Allow pleasure, disappointment and complexity to be recognised without demanding that every experience satisfy the same appetite.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Rasa-loka",
+        "englishName": "Taste",
+        "coreMeaning": "Experience is received with its particular flavour instead of being reduced to a judgment of success or failure.",
+        "traditionalInterpretation": "Taste includes the capacity to notice differences. Allow pleasure, disappointment and complexity to be recognised without demanding that every experience satisfy the same appetite.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 35,
+      "canonicalInterpretation": "This contemplative use of the underworld image concerns the experience of being caught in suffering, not a verdict of damnation. Begin with the consequence you can address and seek help for what exceeds your resources.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Naraka-loka",
+        "englishName": "Purgatory",
+        "coreMeaning": "An avoided consequence becomes difficult to ignore.",
+        "traditionalInterpretation": "This contemplative use of the underworld image concerns the experience of being caught in suffering, not a verdict of damnation. Begin with the consequence you can address and seek help for what exceeds your resources.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 36,
+      "canonicalInterpretation": "Clarity includes admitting what is unknown. Describe the situation in observable terms before deciding what it means about you or anyone else.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Svaccha",
+        "englishName": "Clarity",
+        "coreMeaning": "Attention becomes less clouded by the need to defend a preferred story.",
+        "traditionalInterpretation": "Clarity includes admitting what is unknown. Describe the situation in observable terms before deciding what it means about you or anyone else.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 37,
+      "canonicalInterpretation": "Test an insight in conduct, not only in explanation. What does the situation ask you to do differently now that you see something you previously missed?",
+      "visualIdentity": {
+        "hue": "#b4bdc5",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Jnana",
+        "englishName": "True Knowledge",
+        "coreMeaning": "Information becomes understanding when it changes how you meet experience.",
+        "traditionalInterpretation": "Test an insight in conduct, not only in explanation. What does the situation ask you to do differently now that you see something you previously missed?",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 66,
+          "transitionInterpretation": "Understanding loosens the demand to possess an answer, opening toward the spaciousness of bliss."
+        }
+      }
+    },
+    {
+      "stateId": 38,
+      "canonicalInterpretation": "Here prana is a traditional contemplative symbol, not a medical measurement. Notice what restores your willingness to engage and which demands repeatedly exhaust it.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Prana-loka",
+        "englishName": "Prana",
+        "coreMeaning": "The felt capacity to participate returns through attention to ordinary sources of energy.",
+        "traditionalInterpretation": "Here prana is a traditional contemplative symbol, not a medical measurement. Notice what restores your willingness to engage and which demands repeatedly exhaust it.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 39,
+      "canonicalInterpretation": "The traditional image of downward movement becomes a prompt to consider endings. Distinguish a needed release from an attempt to discard discomfort before understanding it.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Apana-loka",
+        "englishName": "Apana",
+        "coreMeaning": "What has completed its purpose is allowed to leave.",
+        "traditionalInterpretation": "The traditional image of downward movement becomes a prompt to consider endings. Distinguish a needed release from an attempt to discard discomfort before understanding it.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 40,
+      "canonicalInterpretation": "Circulation asks where something is accumulating and where it is not reaching a genuine need. Consider a practical redistribution of effort, information or support.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Vyana-loka",
+        "englishName": "Vyana",
+        "coreMeaning": "Resources and attention move through a larger network of relationships.",
+        "traditionalInterpretation": "Circulation asks where something is accumulating and where it is not reaching a genuine need. Consider a practical redistribution of effort, information or support.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 41,
+      "canonicalInterpretation": "Shared humanity does not erase differences in experience or power. Let recognition of a common vulnerability make your response more attentive to the particular person before you.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Jana-loka",
+        "englishName": "Human Plane",
+        "coreMeaning": "Your concern is recognised as one expression of a wider human condition.",
+        "traditionalInterpretation": "Shared humanity does not erase differences in experience or power. Let recognition of a common vulnerability make your response more attentive to the particular person before you.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 42,
+      "canonicalInterpretation": "Fire is used here as a symbol of transformation. Ask what effort is clarifying the work and what excess is merely generating heat.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Agni-loka",
+        "englishName": "Plane of Fire",
+        "coreMeaning": "Intensity can illuminate a commitment or consume the conditions needed to sustain it.",
+        "traditionalInterpretation": "Fire is used here as a symbol of transformation. Ask what effort is clarifying the work and what excess is merely generating heat.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 43,
+      "canonicalInterpretation": "Human opportunity is finite and unevenly distributed. Begin with the freedom that is actually available, rather than blaming yourself for constraints or waiting for complete control.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Manushya-janma",
+        "englishName": "Human Birth",
+        "coreMeaning": "The capacity to reflect gives you a choice within circumstances you did not choose.",
+        "traditionalInterpretation": "Human opportunity is finite and unevenly distributed. Begin with the freedom that is actually available, rather than blaming yourself for constraints or waiting for complete control.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 44,
+      "canonicalInterpretation": "Ignorance need not mean lack of intelligence. Look for an assumption protected from testing, especially one that turns a changing role or feeling into an absolute identity.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Avidya",
+        "englishName": "Ignorance",
+        "coreMeaning": "A partial account of experience is mistaken for the whole.",
+        "traditionalInterpretation": "Ignorance need not mean lack of intelligence. Look for an assumption protected from testing, especially one that turns a changing role or feeling into an absolute identity.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 9,
+          "transitionInterpretation": "The reference snake connects Ignorance with Sensual Plane. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 45,
+      "canonicalInterpretation": "Learning asks for sources, practice and a willingness to revise. Choose one uncertainty that can be investigated rather than filling the gap with certainty borrowed from someone else.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Suvidya",
+        "englishName": "Right Knowledge",
+        "coreMeaning": "Careful inquiry replaces the comfort of an untested answer.",
+        "traditionalInterpretation": "Learning asks for sources, practice and a willingness to revise. Choose one uncertainty that can be investigated rather than filling the gap with certainty borrowed from someone else.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 67,
+          "transitionInterpretation": "The reference ladder connects Right Knowledge with Plane of Rudra. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 46,
+      "canonicalInterpretation": "Discernment becomes practical through attention to consequences. Consider which option serves the deeper purpose of the encounter and which merely promises immediate relief.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Viveka",
+        "englishName": "Discrimination",
+        "coreMeaning": "A lasting commitment is distinguished from a passing impulse.",
+        "traditionalInterpretation": "Discernment becomes practical through attention to consequences. Consider which option serves the deeper purpose of the encounter and which merely promises immediate relief.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 62,
+          "transitionInterpretation": "The reference ladder connects Discrimination with Happiness. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 47,
+      "canonicalInterpretation": "Quiet attention makes room for distinctions that hurried judgment misses. Notice what can be heard when preparing a response is briefly set aside.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Sarasvati",
+        "englishName": "Sarasvati",
+        "coreMeaning": "Attention listens without immediately converting experience into action or argument.",
+        "traditionalInterpretation": "Quiet attention makes room for distinctions that hurried judgment misses. Notice what can be heard when preparing a response is briefly set aside.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 48,
+      "canonicalInterpretation": "The solar channel is treated as traditional symbolism rather than an anatomical claim. Consider how initiative, structure and outward effort can serve the present need without overpowering it.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Yamuna",
+        "englishName": "Solar Plane",
+        "coreMeaning": "The active side of experience seeks a clear direction and an appropriate limit.",
+        "traditionalInterpretation": "The solar channel is treated as traditional symbolism rather than an anatomical claim. Consider how initiative, structure and outward effort can serve the present need without overpowering it.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 49,
+      "canonicalInterpretation": "The lunar channel is used symbolically. Give listening and recovery a place alongside action, while noticing when receptivity becomes avoidance of a necessary decision.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Ganga",
+        "englishName": "Lunar Plane",
+        "coreMeaning": "The receptive side of experience allows impressions to arrive before deciding what to do.",
+        "traditionalInterpretation": "The lunar channel is used symbolically. Give listening and recovery a place alongside action, while noticing when receptivity becomes avoidance of a necessary decision.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 50,
+      "canonicalInterpretation": "Concentration is supported by conditions as well as will. Reduce one avoidable distraction and choose a duration of practice that can be sustained without self-punishment.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Tapa-loka",
+        "englishName": "Plane of Austerity",
+        "coreMeaning": "Attention gathers around a chosen practice instead of following every competing demand.",
+        "traditionalInterpretation": "Concentration is supported by conditions as well as will. Reduce one avoidable distraction and choose a duration of practice that can be sustained without self-punishment.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 51,
+      "canonicalInterpretation": "Earth asks what makes a proposed change supportable in daily life. Attend to the practical foundation before interpreting difficulty as a failure of intention.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Prithivi",
+        "englishName": "Earth",
+        "coreMeaning": "The question returns to material conditions: body, place, time and resources.",
+        "traditionalInterpretation": "Earth asks what makes a proposed change supportable in daily life. Attend to the practical foundation before interpreting difficulty as a failure of intention.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 52,
+      "canonicalInterpretation": "Harm may appear in speech, action or the organisation of a relationship. Identify the pressure being applied, stop what can be stopped and consider repair without excusing the impact.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Himsa-loka",
+        "englishName": "Violence",
+        "coreMeaning": "Force seeks to overcome resistance without adequate regard for what is injured.",
+        "traditionalInterpretation": "Harm may appear in speech, action or the organisation of a relationship. Identify the pressure being applied, stop what can be stopped and consider repair without excusing the impact.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 35,
+          "transitionInterpretation": "The reference snake connects Violence with Purgatory. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 53,
+      "canonicalInterpretation": "Water offers an image of adaptation. Consider where flexibility would help and where a boundary is needed to prevent adaptation from becoming self-erasure.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Jala-loka",
+        "englishName": "Water",
+        "coreMeaning": "A response finds a workable form without losing contact with its purpose.",
+        "traditionalInterpretation": "Water offers an image of adaptation. Consider where flexibility would help and where a boundary is needed to prevent adaptation from becoming self-erasure.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 54,
+      "canonicalInterpretation": "Devotion is expressed through the way attention and effort are offered. Ask whether the object of dedication enlarges your capacity for care or demands that judgment be surrendered.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Bhakti-loka",
+        "englishName": "Devotion",
+        "coreMeaning": "Care becomes a sustained orientation rather than a passing mood.",
+        "traditionalInterpretation": "Devotion is expressed through the way attention and effort are offered. Ask whether the object of dedication enlarges your capacity for care or demands that judgment be surrendered.",
+        "transition": {
+          "transitionType": "ladder",
+          "destination": 68,
+          "transitionInterpretation": "The reference ladder connects Devotion with Cosmic Consciousness. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 55,
+      "canonicalInterpretation": "Notice the difference between having a boundary and demanding centrality. A disagreement may concern the situation rather than the worth of the person you take yourself to be.",
+      "visualIdentity": {
+        "hue": "#b9a6b2",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Ahamkara",
+        "englishName": "Egotism",
+        "coreMeaning": "A useful sense of self contracts into the requirement that every event affirm it.",
+        "traditionalInterpretation": "Notice the difference between having a boundary and demanding centrality. A disagreement may concern the situation rather than the worth of the person you take yourself to be.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 3,
+          "transitionInterpretation": "When identity depends on being affirmed, contradiction can become anger. The descent invites attention to that dependence."
+        }
+      }
+    },
+    {
+      "stateId": 56,
+      "canonicalInterpretation": "Omkara names a traditional sacred-sound symbol. In this board it invites listening to the quality of participation, without claiming that a sound guarantees a particular spiritual result.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Omkara",
+        "englishName": "Omkara",
+        "coreMeaning": "A sound or repeated phrase gathers scattered attention into a shared rhythm.",
+        "traditionalInterpretation": "Omkara names a traditional sacred-sound symbol. In this board it invites listening to the quality of participation, without claiming that a sound guarantees a particular spiritual result.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 57,
+      "canonicalInterpretation": "Air suggests the value of a fresh perspective and the risk of constant restlessness. Let a new possibility circulate, then decide which part deserves a grounded experiment.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Vayu-loka",
+        "englishName": "Air",
+        "coreMeaning": "Change becomes noticeable through movement, contact and the exchange of ideas.",
+        "traditionalInterpretation": "Air suggests the value of a fresh perspective and the risk of constant restlessness. Let a new possibility circulate, then decide which part deserves a grounded experiment.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 58,
+      "canonicalInterpretation": "Radiance is not a claim to personal superiority. Let what has become clear be shared in a way that increases another person's agency rather than making them dependent on your authority.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Teja-loka",
+        "englishName": "Radiance",
+        "coreMeaning": "Understanding makes a situation more visible and can help others find their bearings.",
+        "traditionalInterpretation": "Radiance is not a claim to personal superiority. Let what has become clear be shared in a way that increases another person's agency rather than making them dependent on your authority.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 59,
+      "canonicalInterpretation": "Truthfulness includes proportion, context and the courage to acknowledge uncertainty. Ask whether a statement clarifies the encounter or merely strengthens the position from which you speak.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Satya-loka",
+        "englishName": "Plane of Truth",
+        "coreMeaning": "Speech and conduct are brought closer to what you actually know and intend.",
+        "traditionalInterpretation": "Truthfulness includes proportion, context and the courage to acknowledge uncertainty. Ask whether a statement clarifies the encounter or merely strengthens the position from which you speak.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 60,
+      "canonicalInterpretation": "Sound judgment is open to correction. Compare the evidence for your preferred choice with the strongest reason against it before deciding.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Subuddhi",
+        "englishName": "Sound Judgment",
+        "coreMeaning": "Intelligence considers both immediate effects and the larger purpose of an action.",
+        "traditionalInterpretation": "Sound judgment is open to correction. Compare the evidence for your preferred choice with the strongest reason against it before deciding.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 61,
+      "canonicalInterpretation": "A convincing explanation can conceal a weak premise. Look for the fact you would rather not include and see how the decision changes when it is admitted.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Durbuddhi",
+        "englishName": "Distorted Judgment",
+        "coreMeaning": "Reasoning is used to defend an impulse after the decision has effectively been made.",
+        "traditionalInterpretation": "A convincing explanation can conceal a weak premise. Look for the fact you would rather not include and see how the decision changes when it is admitted.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 13,
+          "transitionInterpretation": "The reference snake connects Distorted Judgment with Nullity. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 62,
+      "canonicalInterpretation": "Consider the difference between pleasure that restores capacity and pleasure that leaves a larger need unattended. Let happiness be received without turning it into an obligation to feel good.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Sukha",
+        "englishName": "Happiness",
+        "coreMeaning": "Wellbeing is experienced as something more stable than the satisfaction of a single demand.",
+        "traditionalInterpretation": "Consider the difference between pleasure that restores capacity and pleasure that leaves a larger need unattended. Let happiness be received without turning it into an obligation to feel good.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 63,
+      "canonicalInterpretation": "The traditional quality of tamas is a lens for reflection, not a diagnosis. Begin with a small clarifying action and distinguish a need for rest from the habit of postponing engagement.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Tamas",
+        "englishName": "Obscuration",
+        "coreMeaning": "Confusion, avoidance or exhaustion reduces the capacity to see and respond.",
+        "traditionalInterpretation": "The traditional quality of tamas is a lens for reflection, not a diagnosis. Begin with a small clarifying action and distinguish a need for rest from the habit of postponing engagement.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 2,
+          "transitionInterpretation": "The reference snake connects Obscuration with Illusion. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    },
+    {
+      "stateId": 64,
+      "canonicalInterpretation": "Nature includes the interplay of tendencies rather than a fixed personal essence. Notice what the environment encourages and what changes when one supporting condition is altered.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Prakriti-loka",
+        "englishName": "Phenomenal Plane",
+        "coreMeaning": "Experience is seen within the changing conditions that make it possible.",
+        "traditionalInterpretation": "Nature includes the interplay of tendencies rather than a fixed personal essence. Notice what the environment encourages and what changes when one supporting condition is altered.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 65,
+      "canonicalInterpretation": "Inner space does not require the mind to become blank. Practise allowing one experience to be present while retaining the freedom to choose the next action.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Uranta-loka",
+        "englishName": "Inner Space",
+        "coreMeaning": "Awareness can hold a thought or feeling without immediately following it.",
+        "traditionalInterpretation": "Inner space does not require the mind to become blank. Practise allowing one experience to be present while retaining the freedom to choose the next action.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 66,
+      "canonicalInterpretation": "Bliss is used as a traditional contemplative image, not a promised permanent state. Notice moments in which the demand to secure experience relaxes and ordinary participation is enough.",
+      "visualIdentity": {
+        "hue": "#c9bea1",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Ananda-loka",
+        "englishName": "Bliss",
+        "coreMeaning": "Contentment is approached without making possession or achievement its condition.",
+        "traditionalInterpretation": "Bliss is used as a traditional contemplative image, not a promised permanent state. Notice moments in which the demand to secure experience relaxes and ordinary participation is enough.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 67,
+      "canonicalInterpretation": "Renewal can involve loss as well as possibility. Distinguish what truly needs to end from what can be repaired, and allow the effects on others to matter.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Rudra-loka",
+        "englishName": "Plane of Rudra",
+        "coreMeaning": "An established form loses its usefulness and makes room for a different arrangement.",
+        "traditionalInterpretation": "Renewal can involve loss as well as possibility. Distinguish what truly needs to end from what can be repaired, and allow the effects on others to matter.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 68,
+      "canonicalInterpretation": "This is a philosophical perspective, not a claim that a casting proves enlightenment. Explore how a wider sense of belonging would change the next ordinary act of care.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Vaikuntha-loka",
+        "englishName": "Cosmic Consciousness",
+        "coreMeaning": "The self is contemplated as participating in a reality larger than its private concerns.",
+        "traditionalInterpretation": "This is a philosophical perspective, not a claim that a casting proves enlightenment. Explore how a wider sense of belonging would change the next ordinary act of care.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 69,
+      "canonicalInterpretation": "Creation includes preparation, limitation and cooperation. Give the emerging possibility a concrete first form while remaining willing to revise it through experience.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Brahma-loka",
+        "englishName": "Plane of Brahma",
+        "coreMeaning": "A new arrangement begins to take form from conditions already present.",
+        "traditionalInterpretation": "Creation includes preparation, limitation and cooperation. Give the emerging possibility a concrete first form while remaining willing to revise it through experience.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 70,
+      "canonicalInterpretation": "The quality of sattva can itself become an object of pride. Use a clear interval to act well, rather than to rank yourself above people meeting different conditions.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Sattva-guna",
+        "englishName": "Sattva",
+        "coreMeaning": "Clarity, steadiness and care support a less reactive response.",
+        "traditionalInterpretation": "The quality of sattva can itself become an object of pride. Use a clear interval to act well, rather than to rank yourself above people meeting different conditions.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 71,
+      "canonicalInterpretation": "Activity can accomplish necessary work while continually moving the measure of enough. Choose a stopping point and examine whether the effort still serves its original purpose.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Rajo-guna",
+        "englishName": "Rajas",
+        "coreMeaning": "Desire and effort set experience in motion and seek a result.",
+        "traditionalInterpretation": "Activity can accomplish necessary work while continually moving the measure of enough. Choose a stopping point and examine whether the effort still serves its original purpose.",
+        "transition": null
+      }
+    },
+    {
+      "stateId": 72,
+      "canonicalInterpretation": "Inertia is approached through conditions and small actions rather than condemnation. Identify the least demanding useful step, and make room for support when energy or clarity is limited.",
+      "visualIdentity": {
+        "hue": null,
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "traditionalReference": {
+        "sanskritName": "Tamo-guna",
+        "englishName": "Tamas",
+        "coreMeaning": "Habit continues because changing it seems harder than enduring its cost.",
+        "traditionalInterpretation": "Inertia is approached through conditions and small actions rather than condemnation. Identify the least demanding useful step, and make room for support when energy or clarity is limited.",
+        "transition": {
+          "transitionType": "snake",
+          "destination": 51,
+          "transitionInterpretation": "The reference snake connects Tamas with Earth. Reflect on how the first state can lead into the second in the Persona’s situation."
+        }
+      }
+    }
+  ],
+  "trigramViews": [
+    {
+      "trigramBinary": 7,
+      "trigramChinese": "乾",
+      "trigramPinyin": "Qian",
+      "naturalImage": "Heaven",
+      "linesBottomToTop": [
+        1,
+        1,
+        1
+      ],
+      "family": "Father",
+      "animal": "Horse",
+      "trigramVisual": {
+        "hue": "#c9c5b4",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "south",
+      "laterHeavenDirection": "northwest"
+    },
+    {
+      "trigramBinary": 3,
+      "trigramChinese": "兌",
+      "trigramPinyin": "Dui",
+      "naturalImage": "Lake",
+      "linesBottomToTop": [
+        1,
+        1,
+        0
+      ],
+      "family": "Youngest daughter",
+      "animal": "Sheep",
+      "trigramVisual": {
+        "hue": "#c7c0ae",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "southeast",
+      "laterHeavenDirection": "west"
+    },
+    {
+      "trigramBinary": 5,
+      "trigramChinese": "離",
+      "trigramPinyin": "Li",
+      "naturalImage": "Fire",
+      "linesBottomToTop": [
+        1,
+        0,
+        1
+      ],
+      "family": "Middle daughter",
+      "animal": "Pheasant",
+      "trigramVisual": {
+        "hue": "#c6a397",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "east",
+      "laterHeavenDirection": "south"
+    },
+    {
+      "trigramBinary": 1,
+      "trigramChinese": "震",
+      "trigramPinyin": "Zhen",
+      "naturalImage": "Thunder",
+      "linesBottomToTop": [
+        1,
+        0,
+        0
+      ],
+      "family": "Eldest son",
+      "animal": "Dragon",
+      "trigramVisual": {
+        "hue": "#a8b89a",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "northeast",
+      "laterHeavenDirection": "east"
+    },
+    {
+      "trigramBinary": 6,
+      "trigramChinese": "巽",
+      "trigramPinyin": "Xun",
+      "naturalImage": "Wind/Wood",
+      "linesBottomToTop": [
+        0,
+        1,
+        1
+      ],
+      "family": "Eldest daughter",
+      "animal": "Rooster",
+      "trigramVisual": {
+        "hue": "#a8bcb0",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "southwest",
+      "laterHeavenDirection": "southeast"
+    },
+    {
+      "trigramBinary": 2,
+      "trigramChinese": "坎",
+      "trigramPinyin": "Kan",
+      "naturalImage": "Water",
+      "linesBottomToTop": [
+        0,
+        1,
+        0
+      ],
+      "family": "Middle son",
+      "animal": "Pig",
+      "trigramVisual": {
+        "hue": "#9bacbd",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "west",
+      "laterHeavenDirection": "north"
+    },
+    {
+      "trigramBinary": 4,
+      "trigramChinese": "艮",
+      "trigramPinyin": "Gen",
+      "naturalImage": "Mountain",
+      "linesBottomToTop": [
+        0,
+        0,
+        1
+      ],
+      "family": "Youngest son",
+      "animal": "Dog",
+      "trigramVisual": {
+        "hue": "#b1ad9f",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "northwest",
+      "laterHeavenDirection": "northeast"
+    },
+    {
+      "trigramBinary": 0,
+      "trigramChinese": "坤",
+      "trigramPinyin": "Kun",
+      "naturalImage": "Earth",
+      "linesBottomToTop": [
+        0,
+        0,
+        0
+      ],
+      "family": "Mother",
+      "animal": "Ox",
+      "trigramVisual": {
+        "hue": "#c4b28d",
+        "imageAsset": null,
+        "symbol": null,
+        "element": null
+      },
+      "animalImageAsset": null,
+      "earlierHeavenDirection": "north",
+      "laterHeavenDirection": "southwest"
+    }
+  ],
+  "hexagramViews": [
+    {
+      "binaryValue": 0,
+      "kingWenNumber": 2,
+      "translatedName": "The Receptive Earth",
+      "chineseName": "坤",
+      "glyph": "䷁",
+      "upperBinary": 0,
+      "lowerBinary": 0,
+      "traditionalSummary": "Receptivity offers support and room for things to take form. Responsiveness can be an active way of participating."
+    },
+    {
+      "binaryValue": 1,
+      "kingWenNumber": 24,
+      "translatedName": "Return",
+      "chineseName": null,
+      "glyph": "䷗",
+      "upperBinary": 0,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 2,
+      "kingWenNumber": 7,
+      "translatedName": "The Army",
+      "chineseName": null,
+      "glyph": "䷆",
+      "upperBinary": 0,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 3,
+      "kingWenNumber": 19,
+      "translatedName": "Approach",
+      "chineseName": null,
+      "glyph": "䷒",
+      "upperBinary": 0,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 4,
+      "kingWenNumber": 15,
+      "translatedName": "Modesty",
+      "chineseName": null,
+      "glyph": "䷎",
+      "upperBinary": 0,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 5,
+      "kingWenNumber": 36,
+      "translatedName": "Darkening Of The Light",
+      "chineseName": "明夷",
+      "glyph": "䷣",
+      "upperBinary": 0,
+      "lowerBinary": 5,
+      "traditionalSummary": "When brightness is obscured, discernment may need protection. Quietly preserving clarity can matter more than displaying it."
+    },
+    {
+      "binaryValue": 6,
+      "kingWenNumber": 46,
+      "translatedName": "Pushing Upward",
+      "chineseName": null,
+      "glyph": "䷭",
+      "upperBinary": 0,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 7,
+      "kingWenNumber": 11,
+      "translatedName": "Peace",
+      "chineseName": "泰",
+      "glyph": "䷊",
+      "upperBinary": 0,
+      "lowerBinary": 7,
+      "traditionalSummary": "Peace is pictured through the meeting of heaven and earth. Exchange becomes possible when different positions remain open to one another."
+    },
+    {
+      "binaryValue": 8,
+      "kingWenNumber": 16,
+      "translatedName": "Enthusiasm",
+      "chineseName": null,
+      "glyph": "䷏",
+      "upperBinary": 1,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 9,
+      "kingWenNumber": 51,
+      "translatedName": "The Arousing Thunder",
+      "chineseName": null,
+      "glyph": "䷲",
+      "upperBinary": 1,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 10,
+      "kingWenNumber": 40,
+      "translatedName": "Deliverance",
+      "chineseName": null,
+      "glyph": "䷧",
+      "upperBinary": 1,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 11,
+      "kingWenNumber": 54,
+      "translatedName": "The Marrying Maiden",
+      "chineseName": null,
+      "glyph": "䷵",
+      "upperBinary": 1,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 12,
+      "kingWenNumber": 62,
+      "translatedName": "Small Preponderance",
+      "chineseName": null,
+      "glyph": "䷽",
+      "upperBinary": 1,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 13,
+      "kingWenNumber": 55,
+      "translatedName": "Abundance",
+      "chineseName": null,
+      "glyph": "䷶",
+      "upperBinary": 1,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 14,
+      "kingWenNumber": 32,
+      "translatedName": "Duration",
+      "chineseName": null,
+      "glyph": "䷟",
+      "upperBinary": 1,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 15,
+      "kingWenNumber": 34,
+      "translatedName": "Great Power",
+      "chineseName": null,
+      "glyph": "䷡",
+      "upperBinary": 1,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 16,
+      "kingWenNumber": 8,
+      "translatedName": "Holding Together",
+      "chineseName": null,
+      "glyph": "䷇",
+      "upperBinary": 2,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 17,
+      "kingWenNumber": 3,
+      "translatedName": "Difficulty At The Beginning",
+      "chineseName": null,
+      "glyph": "䷂",
+      "upperBinary": 2,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 18,
+      "kingWenNumber": 29,
+      "translatedName": "The Abysmal Water",
+      "chineseName": null,
+      "glyph": "䷜",
+      "upperBinary": 2,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 19,
+      "kingWenNumber": 60,
+      "translatedName": "Limitation",
+      "chineseName": null,
+      "glyph": "䷻",
+      "upperBinary": 2,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 20,
+      "kingWenNumber": 39,
+      "translatedName": "Obstruction",
+      "chineseName": null,
+      "glyph": "䷦",
+      "upperBinary": 2,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 21,
+      "kingWenNumber": 63,
+      "translatedName": "After Completion",
+      "chineseName": null,
+      "glyph": "䷾",
+      "upperBinary": 2,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 22,
+      "kingWenNumber": 48,
+      "translatedName": "The Well",
+      "chineseName": null,
+      "glyph": "䷯",
+      "upperBinary": 2,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 23,
+      "kingWenNumber": 5,
+      "translatedName": "Waiting",
+      "chineseName": null,
+      "glyph": "䷄",
+      "upperBinary": 2,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 24,
+      "kingWenNumber": 45,
+      "translatedName": "Gathering Together",
+      "chineseName": null,
+      "glyph": "䷬",
+      "upperBinary": 3,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 25,
+      "kingWenNumber": 17,
+      "translatedName": "Following",
+      "chineseName": null,
+      "glyph": "䷐",
+      "upperBinary": 3,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 26,
+      "kingWenNumber": 47,
+      "translatedName": "Oppression",
+      "chineseName": null,
+      "glyph": "䷮",
+      "upperBinary": 3,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 27,
+      "kingWenNumber": 58,
+      "translatedName": "The Joyous Lake",
+      "chineseName": null,
+      "glyph": "䷹",
+      "upperBinary": 3,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 28,
+      "kingWenNumber": 31,
+      "translatedName": "Influence",
+      "chineseName": null,
+      "glyph": "䷞",
+      "upperBinary": 3,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 29,
+      "kingWenNumber": 49,
+      "translatedName": "Revolution",
+      "chineseName": null,
+      "glyph": "䷰",
+      "upperBinary": 3,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 30,
+      "kingWenNumber": 28,
+      "translatedName": "Great Preponderance",
+      "chineseName": null,
+      "glyph": "䷛",
+      "upperBinary": 3,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 31,
+      "kingWenNumber": 43,
+      "translatedName": "Breakthrough",
+      "chineseName": null,
+      "glyph": "䷪",
+      "upperBinary": 3,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 32,
+      "kingWenNumber": 23,
+      "translatedName": "Splitting Apart",
+      "chineseName": null,
+      "glyph": "䷖",
+      "upperBinary": 4,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 33,
+      "kingWenNumber": 27,
+      "translatedName": "Mouth Corners",
+      "chineseName": null,
+      "glyph": "䷚",
+      "upperBinary": 4,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 34,
+      "kingWenNumber": 4,
+      "translatedName": "Youthful Folly",
+      "chineseName": null,
+      "glyph": "䷃",
+      "upperBinary": 4,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 35,
+      "kingWenNumber": 41,
+      "translatedName": "Decrease",
+      "chineseName": null,
+      "glyph": "䷨",
+      "upperBinary": 4,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 36,
+      "kingWenNumber": 52,
+      "translatedName": "The Keeping Still Mountain",
+      "chineseName": null,
+      "glyph": "䷳",
+      "upperBinary": 4,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 37,
+      "kingWenNumber": 22,
+      "translatedName": "Grace",
+      "chineseName": null,
+      "glyph": "䷕",
+      "upperBinary": 4,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 38,
+      "kingWenNumber": 18,
+      "translatedName": "Work On The Decayed",
+      "chineseName": null,
+      "glyph": "䷑",
+      "upperBinary": 4,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 39,
+      "kingWenNumber": 26,
+      "translatedName": "Great Taming",
+      "chineseName": null,
+      "glyph": "䷙",
+      "upperBinary": 4,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 40,
+      "kingWenNumber": 35,
+      "translatedName": "Progress",
+      "chineseName": null,
+      "glyph": "䷢",
+      "upperBinary": 5,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 41,
+      "kingWenNumber": 21,
+      "translatedName": "Biting Through",
+      "chineseName": null,
+      "glyph": "䷔",
+      "upperBinary": 5,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 42,
+      "kingWenNumber": 64,
+      "translatedName": "Before Completion",
+      "chineseName": null,
+      "glyph": "䷿",
+      "upperBinary": 5,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 43,
+      "kingWenNumber": 38,
+      "translatedName": "Opposition",
+      "chineseName": null,
+      "glyph": "䷥",
+      "upperBinary": 5,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 44,
+      "kingWenNumber": 56,
+      "translatedName": "The Wanderer",
+      "chineseName": null,
+      "glyph": "䷷",
+      "upperBinary": 5,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 45,
+      "kingWenNumber": 30,
+      "translatedName": "The Clinging Fire",
+      "chineseName": null,
+      "glyph": "䷝",
+      "upperBinary": 5,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 46,
+      "kingWenNumber": 50,
+      "translatedName": "The Cauldron",
+      "chineseName": null,
+      "glyph": "䷱",
+      "upperBinary": 5,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 47,
+      "kingWenNumber": 14,
+      "translatedName": "Great Possession",
+      "chineseName": null,
+      "glyph": "䷍",
+      "upperBinary": 5,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 48,
+      "kingWenNumber": 20,
+      "translatedName": "Contemplation",
+      "chineseName": null,
+      "glyph": "䷓",
+      "upperBinary": 6,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 49,
+      "kingWenNumber": 42,
+      "translatedName": "Increase",
+      "chineseName": null,
+      "glyph": "䷩",
+      "upperBinary": 6,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 50,
+      "kingWenNumber": 59,
+      "translatedName": "Dispersion",
+      "chineseName": null,
+      "glyph": "䷺",
+      "upperBinary": 6,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 51,
+      "kingWenNumber": 61,
+      "translatedName": "Inner Truth",
+      "chineseName": null,
+      "glyph": "䷼",
+      "upperBinary": 6,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 52,
+      "kingWenNumber": 53,
+      "translatedName": "Development",
+      "chineseName": null,
+      "glyph": "䷴",
+      "upperBinary": 6,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 53,
+      "kingWenNumber": 37,
+      "translatedName": "The Family",
+      "chineseName": null,
+      "glyph": "䷤",
+      "upperBinary": 6,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 54,
+      "kingWenNumber": 57,
+      "translatedName": "The Gentle Wind",
+      "chineseName": null,
+      "glyph": "䷸",
+      "upperBinary": 6,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 55,
+      "kingWenNumber": 9,
+      "translatedName": "Small Taming",
+      "chineseName": null,
+      "glyph": "䷈",
+      "upperBinary": 6,
+      "lowerBinary": 7,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 56,
+      "kingWenNumber": 12,
+      "translatedName": "Standstill",
+      "chineseName": null,
+      "glyph": "䷋",
+      "upperBinary": 7,
+      "lowerBinary": 0,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 57,
+      "kingWenNumber": 25,
+      "translatedName": "Innocence",
+      "chineseName": null,
+      "glyph": "䷘",
+      "upperBinary": 7,
+      "lowerBinary": 1,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 58,
+      "kingWenNumber": 6,
+      "translatedName": "Conflict",
+      "chineseName": null,
+      "glyph": "䷅",
+      "upperBinary": 7,
+      "lowerBinary": 2,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 59,
+      "kingWenNumber": 10,
+      "translatedName": "Treading",
+      "chineseName": null,
+      "glyph": "䷉",
+      "upperBinary": 7,
+      "lowerBinary": 3,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 60,
+      "kingWenNumber": 33,
+      "translatedName": "Retreat",
+      "chineseName": null,
+      "glyph": "䷠",
+      "upperBinary": 7,
+      "lowerBinary": 4,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 61,
+      "kingWenNumber": 13,
+      "translatedName": "Fellowship",
+      "chineseName": null,
+      "glyph": "䷌",
+      "upperBinary": 7,
+      "lowerBinary": 5,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 62,
+      "kingWenNumber": 44,
+      "translatedName": "Coming To Meet",
+      "chineseName": null,
+      "glyph": "䷫",
+      "upperBinary": 7,
+      "lowerBinary": 6,
+      "traditionalSummary": null
+    },
+    {
+      "binaryValue": 63,
+      "kingWenNumber": 1,
+      "translatedName": "The Creative Heaven",
+      "chineseName": "乾",
+      "glyph": "䷀",
+      "upperBinary": 7,
+      "lowerBinary": 7,
+      "traditionalSummary": "Creative strength asks for sustained, well-timed action. Its force becomes useful through care in how it is expressed."
+    }
+  ]
+}

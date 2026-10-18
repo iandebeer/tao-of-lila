@@ -1,0 +1,242 @@
+{
+  "version": "1.0-initial",
+  "lineEncoding": {
+    "yin": 0,
+    "yang": 1,
+    "bitOrder": "bottom-to-top"
+  },
+  "trigrams": [
+    {
+      "id": "qian",
+      "symbolId": "trigram_qian",
+      "binaryValue": 7,
+      "linesBottomToTop": [
+        1,
+        1,
+        1
+      ],
+      "chinese": "乾",
+      "pinyin": "Qian",
+      "english": "Heaven"
+    },
+    {
+      "id": "dui",
+      "symbolId": "trigram_dui",
+      "binaryValue": 3,
+      "linesBottomToTop": [
+        1,
+        1,
+        0
+      ],
+      "chinese": "兌",
+      "pinyin": "Dui",
+      "english": "Lake"
+    },
+    {
+      "id": "li",
+      "symbolId": "trigram_li",
+      "binaryValue": 5,
+      "linesBottomToTop": [
+        1,
+        0,
+        1
+      ],
+      "chinese": "離",
+      "pinyin": "Li",
+      "english": "Fire"
+    },
+    {
+      "id": "zhen",
+      "symbolId": "trigram_zhen",
+      "binaryValue": 1,
+      "linesBottomToTop": [
+        1,
+        0,
+        0
+      ],
+      "chinese": "震",
+      "pinyin": "Zhen",
+      "english": "Thunder"
+    },
+    {
+      "id": "xun",
+      "symbolId": "trigram_xun",
+      "binaryValue": 6,
+      "linesBottomToTop": [
+        0,
+        1,
+        1
+      ],
+      "chinese": "巽",
+      "pinyin": "Xun",
+      "english": "Wind/Wood"
+    },
+    {
+      "id": "kan",
+      "symbolId": "trigram_kan",
+      "binaryValue": 2,
+      "linesBottomToTop": [
+        0,
+        1,
+        0
+      ],
+      "chinese": "坎",
+      "pinyin": "Kan",
+      "english": "Water"
+    },
+    {
+      "id": "gen",
+      "symbolId": "trigram_gen",
+      "binaryValue": 4,
+      "linesBottomToTop": [
+        0,
+        0,
+        1
+      ],
+      "chinese": "艮",
+      "pinyin": "Gen",
+      "english": "Mountain"
+    },
+    {
+      "id": "kun",
+      "symbolId": "trigram_kun",
+      "binaryValue": 0,
+      "linesBottomToTop": [
+        0,
+        0,
+        0
+      ],
+      "chinese": "坤",
+      "pinyin": "Kun",
+      "english": "Earth"
+    }
+  ],
+  "arrangements": {
+    "earlierHeaven": [
+      {
+        "position": "south",
+        "trigramId": "qian",
+        "angleDegrees": 90
+      },
+      {
+        "position": "southeast",
+        "trigramId": "dui",
+        "angleDegrees": 45
+      },
+      {
+        "position": "east",
+        "trigramId": "li",
+        "angleDegrees": 0
+      },
+      {
+        "position": "northeast",
+        "trigramId": "zhen",
+        "angleDegrees": -45
+      },
+      {
+        "position": "north",
+        "trigramId": "kun",
+        "angleDegrees": -90
+      },
+      {
+        "position": "northwest",
+        "trigramId": "gen",
+        "angleDegrees": -135
+      },
+      {
+        "position": "west",
+        "trigramId": "kan",
+        "angleDegrees": 180
+      },
+      {
+        "position": "southwest",
+        "trigramId": "xun",
+        "angleDegrees": 135
+      }
+    ],
+    "fuXiOctagon": [
+      {
+        "position": "south",
+        "trigramId": "qian",
+        "angleDegrees": 90
+      },
+      {
+        "position": "southeast",
+        "trigramId": "dui",
+        "angleDegrees": 45
+      },
+      {
+        "position": "east",
+        "trigramId": "li",
+        "angleDegrees": 0
+      },
+      {
+        "position": "northeast",
+        "trigramId": "zhen",
+        "angleDegrees": -45
+      },
+      {
+        "position": "north",
+        "trigramId": "kun",
+        "angleDegrees": -90
+      },
+      {
+        "position": "northwest",
+        "trigramId": "gen",
+        "angleDegrees": -135
+      },
+      {
+        "position": "west",
+        "trigramId": "kan",
+        "angleDegrees": 180
+      },
+      {
+        "position": "southwest",
+        "trigramId": "xun",
+        "angleDegrees": 135
+      }
+    ],
+    "kingWenOctagon": [
+      {
+        "position": "north",
+        "trigramId": "kan",
+        "angleDegrees": -90
+      },
+      {
+        "position": "northeast",
+        "trigramId": "gen",
+        "angleDegrees": -45
+      },
+      {
+        "position": "east",
+        "trigramId": "zhen",
+        "angleDegrees": 0
+      },
+      {
+        "position": "southeast",
+        "trigramId": "xun",
+        "angleDegrees": 45
+      },
+      {
+        "position": "south",
+        "trigramId": "li",
+        "angleDegrees": 90
+      },
+      {
+        "position": "southwest",
+        "trigramId": "kun",
+        "angleDegrees": 135
+      },
+      {
+        "position": "west",
+        "trigramId": "dui",
+        "angleDegrees": 180
+      },
+      {
+        "position": "northwest",
+        "trigramId": "qian",
+        "angleDegrees": -135
+      }
+    ]
+  }
+}

@@ -5,6 +5,19 @@ module Main
   )
 where
 
+import qualified Domain.Reference as Ref
+import qualified Domain.Persona as P
+import qualified Domain.StateView as SV
+import AdminHTTP (checkAdminHTTP)
+import StateViewHTTP (checkStateViewHTTP)
+import qualified Data.Text as T
+import Data.Text (Text)
+import Data.Aeson (Value (..), toJSON, encode, object, (.=), fromJSON, Result (..))
+import qualified Data.Aeson.KeyMap as KM
+import Data.Bits (testBit, xor)
+import qualified Data.Text.Encoding as TE
+import qualified Data.ByteString.Lazy as LBS
+import Interpretation.OpenAI (decodeContemplationResponse, requestValue, OpenAIConfig (..))
 import Domain.Types
   ( DomainData (..)
   , Hexagram (..)
@@ -13,16 +26,202 @@ import Domain.Types
   , Reading (..)
   , ReadingRequest (..)
   )
-import Domain.HexagramIndex (binaryToKingWen)
+import Engine.Movement (movementFromChangingLines)
+import Domain.Journey (allowedStage, validWorkflow, initialWorkflow, Workflow (..))
+import Domain.HexagramIndex (binaryToKingWen, kingWenToBinary)
+import Domain.Contemplation
+import qualified Engine.Casting as Casting
+import Runtime.Avatar (avatarPrompt, decodeAvatar)
+import Runtime.Casting (freshCastingState)
+import Control.Monad (replicateM)
+import Data.List (nub)
 import Engine.Reading (generateReading)
+import Engine.Game (accessibleStateIds, applyCastingMovement, castingLanding, castingTransition, boardTransitions)
 
 main :: IO ()
 main = do
+  checkAdminHTTP
+  library <- Ref.loadReferenceLibrary "data/references/library.json" >>= either fail pure
+  let lookupText = Ref.lookupReferenceHexagram library
+      sourcePresent h = not (T.null (textJudgmentChinese h)) && not (T.null (translationText (textLeggeJudgment h)))
+        && length (textLineChinese h) == 6 && all (not . T.null . translationText) (textLeggeLines h)
+  assert "complete bilingual source text for all binary hexagrams" (all (maybe False sourcePresent . lookupText) [0..63])
+  assert "all King Wen pairs have exact source-backed line changes" (all (\(a,b) -> case buildPairContemplationContextWith lookupText (LeelaState 1 "Birth" "" "") "Question" a b of
+    Right context -> sourcePresent (contemplationPrimaryHexagram context) && sourcePresent (contemplationResultingHexagram context)
+      && all (not . T.null . translationText . changingLineLegge) (contemplationChangingLines context)
+    Left _ -> False) [(a,b) | a <- [1..64], b <- [1..64]])
+  assert "all 72 tiles have attributed background" (all ((==1) . length . Ref.referenceBackground library) [1..72])
+  assert "missing binary source is rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
+  let firstSource=head (Ref.referenceHexagrams library)
+      mismatched=firstSource {Ref.referenceBinary=63}
+  assert "duplicate and mismatched binary keys rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=mismatched:tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
+
+  fresh <- replicateM 32 freshCastingState
+  assert "new castings draw varied seeds" (length (nub (map Casting.seed fresh)) > 1)
+  assert "initial debug seed matches engine seed" (all (\s -> Casting.debugSeed (Casting.debug s) == Casting.seed s) fresh)
+  let complete = until ((/= Nothing) . Casting.result) Casting.nextCastingState
+      seeded = Casting.initialCastingStateWithSeed 123456
+      partial = iterate Casting.nextCastingState seeded !! 37
+  let lineComplete state = until (\s -> Casting.result s /= Nothing || length (Casting.completedLines s) > length (Casting.completedLines state)) Casting.nextCastingState state
+      starts = [Casting.initialCastingStateWithSeed n | n <- [1..64]] <> [Casting.initialCastingState]
+      steps = concatMap (take 97 . iterate Casting.nextCastingState) starts
+  assert "whole-line advancement matches every intermediate step" (all (\s -> Casting.nextCastingLine s == lineComplete s) steps)
+  assert "six line requests preserve complete casting" (all (\s -> iterate Casting.nextCastingLine s !! 6 == complete s) starts)
+  assert "line command restricted to casting" (allowedStage "line" "casting" && not (allowedStage "line" "result"))
+  assert "saved casting resumes identically" (complete partial == complete seeded)
+  let contexts = [buildContemplationContext (LeelaState 1 "Innocence" "" "") "What can I learn?" result | casting <- fresh, Just result <- [Casting.result (complete casting)]]
+  assert "fresh casting results can all be interpreted" (all (either (const False) (const True)) contexts)
+  let baseline = maybe (error "Fixture casting did not finish") id (Casting.result (complete seeded))
+      allPairs = [baseline {Casting.primaryBinaryValue = binary, Casting.transformedBinaryValue = binary `xor` 63, Casting.primaryKingWenNumber = binaryToKingWen binary, Casting.transformedKingWenNumber = binaryToKingWen (binary `xor` 63), Casting.changingLines = [1..6], Casting.numberChanging = 6} | binary <- [0..63]]
+  assert "all 64 primary/resulting configurations have live interpretation context" (all (either (const False) ((== 6) . length . contemplationChangingLines) . buildContemplationContext (LeelaState 1 "Innocence" "" "") "What can I learn?") allPairs)
+
+  assert "same seed replays exactly" (complete seeded == complete (Casting.initialCastingStateWithSeed 123456))
+  assert "fresh castings produce varied results" (length (nub (map (Casting.result . complete) fresh)) > 1)
+  catalog <- SV.loadStateCatalog "data/state-views.json" >>= either fail pure
+  assert "all 72 canonical view identities are retrievable" (all (\n -> maybe False ((== n) . stateId . SV.identity) (SV.lookupStateView catalog n)) [1..72])
+  assert "invalid tile has no identity" (SV.lookupStateView catalog 73 == Nothing)
+  assert "all eight trigrams are retrievable" (all (\n -> maybe False ((== n) . SV.trigramBinary) (SV.lookupTrigramView catalog n)) [0..7])
+  assert "all binary-keyed hexagrams match King Wen lookup" (all (\n -> fmap SV.kingWenNumber (SV.lookupHexagramView catalog n) == binaryToKingWen n) [0..63])
+  let relation n = SV.lookupStateView catalog n >>= SV.traditionalReference >>= SV.transition
+  let expectedLadders = [(10,23),(17,69),(20,32),(22,60),(27,41),(28,50),(37,66),(45,67),(46,62),(54,68)]
+      expectedSnakes = [(12,8),(16,4),(24,7),(29,6),(44,9),(52,35),(55,3),(61,13),(63,2),(72,51)]
+      actual kind = [(n, SV.destination r) | n <- [1..72], Just r <- [relation n], SV.transitionType r == kind]
+  assert "all ten reference ladders use the published endpoints" (actual SV.Ladder == expectedLadders)
+  assert "all ten reference snakes use the published endpoints" (actual SV.Snake == expectedSnakes)
+  mapM_ (\(origin, _, target) -> do
+    let cast = baseline {Casting.lilaMoveSquares = 1}
+    assert ("live transition matches catalogue at " <> show origin) (fmap SV.destination (relation origin) == Just target)
+    assert ("landing is preserved at " <> show origin) (castingLanding (origin - 1) cast == origin)
+    assert ("movement reaches endpoint from " <> show origin) (applyCastingMovement (origin - 1) cast == target)
+    assert ("zero movement does not trigger " <> show origin) (applyCastingMovement origin (cast {Casting.lilaMoveSquares = 0}) == origin && castingTransition origin (cast {Casting.lilaMoveSquares = 0}) == Nothing)
+    ) boardTransitions
+  assert "ordinary movement stays on its landing" (applyCastingMovement 1 (baseline {Casting.lilaMoveSquares = 2}) == 3)
+  assert "overshoot lands on 72 then follows its snake" (castingLanding 71 (baseline {Casting.lilaMoveSquares = 6}) == 72 && applyCastingMovement 71 (baseline {Casting.lilaMoveSquares = 6}) == 51)
+  assert "snake reference is 55 to 3" (fmap SV.destination (relation 55) == Just 3)
+  assert "arrow reference is 37 to 66" (fmap SV.destination (relation 37) == Just 66)
+  assert "snake destination uses reference identity, not prototype Discipline" (fmap SV.englishName (SV.lookupStateView catalog 55 >>= SV.transitionDestination catalog) == Just "Anger")
+  assert "missing artwork remains valid" (SV.validateStateCatalog catalog == Right catalog)
+  assert "duplicate canonical identities rejected" (isLeft (SV.validateStateCatalog catalog {SV.stateViews = take 1 (SV.stateViews catalog) ++ SV.stateViews catalog}))
+  let badStates = map (\v -> if stateId (SV.identity v) == 55 then v {SV.traditionalReference = fmap (\r -> r {SV.transition = Just (SV.StateTransition SV.Snake 99 "Invalid")}) (SV.traditionalReference v)} else v) (SV.stateViews catalog)
+  assert "out-of-range transition rejected" (isLeft (SV.validateStateCatalog catalog {SV.stateViews = badStates}))
+  checkStateViewHTTP sampleDomain catalog
+  let draft = P.PersonaDraft "Scholar" "An elderly fictional scholar" [] "Community responsibilities" Nothing Nothing
+  a <- either (fail . T.unpack) pure (P.newPersona 1 (P.Player 7) "2026-09-23" draft)
+  b <- either (fail . T.unpack) pure (P.newPersona 2 (P.Player 7) "2026-09-23" draft)
+  changed <- either (fail . T.unpack) pure (P.revisePersona "2026-09-24" draft {P.draftDescription="A later intervention", P.draftRevision=Just 0} a)
+  assert "one Player owns distinct Personas" (P.personaPlayerId a == P.personaPlayerId b && P.personaId a /= P.personaId b)
+  assert "editing preserves initial Persona and leaves sibling unchanged" (P.personaInitialDescription changed == P.personaDescription a && P.personaDescription b /= P.personaDescription changed)
+  assert "stale Persona edit rejected" (case P.revisePersona "later" draft changed of Left _ -> True; _ -> False)
+  let profile = [P.PersonaAttribute "sex" (String "Female") P.PlayerSpecified [], P.PersonaAttribute "age" (Number 45) P.PlayerSpecified [], P.PersonaAttribute "raceEthnicity" (String "Self-described heritage") P.PlayerSpecified [], P.PersonaAttribute "historicalPeriod" (String "Renaissance") P.PlayerSpecified []]
+      structured = draft {P.draftAttributes=profile,P.draftContext="Additional information"}
+  profiled <- either (fail . T.unpack) pure (P.newPersona 3 (P.Player 7) "2026-10-04" structured)
+  revisedProfile <- either (fail . T.unpack) pure (P.revisePersona "later" structured {P.draftAttributes=[P.PersonaAttribute "age" Null P.PlayerIntervention []],P.draftRevision=Just 0} profiled)
+  assert "structured attributes preserve initial identity when cleared" (P.personaInitialAttributes revisedProfile == profile && map P.attributeValue (P.personaEvolvingAttributes revisedProfile) == [Null])
+  assert "negative Persona age is rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "age" (Number (-1)) P.PlayerSpecified []]}))
+  assert "fractional Persona age is rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "age" (Number 2.5) P.PlayerSpecified []]}))
+  assert "structured text cannot be an arbitrary JSON object" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "sex" (object []) P.PlayerSpecified []]}))
+  assert "duplicate Persona attributes rejected" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=profile++profile}))
+  assert "prompt treats demographic fields as narrative context without stereotypes" ("demographic stereotypes" `T.isInfixOf` P.personaPrompt profiled)
+  let locatedDraft = structured {P.draftAttributes=profile ++ [P.PersonaAttribute "lifeStage" (String "Elder") P.PlayerSpecified [],P.PersonaAttribute "place" (String "Hangzhou") P.PlayerSpecified [],P.PersonaAttribute "definingCharacteristic" (String "Patient curiosity") P.PlayerSpecified []]}
+  located <- either (fail . T.unpack) pure (P.newPersona 4 (P.Player 7) "now" locatedDraft)
+  assert "AI context includes place, period, life stage and defining characteristic" (all (`T.isInfixOf` P.personaPrompt located) ["Hangzhou","Renaissance","Elder","Patient curiosity"])
+  encounter <- either (fail . T.unpack) pure (buildPairContemplationContextWith lookupText (LeelaState 11 "Innocence" "An open encounter" "") "How can I teach patiently?" 11 36)
+  let personaEncounter = encounter {contemplationPersonaContext=Just (P.personaPrompt located)}
+      wire = requestValue (OpenAIConfig "unused-test-key" "test-model" 1000 0 0 0) personaEncounter
+      wireText = TE.decodeUtf8 (LBS.toStrict (encode wire))
+  assert "AI request carries Persona attributes with question, state and casting" (all (`T.isInfixOf` wireText) ["Hangzhou", "Renaissance", "Elder", "Patient curiosity", "How can I teach patiently?", "Innocence", "contemplationPrimaryHexagram", "contemplationChangingLines", "contemplationResultingHexagram"])
+  assert "AI reflections use the supplied Persona name without inventing identity" (all (`T.isInfixOf` wireText) ["Scholar", "introduce the character by that exact name", "In later references, including contemplative questions, use natural subject, object and possessive pronouns", "Follow supplied pronouns", "Never infer gender from a name", "Repeat the name only when needed for clarity", "conversational, warm and natural", "If a name is absent or blank, do not invent one"])
+  assert "AI readings integrate context without editorial brackets while preserving quotations" (all (`T.isInfixOf` wireText) ["Avoid bracketed insertions and parenthetical asides", "Weave contextual explanations", "do not present adapted wording as a verbatim quotation", "Do not silently remove brackets or change words within an exact source quotation"])
+  assert "AI readings avoid profile recaps and request readable paragraphs" (all (`T.isInfixOf` wireText) ["Do not repeat the Persona profile", "separated by blank lines", "return plain text without Markdown", "open directly with a brief, conversational reflection"])
+  assert "AI request requires Persona-grounded interpretation and respects current attributes" (all (`T.isInfixOf` wireText) ["Persona context is essential", "Do not restore cleared or superseded attributes", "Carry those connections through", "AIInferred"])
+  assert "AI request does not leak provider credential" (not ("unused-test-key" `T.isInfixOf` wireText))
+  prompt <- either (fail . T.unpack) pure (avatarPrompt locatedDraft)
+  assert "avatar prompt combines attributes and description" (all (`T.isInfixOf` prompt) ["Hangzhou","Renaissance","elderly fictional scholar"])
+  assert "avatar generation needs more than a name" (isLeft (avatarPrompt draft {P.draftDescription="",P.draftContext="",P.draftAttributes=[P.PersonaAttribute "place" Null P.PlayerSpecified []]}))
+  assert "generated image can be accepted as a persistent avatar" (decodeAvatar "portrait" "{\"data\":[{\"b64_json\":\"AAAA\"}]}" == Right (P.Avatar "portrait" (Just "data:image/png;base64,AAAA")))
+  assert "missing generated image is rejected" (isLeft (decodeAvatar "portrait" "{\"data\":[]}"))
+  assert "new structured fields reject non-text values" (isLeft (P.newPersona 4 (P.Player 7) "now" structured {P.draftAttributes=[P.PersonaAttribute "place" (Number 42) P.PlayerSpecified []]}))
+  let evidence = P.Evidence "event:1" P.AIInferred "question:1" 1 True "2026-09-23"
+  supported <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence a)
+  duplicate <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence supported)
+  contradicted <- either (fail . T.unpack) pure (P.observeTheme "loss" evidence {P.evidenceId="event:2",P.evidenceSupports=False} supported)
+  assert "evidence strengthens themes with uncertainty" (map P.themeConfidence (P.personaThemes supported) == [2/3])
+  assert "duplicate evidence is idempotent" (supported == duplicate)
+  assert "contradiction weakens themes" (map P.themeConfidence (P.personaThemes contradicted) == [0.5])
+  assert "theme observations do not change initial context or siblings" (null (P.personaThemes b) && P.personaInitialDescription supported == P.personaInitialDescription a)
+  assert "AI prompt marks constructed Persona and protects Player privacy" ("fictional or constructed persona" `T.isInfixOf` P.personaPrompt a && "never factual attributes of the Player" `T.isInfixOf` P.personaPrompt a)
+  assert "archived Persona rejects edits" (case P.revisePersona "later" draft {P.draftRevision=Just 0} a {P.personaArchived=True} of Left _ -> True; _ -> False)
+
+  let patternCounts = [length [() | mask <- [0..63 :: Int], movementFromChangingLines [i+1 | i <- [0..5], testBit mask i] == move] | move <- [0..6]]
+  assert "exact balanced Leela movement probabilities" (patternCounts == 10 : replicate 6 9)
+  assert "fresh castings use the balanced sampler" (all ((== Casting.LeelaBalanced) . Casting.samplingRule) fresh)
+  let legacy = Casting.initialCastingState
+      legacyWithoutVersion step = case toJSON step of
+        Object fields -> fromJSON (Object (KM.delete "samplingSeed" (KM.delete "samplingRule" fields)))
+        _ -> error "Casting state must be an object"
+      sameOutcome a b = Casting.result a == Casting.result b && Casting.completedLines a == Casting.completedLines b && Casting.seed a == Casting.seed b
+  assert "old saved casts resume the legacy sequence at every step" (all (\step -> case legacyWithoutVersion step of Success decoded -> Casting.samplingRule decoded == Casting.LegacyHeapSplit && sameOutcome (complete decoded) (complete legacy); _ -> False) (take 97 (iterate Casting.nextCastingState legacy)))
+  assert "balanced casts resume identically at every step" (all (\step -> case fromJSON (toJSON step) of Success decoded -> complete decoded == complete seeded; _ -> False) (take 97 (iterate Casting.nextCastingState seeded)))
+  let legalRound step = case Casting.roundSnapshot step of
+        Just snapshot -> case (Casting.leftHeap snapshot,Casting.rightHeap snapshot,Casting.stalksRemaining snapshot) of
+          (Just left,Just right,Just remaining) -> left >= 2 && right >= 2 && left + right == Casting.previousWorkingStalks snapshot && Just (Casting.previousWorkingStalks snapshot - remaining) == Casting.totalRemoved snapshot && remaining `mod` 4 == 0
+          _ -> True
+        _ -> True
+  assert "balanced ceremony preserves legal stalk arithmetic" (all legalRound (concat [take 97 (iterate Casting.nextCastingState (Casting.initialCastingStateWithSeed n)) | n <- [1..256]]))
+
+  let weights = [sum [3 ^ (6 - length positions) | mask <- [0..63 :: Int], let positions = [i+1 | i <- [0..5], testBit mask i], movementFromChangingLines positions == move] | move <- [0..6]] :: [Int]
+  assert "exact independent yarrow movement probabilities" (weights == 1054 : replicate 6 507)
+  let final = until ((/=Nothing) . Casting.result) Casting.nextCastingState Casting.initialCastingState
+  case Casting.result final of
+    Nothing -> fail "Missing casting result"
+    Just casting -> do
+      let positions = [Casting.lineNumber line | line <- Casting.completedLines final, Casting.lineValue line `elem` [6,9]]
+          primary = sum [2 ^ (Casting.lineNumber line-1) | line <- Casting.completedLines final, Casting.lineValue line `elem` [7,9]]
+          mask = sum [2 ^ (position-1) | position <- positions]
+      assert "casting facts remain separate from movement" (Casting.numberChanging casting == length positions && Casting.changingLines casting == positions && Casting.lilaMoveSquares casting == movementFromChangingLines positions)
+      assert "hexagrams still reflect the authentic line values" (Casting.primaryBinaryValue casting == primary && Casting.transformedBinaryValue casting == (primary `xor` mask))
+      let legacy = case fromJSON (encodeResult casting) :: Result Casting.CastingResult of
+            Success old -> Casting.movementRule old == "changing-line-count-v1" && Casting.lilaMoveSquares old == Casting.numberChanging casting
+            Error _ -> False
+      assert "legacy casting keeps its recorded count-based movement" legacy
+  mapM_ (\(positions, expected) -> assert ("position movement " <> show positions) (movementFromChangingLines positions == expected))
+    [([],0),([1],1),([4],4),([6],6),([1,4],5),([2,5],0),([2,4,6],5),([1..6],0)]
+  assert "valid progress can resume" (validWorkflow 1 (initialWorkflow 1 Nothing))
+  assert "incompatible workflow stage requires restart" (not (validWorkflow 1 ((initialWorkflow 1 Nothing) {workflowStage="obsolete"})))
+  assert "mismatched board position requires restart" (not (validWorkflow 2 (initialWorkflow 1 Nothing)))
+  assert "missing completed casting requires restart" (not (validWorkflow 1 ((initialWorkflow 1 Nothing) {workflowStage="movement"})))
+  assert "finalized questions cannot be edited" (all (not . allowedStage "draft") ["casting", "result", "interpretation", "reflection", "movement"])
+  assert "movement cannot be acknowledged before reflection" (all (not . allowedStage "acknowledge") ["progress", "question", "casting", "result", "interpretation", "reflection"])
+  assert "a completed movement cannot be acknowledged twice" (allowedStage "acknowledge" "movement" && not (allowedStage "acknowledge" "progress"))
+  assert "journal edits are restricted to reflection" (allowedStage "journal" "reflection" && not (allowedStage "journal" "casting"))
+  assert "King Wen lookup round-trips all 64 values" (all (\n -> (kingWenToBinary n >>= binaryToKingWen) == Just n) [1..64])
+  assert "King Wen lookup rejects out-of-range inputs" (all ((== Nothing) . kingWenToBinary) [-1,0,65])
+  assert "direct pair changes line 2 from Yang" (pairLines 11 36 == Right [(2,9)])
+  assert "reversed pair changes line 2 from Yin" (pairLines 36 11 == Right [(2,6)])
+  assert "identical hexagrams have no changes" (pairLines 11 11 == Right [])
+  assert "direct pair rejects invalid numbers" (isLeft (pairLines 0 36) && isLeft (pairLines 11 65))
+  assert "unseeded pair reports unavailable corpus" (isLeft (pairLines 1 2))
+  assert "raw Responses API output is decoded after reasoning items" (decodeContemplationResponse (wireResponse "completed" textContent) == Right sampleContemplation)
+  let limited = encode (object ["status" .= ("incomplete" :: Text), "incomplete_details" .= object ["reason" .= ("max_output_tokens" :: Text)]])
+      filtered = encode (object ["status" .= ("incomplete" :: Text), "incomplete_details" .= object ["reason" .= ("content_filter" :: Text)]])
+  assert "output exhaustion explains the configuration and preserves the casting" (case decodeContemplationResponse limited of Left message -> "output limit" `T.isInfixOf` T.pack message; _ -> False)
+  assert "content filtering is distinguished from output exhaustion" (case decodeContemplationResponse filtered of Left message -> "content filter" `T.isInfixOf` T.pack message; _ -> False)
+  assert "incomplete Responses API output is rejected" (isLeft (decodeContemplationResponse (wireResponse "incomplete" textContent)))
+  assert "refused Responses API output is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [object ["type" .= ("refusal" :: String), "refusal" .= ("Declined" :: String)]])) )
+  assert "missing output text is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [])))
+  assert "invalid structured response is rejected" (isLeft (decodeContemplationResponse (wireResponse "completed" [object ["type" .= ("output_text" :: String), "text" .= ("not JSON" :: String)]])) )
+
   assert "explicit state is honored" explicitStateIsHonored
   assert "generated readings are deterministic" generatedReadingsAreDeterministic
   assert "empty explicit moving lines are rejected" emptyMovingLinesRejected
   assert "binary values map to King Wen numbers" binaryValuesMapToKingWenNumbers
   assert "invalid binary values are rejected" invalidBinaryValuesRejected
+  assert "casting begins with one stalk set aside" castingBeginsWithOneStalkSetAside
+  assert "casting removes the ritual stalk from the right heap" castingRemovesRitualStalkFromRightHeap
+  assert "casting completes six yarrow lines" castingCompletesSixYarrowLines
+  assert "game exposes the next six reachable states" gameExposesSixReachableStates
+  assert "casting result advances and bounds the Leela state" castingAdvancesLilaState
+  assert "Innocence 11 changing line 2 becomes 36 contemplation context" contemplationContextMatchesFirstCase
 
 assert :: String -> Bool -> IO ()
 assert label condition =
@@ -81,6 +280,87 @@ invalidBinaryValuesRejected :: Bool
 invalidBinaryValuesRejected =
   binaryToKingWen (-1) == Nothing
     && binaryToKingWen 64 == Nothing
+
+castingBeginsWithOneStalkSetAside :: Bool
+castingBeginsWithOneStalkSetAside =
+  let state = Casting.nextCastingState Casting.initialCastingState
+   in Casting.event state == "LineStarted"
+        && Casting.setAside state == 1
+        && Casting.workingStalks state == 49
+        && Casting.currentLine state == 1
+        && Casting.currentRound state == 1
+
+castingRemovesRitualStalkFromRightHeap :: Bool
+castingRemovesRitualStalkFromRightHeap =
+  case Casting.roundSnapshot state of
+    Just snapshot ->
+      Casting.removedSide snapshot == Just "RIGHT"
+        && Casting.rightAfterSingle snapshot == (subtract 1 <$> Casting.rightHeap snapshot)
+        && Casting.leftAfterSingle snapshot == Casting.leftHeap snapshot
+    Nothing -> False
+  where
+    state = iterate Casting.nextCastingState Casting.initialCastingState !! 3
+
+castingCompletesSixYarrowLines :: Bool
+castingCompletesSixYarrowLines =
+  Casting.event finalState == "CastingComplete"
+    && length (Casting.completedLines finalState) == 6
+    && all validLineValue (Casting.completedLines finalState)
+    && Casting.result finalState /= Nothing
+  where
+    finalState = iterate Casting.nextCastingState Casting.initialCastingState !! 96
+    validLineValue line = Casting.lineValue line `elem` [6, 7, 8, 9]
+
+gameExposesSixReachableStates :: Bool
+gameExposesSixReachableStates =
+  accessibleStateIds 1 == [2 .. 7]
+    && accessibleStateIds 69 == [70, 71, 72]
+    && accessibleStateIds 72 == []
+
+castingAdvancesLilaState :: Bool
+castingAdvancesLilaState =
+  case Casting.result completedCasting of
+    Just castingResult ->
+      castingLanding 10 castingResult
+        == min 72 (10 + Casting.lilaMoveSquares castingResult)
+        && applyCastingMovement 71 castingResult <= 72
+    Nothing -> False
+  where
+    completedCasting = iterate Casting.nextCastingState Casting.initialCastingState !! 96
+
+contemplationContextMatchesFirstCase :: Bool
+contemplationContextMatchesFirstCase =
+  case buildContemplationContext innocence questionText casting of
+    Right context ->
+      textChineseName (contemplationPrimaryHexagram context) == "泰"
+        && textChineseName (contemplationResultingHexagram context) == "明夷"
+        && case contemplationChangingLines context of
+          [activeLine] ->
+            changingLineNumber activeLine == 2
+              && changingLineValue activeLine == 9
+              && changingLineChinese activeLine == "九二：包荒，用馮河，不遐遺，朋亡，得尚于中行。"
+          _ -> False
+    Left _ -> False
+  where
+    innocence = LeelaState 1 "Innocence" "Direct experience before self-protection." "Beginner's mind"
+    questionText = "How can I retain my innocence in moving forward in this world?"
+    heaven = Casting.TrigramResult "Heaven" "☰" 7
+    earth = Casting.TrigramResult "Earth" "☷" 0
+    fire = Casting.TrigramResult "Fire" "☲" 5
+    casting = Casting.CastingResult
+      { Casting.primaryBinaryValue = 7
+      , Casting.transformedBinaryValue = 5
+      , Casting.primaryKingWenNumber = Just 11
+      , Casting.transformedKingWenNumber = Just 36
+      , Casting.changingLines = [2]
+      , Casting.numberChanging = 1
+      , Casting.upperTrigramResult = earth
+      , Casting.lowerTrigramResult = heaven
+      , Casting.nuclearUpperTrigramResult = earth
+      , Casting.nuclearLowerTrigramResult = fire
+      , Casting.movementRule = "changing-line-positions-mod7-v1"
+      , Casting.lilaMoveSquares = 2
+      }
 
 kingWenMappings :: [(Int, Int)]
 kingWenMappings =
@@ -163,3 +443,33 @@ sampleDomain =
         ]
     , movingLineFocuses = []
     }
+
+isLeft :: Either a b -> Bool
+isLeft (Left _) = True
+isLeft _ = False
+
+pairLines :: Int -> Int -> Either Text [(Int, Int)]
+pairLines primary resulting = do
+  context <- buildPairContemplationContext
+    (LeelaState 1 "Innocence" "Direct experience." "Beginner's mind")
+    "How can I meet this change?" primary resulting
+  pure [(changingLineNumber line, changingLineValue line) | line <- contemplationChangingLines context]
+
+sampleContemplation :: ContemplationResponse
+sampleContemplation = ContemplationResponse "Context" "Primary" ["Line 2"] "Change" ["A reading"] ["A question?"]
+
+textContent :: [Value]
+textContent = [object ["type" .= ("output_text" :: String), "text" .= TE.decodeUtf8 (LBS.toStrict (encode sampleContemplation))]]
+
+wireResponse :: String -> [Value] -> LBS.ByteString
+wireResponse status content = encode (object
+  [ "status" .= status
+  , "model" .= ("test-model" :: String)
+  , "output" .= [object ["type" .= ("reasoning" :: String)], object ["type" .= ("message" :: String), "content" .= content]]
+  , "usage" .= object ["input_tokens" .= (10 :: Int), "output_tokens" .= (20 :: Int)]
+  ])
+
+encodeResult :: Casting.CastingResult -> Value
+encodeResult casting = case toJSON casting of
+  Object fields -> Object (KM.insert "lilaMoveSquares" (toJSON (Casting.numberChanging casting)) (KM.delete "movementRule" fields))
+  value -> value

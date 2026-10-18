@@ -1,0 +1,19 @@
+{
+  "version": "1.0-initial",
+  "type": "square-spiral",
+  "squareCount": 72,
+  "start": "bottom-left",
+  "movement": "inward-clockwise",
+  "numbering": "spiral",
+  "serpentine": false,
+  "squareSize": 160,
+  "squareGap": 8,
+  "gridOrigin": {
+    "x": 1280,
+    "y": 1540
+  },
+  "centre": {
+    "type": "circle",
+    "svgId": "centre"
+  }
+}

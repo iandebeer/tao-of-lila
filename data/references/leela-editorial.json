@@ -1,0 +1,578 @@
+[
+  {
+    "stateId": 1,
+    "name": "Birth",
+    "theme": "Janma · beginning",
+    "chapter": 2,
+    "description": "Entering the field of experience begins a life of relationship, limitation and possibility.",
+    "commentary": "Birth invites attention to the conditions from which this encounter begins. What has been given, what is being learned and what can be chosen now?"
+  },
+  {
+    "stateId": 2,
+    "name": "Illusion",
+    "theme": "Maya · appearances",
+    "chapter": 7,
+    "description": "An appearance is taken to be the whole reality rather than one way it is being encountered.",
+    "commentary": "Illusion need not mean that experience is unreal. Distinguish the event itself from the story, expectation or fear through which it is being understood."
+  },
+  {
+    "stateId": 3,
+    "name": "Anger",
+    "theme": "Krodha · heat",
+    "chapter": 2,
+    "description": "A frustrated desire or threatened boundary gathers energy into opposition.",
+    "commentary": "Anger may reveal an important limit while narrowing the range of responses you can see. Recognise what needs protection before deciding how to act."
+  },
+  {
+    "stateId": 4,
+    "name": "Greed",
+    "theme": "Lobha · grasping",
+    "chapter": 16,
+    "description": "The wish to acquire continues after a practical need has been met.",
+    "commentary": "Ask what the next acquisition is expected to secure. A clearer account of enough may reveal the insecurity that possession has not resolved."
+  },
+  {
+    "stateId": 5,
+    "name": "Physical Plane",
+    "theme": "Bhu-loka · embodiment",
+    "chapter": 7,
+    "description": "Life is encountered through a body, a place and the material conditions that sustain them.",
+    "commentary": "The physical plane asks for attention to actual resources and limits. Ground a desired change in the ordinary conditions that will make it possible."
+  },
+  {
+    "stateId": 6,
+    "name": "Delusion",
+    "theme": "Moha · attachment",
+    "chapter": 3,
+    "description": "Attachment to a desired view of events interferes with recognising what is happening.",
+    "commentary": "Delusion is examined through a specific assumption rather than used as a judgment of the person. What evidence would change your understanding, and are you willing to consider it?"
+  },
+  {
+    "stateId": 7,
+    "name": "Vanity",
+    "theme": "Mada · self-importance",
+    "chapter": 16,
+    "description": "An image of personal importance becomes something that must continually be defended.",
+    "commentary": "Notice where being seen to be right or admirable is displacing the purpose of the encounter. Let one useful action matter without making it evidence of your status."
+  },
+  {
+    "stateId": 8,
+    "name": "Avarice",
+    "theme": "Matsarya · possessiveness",
+    "chapter": 16,
+    "description": "Fear of having less makes sharing or another person’s gain feel threatening.",
+    "commentary": "Avarice asks how security has become tied to withholding. Consider a proportionate act of sharing that respects real limits while testing the expectation of deprivation."
+  },
+  {
+    "stateId": 9,
+    "name": "Sensual Plane",
+    "theme": "Kama-loka · desire",
+    "chapter": 3,
+    "description": "Desire draws attention toward experiences that promise pleasure or relief.",
+    "commentary": "The sensual plane invites recognition of appetite without either condemning or obeying it automatically. Which desire is present, and what follows from acting on it?"
+  },
+  {
+    "stateId": 10,
+    "name": "Purification",
+    "theme": "Tapa · disciplined simplification",
+    "chapter": 17,
+    "description": "A chosen discipline reduces what obscures attention and conduct.",
+    "commentary": "Purification here means clarifying habits, not declaring the body or other people impure. Choose a sustainable practice that makes room for care rather than an ordeal that proves worth."
+  },
+  {
+    "stateId": 11,
+    "name": "Entertainment",
+    "theme": "Gandharva-loka · appreciation",
+    "chapter": 6,
+    "description": "Music, play and sensory pleasure can restore a mind narrowed by effort.",
+    "commentary": "Delight becomes nourishing when it is received without demanding that it last. Notice whether enjoyment brings you back to your relationships or helps you avoid them."
+  },
+  {
+    "stateId": 12,
+    "name": "Envy",
+    "theme": "Irshya · comparison",
+    "chapter": 16,
+    "description": "Another person's good fortune brings an unacknowledged wish into view.",
+    "commentary": "Comparison can reveal what you value, but it cannot tell you what your life should become. Identify the wish beneath envy and one way to pursue it without diminishing another person."
+  },
+  {
+    "stateId": 13,
+    "name": "Nullity",
+    "theme": "Antariksha · the interval",
+    "chapter": 8,
+    "description": "A familiar role falls quiet before a new direction has become clear.",
+    "commentary": "An interval can feel like insignificance when worth depends on constant achievement. Leave some room around the unanswered question and distinguish uncertainty from absence of possibility."
+  },
+  {
+    "stateId": 14,
+    "name": "Astral Plane",
+    "theme": "Bhuvar-loka · possibility",
+    "chapter": 7,
+    "description": "The mind gives shape to possibilities that are not yet present.",
+    "commentary": "Imagination helps rehearse a different response. Keep a distinction between what has been observed, what has been inferred and what is hoped for."
+  },
+  {
+    "stateId": 15,
+    "name": "Fantasy",
+    "theme": "Naga-loka · imagined fulfilment",
+    "chapter": 7,
+    "description": "An imagined outcome becomes more compelling than the circumstances in front of you.",
+    "commentary": "Fantasy may express a real need while offering an unreliable plan for meeting it. Bring one detail of the dream into contact with practical evidence."
+  },
+  {
+    "stateId": 16,
+    "name": "Jealousy",
+    "theme": "Dvesha · resistance",
+    "chapter": 3,
+    "description": "Dislike hardens into a demand that a person or experience disappear.",
+    "commentary": "A boundary can be necessary without feeding hostility. Ask what needs protection, what can be changed and what reaction is adding further difficulty."
+  },
+  {
+    "stateId": 17,
+    "name": "Mercy",
+    "theme": "Daya · care",
+    "chapter": 12,
+    "description": "Another being's vulnerability interrupts the habit of judging solely by performance.",
+    "commentary": "Mercy considers the conditions that shaped a mistake while retaining responsibility for its consequences. Offer help that respects both the receiver's agency and your own limits."
+  },
+  {
+    "stateId": 18,
+    "name": "Joy",
+    "theme": "Harsha-loka · gladness",
+    "chapter": 12,
+    "description": "Gladness arises when attention is available to what is already sustaining life.",
+    "commentary": "Joy need not wait for the removal of every difficulty. Let an ordinary source of gratitude become specific without using it to dismiss grief."
+  },
+  {
+    "stateId": 19,
+    "name": "Plane of Action",
+    "theme": "Karma-loka · consequence",
+    "chapter": 3,
+    "description": "Intentions enter the world through actions and acquire consequences beyond your control.",
+    "commentary": "Separate the quality of the action from your attachment to its reward. Choose a step that you can stand behind even if recognition is delayed."
+  },
+  {
+    "stateId": 20,
+    "name": "Generosity",
+    "theme": "Dana · giving",
+    "chapter": 17,
+    "description": "Something held as exclusively yours becomes available to another.",
+    "commentary": "Giving can share resources, attention or opportunity. Examine whether the gift is freely offered or carries an unspoken demand for approval or obedience."
+  },
+  {
+    "stateId": 21,
+    "name": "Atonement",
+    "theme": "Samana-papa · responsibility",
+    "chapter": 18,
+    "description": "Acknowledging harm opens the possibility of changing what happens next.",
+    "commentary": "Regret becomes useful when it leads to a proportionate repair. Name your part accurately, make amends where possible and avoid turning remorse into a permanent identity."
+  },
+  {
+    "stateId": 22,
+    "name": "Right Conduct",
+    "theme": "Dharma-loka · responsibility",
+    "chapter": 3,
+    "description": "A decision is considered in relation to commitments, circumstances and the wellbeing of others.",
+    "commentary": "Right conduct is more demanding than following a rule mechanically. Consider which responsibilities belong to you here and whether your chosen action can bear honest explanation."
+  },
+  {
+    "stateId": 23,
+    "name": "Celestial Plane",
+    "theme": "Svarga-loka · ease",
+    "chapter": 2,
+    "description": "Conditions briefly support a sense of harmony and sufficiency.",
+    "commentary": "Receive ease without treating it as proof of superiority or a guarantee about tomorrow. What becomes possible when you no longer need to improve this moment immediately?"
+  },
+  {
+    "stateId": 24,
+    "name": "Unhelpful Company",
+    "theme": "Kusanga-loka · influence",
+    "chapter": 16,
+    "description": "A surrounding group makes an unhelpful habit easier to repeat.",
+    "commentary": "Belonging has a cost when it requires abandoning your judgment. Notice which conversations encourage contempt, evasion or excess, and make a concrete boundary around that influence."
+  },
+  {
+    "stateId": 25,
+    "name": "Supportive Company",
+    "theme": "Susanga-loka · companionship",
+    "chapter": 12,
+    "description": "Good company strengthens the capacity to act with care and honesty.",
+    "commentary": "Support includes people who can disagree without humiliating you. Seek a relationship or practice that helps you remember your commitments when motivation is weak."
+  },
+  {
+    "stateId": 26,
+    "name": "Sorrow",
+    "theme": "Duhkha · loss",
+    "chapter": 2,
+    "description": "A loss or disappointment asks to be acknowledged rather than argued away.",
+    "commentary": "Sorrow can reveal the depth of an attachment without making that attachment a mistake. Attend to what needs mourning and what ordinary support would make today more bearable."
+  },
+  {
+    "stateId": 27,
+    "name": "Selfless Service",
+    "theme": "Paramartha · contribution",
+    "chapter": 3,
+    "description": "Action is offered for a purpose larger than personal credit.",
+    "commentary": "Service becomes clearer when the actual need takes priority over the wish to be indispensable. Ask the people affected what would help, and include sustainability in your understanding of generosity."
+  },
+  {
+    "stateId": 28,
+    "name": "Right Dharma",
+    "theme": "Sudharma · fitting work",
+    "chapter": 18,
+    "description": "A responsibility begins to fit your capacities and circumstances.",
+    "commentary": "Vocation need not be a single grand calling. Explore where your abilities meet a real need and what disciplined preparation that meeting requires."
+  },
+  {
+    "stateId": 29,
+    "name": "Unrighteousness",
+    "theme": "Adharma · neglected responsibility",
+    "chapter": 16,
+    "description": "Convenience or allegiance draws conduct away from a responsibility you recognise.",
+    "commentary": "Misalignment often begins with a small exception that becomes normal. Identify the value being compromised and an achievable way to restore consistency."
+  },
+  {
+    "stateId": 30,
+    "name": "Beneficial Tendencies",
+    "theme": "Uttama-gati · repeated choices",
+    "chapter": 6,
+    "description": "Repeated small choices make a constructive response easier to reach.",
+    "commentary": "A tendency is cultivated through practice rather than claimed as a permanent virtue. Arrange one condition that supports the habit you want to strengthen."
+  },
+  {
+    "stateId": 31,
+    "name": "Sanctity",
+    "theme": "Yaksha-loka · regard",
+    "chapter": 9,
+    "description": "Something is encountered as worthy of attention beyond its usefulness to you.",
+    "commentary": "Reverence can change how you handle a place, object or relationship. Let respect appear in a specific act of care rather than in a claim to possess the sacred."
+  },
+  {
+    "stateId": 32,
+    "name": "Plane of Balance",
+    "theme": "Mahar-loka · proportion",
+    "chapter": 6,
+    "description": "Competing demands are brought into a workable relationship.",
+    "commentary": "Equilibrium is responsive adjustment, not permanent stillness. Look for the neglected need or excessive demand that is making the current arrangement unstable."
+  },
+  {
+    "stateId": 33,
+    "name": "Fragrance",
+    "theme": "Gandha-loka · subtle perception",
+    "chapter": 7,
+    "description": "A small sensory impression carries a memory or changes the atmosphere of experience.",
+    "commentary": "Fragrance invites attention to influences that are felt before they are explained. Notice the association, then check whether it belongs to the present situation or to an earlier one."
+  },
+  {
+    "stateId": 34,
+    "name": "Taste",
+    "theme": "Rasa-loka · appreciation",
+    "chapter": 7,
+    "description": "Experience is received with its particular flavour instead of being reduced to a judgment of success or failure.",
+    "commentary": "Taste includes the capacity to notice differences. Allow pleasure, disappointment and complexity to be recognised without demanding that every experience satisfy the same appetite."
+  },
+  {
+    "stateId": 35,
+    "name": "Purgatory",
+    "theme": "Naraka-loka · painful reckoning",
+    "chapter": 16,
+    "description": "An avoided consequence becomes difficult to ignore.",
+    "commentary": "This contemplative use of the underworld image concerns the experience of being caught in suffering, not a verdict of damnation. Begin with the consequence you can address and seek help for what exceeds your resources."
+  },
+  {
+    "stateId": 36,
+    "name": "Clarity",
+    "theme": "Svaccha · seeing plainly",
+    "chapter": 13,
+    "description": "Attention becomes less clouded by the need to defend a preferred story.",
+    "commentary": "Clarity includes admitting what is unknown. Describe the situation in observable terms before deciding what it means about you or anyone else."
+  },
+  {
+    "stateId": 37,
+    "name": "True Knowledge",
+    "theme": "Jnana · understanding",
+    "chapter": 4,
+    "description": "Information becomes understanding when it changes how you meet experience.",
+    "commentary": "Test an insight in conduct, not only in explanation. What does the situation ask you to do differently now that you see something you previously missed?"
+  },
+  {
+    "stateId": 38,
+    "name": "Prana",
+    "theme": "Prana-loka · animation",
+    "chapter": 6,
+    "description": "The felt capacity to participate returns through attention to ordinary sources of energy.",
+    "commentary": "Here prana is a traditional contemplative symbol, not a medical measurement. Notice what restores your willingness to engage and which demands repeatedly exhaust it."
+  },
+  {
+    "stateId": 39,
+    "name": "Apana",
+    "theme": "Apana-loka · letting go",
+    "chapter": 6,
+    "description": "What has completed its purpose is allowed to leave.",
+    "commentary": "The traditional image of downward movement becomes a prompt to consider endings. Distinguish a needed release from an attempt to discard discomfort before understanding it."
+  },
+  {
+    "stateId": 40,
+    "name": "Vyana",
+    "theme": "Vyana-loka · distribution",
+    "chapter": 3,
+    "description": "Resources and attention move through a larger network of relationships.",
+    "commentary": "Circulation asks where something is accumulating and where it is not reaching a genuine need. Consider a practical redistribution of effort, information or support."
+  },
+  {
+    "stateId": 41,
+    "name": "Human Plane",
+    "theme": "Jana-loka · participation",
+    "chapter": 5,
+    "description": "Your concern is recognised as one expression of a wider human condition.",
+    "commentary": "Shared humanity does not erase differences in experience or power. Let recognition of a common vulnerability make your response more attentive to the particular person before you."
+  },
+  {
+    "stateId": 42,
+    "name": "Plane of Fire",
+    "theme": "Agni-loka · transformation",
+    "chapter": 4,
+    "description": "Intensity can illuminate a commitment or consume the conditions needed to sustain it.",
+    "commentary": "Fire is used here as a symbol of transformation. Ask what effort is clarifying the work and what excess is merely generating heat."
+  },
+  {
+    "stateId": 43,
+    "name": "Human Birth",
+    "theme": "Manushya-janma · agency",
+    "chapter": 18,
+    "description": "The capacity to reflect gives you a choice within circumstances you did not choose.",
+    "commentary": "Human opportunity is finite and unevenly distributed. Begin with the freedom that is actually available, rather than blaming yourself for constraints or waiting for complete control."
+  },
+  {
+    "stateId": 44,
+    "name": "Ignorance",
+    "theme": "Avidya · mistaken identification",
+    "chapter": 13,
+    "description": "A partial account of experience is mistaken for the whole.",
+    "commentary": "Ignorance need not mean lack of intelligence. Look for an assumption protected from testing, especially one that turns a changing role or feeling into an absolute identity."
+  },
+  {
+    "stateId": 45,
+    "name": "Right Knowledge",
+    "theme": "Suvidya · cultivated understanding",
+    "chapter": 4,
+    "description": "Careful inquiry replaces the comfort of an untested answer.",
+    "commentary": "Learning asks for sources, practice and a willingness to revise. Choose one uncertainty that can be investigated rather than filling the gap with certainty borrowed from someone else."
+  },
+  {
+    "stateId": 46,
+    "name": "Discrimination",
+    "theme": "Viveka · distinguishing",
+    "chapter": 18,
+    "description": "A lasting commitment is distinguished from a passing impulse.",
+    "commentary": "Discernment becomes practical through attention to consequences. Consider which option serves the deeper purpose of the encounter and which merely promises immediate relief."
+  },
+  {
+    "stateId": 47,
+    "name": "Sarasvati",
+    "theme": "Sarasvati · listening",
+    "chapter": 6,
+    "description": "Attention listens without immediately converting experience into action or argument.",
+    "commentary": "Quiet attention makes room for distinctions that hurried judgment misses. Notice what can be heard when preparing a response is briefly set aside."
+  },
+  {
+    "stateId": 48,
+    "name": "Solar Plane",
+    "theme": "Yamuna · solar symbolism",
+    "chapter": 6,
+    "description": "The active side of experience seeks a clear direction and an appropriate limit.",
+    "commentary": "The solar channel is treated as traditional symbolism rather than an anatomical claim. Consider how initiative, structure and outward effort can serve the present need without overpowering it."
+  },
+  {
+    "stateId": 49,
+    "name": "Lunar Plane",
+    "theme": "Ganga · lunar symbolism",
+    "chapter": 6,
+    "description": "The receptive side of experience allows impressions to arrive before deciding what to do.",
+    "commentary": "The lunar channel is used symbolically. Give listening and recovery a place alongside action, while noticing when receptivity becomes avoidance of a necessary decision."
+  },
+  {
+    "stateId": 50,
+    "name": "Plane of Austerity",
+    "theme": "Tapa-loka · sustained attention",
+    "chapter": 6,
+    "description": "Attention gathers around a chosen practice instead of following every competing demand.",
+    "commentary": "Concentration is supported by conditions as well as will. Reduce one avoidable distraction and choose a duration of practice that can be sustained without self-punishment."
+  },
+  {
+    "stateId": 51,
+    "name": "Earth",
+    "theme": "Prithivi · support",
+    "chapter": 7,
+    "description": "The question returns to material conditions: body, place, time and resources.",
+    "commentary": "Earth asks what makes a proposed change supportable in daily life. Attend to the practical foundation before interpreting difficulty as a failure of intention."
+  },
+  {
+    "stateId": 52,
+    "name": "Violence",
+    "theme": "Himsa-loka · harm",
+    "chapter": 16,
+    "description": "Force seeks to overcome resistance without adequate regard for what is injured.",
+    "commentary": "Harm may appear in speech, action or the organisation of a relationship. Identify the pressure being applied, stop what can be stopped and consider repair without excusing the impact."
+  },
+  {
+    "stateId": 53,
+    "name": "Water",
+    "theme": "Jala-loka · responsiveness",
+    "chapter": 7,
+    "description": "A response finds a workable form without losing contact with its purpose.",
+    "commentary": "Water offers an image of adaptation. Consider where flexibility would help and where a boundary is needed to prevent adaptation from becoming self-erasure."
+  },
+  {
+    "stateId": 54,
+    "name": "Devotion",
+    "theme": "Bhakti-loka · dedication",
+    "chapter": 12,
+    "description": "Care becomes a sustained orientation rather than a passing mood.",
+    "commentary": "Devotion is expressed through the way attention and effort are offered. Ask whether the object of dedication enlarges your capacity for care or demands that judgment be surrendered."
+  },
+  {
+    "stateId": 55,
+    "name": "Egotism",
+    "theme": "Ahamkara · I and mine",
+    "chapter": 16,
+    "description": "A useful sense of self contracts into the requirement that every event affirm it.",
+    "commentary": "Notice the difference between having a boundary and demanding centrality. A disagreement may concern the situation rather than the worth of the person you take yourself to be."
+  },
+  {
+    "stateId": 56,
+    "name": "Omkara",
+    "theme": "Omkara · attentive sound",
+    "chapter": 8,
+    "description": "A sound or repeated phrase gathers scattered attention into a shared rhythm.",
+    "commentary": "Omkara names a traditional sacred-sound symbol. In this board it invites listening to the quality of participation, without claiming that a sound guarantees a particular spiritual result."
+  },
+  {
+    "stateId": 57,
+    "name": "Air",
+    "theme": "Vayu-loka · movement",
+    "chapter": 7,
+    "description": "Change becomes noticeable through movement, contact and the exchange of ideas.",
+    "commentary": "Air suggests the value of a fresh perspective and the risk of constant restlessness. Let a new possibility circulate, then decide which part deserves a grounded experiment."
+  },
+  {
+    "stateId": 58,
+    "name": "Radiance",
+    "theme": "Teja-loka · illumination",
+    "chapter": 15,
+    "description": "Understanding makes a situation more visible and can help others find their bearings.",
+    "commentary": "Radiance is not a claim to personal superiority. Let what has become clear be shared in a way that increases another person's agency rather than making them dependent on your authority."
+  },
+  {
+    "stateId": 59,
+    "name": "Plane of Truth",
+    "theme": "Satya-loka · fidelity",
+    "chapter": 17,
+    "description": "Speech and conduct are brought closer to what you actually know and intend.",
+    "commentary": "Truthfulness includes proportion, context and the courage to acknowledge uncertainty. Ask whether a statement clarifies the encounter or merely strengthens the position from which you speak."
+  },
+  {
+    "stateId": 60,
+    "name": "Sound Judgment",
+    "theme": "Subuddhi · wise deliberation",
+    "chapter": 18,
+    "description": "Intelligence considers both immediate effects and the larger purpose of an action.",
+    "commentary": "Sound judgment is open to correction. Compare the evidence for your preferred choice with the strongest reason against it before deciding."
+  },
+  {
+    "stateId": 61,
+    "name": "Distorted Judgment",
+    "theme": "Durbuddhi · rationalisation",
+    "chapter": 18,
+    "description": "Reasoning is used to defend an impulse after the decision has effectively been made.",
+    "commentary": "A convincing explanation can conceal a weak premise. Look for the fact you would rather not include and see how the decision changes when it is admitted."
+  },
+  {
+    "stateId": 62,
+    "name": "Happiness",
+    "theme": "Sukha · ease",
+    "chapter": 18,
+    "description": "Wellbeing is experienced as something more stable than the satisfaction of a single demand.",
+    "commentary": "Consider the difference between pleasure that restores capacity and pleasure that leaves a larger need unattended. Let happiness be received without turning it into an obligation to feel good."
+  },
+  {
+    "stateId": 63,
+    "name": "Obscuration",
+    "theme": "Tamas · dullness",
+    "chapter": 14,
+    "description": "Confusion, avoidance or exhaustion reduces the capacity to see and respond.",
+    "commentary": "The traditional quality of tamas is a lens for reflection, not a diagnosis. Begin with a small clarifying action and distinguish a need for rest from the habit of postponing engagement."
+  },
+  {
+    "stateId": 64,
+    "name": "Phenomenal Plane",
+    "theme": "Prakriti-loka · conditioned life",
+    "chapter": 13,
+    "description": "Experience is seen within the changing conditions that make it possible.",
+    "commentary": "Nature includes the interplay of tendencies rather than a fixed personal essence. Notice what the environment encourages and what changes when one supporting condition is altered."
+  },
+  {
+    "stateId": 65,
+    "name": "Inner Space",
+    "theme": "Uranta-loka · inward openness",
+    "chapter": 6,
+    "description": "Awareness can hold a thought or feeling without immediately following it.",
+    "commentary": "Inner space does not require the mind to become blank. Practise allowing one experience to be present while retaining the freedom to choose the next action."
+  },
+  {
+    "stateId": 66,
+    "name": "Bliss",
+    "theme": "Ananda-loka · unforced contentment",
+    "chapter": 6,
+    "description": "Contentment is approached without making possession or achievement its condition.",
+    "commentary": "Bliss is used as a traditional contemplative image, not a promised permanent state. Notice moments in which the demand to secure experience relaxes and ordinary participation is enough."
+  },
+  {
+    "stateId": 67,
+    "name": "Plane of Rudra",
+    "theme": "Rudra-loka · dissolution",
+    "chapter": 11,
+    "description": "An established form loses its usefulness and makes room for a different arrangement.",
+    "commentary": "Renewal can involve loss as well as possibility. Distinguish what truly needs to end from what can be repaired, and allow the effects on others to matter."
+  },
+  {
+    "stateId": 68,
+    "name": "Cosmic Consciousness",
+    "theme": "Vaikuntha-loka · belonging",
+    "chapter": 11,
+    "description": "The self is contemplated as participating in a reality larger than its private concerns.",
+    "commentary": "This is a philosophical perspective, not a claim that a casting proves enlightenment. Explore how a wider sense of belonging would change the next ordinary act of care."
+  },
+  {
+    "stateId": 69,
+    "name": "Plane of Brahma",
+    "theme": "Brahma-loka · becoming",
+    "chapter": 8,
+    "description": "A new arrangement begins to take form from conditions already present.",
+    "commentary": "Creation includes preparation, limitation and cooperation. Give the emerging possibility a concrete first form while remaining willing to revise it through experience."
+  },
+  {
+    "stateId": 70,
+    "name": "Sattva",
+    "theme": "Sattva-guna · clarity and balance",
+    "chapter": 14,
+    "description": "Clarity, steadiness and care support a less reactive response.",
+    "commentary": "The quality of sattva can itself become an object of pride. Use a clear interval to act well, rather than to rank yourself above people meeting different conditions."
+  },
+  {
+    "stateId": 71,
+    "name": "Rajas",
+    "theme": "Rajo-guna · drive",
+    "chapter": 14,
+    "description": "Desire and effort set experience in motion and seek a result.",
+    "commentary": "Activity can accomplish necessary work while continually moving the measure of enough. Choose a stopping point and examine whether the effort still serves its original purpose."
+  },
+  {
+    "stateId": 72,
+    "name": "Tamas",
+    "theme": "Tamo-guna · heaviness",
+    "chapter": 14,
+    "description": "Habit continues because changing it seems harder than enduring its cost.",
+    "commentary": "Inertia is approached through conditions and small actions rather than condemnation. Identify the least demanding useful step, and make room for support when energy or clarity is limited."
+  }
+]

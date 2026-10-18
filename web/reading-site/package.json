@@ -1,0 +1,14 @@
+{
+  "name": "leela-reading-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "marked": "18.1.1"
+  }
+}

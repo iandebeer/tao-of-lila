@@ -10,7 +10,10 @@ Use this file as persistent guidance when working in this repository.
 - I Ching Scholar: Owns Bagua, trigrams, and hexagrams.
 - Leela Scholar: Owns Leela states and transitions.
 - Engine Agent: Owns Haskell.
-- Animation Agent: Owns animations.
+- Category Theory Architect: Owns categorical abstractions, transformation laws,
+  and composition boundaries.
+- Animation Agent: Owns TypeScript ceremony and movement, including the isolated
+  yarrow casting page.
 - Integration Agent: Owns merging.
 - Testing Agent: Owns validation.
 - Curator: Owns philosophical consistency.
@@ -19,6 +22,8 @@ Use this file as persistent guidance when working in this repository.
 
 - This is a Haskell/Cabal project for a contemplative Leela and I Ching engine.
 - Keep domain logic independent of HTTP, persistence, deployment, and browser UI.
+- The yarrow ceremony in `web/yarrow-casting/` may animate engine state but must
+  not calculate casting results.
 - Prefer small pure functions and explicit data structures over hidden runtime
   behavior.
 - Preserve the functional-core, imperative-shell architecture described in
@@ -41,9 +46,19 @@ Use this file as persistent guidance when working in this repository.
   algorithmically.
 - Keep future lookup tables keyed by binary value unless there is a clear public
   API reason to expose another identifier.
+- Treat Leela movement, I Ching change, Taoist cosmology, and player reflection
+  as composable transformations. Use `docs/category-theory.md` as the conceptual
+  guide, but only introduce formal abstractions when they simplify real engine
+  code.
 
 ## Editing Guidelines
 
+- Always spell the product and game name Leela in user-facing text and documentation.
+- Legacy package, database, and serialized API identifiers retain their existing spelling
+  until an explicit compatibility migration is requested.
+
+- When quoting the Dao De Jing (Tao Te Ching) or the I Ching, always include
+  both the original Chinese text and its translation.
 - Keep changes scoped to the requested behavior.
 - Preserve existing seed data and docs unless the task asks to replace them.
 - Update tests when changing domain logic or lookup tables.
