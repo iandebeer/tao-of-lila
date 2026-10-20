@@ -74,6 +74,7 @@ export function installStateViewer({preview=false,loadCatalog,getPersonaName=()=
     if(!dialog){
       opener=button;dialog=document.createElement('dialog');dialog.className='state-viewer';dialog.setAttribute('aria-labelledby','state-view-title');
       dialog.innerHTML='<div class="state-toolbar"><span>THE TAO OF LEELA · STATE VIEW</span><button type="button" data-close-view aria-label="Close state view">Close ×</button></div><div class="state-view-content"></div>';
+      if(globalThis.LeelaScreenInfo)dialog.querySelector('.state-toolbar').insertAdjacentHTML('afterbegin',globalThis.LeelaScreenInfo.buttonMarkup('state-view'));
       document.body.append(dialog);
       dialog.querySelector('[data-close-view]').addEventListener('click',close);
       dialog.addEventListener('close',()=>{request++;dialog.remove();dialog=null;if(opener?.isConnected)opener.focus({preventScroll:true});});

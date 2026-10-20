@@ -299,6 +299,12 @@ preview without an account or AI calls. Nine scenarios cover changing-line count
 special-transition fixtures, long text, interruption and completion. Live ladder,
 snake and terminal rules remain unavailable in the current domain model.
 
+Every journey screen has a top-left Info button with a brief explanation and a
+next step. The same guidance dialog is available on the standalone ceremony,
+reference views, administration, and reading pages. Close it with Close, Escape,
+or a backdrop click to return to the current screen. The interpretation lab also
+serves the shared help assets under `/shared/`.
+
 Public static files use `Cache-Control: no-cache`. Docker builds and
 `./scripts/build-yarrow.sh` also stamp script, stylesheet, imported-module and
 static JSON URLs with a content-derived release version, bypassing copies saved

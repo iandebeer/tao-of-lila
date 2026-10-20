@@ -11,3 +11,6 @@ await writeFile(resolve(out,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n
 await writeFile(resolve(out,'robots.txt'),'User-agent: *\nAllow: /\nSitemap: https://leela.day/sitemap.xml\n');
 await writeFile(resolve(out,'sitemap.xml'),'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://leela.day/</loc></url></urlset>');
 console.log(`Built Leela landing page: ${out}`);
+
+await mkdir(resolve(out,'shared'),{recursive:true});
+for(const asset of ['screen-info.js','screen-info.css'])await copyFile(resolve(root,'app/public/shared',asset),resolve(out,'shared',asset));

@@ -6,10 +6,11 @@ async function api(path,body){
   const data=await response.json();
   if(!response.ok){if(response.status===401&&path.startsWith('stats')){showAuth();}throw Error(data.error||'Request failed. Please try again.');}return data;
 }
-function showAuth(){$('dashboard').hidden=true;$('logout').hidden=true;$('auth').hidden=false;}
+function showAuth(){globalThis.LeelaScreenInfo?.update('admin-login');$('dashboard').hidden=true;$('logout').hidden=true;$('auth').hidden=false;}
 function row(values){const tr=document.createElement('tr');for(const value of values){const td=document.createElement('td');td.textContent=value;tr.append(td);}return tr;}
 async function load(){
   const data=await api(`stats?period=${encodeURIComponent($('period').value)}&page=${page}`);
+  globalThis.LeelaScreenInfo?.update('admin');
   $('auth').hidden=true;$('dashboard').hidden=false;$('logout').hidden=false;
   $('coverage').textContent=`Login, participation and move tracking began ${new Date(data.trackingSince).toLocaleString('en-GB',{timeZone:'UTC'})} UTC. Earlier logins and moves are not reconstructed. Cast totals include existing saved castings. Player and Persona totals include existing records. New registrations, new Personas and returning players use the selected reporting range. Returning players participated on a later UTC day than a previous visit.`;
   const labels={players:'Registered players',personas:'Total Personas created',activePersonas:'Active Personas',archivedPersonas:'Archived Personas',newPersonas:'New Personas · selected range',logins:'Total tracked logins',casts:'Total saved casts',moves:'Total tracked moves',dailyActive:'Active players · today',weeklyActive:'Active players · 7 days',monthlyActive:'Active players · 30 days',newPlayers:'New players · selected range',returningPlayers:'Returning players · selected range'};

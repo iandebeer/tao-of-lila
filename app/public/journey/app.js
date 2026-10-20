@@ -2,7 +2,7 @@ import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvat
 import {splashMarkup,bindSplashTerms} from './splash.js?v=readable-reflections-20261015';
 import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=readable-reflections-20261015';
 import {localStateField} from './local-field.js?v=readable-reflections-20261015';
-import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=readable-reflections-20261015';
+import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=screen-info-20261020';
 import {api} from './api.js?v=readable-reflections-20261015';
 import {createInterpretationFlow} from './interpretation-flow.js?v=readable-reflections-20261015';
 import {journey,preview,scenario} from './service.js?v=readable-reflections-20261015';
@@ -58,6 +58,7 @@ function render(){
   const screens={personas:personaSelection,'create-persona':createPersonaScreen,splash,login:()=>auth(false),signup:()=>auth(true),progress,question,casting,result:interpretation,interpretation,reflection,movement:consequence,completion:history,history,paused};
   nav.innerHTML=data?`${preview?'':action('personas','My Personas',true)}${action('pause','Pause',true)}${action('history','History',true)}${action('logout','Log out',true)}`:api.authenticated?`${action('personas','My Personas',true)}${action('logout','Log out',true)}`:'<a href="#login">Log In</a>';
   main.innerHTML=(preview?`<div class="demo-banner">Development preview · ${esc(scenario)} · browser-only example, no account or AI request <label for="scenario">Example</label><select id="scenario">${scenarios.map(s=>`<option ${s===scenario?'selected':''}>${s}</option>`).join('')}</select> ${action('reset','Reset example',true)}</div>`:'')+(screens[route]||splash)();
+  window.LeelaScreenInfo?.update(route==='create-persona'&&editingPersona?'edit-persona':(screens[route]?route:'splash'));
   document.title=`${route.charAt(0).toUpperCase()+route.slice(1)} · The Tao of Leela`;
   disposeSplash=bindSplashTerms(document);
   main.focus({preventScroll:true});
@@ -129,7 +130,7 @@ function saveDraft(){
 }
 async function run(operation){
   if(busy)return;busy=true;
-  const controls=[...document.querySelectorAll('button,input,select,textarea')];controls.forEach(n=>n.disabled=true);
+  const controls=[...document.querySelectorAll('button,input,select,textarea')].filter(n=>!n.matches?.('[data-screen-info-key], .leela-info-dialog *'));controls.forEach(n=>n.disabled=true);
   status.textContent='';document.querySelector('#form-error')?.replaceChildren();
   try{await operation();}catch(error){showError(error);if(error.message.includes('Journey changed'))status.innerHTML='Another action was saved. Your draft is still here. <button type="button" data-action="reload">Reload saved journey</button>';}
   finally{busy=false;controls.forEach(n=>n.disabled=false);maybeAutoInterpret();}
