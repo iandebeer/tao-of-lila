@@ -51,8 +51,11 @@ acceptance store = do
     R.installReferenceLibrary connection library
     [Only hexCount] <- query_ connection "SELECT count(*) FROM reference_hexagrams" :: IO [Only Int]
     assert "reference installation is idempotent and contains all 64 hexagrams" (hexCount == 64)
+    [Only passageCount] <- query_ connection "SELECT count(*) FROM reference_passages" :: IO [Only Int]
+    assert "bilingual Taoist passage installation is idempotent" (passageCount == 6)
     (version, state, hexes, background) <- R.loadCastingReferences connection 72 0 63
-    assert "stored reference selection is bounded and source backed" (version == referenceVersion library && stateId state == 72 && length hexes == 2 && length background == 1)
+    assert "stored reference selection is bounded and source backed" (version == referenceVersion library && stateId state == 72 && length hexes == 2 && length background == 7)
+    assert "database background matches the offline corpus" (background == referenceBackground library 72)
 
   -- Registration must round-trip through the same stored hash on later login.
   let credentials = AuthRequest "  Returning_Player  " "known-test-password"

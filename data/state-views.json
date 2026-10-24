@@ -1,13 +1,15 @@
 {
-  "catalogVersion": "public-domain-cfcfa4095762f8a2",
-  "catalogNote": "Traditional 72-square names with original Tao of Leela commentary. Bhagavad Gita chapters provide thematic background, not historical explanations of numbered squares. I Ching passages pair the received Chinese text with James Legge’s public-domain translation. Reference snakes and arrows remain separate from movement rules.",
+  "catalogVersion": "public-domain-6e8028f124c26084",
+  "catalogNote": "Traditional 72-square names with original Tao of Leela commentary. Bhagavad Gita chapters provide thematic background, not historical explanations of numbered squares. I Ching passages pair the received Chinese text with James Legge’s public-domain translation. Tao Te Ching and Zhuangzi supply attributed bilingual background passages. Reference snakes and arrows remain separate from movement rules.",
   "sources": [
     "Reference snake and ladder endpoints: https://en.quantumgame.love/guide/leela-board-72-squares.html (board relationships only; commentary is original)",
     "Tao of Leela original tile commentary (MIT); data/references/leela-editorial.json",
     "Anonymous · 易經 · ancient text · https://www.gutenberg.org/ebooks/25501",
     "James Legge · The Yî King: judgments and line texts · 1882 · https://scarletbeast.com/lab/oracle/codex/iching.json",
     "James Legge · The Yî King: Appendix II, Great Images · 1882 · https://archive.sacred-texts.com/ich/icap2-1.htm",
-    "Edwin Arnold · The Song Celestial; or Bhagavad-Gîtâ · 1885 · https://www.gutenberg.org/ebooks/2388"
+    "Edwin Arnold · The Song Celestial; or Bhagavad-Gîtâ · 1885 · https://www.gutenberg.org/ebooks/2388",
+    "Laozi (traditional attribution) · Tao Te Ching — selected bilingual passages · 1891 · https://www.gutenberg.org/ebooks/216 — Chapter 8, opening paragraph; ancient Chinese: https://ctext.org/dao-de-jing; Legge translation, romanization as transcribed by source",
+    "Zhuangzi and later contributors · Zhuangzi (Chuang Tzu) — selected bilingual passages · 1891 · https://ctext.org/zhuangzi/adjustment-of-controversies/ens — Chapter 2, 齊物論, section 14, butterfly dream, excerpt; ancient Chinese: https://ctext.org/zhuangzi; Legge translation, romanization as transcribed by source"
   ],
   "trigramViews": [
     {

@@ -1,0 +1,86 @@
+[
+  {
+    "passageId": "tao-8",
+    "passageWork": "tao_te_ching",
+    "passageLocator": "Chapter 8, opening paragraph",
+    "passageChinese": "上善若水。水善利萬物而不爭，處眾人之所惡，故幾於道。",
+    "passageSource": {
+      "translationTranslator": "James Legge",
+      "translationTitle": "Tao Te Ching",
+      "translationYear": 1891,
+      "translationCopyrightStatus": "public_domain",
+      "translationSourceReference": "https://www.gutenberg.org/ebooks/216 — Chapter 8, opening paragraph; ancient Chinese: https://ctext.org/dao-de-jing; Legge translation, romanization as transcribed by source",
+      "translationText": "The highest excellence is like (that of) water. The excellence of water appears in its benefiting all things, and in its occupying, without striving (to the contrary), the low place which all men dislike. Hence (its way) is near to (that of) the Tao."
+    }
+  },
+  {
+    "passageId": "tao-9",
+    "passageWork": "tao_te_ching",
+    "passageLocator": "Chapter 9, opening paragraph",
+    "passageChinese": "持而盈之，不如其已；揣而銳之，不可長保。",
+    "passageSource": {
+      "translationTranslator": "James Legge",
+      "translationTitle": "Tao Te Ching",
+      "translationYear": 1891,
+      "translationCopyrightStatus": "public_domain",
+      "translationSourceReference": "https://www.gutenberg.org/ebooks/216 — Chapter 9, opening paragraph; ancient Chinese: https://ctext.org/dao-de-jing; Legge translation, romanization as transcribed by source",
+      "translationText": "It is better to leave a vessel unfilled, than to attempt to carry it when it is full. If you keep feeling a point that has been sharpened, the point cannot long preserve its sharpness."
+    }
+  },
+  {
+    "passageId": "tao-11",
+    "passageWork": "tao_te_ching",
+    "passageLocator": "Chapter 11",
+    "passageChinese": "三十輻共一轂，當其無，有車之用。埏埴以為器，當其無，有器之用。鑿戶牖以為室，當其無，有室之用。故有之以為利，無之以為用。",
+    "passageSource": {
+      "translationTranslator": "James Legge",
+      "translationTitle": "Tao Te Ching",
+      "translationYear": 1891,
+      "translationCopyrightStatus": "public_domain",
+      "translationSourceReference": "https://www.gutenberg.org/ebooks/216 — Chapter 11; ancient Chinese: https://ctext.org/dao-de-jing; Legge translation, romanization as transcribed by source",
+      "translationText": "The thirty spokes unite in the one nave; but it is on the empty space (for the axle), that the use of the wheel depends. Clay is fashioned into vessels; but it is on their empty hollowness, that their use depends. The door and windows are cut out (from the walls) to form an apartment; but it is on the empty space (within), that its use depends. Therefore, what has a (positive) existence serves for profitable adaptation, and what has not that for (actual) usefulness."
+    }
+  },
+  {
+    "passageId": "zhuangzi-2-butterfly",
+    "passageWork": "zhuangzi",
+    "passageLocator": "Chapter 2, 齊物論, section 14, butterfly dream, excerpt",
+    "passageChinese": "不知周之夢為胡蝶與，胡蝶之夢為周與？",
+    "passageSource": {
+      "translationTranslator": "James Legge",
+      "translationTitle": "Zhuangzi (Chuang Tzu)",
+      "translationYear": 1891,
+      "translationCopyrightStatus": "public_domain",
+      "translationSourceReference": "https://ctext.org/zhuangzi/adjustment-of-controversies/ens — Chapter 2, 齊物論, section 14, butterfly dream, excerpt; ancient Chinese: https://ctext.org/zhuangzi; Legge translation, romanization as transcribed by source",
+      "translationText": "I did not know whether it had formerly been Zhou dreaming that he was a butterfly, or it was now a butterfly dreaming that it was Zhou."
+    }
+  },
+  {
+    "passageId": "zhuangzi-3-cook",
+    "passageWork": "zhuangzi",
+    "passageLocator": "Chapter 3, 養生主, section 2, Cook Ding, excerpt",
+    "passageChinese": "臣之所好者道也，進乎技矣。",
+    "passageSource": {
+      "translationTranslator": "James Legge",
+      "translationTitle": "Zhuangzi (Chuang Tzu)",
+      "translationYear": 1891,
+      "translationCopyrightStatus": "public_domain",
+      "translationSourceReference": "https://ctext.org/zhuangzi/nourishing-the-lord-of-life/ens — Chapter 3, 養生主, section 2, Cook Ding, excerpt; ancient Chinese: https://ctext.org/zhuangzi; Legge translation, romanization as transcribed by source",
+      "translationText": "What your servant loves is the method of the Dao, something in advance of any art."
+    }
+  },
+  {
+    "passageId": "zhuangzi-17-well",
+    "passageWork": "zhuangzi",
+    "passageLocator": "Chapter 17, 秋水, section 2, frog in a well, excerpt",
+    "passageChinese": "井蛙不可以語於海者，拘於虛也。",
+    "passageSource": {
+      "translationTranslator": "James Legge",
+      "translationTitle": "Zhuangzi (Chuang Tzu)",
+      "translationYear": 1891,
+      "translationCopyrightStatus": "public_domain",
+      "translationSourceReference": "https://ctext.org/zhuangzi/floods-of-autumn/ens — Chapter 17, 秋水, section 2, frog in a well, excerpt; ancient Chinese: https://ctext.org/zhuangzi; Legge translation, romanization as transcribed by source",
+      "translationText": "A frog in a well cannot be talked with about the sea - he is confined to the limits of his hole."
+    }
+  }
+]

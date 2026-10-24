@@ -2,6 +2,12 @@
 
 Use this file as persistent guidance when working in this repository.
 
+## Required Workspace
+
+- Perform all current and future work in `/Users/ian/creative/tao-of-lila`
+  (`~/creative/tao-of-lila`). This is the authoritative Git checkout.
+- Do not edit exported or copied versions under `~/Documents/Codex`.
+
 ## Agent Roles
 
 - Master Architect: Coordinates all agents.

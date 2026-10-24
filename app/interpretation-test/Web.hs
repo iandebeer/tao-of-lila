@@ -32,6 +32,7 @@ type TestAPI =
        "api" :> "states" :> Get '[JSON] [LeelaState]
   :<|> "api" :> "preview" :> ReqBody '[JSON] PairRequest :> Post '[JSON] ContemplationContext
   :<|> "api" :> "interpret" :> ReqBody '[JSON] PairRequest :> Post '[JSON] ModelResult
+  :<|> "journey" :> Raw
   :<|> "shared" :> Raw
   :<|> Raw
 
@@ -42,7 +43,7 @@ runWeb library domain model = do
     (serve (Proxy :: Proxy TestAPI) server)
   where
     server :: Server TestAPI
-    server = pure (leelaStates domain) :<|> preview :<|> interpret :<|> serveDirectoryFileServer "app/public/shared" :<|> serveDirectoryFileServer "app/public/interpretation-test"
+    server = pure (leelaStates domain) :<|> preview :<|> interpret :<|> serveDirectoryFileServer "app/public/journey" :<|> serveDirectoryFileServer "app/public/shared" :<|> serveDirectoryFileServer "app/public/interpretation-test"
     preview :: PairRequest -> Handler ContemplationContext
     preview request = do
       let inquiry = T.strip (question request)

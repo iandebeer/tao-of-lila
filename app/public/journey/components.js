@@ -1,11 +1,11 @@
-import {esc,paragraphs} from './text.js?v=readable-reflections-20261015';
-export {esc} from './text.js?v=readable-reflections-20261015';
-import {hexControl,stateControl} from './state-viewer.js?v=readable-reflections-20261015';
+import {esc,createParagraphRenderer} from './text.js?v=355a1c6decd3c968';
+export {esc} from './text.js?v=355a1c6decd3c968';
+import {hexControl,stateControl} from './state-viewer.js?v=355a1c6decd3c968';
 export const label=s=>s?`${esc(s.stateId)} · ${esc(s.stateName)}`:'The beginning of your journey';
 export const action=(id,text,secondary=false)=>`<button type="button" data-action="${id}" class="${secondary?'secondary':''}">${text}</button>`;
 export const questionDisplay=text=>`<blockquote class="question-display"><span class="eyebrow">Your question</span><p>${esc(text)}</p></blockquote>`;
 let assets={};
-export async function loadAssets(){try{assets=await fetch('./assets.json?v=readable-reflections-20261015').then(r=>r.json());}catch{assets={};}}
+export async function loadAssets(){try{assets=await fetch('./assets.json?v=355a1c6decd3c968').then(r=>r.json());}catch{assets={};}}
 export function artwork(kind,id,title){
   const path=assets[kind]?.[id];
   return typeof path==='string' && /^\.?\.?\//.test(path)?`<img class="symbol-art" src="${esc(path)}" alt="${esc(title)}">`:`<img class="art-slot" src="./yin-yang.svg" alt="Yin–Yang">`;
@@ -14,9 +14,14 @@ export function hexagram(binary,number,name,changing=[],values=[],selection={}){
   const lines=Array.from({length:6},(_,i)=>5-i).map(bit=>`<div class="hex-line ${changing.includes(bit+1)?'changing':''}"><span class="line-number">${bit+1}</span><span class="${(binary>>bit)&1?'yang':'yin'}" aria-hidden="true"></span><span class="line-value">${values.find(v=>v.lineNumber===bit+1)?.lineValue??''}${changing.includes(bit+1)?' •':''}</span></div>`).join('');
   return `<article class="panel hexagram">${artwork('hexagrams',binary,'Hexagram')}<p class="eyebrow">Hexagram ${esc(number??'—')}</p><h2>${esc(name||'Name not supplied')}</h2><div role="img" aria-label="Hexagram lines top to bottom: ${Array.from({length:6},(_,i)=>((binary>>(5-i))&1)?'Yang':'Yin').join(', ')}">${lines}</div><small>Lines are numbered from the bottom. • Changing line</small>${hexControl(binary,'Explore hexagram',{...selection,changing:selection.changing??changing})}</article>`;
 }
-export function reading(response){
-  if(!response)return '<p class="muted">No AI interpretation has been saved for this move.</p>';
-  const section=(title,value)=>`<section class="reading-section"><h3>${title}</h3><div class="prose">${Array.isArray(value)?`<ul class="reading-list">${value.map(item=>`<li>${paragraphs(item)}</li>`).join('')}</ul>`:paragraphs(value)}</div></section>`;
+export function reading(response,alreadyRendered=[]){
+  if(!response)return '<p class="muted">No interpretation has been saved for this move.</p>';
+  const renderParagraphs=createParagraphRenderer(alreadyRendered);
+  const section=(title,value)=>{
+    const items=Array.isArray(value)?value.map(renderParagraphs).filter(Boolean):null;
+    const content=items?(items.length?`<ul class="reading-list">${items.map(item=>`<li>${item}</li>`).join('')}</ul>`:''):renderParagraphs(value);
+    return content?`<section class="reading-section"><h3>${title}</h3><div class="prose">${content}</div></section>`:'';
+  };
   return section('This encounter',response.context)+section('Primary hexagram',response.primary_hexagram)+section('Changing lines',response.changing_lines)+section('Transformation',response.transformation)+section('Possible readings',response.possible_readings)+section('Questions to sit with',response.questions_for_contemplation);
 }
 export function movement(view){

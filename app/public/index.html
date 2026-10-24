@@ -40,8 +40,8 @@
       .contemplation { border-color: #75644f; background: #191713; }
       .contemplation h4 { color: #d8c7aa; }
     </style>
-  <link rel="stylesheet" href="./shared/screen-info.css?v=screen-info-20261020">
-<script src="./shared/screen-info.js?v=screen-info-20261020" defer></script>
+  <link rel="stylesheet" href="./shared/screen-info.css?v=355a1c6decd3c968">
+<script src="./shared/screen-info.js?v=355a1c6decd3c968" defer></script>
 </head>
   <body data-screen-info="prototype">
     <main>
@@ -107,7 +107,8 @@
         </section>
       </div>
     </main>
-    <script>
+    <script type="module">
+      import {reading as readingMarkup} from "./journey/components.js?v=355a1c6decd3c968";
       let token = localStorage.getItem("tao-token");
       let game = null;
       const authPanel = document.querySelector("#auth-panel");
@@ -223,13 +224,8 @@
 
       function renderContemplation(id, response) {
         document.querySelector(`#contemplation-${id}`).innerHTML = `<section class="contemplation">
-          <p class="muted">AI-assisted contemplation · an interpretive aid, not an oracle</p>
-          <h4>Context</h4><p>${escapeHtml(response.context)}</p>
-          <h4>Primary hexagram</h4><p>${escapeHtml(response.primary_hexagram)}</p>
-          <h4>Changing lines</h4>${response.changing_lines.map(item => `<p>${escapeHtml(item)}</p>`).join("")}
-          <h4>Transformation</h4><p>${escapeHtml(response.transformation)}</p>
-          <h4>Possible readings</h4><ul>${response.possible_readings.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-          <h4>Questions for contemplation</h4><ul>${response.questions_for_contemplation.map(item => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          <p class="muted">Contemplation · an interpretive aid, not an oracle</p>
+          ${readingMarkup(response)}
         </section>`;
       }
 

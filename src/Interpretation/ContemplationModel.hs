@@ -22,4 +22,4 @@ newtype ContemplationModel = ContemplationModel
 
 disabledContemplationModel :: ContemplationModel
 disabledContemplationModel =
-  ContemplationModel (const (throwIO (ModelError "Contemplation is not configured; set OPENAI_API_KEY")))
+  ContemplationModel (const (throwIO (ModelError "Contemplation is not available. Please contact the service administrator.")))

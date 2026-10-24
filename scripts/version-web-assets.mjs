@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 
 // Stamp the whole module graph, not just app.js: imported modules have their
 // own browser cache entries. Normalising old stamps makes builds repeatable.
-const assetURL = /(['"])((?:\.\/|\/yarrow\/)[^'"\s?]+\.(?:js|css|json))(?:\?v=[a-f0-9]+)?\1/g;
+const assetURL = /(['"])((?:\.{1,2}\/|\/yarrow\/)[^'"\s?]+\.(?:js|css|json))(?:\?v=[a-zA-Z0-9_-]+)?\1/g;
 const rewrite = (source, version) => source.replace(assetURL,
   (_, quote, path) => `${quote}${path}${version ? `?v=${version}` : ''}${quote}`);
 

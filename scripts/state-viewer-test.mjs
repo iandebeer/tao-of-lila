@@ -52,7 +52,8 @@ assert.match(hexControl(7,'<script>'),/&lt;script&gt;/);
 // Exercise real delegated handlers: network failure, retry, image failure,
 // late response after closing, pair navigation and focus restoration.
 let listener,activeDialog,loadCount=0,restoreCount=0,fetchMode='fail',resolveFetch;
-function node(){return {innerHTML:'',handlers:{},addEventListener(type,fn){this.handlers[type]=fn;},focus(){},setAttribute(){}};}
+function node(){return {innerHTML:'',handlers:{},addEventListener(type,fn){this.handlers[type]=fn;},focus(){},setAttribute(){},insertAdjacentHTML(){}};}
+globalThis.window={};
 globalThis.document={addEventListener(type,fn){listener=fn;},createElement(){
   const d=node(),content=node(),close=node();d.querySelector=s=>s==='[data-close-view]'?close:content;d.showModal=()=>{};
   d.close=()=>d.handlers.close();d.remove=()=>{activeDialog=null;};activeDialog=d;return d;
@@ -92,7 +93,7 @@ for (const hex of catalog.hexagramViews) {
   assert.equal(hex.sourceText.textHexagramNumber,hex.kingWenNumber);
   const markup=hexagramMarkup(catalog,pairSelection(hex.binaryValue,hex.binaryValue,[1,6]));
   assert.match(markup,/Judgment/);assert.match(markup,/Image/);assert.match(markup,/James Legge/);
-  assert.match(markup,/lang="zh"/);assert.match(markup,/Changing lines/);assert.match(markup,/Read all six lines/);
+  assert.match(markup,/lang="zh"/);assert.match(markup,/Changing lines/);assert.match(markup,/Read the remaining lines/);
   assert.ok(markup.includes(hex.sourceText.textJudgmentChinese));
 }
 console.log('ok - all 72 tile descriptions and all 64 bilingual source panels are complete');

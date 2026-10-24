@@ -1,3 +1,4 @@
+import {reading as readingMarkup} from "../journey/components.js?v=355a1c6decd3c968";
 "use strict";
 const form = document.querySelector("#casting-form");
 const status = document.querySelector("#status");
@@ -36,15 +37,9 @@ function showPreview(context) {
   raw.hidden = false;
 }
 function showReading(result) {
-  reading.replaceChildren(element("p", "AI-assisted contemplation", "eyebrow"));
+  reading.replaceChildren(element("p", "Contemplation", "eyebrow"));
   const value = result.modelContemplation;
-  for (const [title, content] of [["Context", value.context], ["Primary hexagram", value.primary_hexagram], ["Changing lines", value.changing_lines], ["Transformation", value.transformation], ["Possible readings", value.possible_readings], ["Questions for contemplation", value.questions_for_contemplation]]) {
-    reading.append(element("h3", title));
-    if (Array.isArray(content)) {
-      if (!content.length) reading.append(element("p", "No changing-line reflections."));
-      else { const list = element("ul"); content.forEach(item => list.append(element("li", item))); reading.append(list); }
-    } else reading.append(element("p", content));
-  }
+  reading.insertAdjacentHTML("beforeend", readingMarkup(value));
   reading.append(element("p", `${result.modelName} · ${result.modelInputTokens} input tokens · ${result.modelOutputTokens} output tokens · ${(result.modelLatencyMilliseconds / 1000).toFixed(1)}s`, "usage"));
   reading.hidden = false;
 }
@@ -67,10 +62,10 @@ form.addEventListener("submit", async event => {
   try {
     showPreview(await request("/api/preview", payload));
     if (live) {
-      status.textContent = "Reflecting with OpenAI. This may take a little time…";
+      status.textContent = "Preparing your reading. This may take a little time…";
       showReading(await request("/api/interpret", payload));
       status.textContent = "Your interpretation is ready.";
-    } else status.textContent = "Preview ready. No AI request was made.";
+    } else status.textContent = "Preview ready. No interpretation was requested.";
   } catch (err) {
     status.textContent = "The request could not be completed.";
     error.textContent = err.message;

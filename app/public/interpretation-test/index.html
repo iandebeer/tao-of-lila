@@ -4,9 +4,9 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I Ching · Interpretation test</title>
 <link rel="stylesheet" href="style.css">
-<script src="test.js" defer></script>
-<link rel="stylesheet" href="../shared/screen-info.css?v=screen-info-20261020">
-<script src="../shared/screen-info.js?v=screen-info-20261020" defer></script>
+<script type="module" src="./test.js?v=355a1c6decd3c968"></script>
+<link rel="stylesheet" href="../shared/screen-info.css?v=355a1c6decd3c968">
+<script src="../shared/screen-info.js?v=355a1c6decd3c968" defer></script>
 </head>
 <body data-screen-info="lab">
 <main>
@@ -19,8 +19,8 @@
 <p class="note">The current reference texts cover <strong>11 (Peace)</strong> and <strong>36 (Darkening of the Light)</strong>. Use either in each field; matching numbers mean no changing lines.</p>
 <label>Your question<textarea id="question" name="question" rows="4" maxlength="4000" required>How can I retain my innocence while moving forward?</textarea></label>
 <label>Leela state<select id="leelaState" name="leelaState" required><option value="">Loading states…</option></select></label>
-<div class="actions"><button id="preview" type="submit" class="secondary" disabled>Preview casting</button><button id="interpret" type="submit" disabled>Interpret with OpenAI</button></div>
-<p class="hint">Preview makes no AI request. Interpretation uses your configured OpenAI account.</p>
+<div class="actions"><button id="preview" type="submit" class="secondary" disabled>Preview casting</button><button id="interpret" type="submit" disabled>Request interpretation</button></div>
+<p class="hint">Preview shows the casting. Request an interpretation to explore its meaning.</p>
 </form>
 </section>
 <section class="card result-card" aria-labelledby="result-title" aria-busy="false">
@@ -32,7 +32,7 @@
 <details id="raw-context" hidden><summary>Inspect the interpretation context</summary><pre id="context-json"></pre></details>
 </section>
 </div>
-<footer>AI-assisted contemplation is an interpretive aid. The hexagrams and changing lines are determined by the Haskell engine.</footer>
+<footer>Contemplation is an interpretive aid. The hexagrams and changing lines are determined by the Haskell engine.</footer>
 </main>
 </body>
 </html>

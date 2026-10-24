@@ -315,7 +315,9 @@ adjusts movement probabilities.
 
 `Domain.Reference` validates the versioned public-domain corpus and provides pure
 lookups. `Persistence.Reference` installs documents, 64 binary-keyed hexagrams,
-72 tile entries and 18 background chapters in one transaction. Runtime reference
+72 tile entries, 18 background chapters and six bilingual Taoist passages in one transaction.
+`reference_passages` stores each excerpt with its original Chinese, public-domain
+translation, work and chapter/section attribution, keyed by edition and passage ID. Runtime reference
 retrieval selects the two hexagrams and current tile's background from PostgreSQL;
 no external text retrieval or vector service is used. `Domain.Contemplation` accepts
 an explicit lookup function, preserving the functional core. The context and

@@ -80,8 +80,17 @@ def build():
         body=(BASE/'sources'/file).read_text()
         documents.append(dict(documentId=ident,documentTitle=title,documentAuthor=author,documentYear=year,
             documentSource=url,documentRights=rights,documentDigest=hashlib.sha256(body.encode()).hexdigest(),documentBody=body))
-    library=dict(referenceVersion='pending',referenceDocuments=documents,
-                 referenceHexagrams=sorted(hexagrams,key=lambda h:h['referenceBinary']), referenceLeela=entries, referenceChapters=chapters)
+    passages = read('data/references/sources/taoist-passages.json')
+    for work, title in [('tao_te_ching', 'Tao Te Ching'), ('zhuangzi', 'Zhuangzi (Chuang Tzu)')]:
+        selected = [p for p in passages if p['passageWork'] == work]
+        assert selected
+        body = '\n\n'.join(p['passageLocator'] + '\n' + p['passageChinese'] + '\n' + p['passageSource']['translationText'] for p in selected)
+        documents.append(dict(documentId=work+'-legge-excerpts',documentTitle=title+' — selected bilingual passages',
+            documentAuthor='Laozi (traditional attribution)' if work == 'tao_te_ching' else 'Zhuangzi and later contributors',
+            documentYear=1891,documentSource=selected[0]['passageSource']['translationSourceReference'],
+            documentRights='public_domain',documentDigest=hashlib.sha256(body.encode()).hexdigest(),documentBody=body))
+    library=dict(referenceVersion='pending' ,referenceDocuments=documents,
+                 referenceHexagrams=sorted(hexagrams,key=lambda h:h['referenceBinary']), referenceLeela=entries, referenceChapters=chapters, referencePassages=passages)
     library['referenceVersion'] = 'public-domain-' + hashlib.sha256(json.dumps(library,ensure_ascii=False,sort_keys=True).encode()).hexdigest()[:16]
     write('data/references/library.json',library)
     write('data/hexagrams.json', [dict(hexagramNumber=h['referenceText']['textHexagramNumber'],

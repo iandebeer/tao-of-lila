@@ -3,8 +3,8 @@
 The deployment bundles and installs a versioned corpus into PostgreSQL. Reading a
 tile or contemplating a casting never downloads a reference website. The model
 receives the recorded casting facts, current tile description, the primary and
-resulting hexagram passages, selected changing lines and one bounded background
-excerpt. It does not receive the entire document library.
+resulting hexagram passages, selected changing lines, one bounded Gita background
+excerpt and six short bilingual Taoist passages. It does not receive the entire document library.
 
 ## Coverage and provenance
 
@@ -73,6 +73,31 @@ movement and dice probabilities are unchanged by the text update. The informatio
 catalogue now includes all ten snake and ten ladder pairs from the referenced
 board, with original commentary and links in both directions. These references
 are now applied by the engine on landing; opening their information links is read-only.
+
+## Taoist background and display
+
+The corpus includes Tao Te Ching chapters 8, 9 and 11 and excerpts from Zhuangzi
+chapters 2, 3 and 17. Original Chinese and James Legge’s 1891 public-domain
+translations are paired in `sources/taoist-passages.json`; each has a work,
+chapter/section locator and source URL. Chinese Text Project’s transcribed
+romanization is retained for Zhuangzi. These are selected passages, not complete
+editions or modern copyrighted translations. Leela prose remains original project
+commentary; no text from Harish Johari’s modern book is reproduced.
+
+The packager includes the passage bodies and SHA-256 digests in the versioned
+library. Startup transactionally installs `reference_passages` and activates the
+edition. Both database readings and the offline diagnostic receive the same
+bounded passages. No network retrieval is required during a reading.
+
+Interpretation instructions request relevant reflection from both Taoist works
+with attribution, preserving the distinction between traditions. They prohibit
+profile recaps and repeated paragraphs or questions. Rendering also suppresses
+matching paragraphs across reading fields and list items, ignoring whitespace,
+case and curly-quote differences. It preserves the first wording and escapes all
+content; it does not rewrite saved data. Persona descriptions/context and tile
+commentary share a renderer within their respective panels. Changing lines are
+excluded from the expandable remaining-line list. The journal screen no longer
+replays the interpretation’s context paragraph.
 
 ## Updating the edition
 

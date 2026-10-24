@@ -2,13 +2,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Domain.Reference
   ( ReferenceDocument (..), ReferenceHexagram (..), ReferenceLeela (..)
-  , ReferenceChapter (..), ReferenceLibrary (..), loadReferenceLibrary
+  , ReferenceChapter (..), ReferencePassage (..), passageBackground, ReferenceLibrary (..), loadReferenceLibrary
   , validateReferenceLibrary, lookupReferenceHexagram, referenceBackground, withReferenceBackground
   ) where
 
 import Crypto.Hash (Digest, SHA256, hash)
 import Data.Aeson (FromJSON, ToJSON, eitherDecodeFileStrict')
-import Data.List (find, sort, nub)
+import Data.List (find, sort, sortOn, nub)
 import Data.Bits (testBit)
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -43,10 +43,22 @@ data ReferenceChapter = ReferenceChapter
 instance FromJSON ReferenceChapter
 instance ToJSON ReferenceChapter
 
+-- A bounded, attributed bilingual passage; no modern commentary is source text.
+data ReferencePassage = ReferencePassage
+  { passageId :: Text, passageWork :: Text, passageLocator :: Text
+  , passageChinese :: Text, passageSource :: SourceTranslation
+  } deriving (Eq, Show, Generic)
+instance FromJSON ReferencePassage
+instance ToJSON ReferencePassage
+
+passageBackground :: ReferencePassage -> SourceTranslation
+passageBackground passage = (passageSource passage)
+  { translationText = passageChinese passage <> "\n" <> translationText (passageSource passage) }
+
 data ReferenceLibrary = ReferenceLibrary
   { referenceVersion :: Text, referenceDocuments :: [ReferenceDocument]
   , referenceHexagrams :: [ReferenceHexagram], referenceLeela :: [ReferenceLeela]
-  , referenceChapters :: [ReferenceChapter]
+  , referenceChapters :: [ReferenceChapter], referencePassages :: [ReferencePassage]
   } deriving (Eq, Show, Generic)
 instance FromJSON ReferenceLibrary
 instance ToJSON ReferenceLibrary
@@ -65,11 +77,17 @@ validateReferenceLibrary library
   | not (all validState states) = Left "Reference tile is missing its description, commentary or background link"
   | sort (map chapterNumber chapters) /= [1..18] = Left "Reference corpus requires all 18 Gita chapters"
   | not (all (\c -> validSource (chapterSource c) && not (T.null (chapterBody c))) chapters) = Left "Reference chapter is empty or unattributed"
+  | null passages || length (nub (map passageId passages)) /= length passages
+      || not (all validPassage passages)
+      || not (all (`elem` map passageWork passages) ["tao_te_ching", "zhuangzi"]) = Left "Taoist passages require both works, unique IDs, Chinese, public-domain translations and attribution"
   | null docs || length (nub (map documentId docs)) /= length docs || not (all validDocument docs) = Left "Reference document has invalid provenance or digest"
   | otherwise = Right library
   where
     hexes = referenceHexagrams library; states = referenceLeela library
     chapters = referenceChapters library; docs = referenceDocuments library
+    passages = referencePassages library
+    validPassage p = all nonempty [passageId p, passageLocator p, passageChinese p]
+      && passageWork p `elem` ["tao_te_ching", "zhuangzi"] && validSource (passageSource p)
     nonempty = not . T.null . T.strip
     validSource s = translationCopyrightStatus s == "public_domain"
       && all nonempty [translationText s, translationTitle s, translationTranslator s, translationSourceReference s]
@@ -94,10 +112,12 @@ lookupReferenceHexagram :: ReferenceLibrary -> Int -> Maybe HexagramText
 lookupReferenceHexagram library binary = referenceText <$> find ((== binary) . referenceBinary) (referenceHexagrams library)
 
 referenceBackground :: ReferenceLibrary -> Int -> [SourceTranslation]
-referenceBackground library number = do
-  tile <- filter ((== number) . stateId . referenceState) (referenceLeela library)
-  chapter <- filter ((== referenceChapter tile) . chapterNumber) (referenceChapters library)
-  pure (chapterSource chapter)
+referenceBackground library number = gita ++ map passageBackground (sortOn passageId (referencePassages library))
+  where
+    gita = do
+      tile <- filter ((== number) . stateId . referenceState) (referenceLeela library)
+      chapter <- filter ((== referenceChapter tile) . chapterNumber) (referenceChapters library)
+      pure (chapterSource chapter)
 
 withReferenceBackground :: ReferenceLibrary -> ContemplationContext -> ContemplationContext
 withReferenceBackground library context = context

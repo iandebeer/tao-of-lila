@@ -506,3 +506,10 @@ match that listening port.
 
 The public homepage is `/`, which serves `app/public/index.html` explicitly.
 `/index.html` also works, and `/health` returns the API health response.
+
+The reflection corpus also includes six bilingual Tao Te Ching and Zhuangzi
+passages, with James Legge’s public-domain translations and chapter attribution.
+Startup installs these alongside the existing references; readings use PostgreSQL
+without further source searches. UI readings suppress repeated paragraphs and
+questions within an encounter, while preserving saved responses. See
+[reference corpus](docs/reference-corpus.md) for edition and update details.

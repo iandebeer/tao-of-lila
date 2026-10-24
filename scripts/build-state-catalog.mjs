@@ -9,7 +9,7 @@ export function buildCatalog(){
   const leela=new Map(library.referenceLeela.map(e=>[e.referenceState.stateId,e]));
   const hexes=new Map(library.referenceHexagrams.map(e=>[e.referenceBinary,e.referenceText]));
   return {...metadata,catalogVersion:library.referenceVersion,
-    catalogNote:'Traditional 72-square names with original Tao of Leela commentary. Bhagavad Gita chapters provide thematic background, not historical explanations of numbered squares. I Ching passages pair the received Chinese text with James Legge’s public-domain translation. Reference snakes and arrows remain separate from movement rules.',
+    catalogNote:'Traditional 72-square names with original Tao of Leela commentary. Bhagavad Gita chapters provide thematic background, not historical explanations of numbered squares. I Ching passages pair the received Chinese text with James Legge’s public-domain translation. Tao Te Ching and Zhuangzi supply attributed bilingual background passages. Reference snakes and arrows remain separate from movement rules.',
     sources:['Reference snake and ladder endpoints: https://en.quantumgame.love/guide/leela-board-72-squares.html (board relationships only; commentary is original)', 'Tao of Leela original tile commentary (MIT); data/references/leela-editorial.json',...library.referenceDocuments.map(d=>`${d.documentAuthor} · ${d.documentTitle} · ${d.documentYear || 'ancient text'} · ${d.documentSource}`)],
     stateViews:stateMetadata.map(({stateId,...extra})=>({ ...extra, identity:leela.get(stateId).referenceState,canonicalInterpretation:leela.get(stateId).referenceCommentary })),
     hexagramViews:metadata.hexagramViews.map(h=>({...h,chineseName:hexes.get(h.binaryValue).textChineseName,sourceText:hexes.get(h.binaryValue)}))};

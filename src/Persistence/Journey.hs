@@ -128,7 +128,7 @@ transition connection domain user workflow command = case commandAction command 
     eventId <- maybe (throwIO (Conflict "No completed encounter")) pure (workflowEventId workflow)
     rows <- query connection "SELECT EXISTS (SELECT 1 FROM contemplations WHERE game_event_id = ?)" (Only eventId) :: IO [Only Bool]
     if rows == [Only True] then pure workflow {workflowStage = "reflection"}
-      else throwIO (Conflict "Read the AI interpretation before continuing to your reflection. Retry the interpretation if it did not finish.")
+      else throwIO (Conflict "Read the interpretation before continuing to your reflection. Retry the interpretation if it did not finish.")
   "journal" -> saveReflection connection workflow (fromMaybe "" (commandText command))
   "movement" -> do
     saved <- saveReflection connection workflow (fromMaybe (workflowJournal workflow) (commandText command))

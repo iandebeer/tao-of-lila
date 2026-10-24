@@ -11,7 +11,8 @@ try {
   const put = (name, source) => writeFile(join(root, 'journey', name), source);
   const get = name => readFile(join(root, 'journey', name), 'utf8');
   await put('index.html', '<link href="./style.css"><script src="./app.js"></script>');
-  await put('app.js', "import {value} from './child.js'; fetch('./catalog.json'); fetch('/journey-session');");
+  await put('app.js', "import {value} from './child.js'; fetch('./catalog.json'); fetch('/journey-session'); import '../shared.js?v=old-release-20261024';");
+  await writeFile(join(root, 'shared.js'), 'export const shared = true;');
   await put('child.js', 'export const value = 1;');
   await put('style.css', 'body {color: black}');
   await put('catalog.json', '{}');
@@ -19,9 +20,11 @@ try {
   assert.ok((await get('index.html')).includes(`./app.js?v=${first}`));
   assert.ok((await get('index.html')).includes(`./style.css?v=${first}`));
   assert.ok((await get('app.js')).includes(`./child.js?v=${first}`));
+  assert.ok((await get('app.js')).includes(`../shared.js?v=${first}`), 'named release stamps and parent imports are refreshed');
   assert.ok((await get('app.js')).includes(`./catalog.json?v=${first}`));
   assert.ok((await get('app.js')).includes("fetch('/journey-session')"));
   assert.equal(await versionAssets(root), first, 'rebuilding unchanged sources is stable');
+  await writeFile(join(root, 'shared.js'), 'export const shared = true;');
   await put('child.js', 'export const value = 2;');
   const second = await versionAssets(root);
   assert.notEqual(second, first, 'a nested module change invalidates the release');

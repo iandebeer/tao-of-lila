@@ -50,11 +50,18 @@ main = do
     Right context -> sourcePresent (contemplationPrimaryHexagram context) && sourcePresent (contemplationResultingHexagram context)
       && all (not . T.null . translationText . changingLineLegge) (contemplationChangingLines context)
     Left _ -> False) [(a,b) | a <- [1..64], b <- [1..64]])
-  assert "all 72 tiles have attributed background" (all ((==1) . length . Ref.referenceBackground library) [1..72])
+  assert "all 72 tiles have attributed background" (all ((==7) . length . Ref.referenceBackground library) [1..72])
   assert "missing binary source is rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
   let firstSource=head (Ref.referenceHexagrams library)
       mismatched=firstSource {Ref.referenceBinary=63}
   assert "duplicate and mismatched binary keys rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=mismatched:tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
+
+  let passages = Ref.referencePassages library
+  assert "both Taoist works have attributed bilingual public-domain excerpts" (length passages == 6 && all (\p -> not (T.null (Ref.passageChinese p)) && translationCopyrightStatus (Ref.passageSource p) == "public_domain") passages)
+  assert "empty Taoist corpus is rejected" (case Ref.validateReferenceLibrary library {Ref.referencePassages=[]} of Left _ -> True; _ -> False)
+  assert "duplicate Taoist passage IDs are rejected" (case Ref.validateReferenceLibrary library {Ref.referencePassages=passages++take 1 passages} of Left _ -> True; _ -> False)
+  assert "both traditions are required" (case Ref.validateReferenceLibrary library {Ref.referencePassages=filter ((== "zhuangzi") . Ref.passageWork) passages} of Left _ -> True; _ -> False)
+  assert "background keeps original Chinese paired with translation" (all (\p -> Ref.passageChinese p `T.isInfixOf` translationText (Ref.passageBackground p) && translationText (Ref.passageSource p) `T.isInfixOf` translationText (Ref.passageBackground p)) passages)
 
   fresh <- replicateM 32 freshCastingState
   assert "new castings draw varied seeds" (length (nub (map Casting.seed fresh)) > 1)

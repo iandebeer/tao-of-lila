@@ -17,6 +17,7 @@ migrateReferences connection = do
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS reference_hexagrams (version TEXT NOT NULL, binary_value INTEGER NOT NULL CHECK(binary_value BETWEEN 0 AND 63), document JSONB NOT NULL, PRIMARY KEY(version,binary_value))"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS reference_leela (version TEXT NOT NULL, tile INTEGER NOT NULL CHECK(tile BETWEEN 1 AND 72), document JSONB NOT NULL, PRIMARY KEY(version,tile))"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS reference_chapters (version TEXT NOT NULL, chapter INTEGER NOT NULL CHECK(chapter BETWEEN 1 AND 18), document JSONB NOT NULL, PRIMARY KEY(version,chapter))"
+  _ <- execute_ connection "CREATE TABLE IF NOT EXISTS reference_passages (version TEXT NOT NULL, passage_id TEXT NOT NULL, document JSONB NOT NULL, PRIMARY KEY(version,passage_id))"
   _ <- execute_ connection "CREATE TABLE IF NOT EXISTS reference_active (singleton INTEGER PRIMARY KEY CHECK(singleton=1), version TEXT NOT NULL)"
   pure ()
 
@@ -39,6 +40,9 @@ installReferenceLibrary connection library = do
     forM_ (referenceChapters library) $ \entry -> do
       _ <- execute connection "INSERT INTO reference_chapters(version,chapter,document) VALUES (?,?,?) ON CONFLICT DO NOTHING" (version, chapterNumber entry, PG.Aeson entry)
       pure ()
+    forM_ (referencePassages library) $ \entry -> do
+      _ <- execute connection "INSERT INTO reference_passages(version,passage_id,document) VALUES (?,?,?) ON CONFLICT DO NOTHING" (version, passageId entry, PG.Aeson entry)
+      pure ()
     _ <- execute connection "INSERT INTO reference_active(singleton,version) VALUES (1,?) ON CONFLICT(singleton) DO UPDATE SET version=EXCLUDED.version" (Only version)
     pure ()
 
@@ -58,5 +62,8 @@ loadCastingReferences connection tile primary resulting = do
   background <- case chapters of
     [Only (PG.Aeson value)] -> pure [chapterSource value]
     _ -> throwIO (userError "Reference background chapter is missing")
+  passages <- query connection "SELECT document FROM reference_passages WHERE version=? ORDER BY passage_id" (Only version) :: IO [Only (PG.Aeson ReferencePassage)]
+  unless (not (null passages)) (throwIO (userError "Reference Taoist passages are missing"))
   let state = referenceState entry
-  pure (version, state {stateDescription = stateDescription state <> "\n\n" <> referenceCommentary entry}, [(key,value) | (key,PG.Aeson value) <- hexes], background)
+      taoist = [passageBackground value | Only (PG.Aeson value) <- passages]
+  pure (version, state {stateDescription = stateDescription state <> "\n\n" <> referenceCommentary entry}, [(key,value) | (key,PG.Aeson value) <- hexes], background ++ taoist)
