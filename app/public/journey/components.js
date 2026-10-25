@@ -1,11 +1,11 @@
-import {esc,createParagraphRenderer} from './text.js?v=355a1c6decd3c968';
-export {esc} from './text.js?v=355a1c6decd3c968';
-import {hexControl,stateControl} from './state-viewer.js?v=355a1c6decd3c968';
+import {esc,createParagraphRenderer} from './text.js?v=df0984261655efcf';
+export {esc} from './text.js?v=df0984261655efcf';
+import {hexControl,stateControl} from './state-viewer.js?v=df0984261655efcf';
 export const label=s=>s?`${esc(s.stateId)} · ${esc(s.stateName)}`:'The beginning of your journey';
 export const action=(id,text,secondary=false)=>`<button type="button" data-action="${id}" class="${secondary?'secondary':''}">${text}</button>`;
 export const questionDisplay=text=>`<blockquote class="question-display"><span class="eyebrow">Your question</span><p>${esc(text)}</p></blockquote>`;
 let assets={};
-export async function loadAssets(){try{assets=await fetch('./assets.json?v=355a1c6decd3c968').then(r=>r.json());}catch{assets={};}}
+export async function loadAssets(){try{assets=await fetch('./assets.json?v=df0984261655efcf').then(r=>r.json());}catch{assets={};}}
 export function artwork(kind,id,title){
   const path=assets[kind]?.[id];
   return typeof path==='string' && /^\.?\.?\//.test(path)?`<img class="symbol-art" src="${esc(path)}" alt="${esc(title)}">`:`<img class="art-slot" src="./yin-yang.svg" alt="Yin–Yang">`;

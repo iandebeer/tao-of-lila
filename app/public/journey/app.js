@@ -1,14 +1,14 @@
-import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=355a1c6decd3c968';
-import {splashMarkup,bindSplashTerms} from './splash.js?v=355a1c6decd3c968';
-import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=355a1c6decd3c968';
-import {localStateField} from './local-field.js?v=355a1c6decd3c968';
-import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=355a1c6decd3c968';
-import {api} from './api.js?v=355a1c6decd3c968';
-import {createInterpretationFlow} from './interpretation-flow.js?v=355a1c6decd3c968';
-import {journey,preview,scenario} from './service.js?v=355a1c6decd3c968';
-import {scenarios} from './demo.js?v=355a1c6decd3c968';
-import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=355a1c6decd3c968';
-import {mountJourneyCeremony} from './ceremony.js?v=355a1c6decd3c968';
+import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=df0984261655efcf';
+import {splashMarkup,bindSplashTerms} from './splash.js?v=df0984261655efcf';
+import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=df0984261655efcf';
+import {localStateField} from './local-field.js?v=df0984261655efcf';
+import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=df0984261655efcf';
+import {api} from './api.js?v=df0984261655efcf';
+import {createInterpretationFlow} from './interpretation-flow.js?v=df0984261655efcf';
+import {journey,preview,scenario} from './service.js?v=df0984261655efcf';
+import {scenarios} from './demo.js?v=df0984261655efcf';
+import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=df0984261655efcf';
+import {mountJourneyCeremony} from './ceremony.js?v=df0984261655efcf';
 const main=document.querySelector('main'), nav=document.querySelector('#navigation'), status=document.querySelector('#status');
 const interpretationFlow=createInterpretationFlow(journey);
 let personas=[], editingPersona=null, selectedPersonaId=null, acceptedAvatar=null, pendingAvatar=null, disposeSplash=()=>{};
@@ -56,6 +56,7 @@ function render(){
   if(data && !['splash','login','signup','paused','history','personas','create-persona'].includes(route))route=stage();
   if(!data && !['splash','login','signup','personas','create-persona'].includes(route))route='login';
   const screens={personas:personaSelection,'create-persona':createPersonaScreen,splash,login:()=>auth(false),signup:()=>auth(true),progress,question,casting,result:interpretation,interpretation,reflection,movement:consequence,completion:history,history,paused};
+  document.querySelector('.masthead').hidden=route==='splash'||!screens[route];
   nav.innerHTML=data?`${preview?'':action('personas','My Personas',true)}${action('pause','Pause',true)}${action('history','History',true)}${action('logout','Log out',true)}`:api.authenticated?`${action('personas','My Personas',true)}${action('logout','Log out',true)}`:'<a href="#login">Log In</a>';
   main.innerHTML=(preview?`<div class="demo-banner">Development preview · ${esc(scenario)} · browser-only example, no account or interpretation request <label for="scenario">Example</label><select id="scenario">${scenarios.map(s=>`<option ${s===scenario?'selected':''}>${s}</option>`).join('')}</select> ${action('reset','Reset example',true)}</div>`:'')+(screens[route]||splash)();
   window.LeelaScreenInfo?.update(route==='create-persona'&&editingPersona?'edit-persona':(screens[route]?route:'splash'));
@@ -106,12 +107,12 @@ function render(){
 }
 function go(route=stage()){location.hash=route;render();}
 function loadStateInfo(){
-  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=355a1c6decd3c968':'/state-views')
+  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=df0984261655efcf':'/state-views')
     .then(response=>{if(response.ok===false)throw Error('Tile references could not be loaded. Please reload to retry.');return response.json();})
     .then(catalog=>{stateCatalog=catalog;return catalog;})
     .catch(error=>{stateCatalogPromise=null;throw error;}));
 }
-async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=355a1c6decd3c968').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
+async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=df0984261655efcf').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
 async function command(action,text=null,visual=null){sync(await journey.command(action,text,visual));}
 function saveLabel(text){const node=document.querySelector('#save-state');if(node)node.textContent=text;}
 function showError(error){if(error.staleSession)return;const node=document.querySelector('#form-error')||status;node.textContent=error.message;node.classList.add('error');saveLabel('Not saved yet. Your writing is still here; retry before leaving.');}
@@ -192,7 +193,7 @@ addEventListener('pageshow',e=>{
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)void saveDraft().catch(showError);});
 installStateViewer({preview,loadCatalog:loadStateInfo,getPersonaName:selectedPersonaName});
 await loadAssets();
-try{labels=await fetch('./hexagram-labels.json?v=355a1c6decd3c968').then(r=>r.json());}catch{}
+try{labels=await fetch('./hexagram-labels.json?v=df0984261655efcf').then(r=>r.json());}catch{}
 render();
 if(!preview&&api.authenticated){try{await choosePersonas();}catch(error){if(!error.staleSession&&!api.authenticated){personas=[];data=null;if(!['#login','#signup'].includes(location.hash))go('login');}showError(error);}}
 if(preview){status.textContent='Loading your saved journey…';try{await load();status.textContent='';if(location.hash && location.hash!=='#splash')go();else render();}catch(error){showError(error);}}
