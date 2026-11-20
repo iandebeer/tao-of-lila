@@ -149,6 +149,7 @@ client after TypeScript changes with `./scripts/build-yarrow.sh`.
 cabal test
 node scripts/journey-test.mjs
 node scripts/persona-ui-test.mjs
+node scripts/private-casting-test.mjs
 node scripts/yarrow-line-test.mjs
 ```
 
@@ -221,6 +222,10 @@ network access. Live output quality is assessed separately with the command abov
 ## API
 
 - `GET /health` returns service health.
+- `POST /private-casting/interpret` authenticates the signed-in participant, validates
+  a completed engine state by replaying its seed, and returns an I Ching-only AI
+  interpretation without storing the casting or reading. No persona or question
+  is accepted or needed.
 - `GET /casting/initial` returns the pure yarrow engine's initial state.
 - `POST /casting/next` advances a supplied `CastingState` without persistence.
 - `POST /casting/line` completes one line (or finishes a partial line) in a supplied state. Completed casts are unchanged.
@@ -412,10 +417,18 @@ Verify frontend orchestration with `node scripts/interpretation-flow-test.mjs`.
 
 User accounts authenticate players; Personas hold constructed identity; each
 Persona owns its own resumable Journey (game session, casting, board position,
-questions, interpretations and journal). After login, zero active personas opens
-Create Persona, one selects that persona and offers Continue Journey, and multiple
-personas opens Choose Your Persona. My Personas remains available in the game.
-Creation is a separate, explicit action whenever active personas already exist.
+questions, interpretations and journal). After login, the persona selection page
+offers **Do a private casting** alongside
+**Create New Persona**, including when there are no active personas. A private
+casting asks you to hold your question in mind, generates six yarrow lines, and
+automatically interprets the primary and resulting hexagrams and changing lines.
+It creates no persona, question, game event, journal entry, or saved interpretation.
+The reading stays in memory until you leave the page or reload. The existing
+`OPENAI_API_KEY` configuration supplies the interpretation.
+
+One active persona is selected automatically and offers Continue Journey; multiple
+personas require an explicit selection. My Personas remains available in the game.
+Persona creation is always a separate, explicit action.
 
 Creation and editing provide name, sex/gender, age and/or life stage, optional
 cultural/ethnic background, time period, place/cultural setting, defining

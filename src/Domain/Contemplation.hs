@@ -11,6 +11,7 @@ module Domain.Contemplation
   , LexicalNote (..)
   , ModelResult (..)
   , SourceTranslation (..)
+  , buildPrivateContemplationContextWith
   , buildContemplationContext
   , buildContemplationContextWith
   , buildPairContemplationContextWith
@@ -28,6 +29,7 @@ import qualified Data.Text as T
 import Domain.HexagramIndex (kingWenToBinary, binaryToKingWen)
 import Domain.Types (LeelaState)
 import Engine.Casting (CastingResult (..))
+import qualified Engine.Casting as Casting
 import GHC.Generics (Generic)
 
 data LexicalNote = LexicalNote
@@ -91,7 +93,7 @@ instance FromJSON ChangingLineContext
 instance ToJSON ChangingLineContext
 
 data ContemplationContext = ContemplationContext
-  { contemplationLeelaState :: LeelaState
+  { contemplationLeelaState :: Maybe LeelaState
   , contemplationPreviousLeelaState :: Maybe LeelaState
   , contemplationCastingFacts :: Maybe CastingResult
   , contemplationPersonaContext :: Maybe Text
@@ -178,7 +180,21 @@ buildContemplationContext = buildContemplationContextWith (\binary -> binaryToKi
 
 -- Lookup is keyed by the canonical six-bit value; IO stays outside the builder.
 buildContemplationContextWith :: (Int -> Maybe HexagramText) -> LeelaState -> Text -> CastingResult -> Either Text ContemplationContext
-buildContemplationContextWith lookupText leela question casting = do
+buildContemplationContextWith lookupText leela = buildCastingContextWith lookupText (Just leela)
+
+-- A private inquiry has no board state, persona, or recorded question.
+buildPrivateContemplationContextWith :: (Int -> Maybe HexagramText) -> Casting.CastingState -> Either Text ContemplationContext
+buildPrivateContemplationContextWith lookupText supplied = do
+  let seedValue = Casting.samplingSeed supplied
+      completed = iterate Casting.nextCastingLine (Casting.initialCastingStateWithSeed seedValue) !! 6
+  if seedValue < 0 || seedValue >= 2147483647 || supplied /= completed
+    then Left "Please complete a valid private casting before requesting its interpretation."
+    else case Casting.result completed of
+      Nothing -> Left "Please complete the private casting first."
+      Just casting -> buildCastingContextWith lookupText Nothing "" casting
+
+buildCastingContextWith :: (Int -> Maybe HexagramText) -> Maybe LeelaState -> Text -> CastingResult -> Either Text ContemplationContext
+buildCastingContextWith lookupText leela question casting = do
   primaryNumber <- maybe (Left "The primary King Wen number is unavailable") Right (primaryKingWenNumber casting)
   resultingNumber <- maybe (Left "The resulting King Wen number is unavailable") Right (transformedKingWenNumber casting)
   let primary = fromMaybe (unavailableHexagramText primaryNumber) (lookupText (primaryBinaryValue casting))
@@ -223,7 +239,7 @@ buildPairContemplationContextWith lookupText leela question primaryNumber result
   resulting <- resolveText resultingNumber
   let changed = [line | line <- [1 .. 6], testBit (primaryBinary `xor` resultingBinary) (line - 1)]
   activeLines <- traverse (lineContext primary primaryBinary) changed
-  pure (ContemplationContext leela Nothing Nothing Nothing question primary activeLines resulting Nothing Nothing)
+  pure (ContemplationContext (Just leela) Nothing Nothing Nothing question primary activeLines resulting Nothing Nothing)
   where
     resolveNumber label number = maybe
       (Left (label <> " King Wen number must be between 1 and 64")) Right

@@ -310,7 +310,7 @@ but clears auth sessions. It does not migrate legacy games or create synthetic
 Personas. Current-schema startup retains saved records. Each Persona has one
 resumable journey; many Personas per User are supported. Login selects a sole
 active Persona and offers Continue Journey. Multiple Personas require selection;
-only zero active Personas automatically opens Create Persona.
+the picker also offers Do a private casting, including when there are no active Personas.
 
 Validation: `cabal test` covers domain behavior. Run
 `TAO_PERSONA_TEST_DB='<connection string>' cabal test persona-persistence

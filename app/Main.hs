@@ -39,7 +39,7 @@ main = do
         Nothing -> pure Nothing
         Just value | validOrigin (T.pack value) -> pure (Just (AdminConfig (T.pack value) (T.pack (maybe "" id setupToken))))
         _ -> fail "ADMIN_ORIGIN must be a lowercase HTTPS origin without a path or port"
-      run port (adminRouter admin store "app/admin" (app "app/public" domain stateCatalog store model))
+      run port (adminRouter admin store "app/admin" (app "app/public" library domain stateCatalog store model))
 
 resolvePort :: IO Int
 resolvePort = do

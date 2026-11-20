@@ -4,10 +4,11 @@
 
 module API.Server (API, app) where
 
-import Control.Exception (try)
+import Control.Exception (try, throwIO)
 import Control.Monad.IO.Class (liftIO)
 import Data.Aeson (Value, encode, object, (.=))
 import Data.Text (Text)
+import Domain.Reference (ReferenceLibrary, lookupReferenceHexagram, referenceVersion)
 import Domain.StateView (StateCatalog)
 import Domain.Persona (Persona, PersonaDraft, Avatar)
 import Runtime.Avatar (generateAvatar)
@@ -15,12 +16,12 @@ import qualified Persistence.Persona as Persona
 import Domain.Journey (JourneyCommand)
 import qualified Persistence.Journey as Journey
 import Domain.Game
-import Domain.Contemplation (ContemplationContext, ContemplationView, CostSummary)
+import Domain.Contemplation (ContemplationContext (..), ContemplationView, CostSummary, ModelResult, buildPrivateContemplationContextWith)
 import Domain.Types (DomainData (..), Health (..), Hexagram, Interpretation, LeelaState, Reading (..), ReadingRequest)
 import Runtime.Casting (freshCastingState)
 import Engine.Casting (CastingState, nextCastingState, nextCastingLine)
 import Engine.Reading (ReadingError (..), generateReading)
-import Interpretation.ContemplationModel (ContemplationModel)
+import Interpretation.ContemplationModel (ContemplationModel (..), ModelError (..))
 import Network.HTTP.Types (hCacheControl, hContentType, status200)
 import Network.Wai (Application, pathInfo, responseFile)
 import Network.Wai.Application.Static (StaticSettings (..), defaultWebAppSettings)
@@ -68,13 +69,14 @@ type API =
     :<|> "personas" :> Capture "personaId" Int :> "history" :> Protected :> Get '[JSON] [Value]
     :<|> "personas" :> Capture "personaId" Int :> "themes" :> Capture "theme" Text :> Protected :> Delete '[JSON] Persona
     :<|> "health" :> Get '[JSON] Health
+    :<|> "private-casting" :> "interpret" :> Protected :> ReqBody '[JSON] CastingState :> Post '[JSON] ModelResult
     :<|> "casting" :> "initial" :> Get '[JSON] CastingState
     :<|> "casting" :> "next" :> ReqBody '[JSON] CastingState :> Post '[JSON] CastingState
     :<|> "casting" :> "line" :> ReqBody '[JSON] CastingState :> Post '[JSON] CastingState
     :<|> Raw
 
-app :: FilePath -> DomainData -> StateCatalog -> Store -> ContemplationModel -> Application
-app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API) server
+app :: FilePath -> ReferenceLibrary -> DomainData -> StateCatalog -> Store -> ContemplationModel -> Application
+app staticDirectory library domain stateCatalog store model = serve (Proxy :: Proxy API) server
   where
     server :: Server API
     server =
@@ -111,10 +113,20 @@ app staticDirectory domain stateCatalog store model = serve (Proxy :: Proxy API)
         :<|> (\ident authorization -> withUser store (\user -> Persona.personaHistory store user ident) authorization)
         :<|> (\ident theme authorization -> withUser store (\user -> Persona.rejectTheme store user ident theme) authorization)
         :<|> pure (Health "ok" "tao-of-lila")
+        :<|> (\authorization casting -> withUser store (\_ -> interpretPrivateCasting library model casting) authorization)
         :<|> liftIO freshCastingState
         :<|> (pure . nextCastingState)
         :<|> (pure . nextCastingLine)
         :<|> serveStaticClient staticDirectory
+
+-- Replay engine facts before interpreting; never trust client-supplied hexagrams.
+-- Authentication authorizes the provider call but creates no player records.
+interpretPrivateCasting :: ReferenceLibrary -> ContemplationModel -> CastingState -> IO ModelResult
+interpretPrivateCasting library model supplied = do
+  context <- either (throwIO . InvalidInput) pure
+    (buildPrivateContemplationContextWith (lookupReferenceHexagram library) supplied)
+  outcome <- try (contemplate model context {contemplationCorpusVersion = Just (referenceVersion library)})
+  either (throwIO . ExternalService . renderModelError) pure outcome
 
 withUser :: Store -> (User -> IO a) -> Maybe Text -> Handler a
 withUser store action authorization = do

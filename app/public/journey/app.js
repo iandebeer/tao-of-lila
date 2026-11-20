@@ -1,16 +1,18 @@
-import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=df0984261655efcf';
-import {splashMarkup,bindSplashTerms} from './splash.js?v=df0984261655efcf';
-import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=df0984261655efcf';
-import {localStateField} from './local-field.js?v=df0984261655efcf';
-import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=df0984261655efcf';
-import {api} from './api.js?v=df0984261655efcf';
-import {createInterpretationFlow} from './interpretation-flow.js?v=df0984261655efcf';
-import {journey,preview,scenario} from './service.js?v=df0984261655efcf';
-import {scenarios} from './demo.js?v=df0984261655efcf';
-import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=df0984261655efcf';
-import {mountJourneyCeremony} from './ceremony.js?v=df0984261655efcf';
+import {createPrivateCasting} from './private-casting.js?v=300d94877a81596b';
+import {availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar} from './personas.js?v=300d94877a81596b';
+import {splashMarkup,bindSplashTerms} from './splash.js?v=300d94877a81596b';
+import {bindPersonaFields,readPersonaFields} from './persona-fields.js?v=300d94877a81596b';
+import {localStateField} from './local-field.js?v=300d94877a81596b';
+import {installStateViewer,stateControl,hexControl} from './state-viewer.js?v=300d94877a81596b';
+import {api} from './api.js?v=300d94877a81596b';
+import {createInterpretationFlow} from './interpretation-flow.js?v=300d94877a81596b';
+import {journey,preview,scenario} from './service.js?v=300d94877a81596b';
+import {scenarios} from './demo.js?v=300d94877a81596b';
+import {esc,label,action,questionDisplay,hexagram,reading,movement,movementDerivation,artwork,loadAssets} from './components.js?v=300d94877a81596b';
+import {mountJourneyCeremony} from './ceremony.js?v=300d94877a81596b';
 const main=document.querySelector('main'), nav=document.querySelector('#navigation'), status=document.querySelector('#status');
 const interpretationFlow=createInterpretationFlow(journey);
+const privateCasting=createPrivateCasting();
 let personas=[], editingPersona=null, selectedPersonaId=null, acceptedAvatar=null, pendingAvatar=null, disposeSplash=()=>{};
 let stateCatalog=null, stateCatalogPromise;
 let data=null, catalog=[], labels={}, draft='', journal='', dirty=false, timer, ceremony, ceremonyComplete=false, busy=false, queue=Promise.resolve();
@@ -53,11 +55,13 @@ function render(){
   disposeSplash();
   ceremony?.dispose();ceremony=null;ceremonyComplete=false;
   let route=location.hash.slice(1)||'splash';
-  if(data && !['splash','login','signup','paused','history','personas','create-persona'].includes(route))route=stage();
-  if(!data && !['splash','login','signup','personas','create-persona'].includes(route))route='login';
-  const screens={personas:personaSelection,'create-persona':createPersonaScreen,splash,login:()=>auth(false),signup:()=>auth(true),progress,question,casting,result:interpretation,interpretation,reflection,movement:consequence,completion:history,history,paused};
+  if(route!=='private-casting'&&privateCasting.active)privateCasting.clear();
+  if(route==='private-casting'&&(!api.authenticated||!privateCasting.active)){if(!api.authenticated)privateCasting.clear();route=api.authenticated?'personas':'login';}
+  if(data && !['private-casting','splash','login','signup','paused','history','personas','create-persona'].includes(route))route=stage();
+  if(!data && !['private-casting','splash','login','signup','personas','create-persona'].includes(route))route='login';
+  const screens={'private-casting':()=>privateCasting.markup(name),personas:personaSelection,'create-persona':createPersonaScreen,splash,login:()=>auth(false),signup:()=>auth(true),progress,question,casting,result:interpretation,interpretation,reflection,movement:consequence,completion:history,history,paused};
   document.querySelector('.masthead').hidden=route==='splash'||!screens[route];
-  nav.innerHTML=data?`${preview?'':action('personas','My Personas',true)}${action('pause','Pause',true)}${action('history','History',true)}${action('logout','Log out',true)}`:api.authenticated?`${action('personas','My Personas',true)}${action('logout','Log out',true)}`:'<a href="#login">Log In</a>';
+  nav.innerHTML=route==='private-casting'?`${action('private-exit','My Personas',true)}${action('logout','Log out',true)}`:data?`${preview?'':action('personas','My Personas',true)}${action('pause','Pause',true)}${action('history','History',true)}${action('logout','Log out',true)}`:api.authenticated?`${action('personas','My Personas',true)}${action('logout','Log out',true)}`:'<a href="#login">Log In</a>';
   main.innerHTML=(preview?`<div class="demo-banner">Development preview · ${esc(scenario)} · browser-only example, no account or interpretation request <label for="scenario">Example</label><select id="scenario">${scenarios.map(s=>`<option ${s===scenario?'selected':''}>${s}</option>`).join('')}</select> ${action('reset','Reset example',true)}</div>`:'')+(screens[route]||splash)();
   window.LeelaScreenInfo?.update(route==='create-persona'&&editingPersona?'edit-persona':(screens[route]?route:'splash'));
   document.title=`${route.charAt(0).toUpperCase()+route.slice(1)} · The Tao of Leela`;
@@ -98,6 +102,7 @@ function render(){
   document.querySelector('#question-form')?.addEventListener('submit',e=>{e.preventDefault();run(async()=>{if(!draft.trim())throw new Error('Please enter a question before casting.');await saveDraft();await command('begin');go();});});
   document.querySelector('#journal-form')?.addEventListener('submit',e=>{e.preventDefault();run(async()=>{await saveDraft();await command('movement',journal);go();});});
   queueMicrotask(maybeAutoInterpret);
+  if(route==='private-casting')ceremony=privateCasting.bind(main);
   if(route==='casting'){
     ceremony=mountJourneyCeremony({svg:document.querySelector('#scene'),engine:w().workflowCasting,saved:w().workflowVisual,
       advance:async previous=>{const engine=await journey.advance(previous);sync(journey.state);return engine;},
@@ -107,12 +112,12 @@ function render(){
 }
 function go(route=stage()){location.hash=route;render();}
 function loadStateInfo(){
-  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=df0984261655efcf':'/state-views')
+  return stateCatalogPromise??=(fetch(preview?'./state-views.json?v=300d94877a81596b':'/state-views')
     .then(response=>{if(response.ok===false)throw Error('Tile references could not be loaded. Please reload to retry.');return response.json();})
     .then(catalog=>{stateCatalog=catalog;return catalog;})
     .catch(error=>{stateCatalogPromise=null;throw error;}));
 }
-async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=df0984261655efcf').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
+async function load(){const [projection,hexagrams]=await Promise.all([journey.load(),preview?fetch('./hexagrams.json?v=300d94877a81596b').then(r=>r.json()):api.request('/hexagrams'),loadStateInfo()]);catalog=hexagrams;sync(projection,true);}
 async function command(action,text=null,visual=null){sync(await journey.command(action,text,visual));}
 function saveLabel(text){const node=document.querySelector('#save-state');if(node)node.textContent=text;}
 function showError(error){if(error.staleSession)return;const node=document.querySelector('#form-error')||status;node.textContent=error.message;node.classList.add('error');saveLabel('Not saved yet. Your writing is still here; retry before leaving.');}
@@ -166,13 +171,17 @@ document.addEventListener('click',e=>{
   const button=e.target.closest('[data-action]');if(!button)return;
   const a=button.dataset.action;
   run(async()=>{
+    if(a==='private-casting'||a==='private-new'){await saveDraft();await privateCasting.begin();go('private-casting');return;}
+    if(a==='private-exit'){privateCasting.clear();await choosePersonas();return;}
+    if(a==='private-next'){await ceremony.next();if(privateCasting.complete){await privateCasting.interpret(render);}return;}
+    if(a==='private-interpret'){await privateCasting.interpret(render);return;}
     if(a==='create-persona'){editingPersona=null;acceptedAvatar=null;pendingAvatar=null;go('create-persona');return;}
     if(a==='personas'){await choosePersonas();return;}
     if(a==='next'){if(ceremonyComplete){await finishCasting();}else{await ceremony.next();if(ceremonyComplete)await finishCasting();}return;}
     if(a==='pause'){await confirmPause();return;}
     if(a==='resume'){go();return;}
     if(a==='history'){await saveDraft();go('history');return;}
-    if(a==='logout'){await saveDraft();if(data&&stage()==='casting'){await confirmPause();if(location.hash!=='#paused')return;}api.logout();journey.clear();data=null;dirty=false;personas=[];selectedPersonaId=null;editingPersona=null;acceptedAvatar=null;pendingAvatar=null;go('splash');return;}
+    if(a==='logout'){await saveDraft();if(data&&stage()==='casting'){await confirmPause();if(location.hash!=='#paused')return;}privateCasting.clear();api.logout();journey.clear();data=null;dirty=false;personas=[];selectedPersonaId=null;editingPersona=null;acceptedAvatar=null;pendingAvatar=null;go('splash');return;}
     if(a==='reload'){if(dirty&&!confirm('Reload the saved journey and discard your unsaved edits?'))return;await load();go();return;}
     if(a==='reset'){journey.reset();return;}
     if(a==='skip'){sync(await journey.skip());go('interpretation');return;}
@@ -193,7 +202,7 @@ addEventListener('pageshow',e=>{
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&dirty)void saveDraft().catch(showError);});
 installStateViewer({preview,loadCatalog:loadStateInfo,getPersonaName:selectedPersonaName});
 await loadAssets();
-try{labels=await fetch('./hexagram-labels.json?v=df0984261655efcf').then(r=>r.json());}catch{}
+try{labels=await fetch('./hexagram-labels.json?v=300d94877a81596b').then(r=>r.json());}catch{}
 render();
 if(!preview&&api.authenticated){try{await choosePersonas();}catch(error){if(!error.staleSession&&!api.authenticated){personas=[];data=null;if(!['#login','#signup'].includes(location.hash))go('login');}showError(error);}}
 if(preview){status.textContent='Loading your saved journey…';try{await load();status.textContent='';if(location.hash && location.hash!=='#splash')go();else render();}catch(error){showError(error);}}

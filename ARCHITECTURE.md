@@ -352,3 +352,21 @@ No historical login or movement totals are fabricated. See
 The private administration shell mounts its assets and API beneath `/admin` on
 the configured `ADMIN_ORIGIN` (production: `https://play.leela.day`). All other
 paths continue to the public application. No separate domain is required.
+
+## Private I Ching casting
+
+The post-login persona picker also offers a private casting, including for a
+participant with no personas. `private-casting.js` holds the ceremony and reading
+only in memory and uses the existing TypeScript ceremony renderer with the
+stateless Haskell casting endpoints. Leaving the page or reloading discards it.
+No question is entered or sent; no persona or journey is loaded for the casting.
+
+`POST /private-casting/interpret` requires authentication but does not use the
+selected persona. The pure context builder replays the completed casting from
+its seed and rejects incomplete or modified states. The imperative shell selects
+hexagram sources from the bundled versioned reference library and invokes the
+existing model adapter without writing casting, interpretation, or usage records.
+`contemplationLeelaState` is optional; existing journey contexts retain their
+state and JSON representation. Private requests use a dedicated I Ching prompt
+and send only primary/resulting hexagram texts, changing lines and corpus version
+to the provider, with provider storage disabled.
