@@ -1,4 +1,4 @@
-import {reading as readingMarkup} from "../journey/components.js?v=df0984261655efcf";
+import {reading as readingMarkup} from "../journey/components.js?v=300d94877a81596b";
 "use strict";
 const form = document.querySelector("#casting-form");
 const status = document.querySelector("#status");

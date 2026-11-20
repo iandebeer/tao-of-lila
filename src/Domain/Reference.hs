@@ -121,6 +121,6 @@ referenceBackground library number = gita ++ map passageBackground (sortOn passa
 
 withReferenceBackground :: ReferenceLibrary -> ContemplationContext -> ContemplationContext
 withReferenceBackground library context = context
-  { contemplationBackgroundSources = Just (referenceBackground library (stateId (contemplationLeelaState context)))
+  { contemplationBackgroundSources = Just (maybe [] (referenceBackground library . stateId) (contemplationLeelaState context))
   , contemplationCorpusVersion = Just (referenceVersion library)
   }

@@ -33,10 +33,12 @@ for(const [mode,count,avatarMode] of [['signup',0,'skip'],['login',0,'fail'],['l
   const journey={clear(){},async load(){assert.ok(selected,'persona selected before loading game');return {...projection,game:{gameJourney:{journeyPersonaId:selected}}};}};
   let hash=`#${mode}`;
   const location={get hash(){return hash;},set hash(value){hash=value.startsWith('#')?value:`#${value}`;},search:''};
-  const context=vm.createContext({availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar,splashMarkup,bindSplashTerms,document,api,journey,createInterpretationFlow,queueMicrotask,personaFieldsMarkup,bindPersonaFields,readPersonaFields,personaAttributesSummary,installStateViewer:()=>{},localStateField:()=>'',stateControl:()=>'',hexControl:()=>'',preview:false,scenario:'',scenarios:[],location,window:{scrollTo(){}},addEventListener(){},loadAssets:async()=>{},fetch:async()=>({json:async()=>({})}),setTimeout,clearTimeout,esc:String,label:()=>'',action:()=>'',questionDisplay:()=>'',hexagram:()=>'',reading:()=>'',movement:()=>'',movementDerivation:()=>'',artwork:()=>''});
+  const context=vm.createContext({createPrivateCasting:()=>({active:false,clear(){}}),availablePersonas,personaEntryRoute,personaCards,personaForm,personaAvatar,splashMarkup,bindSplashTerms,document,api,journey,createInterpretationFlow,queueMicrotask,personaFieldsMarkup,bindPersonaFields,readPersonaFields,personaAttributesSummary,installStateViewer:()=>{},localStateField:()=>'',stateControl:()=>'',hexControl:()=>'',preview:false,scenario:'',scenarios:[],location,window:{scrollTo(){}},addEventListener(){},loadAssets:async()=>{},fetch:async()=>({json:async()=>({})}),setTimeout,clearTimeout,esc:String,label:()=>'',action:()=>'',questionDisplay:()=>'',hexagram:()=>'',reading:()=>'',movement:()=>'',movementDerivation:()=>'',artwork:()=>''});
   await vm.runInContext(`(async()=>{${source}\n})()`,context);
   node('#auth').handlers.submit({preventDefault(){},target:{username:{value:'test-player'},password:{value:'test-password'}}});
   await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(context.location.hash,'#personas');
+  assert.match(node('main').innerHTML,/Do a private casting/);
   if(count){
     assert.equal(context.location.hash,'#personas');
     assert.doesNotMatch(node('main').innerHTML,/<form/,'existing personas must never automatically open creation');
@@ -53,6 +55,7 @@ for(const [mode,count,avatarMode] of [['signup',0,'skip'],['login',0,'fail'],['l
     events.click({target:{closest:()=>({dataset:{action:'create-persona'}})}});
     await new Promise(resolve=>setImmediate(resolve));
   }
+  if(!count){events.click({target:{closest:()=>({dataset:{action:'create-persona'}})}});await new Promise(resolve=>setImmediate(resolve));}
   assert.equal(context.location.hash,'#create-persona');
   assert.match(node('main').innerHTML,/Tell us more about this persona/);
   assert.equal(requests[0],mode==='signup'?'register':'login');
@@ -84,4 +87,4 @@ for(const [mode,count,avatarMode] of [['signup',0,'skip'],['login',0,'fail'],['l
   console.log(`ok - ${mode}, ${count} existing personas, avatar ${avatarMode}: routing, explicit creation, context and optional avatar persistence`);
 }
 
-assert.equal(personaEntryRoute([{personaId:1,personaArchived:true}]),'create-persona','archived personas do not prevent creating the first active persona');
+assert.equal(personaEntryRoute([{personaId:1,personaArchived:true}]),'personas','players without active personas can choose a private casting');

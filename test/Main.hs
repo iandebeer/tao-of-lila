@@ -50,6 +50,25 @@ main = do
     Right context -> sourcePresent (contemplationPrimaryHexagram context) && sourcePresent (contemplationResultingHexagram context)
       && all (not . T.null . translationText . changingLineLegge) (contemplationChangingLines context)
     Left _ -> False) [(a,b) | a <- [1..64], b <- [1..64]])
+  let privateCasting = iterate Casting.nextCastingLine (Casting.initialCastingStateWithSeed 123456) !! 6
+      privateConfig = OpenAIConfig "unused" "test-model" 16000 0 0 0
+  privateContext <- either (fail . T.unpack) pure (buildPrivateContemplationContextWith lookupText privateCasting)
+  assert "private casting has no Leela state, persona, or question"
+    (contemplationLeelaState privateContext == Nothing && contemplationPersonaContext privateContext == Nothing
+      && contemplationPreviousLeelaState privateContext == Nothing && T.null (contemplationQuestion privateContext))
+  assert "private casting uses bilingual sources and actual changing lines"
+    (sourcePresent (contemplationPrimaryHexagram privateContext) && sourcePresent (contemplationResultingHexagram privateContext)
+      && map changingLineNumber (contemplationChangingLines privateContext) == maybe [] Casting.changingLines (Casting.result privateCasting))
+  assert "private casting never adds board background"
+    (contemplationBackgroundSources (Ref.withReferenceBackground library privateContext) == Just [])
+  assert "incomplete private cast cannot request interpretation"
+    (case buildPrivateContemplationContextWith lookupText (Casting.initialCastingStateWithSeed 123456) of Left _ -> True; _ -> False)
+  assert "tampered private casting is rejected"
+    (case buildPrivateContemplationContextWith lookupText privateCasting {Casting.completedLines=[]} of Left _ -> True; _ -> False)
+  assert "private model request omits all question, persona, and movement fields"
+    (let wire = TE.decodeUtf8 (LBS.toStrict (encode (requestValue privateConfig privateContext)))
+     in all (not . (`T.isInfixOf` wire)) ["contemplationQuestion", "contemplationLeelaState", "contemplationPersonaContext", "lilaMoveSquares"]
+       && "silently" `T.isInfixOf` wire && "store" `T.isInfixOf` wire)
   assert "all 72 tiles have attributed background" (all ((==7) . length . Ref.referenceBackground library) [1..72])
   assert "missing binary source is rejected" (case Ref.validateReferenceLibrary library {Ref.referenceHexagrams=tail (Ref.referenceHexagrams library)} of Left _ -> True; _ -> False)
   let firstSource=head (Ref.referenceHexagrams library)

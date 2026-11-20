@@ -9,6 +9,7 @@ import qualified Engine.Casting as Casting
 import Data.ByteString.Builder (toLazyByteString)
 import qualified Data.ByteString.Lazy as LBS
 import Data.IORef (newIORef, modifyIORef', readIORef)
+import Domain.Reference (loadReferenceLibrary)
 import Domain.StateView (StateCatalog)
 import Domain.Types (DomainData)
 import Interpretation.ContemplationModel (disabledContemplationModel)
@@ -20,7 +21,8 @@ import Persistence.Postgres (newStore)
 -- Exercise Servant and static dispatch without opening a socket or a database.
 checkStateViewHTTP :: DomainData -> StateCatalog -> IO ()
 checkStateViewHTTP domain catalog = do
-  let application = API.app "app/public" domain catalog (newStore "") disabledContemplationModel
+  library <- loadReferenceLibrary "data/references/library.json" >>= either fail pure
+  let application = API.app "app/public" library domain catalog (newStore "") disabledContemplationModel
       get path = do
         bytes <- newIORef LBS.empty
         _ <- application defaultRequest {pathInfo = path} $ \response -> do
